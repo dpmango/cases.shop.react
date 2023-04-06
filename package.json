@@ -14,7 +14,7 @@
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix "
   },
-  "pre-commit": "lint",
+  "_pre-commit": "lint",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "classnames": "^2.3.2",

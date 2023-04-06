@@ -1,222 +1,3 @@
-/*Specifications*/
-body {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  color: #ffffff;
-  background: linear-gradient(0deg, #010206, #010206),
-    linear-gradient(180deg, #1d5fdd 0%, #002e88 51.56%, #00102e 100%);
-  font-family: "Raleway", sans-serif;
-}
-
-body {
-  overflow-y: visible !important;
-}
-
-div,
-form,
-input,
-p,
-a,
-span {
-  box-sizing: border-box;
-}
-
-ul,
-li {
-  list-style: none;
-}
-
-.markdown ul,
-.markdown li {
-  list-style: disc;
-}
-
-p {
-  padding: 0;
-  margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  padding: 0;
-}
-
-a,
-a:hover,
-button {
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.5s ease;
-}
-
-ul a:hover,
-a:hover {
-  color: #ffbb0e !important;
-}
-
-button:active,
-button:focus,
-input:active,
-input:focus {
-  outline: none !important;
-  text-decoration: none !important;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-section,
-footer,
-header {
-  overflow: hidden;
-}
-
-.body-wrap {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  zoom: 0.9;
-}
-
-footer {
-  margin-top: auto;
-}
-
-:focus {
-  outline: none !important;
-}
-
-h1 {
-  font-weight: 900;
-  font-size: 50px;
-  line-height: 59px;
-}
-
-h2 {
-  font-weight: 900;
-  font-size: 24px;
-  line-height: 28px;
-  width: max-content;
-}
-
-.bttn {
-  transition: all 0.5s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 356px;
-  height: 66px;
-  background: #ffba01;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 31px;
-  font-family: "Radio Canada", sans-serif;
-  color: rgba(0, 0, 0, 0.8) !important;
-}
-
-.rsis-image {
-  object-fit: contain;
-}
-
-.bttn:hover {
-  cursor: pointer;
-  transition: all 0.5s ease;
-  background: #ffde84;
-  color: rgba(0, 0, 0, 0.8) !important;
-}
-
-.bttn:active {
-  background: #ffffff;
-  color: rgba(0, 0, 0, 0.8);
-}
-
-html * {
-  scrollbar-width: thin;
-  scrollbar-color: blue #cd163f;
-}
-
-*::-webkit-scrollbar,
-html *::-webkit-scrollbar {
-  height: 7px;
-  width: 7px;
-}
-
-*::-webkit-scrollbar-track,
-html *::-webkit-scrollbar-track {
-  background: #e7e7e7;
-  border-radius: 3px;
-}
-
-*::-webkit-scrollbar-thumb,
-html *::-webkit-scrollbar-thumb {
-  background-color: #ff0000;
-  border-radius: 6px;
-}
-
-input::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: #a1a1a1 !important;
-}
-
-input::-moz-placeholder {
-  /* Firefox 19+ */
-  color: #a1a1a1 !important;
-}
-
-input:-ms-input-placeholder {
-  /* IE 10+ */
-  color: #a1a1a1 !important;
-}
-
-input:-moz-placeholder {
-  /* Firefox 18- */
-  color: #a1a1a1 !important;
-}
-
-.slick-dots li button:before {
-  display: none;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  display: none;
-}
-
-.menu {
-  display: none;
-}
-
-.burger {
-  display: none;
-}
-
-.slick-arrow .svg,
-.slick-arrow path {
-  transition: 0.5s;
-}
-
-input {
-  transition: 0.5s;
-}
-
-input:focus {
-  border-bottom: 1.9074px solid #cd163f;
-}
-
-path {
-  transition: 0.5s;
-}
-
 .faq {
   padding: 60px 0 150px;
 }
@@ -244,7 +25,7 @@ path {
 }
 
 .faq__item:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   right: -48px;
@@ -289,10 +70,6 @@ path {
   margin-bottom: 18px;
 }
 
-.custom-page {
-  margin: 50px 100px;
-}
-
 .accordeon__button {
   width: 100%;
   text-align: left;
@@ -317,7 +94,7 @@ path {
 }
 
 .accordeon__button:after {
-  content: "";
+  content: '';
   position: absolute;
   right: inherit;
   left: 25px;
@@ -335,7 +112,7 @@ path {
 }
 
 .accordeon__button.active:after {
-  content: "";
+  content: '';
   position: absolute;
   right: inherit;
   left: 25px;
@@ -417,10 +194,6 @@ path {
   margin-bottom: 45px;
 }
 
-#main .main__fire {
-  width: 100%;
-}
-
 .popup__text {
   font-weight: 600;
   font-size: 18px;
@@ -440,7 +213,7 @@ path {
   width: 100%;
   height: 60px;
   font-weight: 600;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 20px;
   border: none;
 }
@@ -470,7 +243,7 @@ path {
 }
 
 .custom-checkbox + label::before {
-  content: "";
+  content: '';
   display: inline-block;
   flex-shrink: 0;
   flex-grow: 0;
@@ -519,9 +292,15 @@ path {
   transition: 0.5s;
 }
 
-.nav__telegram iframe {
-  width: 100% !important;
-  height: 100% !important;
+.nav__telegram:hover {
+  -webkit-box-shadow: 0px 10px 39px 0px rgba(84, 169, 235, 1);
+  -moz-box-shadow: 0px 10px 39px 0px rgba(84, 169, 235, 1);
+  box-shadow: 0px 10px 39px 0px rgba(84, 169, 235, 1);
+}
+
+.nav__telegram img {
+  width: 100%;
+  height: 100%;
 }
 
 .nav__box {
@@ -553,11 +332,9 @@ path {
 .nav__boxes {
   align-items: center;
   position: relative;
-  margin-left: 10px;
 }
 
 .nav__block {
-  background-size: contain;
   margin-right: 4.5px;
   width: 141.05px;
   height: 76.85px;
@@ -630,12 +407,9 @@ path {
   transition: 0.5s;
 }
 
-.main_space {
-  padding: 192px 0 25px;
-}
-
 /* MAIN */
 .main {
+  padding: 192px 0 25px;
   border-bottom: 4px solid #3f1e01;
   position: relative;
 }
@@ -644,7 +418,7 @@ path {
   position: absolute;
   left: 0;
   top: -100px;
-  z-index: 1;
+  z-index: -1;
 }
 
 .main__slider {
@@ -682,72 +456,6 @@ path {
   left: 304px;
 }
 
-/***/
-/* .info__slider .slick-list {
-  padding-left: 15% !important;
-  padding-right: 15% !important;
-}
-
-.info__slider .slick-track {
-  max-width: 100% !important;
-  transform: translate3d(0, 0, 0) !important;
-  perspective: 100px;
-}
-
-
-.info__slider .slick-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  opacity: 0;
-  width: 100% !important;
-  transform: translate3d(0, 0, 0);
-  transition: transform 1s, opacity 1s;
-}
-
-.info__slider .slick-snext,
-.info__slider .slick-sprev,
-.info__slider .slick-snext2,
-.info__slider .slick-sprev2 {
-  display: block;
-}
-
-.info__slider .slick-current {
-  opacity: 1;
-  position: relative;
-  display: block;
-  z-index: 2;
-}
-
-.info__slider .slick-snext {
-  opacity: 1;
-  transform: translate3d(22%, 0, -20px) rotate(0deg);
-  z-index: 1;
-  perspective: 1000px;
-}
-
-.info__slider .slick-snext2 {
-  opacity: 0;
-  transform: translate3d(20%, 0, -20px) rotate(7.53deg);
-  z-index: 0;
-  perspective: 1000px;
-}
-
-.info__slider .slick-sprev {
-  opacity: 1;
-  transform: translate3d(-19%, 0, -20px) rotate(0deg);
-}
-
-.info__slider .slick-sprev2 {
-  opacity: 0;
-  transform: translate3d(-15%, 0, 0px) rotate(0deg);
-}
-
-*/
-
 .slick-next {
   right: -114px;
   z-index: -1;
@@ -758,7 +466,7 @@ path {
 }
 
 .main__wrap {
-  margin-top: 30px;
+  margin-top: 100px;
 }
 
 .main__box {
@@ -811,7 +519,7 @@ path {
 }
 
 .main h2:before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   left: -469px;
@@ -822,7 +530,7 @@ path {
 }
 
 .main h2:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   right: -469px;
@@ -952,12 +660,12 @@ path {
   line-height: 26px;
   text-align: center;
   color: rgba(0, 0, 0, 0.8);
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   position: relative;
 }
 
 .main__sum sup {
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   position: absolute;
   top: -8px;
   right: 0;
@@ -1000,7 +708,7 @@ path {
   line-height: 33px;
   text-align: center;
   color: #ffffff;
-  font-family: "Ubuntu", sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   position: absolute;
   right: 24px;
   top: -18px;
@@ -1035,7 +743,7 @@ path {
 /* FOOTER */
 .footer {
   padding: 106px 0;
-  background: transparent;
+  background: url(../img/footer.png) no-repeat center center / cover;
 }
 
 .footer2 {
@@ -1044,7 +752,6 @@ path {
 
 .footer__list {
   z-index: 2;
-  padding: 0;
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
@@ -1065,7 +772,7 @@ path {
   letter-spacing: 0.32em;
   color: #ffffff;
   opacity: 0.26;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 /* REV */
@@ -1129,7 +836,7 @@ path {
   font-size: 22px;
   line-height: 27px;
   letter-spacing: 0.2em;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .rev__content {
@@ -1141,7 +848,7 @@ path {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.2em;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #ffffff;
   opacity: 0.26;
   margin-top: 5px;
@@ -1151,7 +858,7 @@ path {
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .rev__btn {
@@ -1247,7 +954,7 @@ path {
   font-size: 16px;
   line-height: 19px;
   text-align: right;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
 }
 
 .nav__right {
@@ -1285,6 +992,7 @@ path {
 
 .item__box {
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 74px;
 }
 
@@ -1299,7 +1007,7 @@ path {
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   margin-bottom: 5px;
 }
 
@@ -1307,7 +1015,7 @@ path {
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
 }
 
 .item__text span {
@@ -1324,12 +1032,12 @@ path {
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   margin-bottom: 4px;
 }
 
 .item__li:before {
-  content: "";
+  content: '';
   display: inline;
   width: 3px;
   height: 3px;
@@ -1344,7 +1052,7 @@ path {
   font-weight: 700;
   font-size: 34px;
   line-height: 41px;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   position: relative;
   margin-bottom: 16px;
 }
@@ -1358,7 +1066,7 @@ path {
   line-height: 18px;
   color: #ffffff;
   opacity: 0.2;
-  font-family: "Radio Canada", sans-serif;
+  font-family: 'Radio Canada', sans-serif;
   text-decoration: line-through;
 }
 
@@ -1502,7 +1210,7 @@ path {
   font-size: 20px;
   line-height: 24px;
   color: #cbcbcb;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   padding-bottom: 15px;
 }
 
@@ -1534,13 +1242,13 @@ path {
   width: 74%;
 }
 
-.checkboxes-and-radios input[type="checkbox"],
-.checkboxes-and-radios input[type="radio"] {
+.checkboxes-and-radios input[type='checkbox'],
+.checkboxes-and-radios input[type='radio'] {
   position: absolute;
   visibility: hidden !important;
 }
 
-.checkboxes-and-radios input[type="radio"]:checked + label {
+.checkboxes-and-radios input[type='radio']:checked + label {
   border: 4px solid #ffffff;
 }
 
@@ -1640,10 +1348,6 @@ path {
 }
 
 @media screen and (max-width: 1199px) {
-  .custom-page {
-    margin: 50px;
-  }
-
   .burger {
     position: fixed;
     flex-direction: column;
@@ -1722,7 +1426,7 @@ path {
   }
 
   .menu .button span::before {
-    content: "";
+    content: '';
     position: absolute;
     top: -6px;
     transition: 0.3s all ease-in-out;
@@ -1733,7 +1437,7 @@ path {
   }
 
   .menu .button span::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -6px;
     transition: 0.3s all ease-in-out;
@@ -1749,7 +1453,7 @@ path {
   }
 
   .menu .button.active span::before {
-    content: "";
+    content: '';
     width: 26px;
     top: calc(50% - 1px);
     transform: rotate(45deg);
@@ -1758,7 +1462,7 @@ path {
   }
 
   .menu .button.active span::after {
-    content: "";
+    content: '';
     bottom: calc(50% - 1px);
     transform: rotate(-43deg);
     background-color: #a1a1a1;
@@ -1791,7 +1495,7 @@ path {
 
   .main__fire {
     top: -93px;
-    width: 100%;
+    width: 81%;
   }
 
   .nav .container {
@@ -1895,10 +1599,6 @@ path {
 }
 
 @media screen and (max-width: 991px) {
-  .custom-page {
-    margin: 10px;
-  }
-
   .nav__block:nth-child(n + 3) {
     display: none;
   }

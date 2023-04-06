@@ -10,14 +10,19 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// a {
+//   color: inherit;
+//   text-decoration-skip-ink: none;
+//   text-decoration: none;
+// }
+
 body {
-  background: #fff;
-  color: #2e2b3b;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  line-height: 1;
-  min-width: 320px;
-  max-width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  background: linear-gradient(0deg, #010206, #010206), linear-gradient(180deg, #1D5FDD 0%, #002E88 51.56%, #00102E 100%);
+  font-family: 'Raleway', sans-serif;
   margin: 0;
   touch-action: pan-y;
   -webkit-text-size-adjust: none;
@@ -26,8 +31,82 @@ body {
   }
 }
 
-a {
-  color: inherit;
-  text-decoration-skip-ink: none;
+body {
+  overflow-y: visible !important;
+}
+
+div,
+form,
+input,
+p,
+a,
+span {
+  box-sizing: border-box;
+}
+
+ul,
+li,
+p {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+a,
+a:hover,
+button {
   text-decoration: none;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+ul a:hover,
+a:hover {
+  color: #FFBB0E !important;
+}
+
+button:active,
+button:focus,
+input:active,
+input:focus {
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+
+section,
+footer,
+header {
+  overflow: hidden;
+}
+
+.body-wrap {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  zoom: 0.9;
+}
+
+footer {
+  margin-top: auto;
+}
+
+:focus {
+  outline: none !important;
 }
