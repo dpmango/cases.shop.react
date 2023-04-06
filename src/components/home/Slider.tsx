@@ -1,11 +1,8 @@
 import React from 'react'
 import Slider from 'react-slick'
-import { useRecoilValue } from 'recoil'
-
-import { getShopSlider } from '@/core/storage/selectors/main'
 
 const SliderPage = () => {
-  const sliderData = useRecoilValue(getShopSlider)
+  const { slider: sliderData } = useAppSelector((state) => state.sessionState)
 
   return (
     <>

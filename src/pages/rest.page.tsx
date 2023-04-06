@@ -1,13 +1,11 @@
 import { usePageContext } from '@c/Layout'
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { useRecoilValue } from 'recoil'
 import remarkGfm from 'remark-gfm'
 
-import { getShopId } from '@/core/storage/selectors/main'
-
 export const Page: React.FC = () => {
-  const shopId = useRecoilValue(getShopId)
+  const { id: shopId } = useAppSelector((state) => state.sessionState)
+
   const page = usePageContext()
   const params = page?.routeParams
 

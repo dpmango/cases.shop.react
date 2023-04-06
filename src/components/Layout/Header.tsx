@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
-import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Icon1 from '@/assets/img/icon1.png'
 import Plus from '@/assets/img/plus.png'
 import { getPurchases } from '@/core/api/session.api'
-import {
-  getLastPurchases,
-  getShopId,
-  getShopInternalName,
-  getShopSettings,
-  getUser,
-} from '@/core/storage/selectors/main'
+import { IProfileDto } from '@/core/interface/Initialization'
 
 const Header = () => {
-  const shopId = useRecoilValue(getShopId)
-  const settings = useRecoilValue(getShopSettings)
+  const [purchasesList, setPurchasesList] = useState<string[]>([])
 
-  const internalName = useRecoilValue(getShopInternalName)
+  const {
+    id: shopId,
+    settings,
+    user,
+    internal_name: internalName,
+    lastPurchases,
+  } = useAppSelector((state) => state.sessionState)
+  const dispatch = useAppDispatch()
 
-  const [lastPurchases, setLastPurchases] = useRecoilState(getLastPurchases)
-  const [profile, setProfile] = useRecoilState(getUser)
-
-  const [purchasesList, setPurchasesList] = useState([])
+  const setProfile = (data: IProfileDto) => {
+    dispatch(updateAnyState({ key: 'user', data }))
+  }
 
   useEffect(() => {
     if (lastPurchases === null && shopId) {
       const fetchData = async () => {
         const { data } = await getPurchases({ shopId })
         if (data) {
-          setLastPurchases(data)
+          dispatch(updateAnyState({ key: 'lastPurchases', data }))
         }
       }
       fetchData()
@@ -59,7 +57,7 @@ const Header = () => {
       className="nav"
       id="nav"
       style={{
-        background: `radial-gradient(78.79% 1603.12% at 18.89% 71.76%, ${settings?.header_first_color} 0%, ${settings?.header_second_color} 100%)`,
+        background: `radial-gradient(78.79% 1603.12% at 18.89% 71.76%, ${settings.header_first_color} 0%, ${settings.header_second_color} 100%)`,
       }}
     >
       <div className="container">
@@ -82,7 +80,7 @@ const Header = () => {
           ) : (
             ''
           )}
-          {profile ? (
+          {user ? (
             <div className="nav__add d-flex">
               <a
                 className="nav__log d-flex"
@@ -96,8 +94,8 @@ const Header = () => {
                 <img src={Plus} alt="" className="nav__plus" />
               </a>
               <div className="nav__right">
-                <p className="nav__name">@{profile.userName}</p>
-                <p className="nav__sum">{profile.balance}P</p>
+                <p className="nav__name">@{user.userName}</p>
+                <p className="nav__sum">{user.balance}P</p>
               </div>
             </div>
           ) : (

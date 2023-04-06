@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useDispatch } from 'react-redux'
 
 import { getReviews } from '@/core/api/review.api'
-import { getShopId, getShopReviews, getShopSettings } from '@/core/storage/selectors/main'
 
 export const Page = () => {
-  const shopId = useRecoilValue(getShopId)
-  const [reviews, setReviews] = useRecoilState(getShopReviews)
-  const settings = useRecoilValue(getShopSettings)
+  const { id: shopId, settings, reviews } = useAppSelector((state) => state.sessionState)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (reviews === null && shopId) {
       const fetchData = async () => {
         const { data } = await getReviews({ shopId })
         if (data) {
-          setReviews(data)
+          dispatch(updateAnyState({ key: 'reviews', data }))
         }
       }
       fetchData()
@@ -25,7 +24,8 @@ export const Page = () => {
     const { data } = await getReviews({ shopId, offset: reviews?.length })
 
     if (data) {
-      setReviews([...reviews, ...data])
+      const mergedData = [...reviews, ...data]
+      dispatch(updateAnyState({ key: 'reviews', data: mergedData }))
 
       if (data.length < 10) document.querySelector(`.rev__btn .bttn`).style.display = `none`
     }
@@ -34,10 +34,10 @@ export const Page = () => {
   return (
     <div
       style={{
-        background: settings?.background_site_color ? settings?.background_site_color : '#000000',
+        background: settings.background_site_color ? settings.background_site_color : '#000000',
       }}
     >
-      <img src={settings?.reviews_footer_image} alt="" className="fire" />
+      <img src={settings.reviews_footer_image} alt="" className="fire" />
       <section className="rev" id="rev">
         <div className="container">
           <h1>ОТЗЫВЫ</h1>

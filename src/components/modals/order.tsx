@@ -1,12 +1,10 @@
 import React from 'react'
-import { useRecoilValue } from 'recoil'
 
 import Close from '@/assets/img/close.png'
 import Personal3 from '@/assets/img/personal3.png'
-import { getShopInternalName } from '@/core/storage/selectors/main'
 
 const OrderModal = () => {
-  const internalName = useRecoilValue(getShopInternalName)
+  const { internal_name: internalName } = useAppSelector((state) => state.sessionState)
 
   return (
     <div
@@ -34,8 +32,7 @@ const OrderModal = () => {
               className="popup__btn bttn"
               rel="noreferrer"
             >
-              {' '}
-              Перейти в чат-бота{' '}
+              Перейти в чат-бота
             </a>
           </div>
         </div>

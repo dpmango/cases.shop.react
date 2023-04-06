@@ -1,15 +1,14 @@
 import Modals from '@c/modals/modals'
 import { UiLink } from '@c/Ui'
 import React from 'react'
-import { useRecoilValue } from 'recoil'
-
-import { getIsMain, getShopFooter, getShopSettings } from '@/core/storage/selectors/main'
 
 const Footer: React.FC = () => {
-  const footer = useRecoilValue(getShopFooter)
-
-  const isMain = useRecoilValue(getIsMain)
-  const settings = useRecoilValue(getShopSettings)
+  const {
+    id: shopId,
+    settings,
+    footer,
+    is_main: isMain,
+  } = useAppSelector((state) => state.sessionState)
 
   return footer ? (
     <footer

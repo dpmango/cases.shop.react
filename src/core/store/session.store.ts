@@ -1,46 +1,87 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 
-import { IUserDto } from '@/core/interface/User'
+import { fetchAuth, initializeApp } from '@/core/api/session.api'
+import {
+  IFAQDto,
+  IFooterDto,
+  IInitDataDto,
+  IProfileDto,
+  ISettingsDto,
+} from '@/core/interface/Initialization'
 
-export interface IUser {
-  loading: boolean | null
-  userData: IUserDto | null
+export interface ISessionStore {
+  initializationPending: boolean
+  id: number | null
+  name: string | null
+  settings: ISettingsDto | Record<string, never>
+  user: IProfileDto | null
+
+  footer: IFooterDto[] | null
+  slider: any[] | null
+  faq: IFAQDto[]
+  is_main: boolean | null
+  lastPurchases: any
+  internal_name: string | null
+
+  items: any
+  reviews: any
 }
 
-export const getCurrentUser = createAsyncThunk('user/getCurrentUser', async () => {
-  const { data } = await api('auth/user/', {})
+const initialState: ISessionStore = {
+  initializationPending: true,
+  id: null,
+  name: null,
+  settings: {},
+  user: null,
+  is_main: false,
+
+  footer: null,
+  slider: null,
+  faq: [],
+  items: null,
+  reviews: null,
+
+  internal_name: null,
+  lastPurchases: null,
+}
+
+// thunks
+export const startApp = createAsyncThunk('session/startapp', async () => {
+  const { data } = await initializeApp()
 
   return data
 })
-
-const initialState: IUser = {
-  loading: null,
-  userData: null,
-}
 
 export const sessionState = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    resetUser(state, action: PayloadAction) {
+    setUser(state, action: PayloadAction<IProfileDto>) {
+      state.user = { ...action.payload }
+    },
+    resetState(state, action: PayloadAction) {
       Cookies.remove('auth')
-
-      state.loading = false
-      state.userData = null
+    },
+    updateAnyState(state, action: PayloadAction<{ key: string; data: any }>) {
+      // @ts-ignore
+      if (state[action.payload.key]) {
+        // @ts-ignore
+        state[action.payload.key] = action.payload.data
+      }
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getCurrentUser.pending, (state) => {
-      state.loading = true
+    builder.addCase(startApp.pending, (state) => {
+      state.initializationPending = true
     })
-    builder.addCase(getCurrentUser.fulfilled, (state, action: PayloadAction<IUserDto>) => {
-      state.loading = false
+    builder.addCase(startApp.fulfilled, (state, action: PayloadAction<IInitDataDto | null>) => {
+      state.initializationPending = false
 
       if (action.payload) {
-        state.userData = {
+        state = {
+          ...state,
           ...action.payload,
         }
       }
@@ -48,6 +89,6 @@ export const sessionState = createSlice({
   },
 })
 
-export const { resetUser } = sessionState.actions
+export const { resetState, setUser, updateAnyState } = sessionState.actions
 
 export default sessionState.reducer

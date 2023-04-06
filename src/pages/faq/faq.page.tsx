@@ -1,24 +1,20 @@
-import { useRecoilValue } from 'recoil'
-
 import Round1 from '@/assets/img/round1.png'
 import Round2 from '@/assets/img/round2.png'
 import Round3 from '@/assets/img/round3.png'
 import Round4 from '@/assets/img/round4.png'
 import Round5 from '@/assets/img/round5.png'
-import { getShopFaq, getShopSettings } from '@/core/storage/selectors/main'
 
 export const Page = () => {
-  const faq = useRecoilValue(getShopFaq)
-  const settings = useRecoilValue(getShopSettings)
+  const { faq, settings } = useAppSelector((state) => state.sessionState)
 
   return (
     <div
       style={{
-        background: settings?.background_site_color ? settings?.background_site_color : '#000000',
+        background: settings.background_site_color ? settings.background_site_color : '#000000',
       }}
     >
-      <img src={settings?.faq_left_footer_image} alt="" className="fire fire2" />
-      <img src={settings?.faq_right_footer_image} alt="" className="fire fire3" />
+      <img src={settings.faq_left_footer_image} alt="" className="fire fire2" />
+      <img src={settings.faq_right_footer_image} alt="" className="fire fire3" />
       <section className="faq" id="faq">
         <div className="container">
           <p className="faq__title">КАК ЭТО РАБОТАЕТ?</p>
@@ -49,16 +45,18 @@ export const Page = () => {
             </div>
             <p className="faq__name">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</p>
             <ul className="accordeon">
-              {faq
-                ? faq.map((item, index) => (
-                    <li className="accordeon__item" key={index}>
-                      <div className="accordeon__button closed">{item.question}</div>
-                      <ul className="accordeon__panel">
-                        <li className="panel__text">{item.answer}</li>
-                      </ul>
-                    </li>
-                  ))
-                : ''}
+              {faq ? (
+                faq.map((item, index) => (
+                  <li className="accordeon__item" key={index}>
+                    <div className="accordeon__button closed">{item.question}</div>
+                    <ul className="accordeon__panel">
+                      <li className="panel__text">{item.answer}</li>
+                    </ul>
+                  </li>
+                ))
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
         </div>

@@ -1,16 +1,15 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
-import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Close from '@/assets/img/close.png'
 import Personal from '@/assets/img/personal.png'
-import { getShopId, getUser } from '@/core/storage/selectors/main'
 
 const LoginModal = () => {
-  const shopId = useRecoilValue(getShopId)
-  const [, setProfile] = useRecoilState(getUser)
+  const { id: shopId } = useAppSelector((state) => state.sessionState)
+  const dispatch = useDispatch()
 
-  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
+  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => dispatch(setUser(data)) })
 
   return (
     <div

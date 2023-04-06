@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { PhotoView } from 'react-photo-view'
-import { useRecoilState, useRecoilValue } from 'recoil'
 import remarkGfm from 'remark-gfm'
 
 import { getProducts } from '@/core/api/product.api'
 import { getReviews } from '@/core/api/review.api'
-import {
-  getItems,
-  getShopId,
-  getShopReviews,
-  getShopSettings,
-  getUser,
-} from '@/core/storage/selectors/main'
 
 export const Page: React.FC = () => {
-  const shopId = useRecoilValue(getShopId)
-  const settings = useRecoilValue(getShopSettings)
+  const [selectedItem, setSelectedItem] = useState<any>(null)
 
-  const user = useRecoilValue(getUser)
-  const [items, setItems] = useRecoilState(getItems)
-  const [reviews, setReviews] = useRecoilState(getShopReviews)
-
-  const [selectedItem, setSelectedItem] = useState(null)
+  const {
+    id: shopId,
+    settings,
+    user,
+    items,
+    reviews,
+  } = useAppSelector((state) => state.sessionState)
+  const dispatch = useAppDispatch()
 
   // const params = useParams()
   const params = ''
@@ -32,7 +26,7 @@ export const Page: React.FC = () => {
       const fetchData = async () => {
         const { data } = await getReviews({ shopId })
         if (data) {
-          setReviews(data)
+          dispatch(updateAnyState({ key: 'reviews', data }))
         }
       }
       fetchData()
@@ -44,7 +38,7 @@ export const Page: React.FC = () => {
       const fetchData = async () => {
         const { data } = await getProducts({ shopId })
         if (data) {
-          setItems(data)
+          dispatch(updateAnyState({ key: 'items', data }))
         }
       }
       fetchData()
@@ -52,7 +46,7 @@ export const Page: React.FC = () => {
   }, [shopId])
 
   const generatePaymentLink = async () => {
-    const { data } = await getPayment({ amount: +selectedItem.price - +user.balance })
+    const { data } = await getPayment({ amount: +selectedItem.price - +user?.balance })
 
     if (data) {
       const a = document.createElement('a')
@@ -77,12 +71,12 @@ export const Page: React.FC = () => {
 
       if (!item) window.location.href = '/'
     }
-  }, [items, params?.id])
+  }, [items, params]) // route id change
 
   return selectedItem ? (
     <div
       style={{
-        background: settings?.background_site_color ? settings?.background_site_color : '#000000',
+        background: settings.background_site_color ? settings.background_site_color : '#000000',
       }}
     >
       <img src={settings.item_right_footer_image} alt="" className="fire55" />

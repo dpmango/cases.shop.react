@@ -55,30 +55,10 @@ export default ({ mode }) => {
         '@store': fileURLToPath(new URL('./src/core/store', import.meta.url)),
       },
     },
-    optimizeDeps: {
-      include: ['recoil'],
-    },
-
     build: {
       chunkSizeWarningLimit: 1000,
       sourcemap: true,
       outDir: process?.env?.ODR ? 'odr-dist' : 'dist',
     },
-
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       additionalData: '@import "@/assets/styles/utils/index.scss";',
-    //     },
-    //   },
-    // },
-
-    /* If proxy is needed
-    server: {
-      proxy: {
-        "/api": "localhost:8080"
-      }
-    },
-    */
   })
 }

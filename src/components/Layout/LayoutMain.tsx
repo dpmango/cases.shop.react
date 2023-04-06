@@ -6,17 +6,15 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { PhotoProvider } from 'react-photo-view'
 import { Link, Route, Routes } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
 
 import { initializeApp } from '@/core/api/session.api'
-import main from '@/core/storage/atoms/main'
-import { getUser } from '@/core/storage/selectors/main'
 import { Page as HomePage } from '@/pages/index.page'
 import { Page as RestPage } from '@/pages/rest.page'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [mainCoil, updateMainCoil] = useRecoilState(main)
-  const [, setProfile] = useRecoilState(getUser)
+  const { name } = useAppSelector((state) => state.sessionState)
+
+  const dispatch = useAppDispatch()
 
   const location = usePageContext()
 
@@ -24,10 +22,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     const { data } = await initializeApp()
 
     if (data) {
-      // updateMainCoil({
-      //   ...mainCoil,
-      //   ...data,
-      // })
+      Object.keys(data).forEach((key) => {
+        const dataValue = data[key]
+        dispatch(updateAnyState({ key, data: dataValue }))
+      })
     }
   }
 
@@ -38,7 +36,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       const fetchData = async () => {
         const { data } = await api(`profile`, {})
         if (data) {
-          setProfile(data)
+          dispatch(updateAnyState({ key: 'profile', data }))
         }
       }
       fetchData()
@@ -53,7 +51,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Helmet>
-        <title>{mainCoil.name}</title>
+        <title>{name}</title>
       </Helmet>
 
       <PhotoProvider>
