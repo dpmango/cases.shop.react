@@ -62,10 +62,10 @@ const Header = () => {
     >
       <div className="container">
         <div className="nav__box d-flex">
-          {lastPurchases ? (
+          {lastPurchases && purchasesList && (
             <div className="nav__info d-flex">
               <div className="nav__boxes d-flex">
-                {purchasesList.map((item, index) => (
+                {purchasesList?.map((item, index) => (
                   <div
                     key={index}
                     style={{
@@ -77,15 +77,15 @@ const Header = () => {
                 ))}
               </div>
             </div>
-          ) : (
-            ''
           )}
+
           {user ? (
             <div className="nav__add d-flex">
               <a
                 className="nav__log d-flex"
                 onClick={() => {
-                  window.openModal('a4')
+                  // @ts-ignore
+                  // window.openModal('a4')
                 }}
               >
                 <div className="nav__cash">

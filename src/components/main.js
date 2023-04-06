@@ -6,16 +6,6 @@ $('.menu .button').click(function (event) {
   return false
 })
 
-waitForElm('.articmodal-close').then(() => {
-  $('.articmodal-close').click(function (e) {
-    $.arcticmodal('close')
-  })
-})
-
-window.openModal = function (id) {
-  $(`#${id}`).arcticmodal({})
-}
-
 waitForElm('.a1').then(() => {
   $('.a1').click(function (e) {
     e.preventDefault()
@@ -84,8 +74,6 @@ waitForElm('.accordeon__button').then(() => {
     }
   }
 })
-
-//пишем функцию
 
 // svg
 $(function () {

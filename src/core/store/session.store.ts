@@ -11,9 +11,12 @@ import {
   ISettingsDto,
 } from '@/core/interface/Initialization'
 
+import { IProductListDto } from '../interface/Product'
+import { IReviewDto } from '../interface/Review'
+
 export interface ISessionStore {
   initializationPending: boolean
-  id: number | null
+  id: number
   name: string | null
   settings: ISettingsDto | Record<string, never>
   user: IProfileDto | null
@@ -25,13 +28,13 @@ export interface ISessionStore {
   lastPurchases: any
   internal_name: string | null
 
-  items: any
-  reviews: any
+  items: IProductListDto | null
+  reviews: IReviewDto[] | null
 }
 
 const initialState: ISessionStore = {
   initializationPending: true,
-  id: null,
+  id: 3,
   name: null,
   settings: {},
   user: null,
@@ -40,11 +43,12 @@ const initialState: ISessionStore = {
   footer: null,
   slider: null,
   faq: [],
-  items: null,
-  reviews: null,
 
   internal_name: null,
   lastPurchases: null,
+
+  items: null,
+  reviews: null,
 }
 
 // thunks
@@ -65,8 +69,13 @@ export const sessionState = createSlice({
       Cookies.remove('auth')
     },
     updateAnyState(state, action: PayloadAction<{ key: string; data: any }>) {
-      // @ts-ignore
-      if (state[action.payload.key]) {
+      if (Array.isArray(action.payload.data)) {
+        // @ts-ignore
+        state[action.payload.key] = [...action.payload.data]
+      } else if (typeof action.payload.data === 'object') {
+        // @ts-ignore
+        state[action.payload.key] = { ...action.payload.data }
+      } else {
         // @ts-ignore
         state[action.payload.key] = action.payload.data
       }

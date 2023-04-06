@@ -8,8 +8,11 @@ import { PhotoProvider } from 'react-photo-view'
 import { Link, Route, Routes } from 'react-router-dom'
 
 import { initializeApp } from '@/core/api/session.api'
+import { Page as FaqPage } from '@/pages/faq/faq.page'
 import { Page as HomePage } from '@/pages/index.page'
+import { Page as ProductPage } from '@/pages/product/product.page'
 import { Page as RestPage } from '@/pages/rest.page'
+import { Page as ReviewPage } from '@/pages/reviews/reviews.page'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { name } = useAppSelector((state) => state.sessionState)
@@ -58,8 +61,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className={'body-wrap'}>
           <LayoutHeader />
           <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/about" element={<RestPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/reviews" element={<ReviewPage />} />
+            <Route path="*" element={<RestPage />} />
           </Routes>
           <LayoutFooter />
         </div>

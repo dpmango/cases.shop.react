@@ -14,13 +14,8 @@ export const useTelegramAuth = ({ shopId, cb }: IUseTelegramAuth) => {
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('refresh_token', data.refresh_token)
 
-      const fetchData = async () => {
-        const { data } = await getProfile()
-        if (data) cb(data)
-        return data
-      }
-
-      fetchData()
+      const { data: userData } = await getProfile()
+      if (userData) cb(userData)
     }
   }
 

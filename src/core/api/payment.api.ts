@@ -7,7 +7,7 @@ export interface IPaymentPayload {
 }
 
 export const getPayment = async ({ amount }: IPaymentPayload) => {
-  const { data, error }: IApiResponse<IPaymentDto> = await api(payment, {
+  const { data, error }: IApiResponse<IPaymentDto> = await api('payment', {
     method: 'POST',
     body: {
       amount,

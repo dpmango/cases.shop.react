@@ -1,24 +1,17 @@
 import SliderPage from '@c/home/Slider'
-import { UiLink } from '@c/Ui'
-import cns from 'classnames'
 import React, { useEffect } from 'react'
-import { Helmet } from 'react-helmet'
+
+import { UiLink } from '@/components/Ui'
 
 export const Page: React.FC = () => {
-  // const { lockScroll, unlockScroll } = useScrollLock()
-
-  const {
-    id: shopId,
-    is_main: isMain,
-    items,
-    settings,
-  } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, items, settings } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (items === null) {
       const fetchData = async () => {
-        const { data } = await api(`items/${shopId}`, {})
+        const { data } = await getProducts({ shopId })
+
         if (data) {
           dispatch(updateAnyState({ key: 'items', data }))
         }
@@ -46,17 +39,17 @@ export const Page: React.FC = () => {
       >
         <img src={settings.background_image} alt="" className="main__fire" />
         <div className="container">
-          {/* <SliderPage /> */}
-          <>222</>
-          {/* <div className="main__wrap">
-            {items ? (
+          <SliderPage />
+
+          <div className="main__wrap">
+            {items &&
               Object.keys(items).map((item, index) => (
                 <div key={index}>
                   <h2>{item}</h2>
-                  <div className="main__box main__box_1 d-flex">
+                  {/* <div className="main__box main__box_1 d-flex">
                     {items[item].map((item, index) => (
                       <UiLink
-                        to={`product/${item.id}`}
+                        href={`product/${item.id}`}
                         key={index}
                         className="main__item main__item_1"
                       >
@@ -77,13 +70,10 @@ export const Page: React.FC = () => {
                         </div>
                       </UiLink>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
-              ))
-            ) : (
-              <></>
-            )}
-          </div> */}
+              ))}
+          </div>
         </div>
       </section>
     </>

@@ -6,7 +6,7 @@ const SliderPage = () => {
 
   return (
     <>
-      {sliderData && sliderData.length ? (
+      {sliderData && sliderData.length && (
         <>
           <p className="main__title">ЛУЧШИЕ ПРЕДЛОЖЕНИЯ</p>
           <Slider
@@ -32,8 +32,6 @@ const SliderPage = () => {
             ))}
           </Slider>
         </>
-      ) : (
-        ''
       )}
     </>
   )

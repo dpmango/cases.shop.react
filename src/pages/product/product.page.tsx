@@ -65,7 +65,9 @@ export const Page: React.FC = () => {
 
       const item = allItems.find((el) => el.id === params.id)
 
-      window.item_id = params.id
+      if (window) {
+        window.item_id = params.id
+      }
 
       setSelectedItem(item)
 
@@ -114,10 +116,10 @@ export const Page: React.FC = () => {
                 onClick={() => {
                   if (user) {
                     if (user.balance >= +selectedItem.price) {
-                      window.openModal('a3')
+                      // window.openModal('a3')
                     } else generatePaymentLink()
                   } else {
-                    window.openModal('a1')
+                    // window.openModal('a1')
                   }
                 }}
                 className={`item__btn bttn`}
