@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
         <ul className="footer__list d-flex">
           {footer.map((item, index) => (
             <li key={index} className="footer__item">
-              <UiLink to={item.link} className="footer__link">
+              <UiLink href={item.link} className="footer__link">
                 {item.name}
               </UiLink>
             </li>

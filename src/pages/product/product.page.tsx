@@ -1,47 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { PhotoView } from 'react-photo-view'
+import { useParams } from 'react-router'
 import remarkGfm from 'remark-gfm'
-
-import { getProducts } from '@/core/api/product.api'
-import { getReviews } from '@/core/api/review.api'
 
 export const Page: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null)
 
-  const {
-    id: shopId,
-    settings,
-    user,
-    items,
-    reviews,
-  } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, settings, user } = useAppSelector((state) => state.sessionState)
+  const { items, reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  // const params = useParams()
-  const params = ''
+  const params = useParams()
 
   useEffect(() => {
     if (reviews === null && shopId) {
-      const fetchData = async () => {
-        const { data } = await getReviews({ shopId })
-        if (data) {
-          dispatch(updateAnyState({ key: 'reviews', data }))
-        }
-      }
-      fetchData()
+      dispatch(getReviewsThunk({ shopId }))
     }
-  }, [shopId])
-
-  useEffect(() => {
     if (items === null && shopId) {
-      const fetchData = async () => {
-        const { data } = await getProducts({ shopId })
-        if (data) {
-          dispatch(updateAnyState({ key: 'items', data }))
-        }
-      }
-      fetchData()
+      dispatch(getProductThunk({ shopId }))
     }
   }, [shopId])
 
@@ -71,9 +48,9 @@ export const Page: React.FC = () => {
 
       setSelectedItem(item)
 
-      if (!item) window.location.href = '/'
+      if (!item) window.location.href = '/404.html'
     }
-  }, [items, params]) // route id change
+  }, [items, params?.id])
 
   return selectedItem ? (
     <div

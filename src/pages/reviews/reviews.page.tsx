@@ -4,19 +4,13 @@ import { useDispatch } from 'react-redux'
 import { getReviews } from '@/core/api/review.api'
 
 export const Page = () => {
-  const { id: shopId, settings, reviews } = useAppSelector((state) => state.sessionState)
-
+  const { id: shopId, settings } = useAppSelector((state) => state.sessionState)
+  const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (reviews === null && shopId) {
-      const fetchData = async () => {
-        const { data } = await getReviews({ shopId })
-        if (data) {
-          dispatch(updateAnyState({ key: 'reviews', data }))
-        }
-      }
-      fetchData()
+      dispatch(getReviewsThunk({ shopId }))
     }
   }, [shopId])
 
@@ -24,8 +18,7 @@ export const Page = () => {
     const { data } = await getReviews({ shopId, offset: reviews?.length })
 
     if (data) {
-      const mergedData = [...reviews, ...data]
-      dispatch(updateAnyState({ key: 'reviews', data: mergedData }))
+      dispatch(updateReviews([...(reviews || []), ...data]))
 
       if (data.length < 10) document.querySelector(`.rev__btn .bttn`).style.display = `none`
     }

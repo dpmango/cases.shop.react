@@ -4,19 +4,13 @@ import React, { useEffect } from 'react'
 import { UiLink } from '@/components/Ui'
 
 export const Page: React.FC = () => {
-  const { id: shopId, items, settings } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, settings } = useAppSelector((state) => state.sessionState)
+  const { items } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (items === null) {
-      const fetchData = async () => {
-        const { data } = await getProducts({ shopId })
-
-        if (data) {
-          dispatch(updateAnyState({ key: 'items', data }))
-        }
-      }
-      fetchData()
+      dispatch(getProductThunk({ shopId }))
     }
   }, [])
 
@@ -47,29 +41,30 @@ export const Page: React.FC = () => {
                 <div key={index}>
                   <h2>{item}</h2>
                   {/* <div className="main__box main__box_1 d-flex">
-                    {items[item].map((item, index) => (
-                      <UiLink
-                        href={`product/${item.id}`}
-                        key={index}
-                        className="main__item main__item_1"
-                      >
-                        <p className="main__name">{item.name}</p>
-                        <div
-                          className="main__top"
-                          style={{
-                            background: `url(${item.images[1]}) no-repeat center center / cover`,
-                          }}
+                    {items[item] &&
+                      items[item].map((item, index) => (
+                        <UiLink
+                          href={`product/${item.id}`}
+                          key={index}
+                          className="main__item main__item_1"
                         >
-                          <img src={item.images[0]} alt="" className="main__pic" />
-                        </div>
-                        <div className="main__block">
-                          <p className="main__sum">
-                            {item.salePrice} Р
-                            {item.price !== item.salePrice && <sup>{item.price} P</sup>}
-                          </p>
-                        </div>
-                      </UiLink>
-                    ))}
+                          <p className="main__name">{item.name}</p>
+                          <div
+                            className="main__top"
+                            style={{
+                              background: `url(${item.images[1]}) no-repeat center center / cover`,
+                            }}
+                          >
+                            <img src={item.images[0]} alt="" className="main__pic" />
+                          </div>
+                          <div className="main__block">
+                            <p className="main__sum">
+                              {item.salePrice} Р
+                              {item.price !== item.salePrice && <sup>{item.price} P</sup>}
+                            </p>
+                          </div>
+                        </UiLink>
+                      ))}
                   </div> */}
                 </div>
               ))}

@@ -11,9 +11,6 @@ import {
   ISettingsDto,
 } from '@/core/interface/Initialization'
 
-import { IProductListDto } from '../interface/Product'
-import { IReviewDto } from '../interface/Review'
-
 export interface ISessionStore {
   initializationPending: boolean
   id: number
@@ -27,9 +24,6 @@ export interface ISessionStore {
   is_main: boolean | null
   lastPurchases: any
   internal_name: string | null
-
-  items: IProductListDto | null
-  reviews: IReviewDto[] | null
 }
 
 const initialState: ISessionStore = {
@@ -46,9 +40,6 @@ const initialState: ISessionStore = {
 
   internal_name: null,
   lastPurchases: null,
-
-  items: null,
-  reviews: null,
 }
 
 // thunks
@@ -59,7 +50,7 @@ export const startApp = createAsyncThunk('session/startapp', async () => {
 })
 
 export const sessionState = createSlice({
-  name: 'counter',
+  name: 'session',
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<IProfileDto>) {

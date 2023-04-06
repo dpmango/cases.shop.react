@@ -26,12 +26,12 @@ export const api = async (
       params,
     } as FetchOptions
 
-    // if (accessToken) {
-    requestOptions.headers = {
-      ...requestOptions.headers,
-      Authorization: `Bearer ${accessToken}`,
+    if (accessToken) {
+      requestOptions.headers = {
+        ...requestOptions.headers,
+        Authorization: `Bearer ${accessToken}`,
+      }
     }
-    // }
 
     if (headers) {
       requestOptions.headers = {
@@ -56,6 +56,7 @@ export const api = async (
       return { data, raw, message, error: null }
     } else {
       const fetchWithNoResponse = new Error(message)
+      // @ts-ignore
       fetchWithNoResponse.status = errorCode
       throw fetchWithNoResponse
     }
