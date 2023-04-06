@@ -1,17 +1,13 @@
 import Cookies from 'js-cookie'
 import { FetchError, FetchOptions, ofetch } from 'ofetch'
 
+import type { IError } from '@/core/interface/Api'
+
 interface IRequestOptions {
   method?: string
   body?: { [key: string]: any }
   headers?: { [key: string]: string }
   params?: { [key: string]: string }
-}
-
-interface IError {
-  status: number
-  message: string
-  raw: any
 }
 
 export const api = async (
@@ -49,37 +45,31 @@ export const api = async (
       requestUrl = url
     }
 
-    const { data, message, metadata, ...raw } = await ofetch(requestUrl, requestOptions)
+    const { data, message, response, errorCode, statusCode, ...raw } = await ofetch(
+      requestUrl,
+      requestOptions,
+    )
 
     console.log(`👌 fetch ${url} ${JSON.stringify(requestOptions.params)}`, data)
 
-    if (!data.response && data?.errorCode === 5) {
-      const response = await api('auth', {
-        method: 'PATCH',
-        body: {
-          token: localStorage.getItem('refresh_token'),
-        },
-      })
-
-      if (data.response) {
-        localStorage.setItem('access_token', data.data.access_token)
-        localStorage.setItem('refresh_token', data.data.refresh_token)
-
-        // return await api(endpoint, method, params)
-      } else {
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
-
-        window.location.reload()
-      }
+    if (response && statusCode === 200) {
+      return { data, raw, message, error: null }
+    } else {
+      const fetchWithNoResponse = new Error(message)
+      fetchWithNoResponse.status = errorCode
+      throw fetchWithNoResponse
     }
-
-    return { data, metadata, raw, message, error: null }
   } catch (err: any) {
-    let errMessage = err?.data?.message || ''
+    let errMessage = err?.data?.message || err?.message || ''
 
     if (!errMessage) {
       switch (err?.status) {
+        case 4:
+          errMessage = 'Ошибка сервера'
+          break
+        case 5:
+          errMessage = 'Ошибка авторизации'
+          break
         case 500:
           errMessage = 'Ошибка сервера'
           break
@@ -89,14 +79,30 @@ export const api = async (
       }
     }
 
+    if (err?.status === 5) {
+      const { data } = await userAuth({ token: localStorage.getItem('refresh_token') })
+
+      if (data) {
+        localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem('refresh_token', data.refresh_token)
+
+        return await api(url, { method, body, params, headers })
+      } else {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
+
+        window && window.location.reload()
+      }
+    }
+
     const error: IError = {
-      status: err?.status || 500,
+      code: err?.status || 500,
       message: errMessage,
       raw: err,
     }
 
     console.log('❌ Request Error', error)
 
-    return { data: null, metadata: null, message: null, error }
+    return { data: null, message: null, error }
   }
 }

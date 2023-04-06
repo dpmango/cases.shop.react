@@ -10,21 +10,7 @@ const LoginModal = () => {
   const shopId = useRecoilValue(getShopId)
   const [, setProfile] = useRecoilState(getUser)
 
-  const auth = async (req) => {
-    const { data } = await api(`auth/${shopId}`, { method: 'POST', body: { telegram: req } })
-    if (data) {
-      localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('refresh_token', data.refresh_token)
-
-      const fetchData = async () => {
-        const { data } = await api('profile', {})
-        if (data) {
-          setProfile(data)
-        }
-      }
-      fetchData()
-    }
-  }
+  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
 
   return (
     <div
@@ -52,7 +38,7 @@ const LoginModal = () => {
               lang="ru"
               usePic={false}
               cornerRadius={20}
-              onAuthCallback={(user) => auth(user)}
+              onAuthCallback={onAuthSuccess}
               requestAccess={'write'}
             />
           </div>

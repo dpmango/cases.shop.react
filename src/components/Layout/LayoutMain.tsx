@@ -8,6 +8,7 @@ import { PhotoProvider } from 'react-photo-view'
 import { Link, Route, Routes } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
+import { initializeApp } from '@/core/api/session.api'
 import main from '@/core/storage/atoms/main'
 import { getUser } from '@/core/storage/selectors/main'
 import { Page as HomePage } from '@/pages/index.page'
@@ -20,8 +21,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = usePageContext()
 
   const getInitdata = async () => {
-    const { data } = await api(`initialize`, {})
-    console.log({ data })
+    const { data } = await initializeApp()
+
     if (data) {
       // updateMainCoil({
       //   ...mainCoil,

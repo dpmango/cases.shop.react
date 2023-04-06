@@ -39,8 +39,6 @@ export const Page: React.FC = () => {
   //   return () => setIsMain(false)
   // }, [])
 
-  console.log({ settings }, { shopId })
-
   return <>123</>
   // return (
   //   <>

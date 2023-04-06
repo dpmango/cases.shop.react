@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { getReviews } from '@/core/api/review.api'
 import { getShopId, getShopReviews, getShopSettings } from '@/core/storage/selectors/main'
 
 export const Page = () => {
@@ -11,7 +12,7 @@ export const Page = () => {
   useEffect(() => {
     if (reviews === null && shopId) {
       const fetchData = async () => {
-        const { data } = await api(`reviews/${shopId}`, {})
+        const { data } = await getReviews({ shopId })
         if (data) {
           setReviews(data)
         }
@@ -21,7 +22,7 @@ export const Page = () => {
   }, [shopId])
 
   const loadMore = async () => {
-    const { data } = await api(`reviews/${shopId}?offset=${reviews.length}`, {})
+    const { data } = await getReviews({ shopId, offset: reviews?.length })
 
     if (data) {
       setReviews([...reviews, ...data])

@@ -4,6 +4,8 @@ import { PhotoView } from 'react-photo-view'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import remarkGfm from 'remark-gfm'
 
+import { getProducts } from '@/core/api/product.api'
+import { getReviews } from '@/core/api/review.api'
 import {
   getItems,
   getShopId,
@@ -28,7 +30,7 @@ export const Page: React.FC = () => {
   useEffect(() => {
     if (reviews === null && shopId) {
       const fetchData = async () => {
-        const { data } = await api(`reviews/${shopId}`, {})
+        const { data } = await getReviews({ shopId })
         if (data) {
           setReviews(data)
         }
@@ -40,7 +42,7 @@ export const Page: React.FC = () => {
   useEffect(() => {
     if (items === null && shopId) {
       const fetchData = async () => {
-        const { data } = await api(`items/${shopId}`, {})
+        const { data } = await getProducts({ shopId })
         if (data) {
           setItems(data)
         }
@@ -50,12 +52,7 @@ export const Page: React.FC = () => {
   }, [shopId])
 
   const generatePaymentLink = async () => {
-    const { data } = await api(`payment`, {
-      method: 'POST',
-      body: {
-        amount: +selectedItem.price - +user.balance,
-      },
-    })
+    const { data } = await getPayment({ amount: +selectedItem.price - +user.balance })
 
     if (data) {
       const a = document.createElement('a')

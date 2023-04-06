@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import Icon1 from '@/assets/img/icon1.png'
 import Plus from '@/assets/img/plus.png'
+import { getPurchases } from '@/core/api/session.api'
 import {
   getLastPurchases,
   getShopId,
@@ -26,7 +27,7 @@ const Header = () => {
   useEffect(() => {
     if (lastPurchases === null && shopId) {
       const fetchData = async () => {
-        const { data } = await api(`purchases/${shopId}`, {})
+        const { data } = await getPurchases({ shopId })
         if (data) {
           setLastPurchases(data)
         }
@@ -38,7 +39,7 @@ const Header = () => {
   useEffect(() => {
     if (lastPurchases !== null) {
       if (lastPurchases.length < 7) {
-        const newPurchases = []
+        const newPurchases = [] as string[]
 
         for (let i = 0; i < 7; i++) {
           newPurchases.push(lastPurchases[i] ?? '')
@@ -51,27 +52,7 @@ const Header = () => {
     }
   }, [lastPurchases])
 
-  const auth = async (req) => {
-    const { data } = await api(`auth/${shopId}`, {
-      method: 'POST',
-      body: {
-        telegram: req,
-      },
-    })
-
-    if (data.response) {
-      localStorage.setItem('access_token', data.data.access_token)
-      localStorage.setItem('refresh_token', data.data.refresh_token)
-
-      const fetchData = async () => {
-        const { data } = await api('profile', {})
-        if (data) {
-          setProfile(data)
-        }
-      }
-      fetchData()
-    }
-  }
+  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
 
   return (
     <nav
@@ -127,9 +108,7 @@ const Header = () => {
                 lang="ru"
                 usePic={false}
                 cornerRadius={20}
-                onAuthCallback={(user) => {
-                  auth(user)
-                }}
+                onAuthCallback={onAuthSuccess}
                 requestAccess={'write'}
               />
             </a>

@@ -4,11 +4,11 @@ import Close from '@/assets/img/close.png'
 import Personal2 from '@/assets/img/personal2.png'
 import Popup from '@/assets/img/popup.png'
 
-let amount = ''
+let amount = 0
 
 const TopupModal = () => {
   const generateLink = async () => {
-    const { data } = await api(`payment`, { method: 'POST', body: amount })
+    const { data } = await getPayment({ amount })
 
     if (data) {
       const a = document.createElement('a')
