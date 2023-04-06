@@ -1,0 +1,30 @@
+name: Nuxt
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploying
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          username: ${{ secrets.SSH_USERNAME }}
+
+          script: |
+            cd ${{ secrets.APP_PATH }}
+            git checkout main
+            git fetch --all
+            git reset --hard origin/main
+            npm install
+            npm run build
+            # Restart server
+            pm2 kill
+            pm2 start "npm run start"

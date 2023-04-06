@@ -10,7 +10,9 @@ const Footer: React.FC = () => {
     is_main: isMain,
   } = useAppSelector((state) => state.sessionState)
 
-  return footer ? (
+  if (!footer) return null
+
+  return (
     <footer
       className="footer"
       id="footer"
@@ -32,8 +34,6 @@ const Footer: React.FC = () => {
 
       <Modals />
     </footer>
-  ) : (
-    <></>
   )
 }
 
