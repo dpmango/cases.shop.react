@@ -15,12 +15,13 @@ import type {
 } from 'vite-plugin-ssr/types'
 
 type Page = (pageProps: PageProps) => React.ReactElement
-type PageProps = {}
+type PageProps = object
 
 export type PageContextCustom = {
   Page: Page
   pageProps?: PageProps
   urlPathname: string
+  PRELOADED_STATE: any
   exports: {
     documentProps?: {
       title?: string

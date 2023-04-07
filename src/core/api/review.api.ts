@@ -8,7 +8,7 @@ export interface IReviewsPayload {
 }
 
 export const getReviews = async ({ shopId, offset }: IReviewsPayload) => {
-  const { data, error }: IApiResponse<IReviewDto[]> = await api(`reviews/${3}`, {
+  const { data, error }: IApiResponse<IReviewDto[]> = await api(`reviews/${shopId}`, {
     params: {
       offset: offset ? offset.toString() : '',
     },

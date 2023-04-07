@@ -2,23 +2,29 @@
 
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom/server'
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
 
 import { AppWrapper } from '../src/components/Layout'
+import { getStore } from '../src/core/store'
 import type { PageContextServer } from './types'
 
-const passToClient = ['pageProps']
+const passToClient = ['pageProps', 'PRELOADED_STATE']
 
 async function render(pageContext: PageContextServer) {
-  const { Page, pageProps, urlPathname } = pageContext
+  const { Page, pageProps, urlPathname, PRELOADED_STATE } = pageContext
   // This render() hook only supports SSR, see https://vite-plugin-ssr.com/render-modes for how to modify render() to support SPA
   if (!Page) throw new Error('My render() hook expects pageContext.Page to be defined')
+
+  const store = getStore(PRELOADED_STATE)
   const pageHtml = ReactDOMServer.renderToString(
     <StaticRouter location={urlPathname}>
-      <AppWrapper pageContext={pageContext}>
-        <Page {...pageProps} />
-      </AppWrapper>
+      <Provider store={store}>
+        <AppWrapper pageContext={pageContext}>
+          <Page {...pageProps} />
+        </AppWrapper>
+      </Provider>
     </StaticRouter>,
   )
 

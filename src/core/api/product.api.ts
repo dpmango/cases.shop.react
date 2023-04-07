@@ -6,7 +6,7 @@ export interface IProductsPayload {
   shopId: number
 }
 export const getProducts = async ({ shopId }: IProductsPayload) => {
-  const { data, error }: IApiResponse<IProductListDto> = await api(`items/${3}`, {})
+  const { data, error }: IApiResponse<IProductListDto> = await api(`items/${shopId}`, {})
 
   return { data, error }
 }

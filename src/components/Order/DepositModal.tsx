@@ -4,35 +4,22 @@ import Close from '@/assets/img/close.png'
 import Personal2 from '@/assets/img/personal2.png'
 import Popup from '@/assets/img/popup.png'
 
-let amount = 0
-
 const DepositModal = () => {
+  const [amount, setAmount] = useState(0)
+
   const generateLink = async () => {
     const { data } = await getPayment({ amount })
 
     if (data) {
       const a = document.createElement('a')
       document.body.appendChild(a)
-      a.style = 'display: none'
+      a.setAttribute('style', 'display: none')
       a.href = data.payment_link
       a.target = '_blank'
       a.click()
       document.body.removeChild(a)
     }
   }
-
-  useEffect(() => {
-    // prevent default for .popup__form
-    document.querySelector('.popup__form').addEventListener('submit', (e) => {
-      e.preventDefault()
-
-      generateLink()
-    })
-
-    document.querySelector('.popup__input').addEventListener('input', (e) => {
-      amount = +e.target.value
-    })
-  }, [])
 
   return (
     <div
@@ -53,7 +40,7 @@ const DepositModal = () => {
             <div className="popup__block">
               <img src={Popup} alt="" className="popup__pic" />
             </div>
-            <form className="popup__form">
+            <form className="popup__form" onSubmit={generateLink}>
               <input
                 type="number"
                 className="popup__input"
@@ -62,8 +49,11 @@ const DepositModal = () => {
                 placeholder="Введите сумму"
                 value={amount}
                 max={99999}
+                onChange={(e) => setAmount(e.target.value)}
               />
-              <button className="popup__btn bttn">Пополнить</button>
+              <button type="submit" className="popup__btn bttn">
+                Пополнить
+              </button>
             </form>
           </div>
         </div>

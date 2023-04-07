@@ -20,7 +20,7 @@ export interface IAuthPayload {
 }
 
 export const fetchAuth = async ({ shopId, telegram, ...rest }: IAuthPayload) => {
-  const { data, error }: IApiResponse<IAuthDto> = await api(`auth/${3}`, {
+  const { data, error }: IApiResponse<IAuthDto> = await api(`auth/${shopId}`, {
     method: 'POST',
     body: {
       ...rest,
