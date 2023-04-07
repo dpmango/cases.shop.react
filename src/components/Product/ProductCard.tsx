@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom'
 import { UiLink } from '@/components/Ui'
 import { IProductDto } from '~/src/core/interface/Product'
 
-const ProductCard = ({ name, images, price, salePrice, id }: IProductDto) => {
+interface IProductCardProps extends IProductDto {
+  index: number
+}
+
+const ProductCard = ({ name, images, price, salePrice, id, index }: IProductCardProps) => {
   return (
-    <Link to={`product/${id}`} key={id} className="main__item main__item_1">
+    <Link to={`product/${id}`} key={id} className={`main__item main__item_${index}`}>
       <p className="main__name">{name}</p>
       <div
         className="main__top"

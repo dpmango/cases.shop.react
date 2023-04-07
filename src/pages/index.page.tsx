@@ -22,7 +22,8 @@ export const Page: React.FC = () => {
 
   return (
     <>
-      <img src={settings.footer_image} alt="" className={'fire'} />
+      <img src="/img/fire-big.png" alt="" className="fire" />
+      {/* <img src={settings.footer_image} alt="" className={'fire'} /> */}
       <section
         className={`main ${settings.use_space ? 'main_space' : ''}`}
         id="main"
@@ -43,7 +44,9 @@ export const Page: React.FC = () => {
                     <h2 className="prodCard__title">{key}</h2>
                     <div className="main__box main__box_1 d-flex">
                       {items[key]?.length &&
-                        items[key].map((card) => <ProductCard key={card.id} {...card} />)}
+                        items[key].map((card, idx) => (
+                          <ProductCard key={card.id} index={idx} {...card} />
+                        ))}
                     </div>
                   </div>
                 )

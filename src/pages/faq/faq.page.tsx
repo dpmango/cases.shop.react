@@ -1,9 +1,3 @@
-import Round1 from '@/assets/img/round1.png'
-import Round2 from '@/assets/img/round2.png'
-import Round3 from '@/assets/img/round3.png'
-import Round4 from '@/assets/img/round4.png'
-import Round5 from '@/assets/img/round5.png'
-
 export const Page = () => {
   const { faq, settings } = useAppSelector((state) => state.sessionState)
 
@@ -21,25 +15,25 @@ export const Page = () => {
           <div className="faq__wrap">
             <div className="faq__box d-flex">
               <div className="faq__item">
-                <img src={Round1} alt="" className="faq__pic" />
+                <img src={'/img/round1.svg'} alt="" className="faq__pic" />
                 <p className="faq__text">
                   Авторизуйтесь под своим игровым аккаунтом на сайте EpicGames
                 </p>
               </div>
               <div className="faq__item">
-                <img src={Round2} alt="" className="faq__pic" />
+                <img src={'/img/round2.svg'} alt="" className="faq__pic" />
                 <p className="faq__text">Привяжите учётную запись Xbox (Консоль не требуется)</p>
               </div>
               <div className="faq__item">
-                <img src={Round3} alt="" className="faq__pic" />
+                <img src={'/img/round3.svg'} alt="" className="faq__pic" />
                 <p className="faq__text">Предоставьте доступ к учетной записи XBOX</p>
               </div>
               <div className="faq__item">
-                <img src={Round4} alt="" className="faq__pic" />
+                <img src={'/img/round4.svg'} alt="" className="faq__pic" />
                 <p className="faq__text">Дождитесь покупки со страны, где донат разрешён</p>
               </div>
               <div className="faq__item">
-                <img src={Round5} alt="" className="faq__pic" />
+                <img src={'/img/round5.svg'} alt="" className="faq__pic" />
                 <p className="faq__text">Похвастайтесь друзьям новым скином</p>
               </div>
             </div>

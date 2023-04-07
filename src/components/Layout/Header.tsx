@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
-import Icon1 from '@/assets/img/icon1.png'
-import Plus from '@/assets/img/plus.png'
 import { getPurchases } from '@/core/api/session.api'
 import { IProfileDto } from '@/core/interface/Initialization'
 
@@ -64,6 +62,15 @@ const Header = () => {
         <div className="nav__box d-flex">
           {lastPurchases && purchasesList && (
             <div className="nav__info d-flex">
+              <div className="nav__content">
+                <a href="#" className="nav__link">
+                  <img src="/img/a1.svg" alt="" className="svg" />
+                </a>
+                <a href="#" className="nav__link">
+                  <img src="/img/a2.svg" alt="" className="svg" />
+                </a>
+              </div>
+
               <div className="nav__boxes d-flex">
                 {purchasesList?.map((item, index) => (
                   <div
@@ -89,9 +96,9 @@ const Header = () => {
                 }}
               >
                 <div className="nav__cash">
-                  <img src={Icon1} alt="" className="svg" />
+                  <img src={`@/assets/img/icon1.svg`} alt="" className="svg" />
                 </div>
-                <img src={Plus} alt="" className="nav__plus" />
+                <img src={`@/assets/img/plus.svg`} alt="" className="nav__plus" />
               </a>
               <div className="nav__right">
                 <p className="nav__name">@{user.userName}</p>
