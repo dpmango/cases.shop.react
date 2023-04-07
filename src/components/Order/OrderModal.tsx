@@ -3,7 +3,7 @@ import React from 'react'
 import Close from '@/assets/img/close.png'
 
 const OrderModal = () => {
-  const { internal_name: internalName } = useAppSelector((state) => state.sessionState)
+  const { telegram_bot_link } = useAppSelector((state) => state.sessionState)
 
   return (
     <div
@@ -26,7 +26,7 @@ const OrderModal = () => {
               Спасибо, что пользуетесь нашим сервисом!
             </p>
             <a
-              href={`https://t.me/${internalName}?start=item_${333}`}
+              href={`${telegram_bot_link}?start=item_${333}`}
               target={'_blank'}
               className="popup__btn bttn"
               rel="noreferrer"

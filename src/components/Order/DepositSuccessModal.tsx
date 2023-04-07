@@ -2,6 +2,8 @@ import { SvgIcon } from '@c/Ui'
 import React from 'react'
 
 const DepositSuccessModal = () => {
+  const { telegram_bot_link } = useAppSelector((state) => state.sessionState)
+
   return (
     <div
       style={{
@@ -23,9 +25,12 @@ const DepositSuccessModal = () => {
               Ваш баланс пополнен успешно! <br />
               Дальнешее оформление заказа продолжится в чат-боте!
             </p>
-            <a href="#" className="popup__btn bttn">
-              Перейти в бот-чат
-            </a>
+
+            {telegram_bot_link && (
+              <a href={telegram_bot_link} className="popup__btn bttn">
+                Перейти в бот-чат
+              </a>
+            )}
           </div>
         </div>
       </div>

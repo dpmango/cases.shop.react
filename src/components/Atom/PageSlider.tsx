@@ -2,8 +2,25 @@ import React from 'react'
 import Slider from 'react-slick'
 
 const PageSlider = () => {
-  const { slider: sliderData } = useAppSelector((state) => state.sessionState)
+  // const { slider: sliderData } = useAppSelector((state) => state.sessionState)
 
+  const sliderData = [
+    {
+      id: '1',
+      link_url: '/',
+      photo_url: 'https://cases.kateweb.ru/img/item1.png',
+    },
+    {
+      id: '1',
+      link_url: '/',
+      photo_url: 'https://cases.kateweb.ru/img/item1.png',
+    },
+    {
+      id: '1',
+      link_url: '/',
+      photo_url: 'https://cases.kateweb.ru/img/item1.png',
+    },
+  ]
   return (
     <>
       {sliderData && sliderData.length && (
@@ -18,8 +35,8 @@ const PageSlider = () => {
             slidesToShow={1}
             slidesToScroll={1}
           >
-            {sliderData.map((item, index) => (
-              <a key={index} href={item.link_url} className="main__card">
+            {sliderData.map((item, idx) => (
+              <a key={item.id || idx} href={item.link_url} className="main__card">
                 <img
                   style={{
                     maxHeight: 650,

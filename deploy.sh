@@ -5,6 +5,6 @@ ssh root@94.103.84.160 << EOF
   git reset --hard origin/main
   yarn
   yarn build
-  pm2 kill all
+  pm2 delete all
   pm2 start npm --name front -- run serve
 EOF

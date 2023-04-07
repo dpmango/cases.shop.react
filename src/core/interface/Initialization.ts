@@ -1,10 +1,11 @@
 export interface IInitDataDto {
-  id: number
-  name: string
-  internal_name: string
-  footer: IFooterDto[]
-  slider: any[]
-  settings: ISettingsDto
+  // id: number
+  telegram_bot_link: string
+  // name: string
+  // bot_connector_name: string
+  // footer: IFooterDto[]
+  // slider: any[]
+  // settings: ISettingsDto
   faq: IFAQDto[]
 }
 
@@ -24,11 +25,11 @@ export interface ISettingsDto {
 
 export type IFAQDto = string[]
 
-export interface IFooterDto {
-  id: number
-  name: string
-  link: string
-}
+// export interface IFooterDto {
+//   id: number
+//   name: string
+//   link: string
+// }
 
 // auth
 export interface ITelegramAuthDto {

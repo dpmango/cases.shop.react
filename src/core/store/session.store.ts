@@ -3,40 +3,29 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { fetchAuth, initializeApp } from '@/core/api/session.api'
-import {
-  IFAQDto,
-  IFooterDto,
-  IInitDataDto,
-  IProfileDto,
-  ISettingsDto,
-} from '@/core/interface/Initialization'
+import { IFAQDto, IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
 
 export interface ISessionStore {
   initializationPending: boolean
   id: string
-  name: string | null
   settings: ISettingsDto | Record<string, never>
-  user: IProfileDto | null
-
-  footer: IFooterDto[] | null
-  slider: any[] | null
   faq: IFAQDto[]
+  bot_connector_name: string
+  telegram_bot_link: string | null
+
+  user: IProfileDto | null
   lastPurchases: any
-  internal_name: string
 }
 
 const initialState: ISessionStore = {
   initializationPending: true,
   id: 'MurcciTGBot',
-  name: null,
   settings: {},
-  user: null,
-
-  footer: null,
-  slider: null,
   faq: [],
+  bot_connector_name: 'ShopCoreWeb_bot',
+  telegram_bot_link: null,
 
-  internal_name: 'ShopCoreWeb_bot',
+  user: null,
   lastPurchases: null,
 }
 

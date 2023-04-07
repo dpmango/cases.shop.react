@@ -12,7 +12,7 @@ const Header = () => {
     id: shopId,
     settings,
     user,
-    internal_name: internalName,
+    bot_connector_name: internalName,
     lastPurchases,
   } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
