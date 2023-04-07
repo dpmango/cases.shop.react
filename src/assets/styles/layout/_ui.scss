@@ -25,19 +25,19 @@ h2 {
   font-size: 26px;
   line-height: 31px;
   font-family: 'Radio Canada', sans-serif;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgb(0 0 0 / 80%);
 }
 
 .bttn:hover {
   cursor: pointer;
   transition: all 0.5s ease;
   background: #FFDE84;
-  color: rgba(0, 0, 0, 0.8) !important;
+  color: rgb(0 0 0 / 80%) !important;
 }
 
 .bttn:active {
-  background: #FFFFFF;
-  color: rgba(0, 0, 0, 0.8);
+  background: #FFF;
+  color: rgb(0 0 0 / 80%);
 }
 
 html * {
@@ -59,36 +59,36 @@ html *::-webkit-scrollbar-track {
 
 *::-webkit-scrollbar-thumb,
 html *::-webkit-scrollbar-thumb {
-  background-color: #FF0000;
+  background-color: #F00;
   border-radius: 6px;
 }
 
-input::-webkit-input-placeholder {
+input::input-placeholder {
   /* Chrome/Opera/Safari */
   color: #A1A1A1 !important;
 }
 
-input::-moz-placeholder {
+input::placeholder {
   /* Firefox 19+ */
   color: #A1A1A1 !important;
 }
 
-input:-ms-input-placeholder {
+input:input-placeholder {
   /* IE 10+ */
   color: #A1A1A1 !important;
 }
 
-input:-moz-placeholder {
+input:placeholder {
   /* Firefox 18- */
   color: #A1A1A1 !important;
 }
 
-.slick-dots li button:before {
+.slick-dots li button::before {
   display: none;
 }
 
-.slick-prev:before,
-.slick-next:before {
+.slick-prev::before,
+.slick-next::before {
   display: none;
 }
 
@@ -96,9 +96,6 @@ input:-moz-placeholder {
   display: none;
 }
 
-.burger {
-  display: none;
-}
 
 .slick-arrow .svg,
 .slick-arrow path {

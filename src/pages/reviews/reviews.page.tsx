@@ -1,3 +1,4 @@
+import { ReviewCard } from '@c/Review'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -30,32 +31,20 @@ export const Page = () => {
         background: settings.background_site_color ? settings.background_site_color : '#000000',
       }}
     >
-      <img src={settings.reviews_footer_image} alt="" className="fire" />
+      {/* <img src="img/fire-big2.png" alt="" class="fire"> */}
+
+      {settings.reviews_footer_image && (
+        <img src={settings.reviews_footer_image} alt="" className="fire" />
+      )}
+
       <section className="rev" id="rev">
         <div className="container">
           <h1>ОТЗЫВЫ</h1>
           <div className="rev__wrap">
             <div className="rev__box">
-              {reviews &&
-                reviews.map((el, key) => (
-                  <div key={key} className="rev__item">
-                    <div className="rev__top d-flex">
-                      <img src={el.photo_url} alt="" className="rev__ava" />
-                      <div className="rev__content">
-                        <p className="rev__name">{el.nick}</p>
-                        <p className="rev__data">
-                          {new Date(el.date).toLocaleDateString('ru', {
-                            year: `numeric`,
-                            month: `long`,
-                            day: `numeric`,
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="rev__text">{el.text}</p>
-                  </div>
-                ))}
+              {reviews && reviews.map((el, key) => <ReviewCard key={key} {...el} />)}
             </div>
+
             <a onClick={() => loadMore()} className="rev__btn bttn">
               Загрузить больше
             </a>

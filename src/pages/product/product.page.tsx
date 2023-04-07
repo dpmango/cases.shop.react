@@ -1,3 +1,4 @@
+import { ReviewCard } from '@c/Review'
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { PhotoView } from 'react-photo-view'
@@ -23,7 +24,7 @@ export const Page: React.FC = () => {
   }, [shopId])
 
   const generatePaymentLink = async () => {
-    const { data } = await getPayment({ amount: +selectedItem.price - +user?.balance })
+    const { data } = await getPayment({ amount: +selectedItem.price - +(user?.balance || 0) })
 
     if (data) {
       const a = document.createElement('a')
@@ -39,16 +40,11 @@ export const Page: React.FC = () => {
   useEffect(() => {
     if (items !== null) {
       const allItems = Object.values(items).flat()
-
       const item = allItems.find((el) => el.id === params.id)
-
-      if (window) {
-        window.item_id = params.id
-      }
 
       setSelectedItem(item)
 
-      if (!item) window.location.href = '/404.html'
+      if (!item) window.location.href = '/404'
     }
   }, [items, params?.id])
 
@@ -108,25 +104,7 @@ export const Page: React.FC = () => {
           <div className="item-rev">
             <p className="item-rev__title">Отзывы</p>
             <div className="rev__box">
-              {reviews &&
-                reviews.map((el, key) => (
-                  <div key={key} className="rev__item">
-                    <div className="rev__top d-flex">
-                      <img src={el.photo_url} alt="" className="rev__ava" />
-                      <div className="rev__content">
-                        <p className="rev__name">{el.nick}</p>
-                        <p className="rev__data">
-                          {new Date(el.date).toLocaleDateString('ru', {
-                            year: `numeric`,
-                            month: `long`,
-                            day: `numeric`,
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="rev__text">{el.text}</p>
-                  </div>
-                ))}
+              {reviews && reviews.map((el, key) => <ReviewCard key={key} {...el} />)}
             </div>
             <p className="item-rev__info">Отзывы загружаются автоматически из телеграм-канала</p>
           </div>

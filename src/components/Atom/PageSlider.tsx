@@ -1,7 +1,7 @@
 import React from 'react'
 import Slider from 'react-slick'
 
-const SliderPage = () => {
+const PageSlider = () => {
   const { slider: sliderData } = useAppSelector((state) => state.sessionState)
 
   return (
@@ -37,4 +37,4 @@ const SliderPage = () => {
   )
 }
 
-export default SliderPage
+export default PageSlider

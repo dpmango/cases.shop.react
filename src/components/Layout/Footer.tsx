@@ -1,23 +1,22 @@
-import Modals from '@c/modals/modals'
 import { UiLink } from '@c/Ui'
+import cns from 'classnames'
 import React from 'react'
+import { useLocation } from 'react-router'
 
 const Footer: React.FC = () => {
-  const {
-    id: shopId,
-    settings,
-    footer,
-    is_main: isMain,
-  } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, settings, footer } = useAppSelector((state) => state.sessionState)
+
+  const location = useLocation()
+  const isAltFooter = ['faq', 'product', 'reviews'].includes(location.pathname.split('/')[1])
 
   if (!footer) return null
 
   return (
     <footer
-      className="footer"
+      className={cns('footer', isAltFooter && 'footer2')}
       id="footer"
       style={{
-        background: isMain ? settings.footer_color : 'transparent',
+        background: !isAltFooter ? settings.footer_color : 'transparent',
       }}
     >
       <div className="container">
@@ -31,8 +30,6 @@ const Footer: React.FC = () => {
           ))}
         </ul>
       </div>
-
-      <Modals />
     </footer>
   )
 }

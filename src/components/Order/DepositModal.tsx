@@ -6,7 +6,7 @@ import Popup from '@/assets/img/popup.png'
 
 let amount = 0
 
-const TopupModal = () => {
+const DepositModal = () => {
   const generateLink = async () => {
     const { data } = await getPayment({ amount })
 
@@ -72,4 +72,4 @@ const TopupModal = () => {
   )
 }
 
-export default TopupModal
+export default DepositModal

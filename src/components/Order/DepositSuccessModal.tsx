@@ -1,9 +1,7 @@
+import { SvgIcon } from '@c/Ui'
 import React from 'react'
 
-import Close from '@/assets/img/close.png'
-import Personal2 from '@/assets/img/personal2.png'
-
-const TopupSuccessModal = () => {
+const DepositSuccessModal = () => {
   return (
     <div
       style={{
@@ -14,10 +12,11 @@ const TopupSuccessModal = () => {
         <div className="popup">
           <div className="popup-call__box">
             <div className="box-modal__close articmodal-close">
-              <img src={Close} alt="" className="close__pic svg" />
+              <SvgIcon name="close" />
+              {/* <img src={Close} alt="" className="close__pic svg" /> */}
             </div>
             <div className="popup__flex d-flex">
-              <img src={Personal2} alt="" />
+              <img src="@/assets/img/personal2.png" alt="" />
               <p>ПОПОЛНЕНИЕ БАЛАНСА</p>
             </div>
             <p className="popup__text">
@@ -25,8 +24,7 @@ const TopupSuccessModal = () => {
               Дальнешее оформление заказа продолжится в чат-боте!
             </p>
             <a href="#" className="popup__btn bttn">
-              {' '}
-              Перейти в бот-чат{' '}
+              Перейти в бот-чат
             </a>
           </div>
         </div>
@@ -35,4 +33,4 @@ const TopupSuccessModal = () => {
   )
 }
 
-export default TopupSuccessModal
+export default DepositSuccessModal

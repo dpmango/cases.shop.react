@@ -37,6 +37,7 @@ export const Page = () => {
                 <p className="faq__text">Похвастайтесь друзьям новым скином</p>
               </div>
             </div>
+
             <p className="faq__name">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</p>
             <ul className="accordeon">
               {faq ? (
@@ -44,7 +45,7 @@ export const Page = () => {
                   <li className="accordeon__item" key={index}>
                     <div className="accordeon__button closed">{item.question}</div>
                     <ul className="accordeon__panel">
-                      <li className="panel__text">{item.answer}</li>
+                      <li className="accardeon__text">{item.answer}</li>
                     </ul>
                   </li>
                 ))

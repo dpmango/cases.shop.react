@@ -1,0 +1,259 @@
+
+/* NAV */
+.nav {
+  padding: 14px 0;
+  background: radial-gradient(
+    78.79% 1603.12% at 18.89% 71.76%,
+    #eb5f0e 0%,
+    #851012 51.82%,
+    #480136 100%
+  );
+}
+
+.nav__telegram {
+  max-width: 275px;
+  border-radius: 7px;
+  overflow: hidden;
+  width: 100%;
+  height: 46px;
+  display: block;
+  flex: 1 0 auto;
+  margin-left: 107px;
+  transition: 0.5s;
+}
+
+.nav__telegram:hover {
+  box-shadow: 0 10px 39px 0 rgb(84 169 235 / 100%);
+}
+
+.nav__telegram img {
+  width: 100%;
+  height: 100%;
+}
+
+.nav__box {
+  align-items: center;
+}
+
+.nav__link {
+  width: 49.54px;
+  height: 37.32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(217 217 217 / 19%);
+
+  .svg-icon{
+    font-size: 16px;
+  }
+
+  &:nth-child(1) {
+    border-radius: 10px 2px 2px;
+    margin-bottom: 1.5px;
+  }
+  
+  &:nth-child(2) {
+    border-radius: 2px 2px 2px 10px;
+  }
+}
+
+
+.nav__content {
+  margin-right: 2px;
+}
+
+.nav__boxes {
+  align-items: center;
+  position: relative;
+}
+
+.nav__block {
+  margin-right: 4.5px;
+  width: 141.05px;
+  height: 76.85px;
+  border-radius: 5px;
+}
+
+.nav__block:last-child {
+  margin-right: 0;
+}
+
+.nav .container {
+  padding: 0 20px 0 1px;
+  margin: 0;
+}
+
+.nav__link:hover .svg path {
+  fill: #ffbb0e;
+}
+
+.nav__link:hover .svg rect {
+  fill: #ffbb0e;
+}
+
+.nav__add {
+  align-items: center;
+  margin-left: 150px;
+  transition: 0.5s;
+}
+
+.nav__cash {
+  width: 54.46px;
+  height: 40.58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgb(217 217 217 / 19%) 0%,
+    rgb(255 255 255 / 19%) 0.01%,
+    rgb(255 255 255 / 8.36%) 100%
+  );
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.nav__log {
+  align-items: center;
+  transition: 0.5s;
+}
+
+.nav__plus {
+  position: relative;
+  left: -7px;
+}
+
+.nav__name {
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 12px;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.nav__sum {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: right;
+  font-family: 'Radio Canada', sans-serif;
+}
+
+.nav__right {
+  margin-left: 5px;
+}
+
+.nav__log:hover .nav__cash {
+  background: linear-gradient(
+    180deg,
+    rgb(217 217 217 / 54%) 0%,
+    rgb(255 255 255 / 54%) 0.01%,
+    rgb(255 255 255 / 23.8%) 100%
+  );
+}
+
+.nav__log:hover .nav__cash .svg path {
+  fill: white;
+}
+
+@media screen and (min-width: 2000px) {
+  .nav .container {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1699px) {
+  .nav__block:nth-child(n + 8) {
+    display: none;
+  }
+
+}
+
+@media screen and (max-width: 1499px) {
+  .nav__block:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1399px) {
+  .nav__block:nth-child(n + 6) {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 1199px) {
+  .nav .container {
+    max-width: 100%;
+  }
+
+  .nav__box {
+    justify-content: space-between;
+  }
+
+  .nav {
+    padding: 14px 20px 14px 2px;
+  }
+
+
+  .nav__telegram {
+    margin-left: 20px;
+  }
+
+  .nav__block:nth-child(n + 5) {
+    display: none;
+  }
+
+}
+
+@media screen and (max-width: 991px) {
+  .nav__block:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .popup-call__box {
+    width: 500px;
+    margin-left: -255px;
+  }
+
+  .nav__block {
+    display: none;
+  }
+
+  .nav__box {
+    justify-content: space-between;
+  }
+
+  .nav .container {
+    padding: 0 1px;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .nav {
+    padding: 14px 5px 14px 2px;
+  }
+
+  .nav__add {
+    margin-left: 0;
+  }
+
+  .popup-call__box {
+    width: 100%;
+    left: 0;
+    margin-left: 0;
+    padding: 35px 20px;
+  }
+
+  .nav__telegram {
+    max-width: 238px;
+  }
+
+  .nav .container {
+    padding: 0 10px 0 1px;
+    margin: 0 auto;
+  }
+}

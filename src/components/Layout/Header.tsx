@@ -1,3 +1,4 @@
+import { SvgIcon } from '@c/Ui'
 import React, { useEffect, useState } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
@@ -64,10 +65,10 @@ const Header = () => {
             <div className="nav__info d-flex">
               <div className="nav__content">
                 <a href="#" className="nav__link">
-                  <img src="/img/a1.svg" alt="" className="svg" />
+                  <SvgIcon name="star" />
                 </a>
                 <a href="#" className="nav__link">
-                  <img src="/img/a2.svg" alt="" className="svg" />
+                  <SvgIcon name="menu" />
                 </a>
               </div>
 
@@ -96,7 +97,7 @@ const Header = () => {
                 }}
               >
                 <div className="nav__cash">
-                  <img src={`@/assets/img/icon1.svg`} alt="" className="svg" />
+                  <SvgIcon name="wallet" />
                 </div>
                 <img src={`@/assets/img/plus.svg`} alt="" className="nav__plus" />
               </a>

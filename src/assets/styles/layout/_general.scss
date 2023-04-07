@@ -1,39 +1,37 @@
 * {
   box-sizing: border-box;
   outline: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 }
 
 html {
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-// a {
-//   color: inherit;
-//   text-decoration-skip-ink: none;
-//   text-decoration: none;
-// }
+a {
+  color: inherit;
+  text-decoration-skip-ink: none;
+  text-decoration: none;
+}
 
 body {
   font-weight: 600;
   font-size: 14px;
   line-height: 16px;
-  color: #FFFFFF;
+  color: #FFF;
   background: linear-gradient(0deg, #010206, #010206), linear-gradient(180deg, #1D5FDD 0%, #002E88 51.56%, #00102E 100%);
-  font-family: 'Raleway', sans-serif;
+  font-family: Raleway, sans-serif;
   margin: 0;
   touch-action: pan-y;
-  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+
   &.js-locked {
     overflow: hidden;
   }
 }
 
-body {
-  overflow-y: visible !important;
-}
 
 div,
 form,
@@ -65,9 +63,8 @@ h6 {
 a,
 a:hover,
 button {
-  text-decoration: none;
   cursor: pointer;
-  transition: 0.5s ease;
+  transition: 0.25s ease;
 }
 
 ul a:hover,
@@ -81,6 +78,12 @@ input:active,
 input:focus {
   outline: none !important;
   text-decoration: none !important;
+}
+
+input,
+textarea,
+select {
+  appearance: none;
 }
 
 button:hover {
@@ -110,3 +113,12 @@ footer {
 :focus {
   outline: none !important;
 }
+
+
+.svg-icon {
+  color: currentcolor;
+  line-height: 0;
+  height: 1em;
+}
+
+

@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet'
 import { PhotoProvider } from 'react-photo-view'
 import { Link, Route, Routes } from 'react-router-dom'
 
+import { SharedModals } from '@/components/Layout'
 import { initializeApp } from '@/core/api/session.api'
 import { Page as FaqPage } from '@/pages/faq/faq.page'
 import { Page as HomePage } from '@/pages/index.page'
@@ -48,7 +49,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getInitdata()
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
   }, [location])
 
   return (
@@ -68,6 +69,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <Route path="*" element={<RestPage />} />
           </Routes>
           <LayoutFooter />
+          <SharedModals />
         </div>
       </PhotoProvider>
     </>

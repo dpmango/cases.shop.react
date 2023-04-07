@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Cases</title>
+	<meta name="description" content="Cases">
+	<meta name="keywords" content="Cases">
+	<!-- Favicon -->
+	<!-- <link rel="icon" href="img/shortcut.png" type="image/x-icon">
+	<link rel="shortcut icon" href="img/shortcut.png" type="image/x-icon"> -->
+	<!-- OG -->
+	<meta property="og:title" content="Cases">
+	<meta property="og:description" content="Cases">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="img/shortcut.png">
+	<meta property="og:site_name" content="Cases">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/jquery.arcticmodal-0.3.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Radio+Canada:wght@500;600;700&family=Raleway:wght@600;800;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+	<link rel="stylesheet" type="text/css" href="css/slick.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div class="body-wrap">
+		<h1 style="text-align: center; margin: 40px auto; color: black;">
+			Pages
+		</h1>
+		<ul class="ul" style="display: flex; max-width: 1000px; margin: 0 auto 50px; flex-wrap: wrap;
+		justify-content: space-between; width: 100%;">
+			<li style="width: 25%; margin: 0 auto;">
+				<a href="index.html"
+					style="font-weight: bold; font-size: 20px; display: block; text-align: center;">Main</a>
+			</li>
+			<li style="width: 25%; margin: 0 auto;">
+				<a href="reviews.html" style="font-weight: bold; font-size: 20px; display: block; text-align: center;">Отзывы</a>
+			</li>
+			<li style="width: 25%; margin: 0 auto;">
+				<a href="faq.html" style="font-weight: bold; font-size: 20px; display: block; text-align: center;">Faq</a>
+			</li>
+			<li style="width: 25%; margin: 0 auto;">
+				<a href="item.html" style="font-weight: bold; font-size: 20px; display: block; text-align: center;">Item</a>
+			</li>
+			<li style="width: 25%; margin: 40px auto 20px;">
+				<a href="item2.html" style="font-weight: bold; font-size: 20px; display: block; text-align: center;">Item2</a>
+			</li>
+		</ul>
+		<div>
+			<a href="#" class="bttn a1" style="margin: 0 auto 10px">
+				popup1
+			</a>
+			<a href="#" class="bttn a2" style="margin: 0 auto 10px">
+				popup2
+			</a>
+			<a href="#" class="bttn a3" style="margin: 0 auto 10px">
+				popup3
+			</a>
+			<a href="#" class="bttn a4" style="margin: 0 auto 10px">
+				popup4
+			</a>
+		</div>
+	</div>
+	<div style="display:none;" >
+		<div class="box-modal" id="a4">
+			<div class="popup">
+				<div class="popup-call__box">
+					<div class="box-modal__close articmodal-close">
+						<img src="img/close.svg" alt="" class="close__pic svg">
+					</div>
+					<div class="popup__flex d-flex">
+                        <img src="img/personal2.svg" alt="">
+						<p>
+							ПОПОЛНЕНИЕ БАЛАНСА
+						</p>
+					</div>
+					<div class="popup__block">
+						<img src="img/popup.png" alt="" class="popup__pic">
+					</div>
+					<form action="#" class="popup__form">
+						<input type="number" class="popup__input" name="sum" placeholder="0">
+						<div class="popup__wrap">
+							<div class="checkboxes-and-radios">
+								<div class="profile__item">
+									<div class="profile__one d-flex">
+										<input type="radio" name="radio-c" id="radio-1" value="1">
+										<label for="radio-1">
+											<img src="img/pay11.png" alt="">
+										</label>
+										<input type="radio" name="radio-c" id="radio-2" value="2">
+										<label for="radio-2">
+											<img src="img/pay22.png" alt="">
+										</label>
+										<input type="radio" name="radio-c" id="radio-3" value="3" checked>
+										<label for="radio-3">
+											<img src="img/pay33.png" alt="">
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button class="popup__btn bttn">
+							Пополнить
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="display:none;" >
+		<div class="box-modal" id="a3">
+			<div class="popup">
+				<div class="popup-call__box">
+					<div class="box-modal__close articmodal-close">
+						<img src="img/close.svg" alt="" class="close__pic svg">
+					</div>
+					<div class="popup__flex d-flex">
+                        <img src="img/personal3.svg" alt="">
+						<p>
+							ОФОРМЛЕНИЕ ЗАКАЗА
+						</p>
+					</div>
+					<p class="popup__text">
+						Оформление заказа продолжится в телеграм-боте! <br>
+                        Спасибо, что пользуетесь нашим сервисом!
+					</p>
+					<a href="#" class="popup__btn bttn">
+						Перейти в бот-чат
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="display:none;" >
+	<div style="display:none;" >
+		<div class="box-modal" id="a2">
+			<div class="popup">
+				<div class="popup-call__box">
+					<div class="box-modal__close articmodal-close">
+						<img src="img/close.svg" alt="" class="close__pic svg">
+					</div>
+					<div class="popup__flex d-flex">
+                        <img src="img/personal2.svg" alt="">
+						<p>
+							ПОПОЛНЕНИЕ БАЛАНСА
+						</p>
+					</div>
+					<p class="popup__text">
+						Ваш баланс пополнен успешно! <br>
+                        Дальнешее оформление заказа продолжится в чат-боте!
+					</p>
+					<a href="#" class="popup__btn bttn">
+						Перейти в бот-чат
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="display:none;" >
+		<div class="box-modal" id="a1">
+			<div class="popup">
+				<div class="popup-call__box">
+					<div class="box-modal__close articmodal-close">
+						<img src="img/close.svg" alt="" class="close__pic svg">
+					</div>
+					<div class="popup__flex d-flex">
+                        <img src="img/personal.svg" alt="">
+						<p>
+							АВТОРИЗАЦИЯ
+						</p>
+					</div>
+					<p class="popup__text">
+						Авторизируйся,  чтобы не потеряться  <br>
+                        при совершении заказа
+					</p>
+					<a href="#" class="nav__telegram">
+						<img src="img/tele.png" alt="">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js?ver=5.1"></script>
+	<!-- Подключен файл-валидатор, для проверки формы на заполненность  -->
+	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
+	<script src="js/jquery.arcticmodal-0.3.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+	<script src="js/slick.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

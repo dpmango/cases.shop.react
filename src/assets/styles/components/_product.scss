@@ -1,0 +1,315 @@
+
+/* ITEM */
+.item {
+  padding: 48px 0 50px;
+}
+
+.item h1 {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.item__content {
+  max-width: 781px;
+  width: 100%;
+  margin-left: 47px;
+}
+
+.item__box {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 74px;
+}
+
+.item__pic {
+  width: 560px;
+  height: 543px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.item__name {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  font-family: 'Radio Canada', sans-serif;
+  margin-bottom: 5px;
+}
+
+.item__text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  font-family: 'Radio Canada', sans-serif;
+}
+
+.item__text span {
+  font-weight: 600;
+}
+
+.item__el {
+  margin-bottom: 40px;
+}
+
+.item__li {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  font-family: 'Radio Canada', sans-serif;
+  margin-bottom: 4px;
+}
+
+.item__li::before {
+  content: '';
+  display: inline;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  margin-right: 5px;
+  flex: 1 0 auto;
+  max-width: 3px;
+}
+
+.item__sum {
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 41px;
+  font-family: 'Radio Canada', sans-serif;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.item__sum sup {
+  position: absolute;
+  top: -17px;
+  left: 0;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  color: #fff;
+  opacity: 0.2;
+  font-family: 'Radio Canada', sans-serif;
+  text-decoration: line-through;
+}
+
+.item__list {
+  margin-bottom: 70px;
+}
+
+.item-rev {
+  width: 100%;
+  max-width: 800px;
+}
+
+.item-rev__title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42px;
+  min-width: 255px;
+  border-bottom: 2px solid #fff;
+  margin-bottom: 35px;
+  width: max-content;
+}
+
+.item-rev .rev__item {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 37px;
+}
+
+.item-rev__info {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #fff;
+  opacity: 0.12;
+}
+
+.item-rev .rev__top {
+  margin-bottom: 14px;
+}
+
+.fire55 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: inherit;
+  width: 47%;
+  z-index: -1;
+  max-width: 1000px;
+}
+
+.item__left {
+  width: 100%;
+  max-width: 560px;
+}
+
+.item__slider .item__pic {
+  height: 100%;
+}
+
+.item__slider .item__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item__slider {
+  height: 425px;
+  margin-bottom: 23px;
+  overflow: hidden;
+}
+
+.item__item_nav {
+  width: 181px;
+  height: 98px;
+  margin: 0 4.5px;
+}
+
+.item__item_nav img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item__slider_nav {
+  margin: 0 -4.5px;
+}
+
+.item__flex {
+  width: 100%;
+  max-width: 356px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item__logos {
+  align-items: center;
+}
+
+.item__block {
+  width: 40.52px;
+  height: 29.2px;
+  background: rgb(56 64 73 / 80%);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+.item__block:nth-child(1) img {
+  width: 80%;
+}
+
+.item__block:nth-child(1) {
+  margin-left: 0;
+}
+
+
+@media screen and (max-width: 1199px) {
+  .item__box {
+    flex-direction: column;
+  }
+
+  .item__content {
+    max-width: 100%;
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .item__li {
+    width: 374px;
+    margin: 0 auto 4px;
+  }
+
+  .item__text {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .item__el {
+    margin-bottom: 20px;
+  }
+
+  .item__btn {
+    margin: 0 auto;
+  }
+
+  .item h1 {
+    margin-bottom: 40px;
+  }
+
+  .item__sum {
+    margin: -10px auto 20px;
+    width: max-content;
+  }
+
+  .item__flex {
+    margin: -10px auto 25px;
+  }
+
+  .item__flex .item__sum {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .item__pic {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .item__text {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .item h1 {
+    margin-bottom: 25px;
+    font-size: 28px;
+    line-height: 39px;
+  }
+
+  .item {
+    padding: 30px 0 50px;
+  }
+
+  .item__content {
+    text-align: left;
+  }
+
+  .item__li {
+    width: 100%;
+  }
+
+  .item__sum {
+    margin: -20px auto 20px;
+  }
+
+  .item__btn {
+    width: 100%;
+  }
+
+  .item-rev__info {
+    font-size: 14px;
+  }
+
+  .item__slider_nav {
+    display: none;
+  }
+
+  .item__slider {
+    height: auto;
+    overflow: visible;
+  }
+
+}

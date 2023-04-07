@@ -27,7 +27,7 @@ const OrderModal = () => {
               Спасибо, что пользуетесь нашим сервисом!
             </p>
             <a
-              href={`https://t.me/${internalName}?start=item_${window.item_id}`}
+              href={`https://t.me/${internalName}?start=item_${333}`}
               target={'_blank'}
               className="popup__btn bttn"
               rel="noreferrer"

@@ -21,7 +21,6 @@ export interface ISessionStore {
   footer: IFooterDto[] | null
   slider: any[] | null
   faq: IFAQDto[]
-  is_main: boolean | null
   lastPurchases: any
   internal_name: string | null
 }
@@ -32,7 +31,6 @@ const initialState: ISessionStore = {
   name: null,
   settings: {},
   user: null,
-  is_main: false,
 
   footer: null,
   slider: null,
