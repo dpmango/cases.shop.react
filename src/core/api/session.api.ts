@@ -5,64 +5,86 @@ import type {
   IProfileDto,
   ITelegramAuthDto,
 } from '@/core/interface/Initialization'
+import type { IOrderDto } from '@/core/interface/Order'
 
 // initialize
-export const initializeApp = async () => {
-  const { data, error }: IApiResponse<IInitDataDto> = await api('initialize', {})
-
-  return { data, error }
+export interface ISettingsPayload {
+  shopId: string
 }
 
-// Auth (shop)
+export const initializeApp = async ({ shopId }: ISettingsPayload) => {
+  const { data, error, raw }: IApiResponse<IInitDataDto> = await api(`settings`, {
+    params: { shopId },
+  })
+
+  return { data: raw, error }
+}
+
+// Auth (авторизация от ТГ)
 export interface IAuthPayload {
-  shopId: number
+  shopId: string
   telegram: ITelegramAuthDto
 }
 
 export const fetchAuth = async ({ shopId, telegram, ...rest }: IAuthPayload) => {
-  const { data, error }: IApiResponse<IAuthDto> = await api(`auth/${shopId}`, {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth`, {
     method: 'POST',
     body: {
       ...rest,
-      telegram,
+      shop_id: shopId,
+      user: telegram,
     },
   })
 
-  return { data, error }
+  return { data: raw, error }
 }
 
 // Auth (user token)
-export interface IUserAuthPayload {
-  token: string | null
+export interface IUserAuthRefreshPayload {
+  token: string
 }
 
-export const userAuth = async ({ token }: IUserAuthPayload) => {
-  const { data, error }: IApiResponse<IAuthDto> = await api(`auth`, {
-    method: 'PATCH',
+export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`token/refresh`, {
+    method: 'POST',
     body: {
       token,
     },
+    headers: {
+      refresh_token: token,
+    },
   })
 
-  return { data, error }
+  return { data: raw, error }
+}
+
+// User
+export const getUser = async () => {
+  const { error, raw }: IApiResponse<IProfileDto> = await api('user', {
+    body: {},
+  })
+
+  return { data: raw, error }
 }
 
 // Profile
 export const getProfile = async () => {
-  const { data, error }: IApiResponse<IProfileDto> = await api('profile', {
+  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {
     body: {},
   })
 
-  return { data, error }
+  return { data: raw, error }
 }
 
-// purchases
-export interface IPurchasesPayload {
-  shopId: number
+// Orders
+export interface OrdersPayload {
+  shopId: string
 }
 
-export const getPurchases = async ({ shopId }: IPurchasesPayload) => {
-  const { data, error }: IApiResponse<string[]> = await api(`purchases/${shopId}`, {})
+export const getOrders = async ({ shopId }: IOrdersPayload) => {
+  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(`orders`, {
+    params: { shopId },
+  })
 
-  return { data, error }
+  return { data: raw.orders, error }
 }

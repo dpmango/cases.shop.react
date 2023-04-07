@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Close from '@/assets/img/close.png'
-import Personal3 from '@/assets/img/personal3.png'
 
 const OrderModal = () => {
   const { internal_name: internalName } = useAppSelector((state) => state.sessionState)
@@ -19,7 +18,7 @@ const OrderModal = () => {
               <img src={Close} alt="" className="close__pic svg" />
             </div>
             <div className="popup__flex d-flex">
-              <img src={Personal3} alt="" />
+              <img src="@/assets/img/personal3.png" alt="" />
               <p>ОФОРМЛЕНИЕ ЗАКАЗА</p>
             </div>
             <p className="popup__text">

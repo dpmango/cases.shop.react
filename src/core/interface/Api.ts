@@ -13,4 +13,5 @@ export interface IError {
 export interface IApiResponse<T> {
   data: T | null
   error: IError | null
+  raw: T
 }

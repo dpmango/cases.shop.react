@@ -16,14 +16,13 @@ import { Page as RestPage } from '@/pages/rest.page'
 import { Page as ReviewPage } from '@/pages/reviews/reviews.page'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { name } = useAppSelector((state) => state.sessionState)
-
+  const { name, id: shopId } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
   const location = usePageContext()
 
   const getInitdata = async () => {
-    const { data } = await initializeApp()
+    const { data } = await initializeApp({ shopId })
 
     if (data) {
       Object.keys(data).forEach((key) => {
@@ -49,7 +48,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getInitdata()
-    // window.scrollTo(0, 0)
+    window && window.scrollTo(0, 0)
   }, [location])
 
   return (

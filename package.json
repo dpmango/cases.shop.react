@@ -64,6 +64,7 @@
     "unplugin-auto-import": "^0.15.2",
     "vite": "^4.2.1",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-mkcert": "^1.14.0",
     "vite-plugin-singlefile": "^0.13.5",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-svg-loader": "^4.0.0"

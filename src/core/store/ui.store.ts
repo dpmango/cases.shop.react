@@ -1,6 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-
+import * as toolkitRaw from '@reduxjs/toolkit'
 export interface IUiState {
   modal: string[]
   modalParams: Record<string, never> | null
@@ -11,11 +9,11 @@ const initialState: IUiState = {
   modalParams: {},
 }
 
-export const uiState = createSlice({
+export const uiState = toolkitRaw.createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setModal(state, action: PayloadAction<{ name: string; params?: any }>) {
+    setModal(state, action: toolkitRaw.PayloadAction<{ name: string; params?: any }>) {
       state.modal = [action.payload.name]
       state.modalParams = action.payload.params || {}
     },

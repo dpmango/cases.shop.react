@@ -2,7 +2,7 @@ import { fetchAuth, getProfile } from '@/core/api/session.api'
 import { IProfileDto, ITelegramAuthDto } from '~/src/core/interface/Initialization'
 
 export interface IUseTelegramAuth {
-  shopId: number
+  shopId: string
   cb: (x: IProfileDto) => void
 }
 

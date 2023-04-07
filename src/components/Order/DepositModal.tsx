@@ -51,6 +51,28 @@ const DepositModal = () => {
                 max={99999}
                 onChange={(e) => setAmount(e.target.value)}
               />
+
+              <div className="popup__wrap">
+                <div className="checkboxes-and-radios">
+                  <div className="profile__item">
+                    <div className="profile__one d-flex">
+                      <input type="radio" name="radio-c" id="radio-1" value="1" />
+                      <label htmlFor="radio-1">
+                        <img src="@/assets/img/pay11.png" alt="" />
+                      </label>
+                      <input type="radio" name="radio-c" id="radio-2" value="2" />
+                      <label htmlFor="radio-2">
+                        <img src="@/assets/img/pay22.png" alt="" />
+                      </label>
+                      <input type="radio" name="radio-c" id="radio-3" value="3" checked />
+                      <label htmlFor="radio-3">
+                        <img src="@/assets/img/pay33.png" alt="" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <button type="submit" className="popup__btn bttn">
                 Пополнить
               </button>

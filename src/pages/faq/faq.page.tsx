@@ -1,5 +1,9 @@
+import { AccardeonPanel } from '@c/Atom'
+import { ClientOnly } from '@c/Ui'
+
 export const Page = () => {
   const { faq, settings } = useAppSelector((state) => state.sessionState)
+  const [activeAccardeon, setActiveAccardeon] = useState<number | null>(null)
 
   return (
     <div
@@ -39,20 +43,19 @@ export const Page = () => {
             </div>
 
             <p className="faq__name">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</p>
-            <ul className="accordeon">
-              {faq ? (
-                faq.map((item, index) => (
-                  <li className="accordeon__item" key={index}>
-                    <div className="accordeon__button closed">{item.question}</div>
-                    <ul className="accordeon__panel">
-                      <li className="accardeon__text">{item.answer}</li>
-                    </ul>
-                  </li>
-                ))
-              ) : (
-                <></>
-              )}
-            </ul>
+            <ClientOnly>
+              <ul className="accordeon">
+                {faq &&
+                  faq.map((faqitem, idx) => (
+                    <AccardeonPanel
+                      key={idx}
+                      faqitem={faqitem}
+                      isActive={activeAccardeon === idx}
+                      handleToggle={() => setActiveAccardeon(idx)}
+                    />
+                  ))}
+              </ul>
+            </ClientOnly>
           </div>
         </div>
       </section>

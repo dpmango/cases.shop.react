@@ -29,7 +29,7 @@ export const api = async (
     if (accessToken) {
       requestOptions.headers = {
         ...requestOptions.headers,
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `${accessToken}`,
       }
     }
 
@@ -45,17 +45,14 @@ export const api = async (
       requestUrl = url
     }
 
-    const { data, message, response, errorCode, statusCode, ...raw } = await ofetch(
-      requestUrl,
-      requestOptions,
-    )
+    const { data, msg, status, errorCode, ...raw } = await ofetch(requestUrl, requestOptions)
 
     console.log(`👌 fetch ${url} ${JSON.stringify(requestOptions.params)}`, data)
 
-    if (response && statusCode === 200) {
-      return { data, raw, message, error: null }
+    if (status) {
+      return { data, raw, message: msg, error: null }
     } else {
-      const fetchWithNoResponse = new Error(message)
+      const fetchWithNoResponse = new Error(msg)
       // @ts-ignore
       fetchWithNoResponse.status = errorCode
       throw fetchWithNoResponse
@@ -81,7 +78,7 @@ export const api = async (
     }
 
     if (err?.status === 5) {
-      const { data } = await userAuth({ token: localStorage.getItem('refresh_token') })
+      const { data } = await userAuthRefresh({ token: localStorage.getItem('refresh_token') })
 
       if (data) {
         localStorage.setItem('access_token', data.access_token)

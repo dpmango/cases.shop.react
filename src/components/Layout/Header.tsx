@@ -2,7 +2,7 @@ import { SvgIcon } from '@c/Ui'
 import React, { useEffect, useState } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
-import { getPurchases } from '@/core/api/session.api'
+import { getOrders } from '@/core/api/session.api'
 import { IProfileDto } from '@/core/interface/Initialization'
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
   useEffect(() => {
     if (lastPurchases === null && shopId) {
       const fetchData = async () => {
-        const { data } = await getPurchases({ shopId })
+        const { data } = await getOrders({ shopId })
         if (data) {
           dispatch(updateAnyState({ key: 'lastPurchases', data }))
         }
@@ -86,7 +86,6 @@ const Header = () => {
               </div>
             </div>
           )}
-
           {user ? (
             <div className="nav__add d-flex">
               <a

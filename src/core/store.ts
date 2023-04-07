@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import * as toolkitRaw from '@reduxjs/toolkit'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -15,7 +15,7 @@ import uiState from '@/core/store/ui.store'
 // })
 
 export const getStore = (preloadedState?: any) => {
-  return configureStore({
+  return toolkitRaw.configureStore({
     reducer: {
       sessionState,
       productState,

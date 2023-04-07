@@ -1,4 +1,3 @@
-
 .accordeon {
   max-width: 1000px;
   margin: 0 auto;
@@ -29,7 +28,7 @@
 }
 
 .accordeon__button:hover::after {
-  background: url("../img/arr-down2.svg") no-repeat;
+  background: url('../img/arr-down2.svg') no-repeat;
 }
 
 .accordeon__button::after {
@@ -37,7 +36,7 @@
   position: absolute;
   right: inherit;
   left: 25px;
-  background: url("../img/arr-down.svg") no-repeat;
+  background: url('../img/arr-down.svg') no-repeat;
   width: 46px;
   height: 44px;
   bottom: 23%;
@@ -55,7 +54,7 @@
   position: absolute;
   right: inherit;
   left: 25px;
-  background: url("../img/arr-top.svg") no-repeat;
+  background: url('../img/arr-top.svg') no-repeat;
   width: 46px;
   height: 44px;
   bottom: 21%;
@@ -64,16 +63,19 @@
 }
 
 .accordeon__panel {
-  max-height: 0;
+  height: 0;
   overflow: hidden;
   padding: 0 40px 0 94px;
   margin-left: 0;
-  transition: all 0.5s ease;
   background: #232834;
   border-radius: 4px;
-  margin-top: -3px;
-}
+  // margin-top: -3px;
+  transition: height 0.25s ease;
 
+  &._active {
+    height: 100%;
+  }
+}
 
 .accardeon__text {
   list-style-type: none;
@@ -84,8 +86,6 @@
   max-width: 897px;
   padding-bottom: 40px;
 }
-
-
 
 @media screen and (max-width: 767px) {
   .accordeon__button {
@@ -98,15 +98,14 @@
     padding: 20px 20px 20px 50px !important;
     font-size: 16px;
   }
-  
+
   .accordeon__button::after {
     left: 6px !important;
     bottom: 32% !important;
     background-size: 30px !important;
   }
-  
+
   .accordeon__panel {
     padding-left: 51px;
   }
 }
-

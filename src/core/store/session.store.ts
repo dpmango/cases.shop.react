@@ -1,5 +1,5 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import * as toolkitRaw from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { fetchAuth, initializeApp } from '@/core/api/session.api'
@@ -13,7 +13,7 @@ import {
 
 export interface ISessionStore {
   initializationPending: boolean
-  id: number
+  id: string
   name: string | null
   settings: ISettingsDto | Record<string, never>
   user: IProfileDto | null
@@ -22,12 +22,12 @@ export interface ISessionStore {
   slider: any[] | null
   faq: IFAQDto[]
   lastPurchases: any
-  internal_name: string | null
+  internal_name: string
 }
 
 const initialState: ISessionStore = {
   initializationPending: true,
-  id: 3,
+  id: 'MurcciTGBot',
   name: null,
   settings: {},
   user: null,
@@ -36,28 +36,31 @@ const initialState: ISessionStore = {
   slider: null,
   faq: [],
 
-  internal_name: null,
+  internal_name: 'ShopCoreWeb_bot',
   lastPurchases: null,
 }
 
 // thunks
-export const startApp = createAsyncThunk('session/startapp', async () => {
-  const { data } = await initializeApp()
+export const startApp = createAsyncThunk(
+  'session/startapp',
+  async ({ shopId }: { shopId: string }) => {
+    const { data } = await initializeApp({ shopId })
 
-  return data
-})
+    return data
+  },
+)
 
-export const sessionState = createSlice({
+export const sessionState = toolkitRaw.createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setUser(state, action: PayloadAction<IProfileDto>) {
+    setUser(state, action: toolkitRaw.PayloadAction<IProfileDto>) {
       state.user = { ...action.payload }
     },
-    resetState(state, action: PayloadAction) {
+    resetState(state, action: toolkitRaw.PayloadAction) {
       Cookies.remove('auth')
     },
-    updateAnyState(state, action: PayloadAction<{ key: string; data: any }>) {
+    updateAnyState(state, action: toolkitRaw.PayloadAction<{ key: string; data: any }>) {
       if (Array.isArray(action.payload.data)) {
         // @ts-ignore
         state[action.payload.key] = [...action.payload.data]
@@ -74,16 +77,19 @@ export const sessionState = createSlice({
     builder.addCase(startApp.pending, (state) => {
       state.initializationPending = true
     })
-    builder.addCase(startApp.fulfilled, (state, action: PayloadAction<IInitDataDto | null>) => {
-      state.initializationPending = false
+    builder.addCase(
+      startApp.fulfilled,
+      (state, action: toolkitRaw.PayloadAction<IInitDataDto | null>) => {
+        state.initializationPending = false
 
-      if (action.payload) {
-        state = {
-          ...state,
-          ...action.payload,
+        if (action.payload) {
+          state = {
+            ...state,
+            ...action.payload,
+          }
         }
-      }
-    })
+      },
+    )
   },
 })
 

@@ -3,10 +3,12 @@ import type { IProductDto, IProductListDto } from '@/core/interface/Product'
 
 // get prodcuts
 export interface IProductsPayload {
-  shopId: number
+  shopId: string
 }
 export const getProducts = async ({ shopId }: IProductsPayload) => {
-  const { data, error }: IApiResponse<IProductListDto> = await api(`items/${shopId}`, {})
+  const { error, raw }: IApiResponse<{ categories: IProductListDto }> = await api(`items`, {
+    params: { shopId },
+  })
 
-  return { data, error }
+  return { data: raw.categories, error }
 }

@@ -22,12 +22,7 @@ export interface ISettingsDto {
   use_space: string
 }
 
-export interface IFAQDto {
-  id: number
-  question: string
-  answer: string
-  position: number
-}
+export type IFAQDto = string[]
 
 export interface IFooterDto {
   id: number
