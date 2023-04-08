@@ -1,7 +1,9 @@
-import { PageDecoration } from '@c/Layout'
-import { ReviewCard } from '@c/Review'
-import { SvgIcon, UiButton, UiLink } from '@c/Ui'
 import { useEffect } from 'react'
+
+import { AtomHeading } from '@/components/Atom'
+import { PageDecoration } from '@/components/Layout'
+import { ReviewCard } from '@/components/Review'
+import { SvgIcon, UiButton, UiLoader } from '@/components/Ui'
 
 export const documentProps = {
   title: 'Отзывы',
@@ -21,23 +23,23 @@ export const Page = () => {
 
   return (
     <PageDecoration sectionClassName="reviews">
-      <div className="container">
-        <div className="reviews__head head">
-          <UiLink href="/" className="head__back">
-            <SvgIcon name="caret-left" />
-            <span>НА ГЛАВНУЮ</span>
-          </UiLink>
-          <div className="h1-title head__title">ОТЗЫВЫ</div>
-        </div>
+      <div className="container _narrow">
+        <AtomHeading className="reviews__head" useBack={true}>
+          <h1 className="h1-title">ОТЗЫВЫ</h1>
+        </AtomHeading>
 
         <div className="reviews__wrapper">
           <div className="reviews__box">
-            {reviews && reviews.map((el, key) => <ReviewCard key={key} {...el} />)}
+            {reviews ? (
+              reviews.map((el, key) => <ReviewCard key={key} {...el} />)
+            ) : (
+              <UiLoader theme="page" loading={true} />
+            )}
           </div>
 
-          <div className="reviews__more">
+          {/* <div className="reviews__more">
             <UiButton>Загрузить больше</UiButton>
-          </div>
+          </div> */}
         </div>
       </div>
     </PageDecoration>

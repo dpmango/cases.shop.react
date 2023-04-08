@@ -1,7 +1,8 @@
-import { PageSlider } from '@c/Content'
-import { PageDecoration } from '@c/Layout'
-import { Categories, ProductCard } from '@c/Product'
 import React, { useEffect } from 'react'
+
+import { PageDecoration } from '@/components/Layout'
+import { ProductsSlider } from '@/components/Product'
+import { Categories, ProductCard } from '@/components/Product'
 
 export const documentProps = {
   title: 'Главная',
@@ -23,7 +24,7 @@ export const Page: React.FC = () => {
     <PageDecoration sectionClassName="home">
       <img src={settings.background_image} alt="" className="home__fire" />
       <div className="container">
-        <PageSlider />
+        <ProductsSlider />
 
         <Categories />
       </div>

@@ -1,4 +1,5 @@
 export { default as Categories } from './Categories'
+export { default as ProductPage } from './Page/ProductPage'
+export { default as ProductReviews } from './Page/ProductReviews'
 export { default as ProductCard } from './ProductCard'
-export { default as ProductPage } from './ProductPage'
-export { default as ProductReviews } from './ProductReviews'
+export { default as ProductsSlider } from './ProductsSlider/ProductsSlider'

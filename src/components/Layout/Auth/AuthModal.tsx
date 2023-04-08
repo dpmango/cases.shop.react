@@ -1,5 +1,6 @@
-import { UiModal } from '@c/Ui'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
+
+import { UiModal } from '@/components/Ui'
 
 const LoginModal = () => {
   const { id: shopId } = useAppSelector((state) => state.sessionState)

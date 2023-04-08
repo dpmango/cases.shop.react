@@ -21,7 +21,7 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
       </div>
 
       <div className="product-card__block">
-        <p className="product-card__sum">
+        <p className="product-card__price">
           {salePrice} Р{price !== salePrice ? <sup>{price} P </sup> : ''}
         </p>
       </div>

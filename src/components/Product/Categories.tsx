@@ -1,7 +1,6 @@
 import './_home.scss'
 
-import { ProductCard } from '@c/Product'
-
+import { ProductCard } from '@/components/Product'
 import { IProductDto } from '@/core/interface/Product'
 
 const Categories: React.FC = () => {
@@ -17,7 +16,10 @@ const Categories: React.FC = () => {
             <div className="home__category" key={idx}>
               {idx === 1 && <img src="img/decor/blue.png" alt="" className="home__category-bg" />}
 
-              <h2 className="home__category-title">{category}</h2>
+              <h2 className="h4-title home__category-title">
+                <span>{category}</span>
+              </h2>
+
               <div className="home__category-box">
                 {items[category]?.length &&
                   items[category].map((card: IProductDto, idx) => (

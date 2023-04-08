@@ -68,11 +68,11 @@
     height: 3px;
     max-width: 3px;
     margin-right: 5px;
-    background: white;
+    background: #fff;
     border-radius: 50%;
   }
 
-  &__sum {
+  &__price {
     position: relative;
     margin-bottom: 16px;
     font-family: var(--font-canada);
@@ -81,7 +81,7 @@
     line-height: 41px;
   }
 
-  &__sum sup {
+  &__price sup {
     position: absolute;
     top: -17px;
     left: 0;
@@ -199,16 +199,6 @@
   margin-bottom: 14px;
 }
 
-.fire55 {
-  position: absolute;
-  left: inherit;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  width: 47%;
-  max-width: 1000px;
-}
-
 @include r($xl) {
   .product {
     &__box {
@@ -245,7 +235,7 @@
       margin-bottom: 40px;
     }
 
-    &__sum {
+    &__price {
       width: max-content;
       margin: -10px auto 20px;
     }
@@ -254,7 +244,7 @@
       margin: -10px auto 25px;
     }
 
-    &__flex .product__sum {
+    &__flex .product__price {
       margin: 0;
     }
   }
@@ -293,7 +283,7 @@
       width: 100%;
     }
 
-    &__sum {
+    &__price {
       margin: -20px auto 20px;
     }
 

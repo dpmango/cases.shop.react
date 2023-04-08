@@ -1,6 +1,7 @@
-import { UiButton, UiInput, UiModal } from '@c/Ui'
 import cns from 'classnames'
 import React, { useEffect, useMemo, useState } from 'react'
+
+import { UiButton, UiInput, UiModal } from '@/components/Ui'
 
 const DepositModal = () => {
   const [amount, setAmount] = useState(0)

@@ -1,19 +1,19 @@
-import { SvgIcon } from '@c/Ui'
+import cns from 'classnames'
 import React, { useEffect, useState } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
-import { getOrders } from '@/core/api/session.api'
+import { PurchasesSlider } from '@/components/Order'
+import { SvgIcon } from '@/components/Ui'
 import { IProfileDto } from '@/core/interface/Initialization'
 
 const Header = () => {
-  const [purchasesList, setPurchasesList] = useState<string[]>([])
+  const [scrolled, setScrolled] = useState(false)
 
   const {
     id: shopId,
     settings,
     user,
     bot_connector_name,
-    lastPurchases,
   } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
@@ -21,103 +21,80 @@ const Header = () => {
     dispatch(updateAnyState({ key: 'user', data }))
   }
 
-  useEffect(() => {
-    if (lastPurchases === null && shopId) {
-      const fetchData = async () => {
-        const { data } = await getOrders({ shopId })
-        if (data) {
-          dispatch(updateAnyState({ key: 'lastPurchases', data }))
-        }
-      }
-      fetchData()
-    }
-  }, [shopId])
-
-  useEffect(() => {
-    if (lastPurchases !== null) {
-      if (lastPurchases.length < 7) {
-        const newPurchases = [] as string[]
-
-        for (let i = 0; i < 7; i++) {
-          newPurchases.push(lastPurchases[i] ?? '')
-        }
-
-        setPurchasesList(newPurchases)
-      } else {
-        setPurchasesList(lastPurchases)
-      }
-    }
-  }, [lastPurchases])
-
   const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
+
+  // scroll functions
+  const updateSticky = useCallback(() => {
+    const startStickyAt = 0
+
+    console.log({ scroll: window.scrollY })
+    if (window.scrollY > startStickyAt) {
+      setScrolled(true)
+    } else {
+      setScrolled(false)
+    }
+  }, [scrolled])
+
+  useEventListener('scroll', updateSticky)
+  // useEventListener('resize', updateSticky)
 
   return (
     <header
-      className="header"
+      className={cns('header', scrolled && '_scrolled')}
       style={{
         background: settings.header_color,
       }}
     >
       <div className="container _full">
-        <div className="header__box">
-          {lastPurchases && purchasesList && (
-            <div className="header__info">
-              <div className="header__content">
-                <a href="#" className="header__link">
-                  <SvgIcon name="star" />
-                </a>
-                <a href="#" className="header__link">
-                  <SvgIcon name="menu" />
-                </a>
-              </div>
+        <div className="header__wrapper">
+          <div className="header__main">
+            <div className="header__actions">
+              <span className="header__action-link">
+                <SvgIcon name="star" />
+              </span>
+              <span className="header__action-link">
+                <SvgIcon name="menu" />
+              </span>
+            </div>
 
-              <div className="header__boxes">
-                {purchasesList?.map((item, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      background: `url(${item}) no-repeat center center / cover`,
-                      visibility: item ? 'visible' : 'hidden',
-                    }}
-                    className="header__block"
-                  ></div>
-                ))}
+            <PurchasesSlider className="header__purchases" />
+          </div>
+
+          <div className="header__auth">
+            {user ? (
+              <div className="header-user header__user">
+                <a
+                  className="header-user__wrapper"
+                  onClick={() => {
+                    dispatch(setModal({ name: 'deposit' }))
+                  }}
+                >
+                  <div className="header-user__cash">
+                    <SvgIcon name="wallet" />
+                  </div>
+                  <div className="header-user__plus">
+                    <SvgIcon name="plus" />
+                  </div>
+                </a>
+                <div className="header-user__right">
+                  <p className="header-user__name">@{user.userName}</p>
+                  <p className="header-user__balance">{user.balance}P</p>
+                </div>
               </div>
-            </div>
-          )}
-          {user ? (
-            <div className="header__add ">
-              <a
-                className="header__log "
-                onClick={() => {
-                  dispatch(setModal({ name: 'deposit' }))
-                }}
-              >
-                <div className="header__cash">
-                  <SvgIcon name="wallet" />
-                </div>
-                <div className="header__plus">
-                  <SvgIcon name="plus" />
-                </div>
+            ) : (
+              <a className="header__telegram">
+                <TLoginButton
+                  botName={bot_connector_name}
+                  buttonSize={TLoginButtonSize.Large}
+                  lang="ru"
+                  usePic={false}
+                  cornerRadius={20}
+                  onAuthCallback={onAuthSuccess}
+                  requestAccess={'write'}
+                />
               </a>
-              <div className="header__right">
-                <p className="header__name">@{user.userName}</p>
-                <p className="header__sum">{user.balance}P</p>
-              </div>
-            </div>
-          ) : (
-            <a className="header__telegram">
-              <TLoginButton
-                botName={bot_connector_name}
-                buttonSize={TLoginButtonSize.Large}
-                lang="ru"
-                usePic={false}
-                cornerRadius={20}
-                onAuthCallback={onAuthSuccess}
-                requestAccess={'write'}
-              />
-            </a>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </header>

@@ -1,4 +1,5 @@
-import { AuthModal, DepositModal, DepositSuccessModal, OrderModal } from '@c/Order'
+import { AuthModal } from '@/components/Layout'
+import { DepositModal, DepositSuccessModal } from '@/components/Order'
 
 const SharedModals = () => {
   return (

@@ -22,16 +22,16 @@
 
     &:active {
       color: rgb(0 0 0 / 80%);
-      background: white;
+      background: #fff;
     }
 
     &[disabled] {
-      color: rgba(black, 0.3);
+      color: rgb(#000, 0.3);
       cursor: not-allowed;
       pointer-events: none;
 
       &:hover {
-        color: rgba(black, 0.3);
+        color: rgb(#000, 0.3);
         background: transparent;
       }
     }

@@ -1,8 +1,10 @@
-import { PageDecoration } from '@c/Layout'
-import { OrderModal } from '@c/Order'
-import { ProductPage } from '@c/Product'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
+
+import { PageDecoration } from '@/components/Layout'
+import { OrderModal } from '@/components/Order'
+import { ProductPage } from '@/components/Product'
+import { UiLoader } from '@/components/Ui'
 
 export const documentProps = {
   title: '[Товар]',
@@ -43,7 +45,12 @@ export const Page: React.FC = () => {
 
   return (
     <PageDecoration sectionClassName="product">
-      {selectedItem && <ProductPage product={selectedItem} />}
+      {selectedItem ? (
+        <ProductPage product={selectedItem} />
+      ) : (
+        <UiLoader theme="page" loading={true} />
+      )}
+
       <OrderModal />
     </PageDecoration>
   )

@@ -1,5 +1,6 @@
-import { ReviewCard } from '@c/Review'
 import React, { useEffect, useState } from 'react'
+
+import { ReviewCard } from '@/components/Review'
 
 const ProductReviews: React.FC = () => {
   const { items, reviews } = useAppSelector((state) => state.productState)

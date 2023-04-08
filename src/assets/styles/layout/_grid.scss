@@ -1,3 +1,18 @@
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > main {
+    flex: 1 0 auto;
+  }
+
+  > footer {
+    margin-top: auto;
+  }
+}
+
 .container {
   width: 100%;
   max-width: var(--container-main);
@@ -8,6 +23,10 @@
 
   &._full {
     max-width: 100%;
+  }
+
+  &._wide {
+    max-width: var(--container-wide);
   }
 
   &._narrow {

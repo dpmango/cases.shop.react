@@ -11,7 +11,7 @@ interface ICheckboxProps {
   variant: 'default' | 'muted'
   error?: boolean | string
   onChange: () => void
-  children: React.ReactElement
+  children: ReactSlot
 }
 
 const Checkbox = ({

@@ -10,23 +10,28 @@ import { AppWrapper } from '../src/components/Layout'
 import { getStore } from '../src/core/store'
 import type { PageContextServer } from './types'
 
-const passToClient = ['pageProps', 'PRELOADED_STATE']
+const passToClient = ['pageProps', 'urlPathname', 'PRELOADED_STATE']
+
+// export async function onBeforeRender(pageContext: PageContextServer) {
+//   console.log('server::default onBeforeRender')
+//   return null
+// }
 
 async function render(pageContext: PageContextServer) {
   const { Page, pageProps, urlPathname, PRELOADED_STATE } = pageContext
   // This render() hook only supports SSR, see https://vite-plugin-ssr.com/render-modes for how to modify render() to support SPA
-  if (!Page) throw new Error('My render() hook expects pageContext.Page to be defined')
+  // if (!Page) throw new Error('My render() hook expects pageContext.Page to be defined')
 
-  const store = getStore(PRELOADED_STATE)
-  const pageHtml = ReactDOMServer.renderToString(
-    <StaticRouter location={urlPathname}>
-      <Provider store={store}>
-        <AppWrapper pageContext={pageContext}>
-          <Page {...pageProps} />
-        </AppWrapper>
-      </Provider>
-    </StaticRouter>,
-  )
+  // const store = getStore(PRELOADED_STATE)
+  // const pageHtml = ReactDOMServer.renderToString(
+  //   <StaticRouter location={urlPathname}>
+  //     <Provider store={store}>
+  //       <AppWrapper pageContext={pageContext}>
+  //         <Page {...pageProps} />
+  //       </AppWrapper>
+  //     </Provider>
+  //   </StaticRouter>,
+  // )
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext.exports
@@ -46,9 +51,11 @@ async function render(pageContext: PageContextServer) {
         <title>${title}</title>
       </head>
       <body class="theme-main">
-        <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
+        <div id="react-app"></div>
       </body>
     </html>`
+
+  // ${dangerouslySkipEscape(pageHtml)} - pass into react-app for SSR
 
   return {
     documentHtml,

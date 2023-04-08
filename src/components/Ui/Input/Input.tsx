@@ -1,10 +1,10 @@
 import './_input.scss'
 
-import { SvgIcon } from '@c/Ui'
 import cns from 'classnames'
 import { nanoid } from 'nanoid'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 
+import { SvgIcon } from '@/components/Ui'
 import { useEventListener } from '@/core/hooks/useEventListener'
 import { IUiInput } from '@/core/interface/Ui'
 
@@ -23,7 +23,9 @@ const Input: React.FC<IUiInput> = ({
 }) => {
   const [focused, setFocused] = useState(false)
 
-  const id = nanoid()
+  const id = useMemo(() => {
+    return nanoid()
+  }, [])
 
   const onInputChange = useCallback(
     (e: InputEvent) => {

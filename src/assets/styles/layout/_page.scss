@@ -1,64 +1,31 @@
-.page {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-
-  > main {
-    flex: 1 0 auto;
-  }
-
-  > footer {
-    margin-top: auto;
-  }
-}
-
-.head {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &__back {
-    position: absolute;
-    display: inline-flex;
-    top: 50%;
-    left: 0;
-    justify-content: flex-start;
-    align-items: center;
-    width: 120px;
-    color: rgb(255 255 255 / 31%);
-    transform: translateY(-50%);
-    transition: color 0.25s $ease;
-
-    .svg-icon {
-      flex: 0 0 auto;
-      margin-right: 6px;
-      font-size: 13px;
-    }
-
-    span {
-      flex: 0 0 auto;
-    }
-
-    &:hover {
-      color: var(--color-primary);
-    }
-  }
-
-  &__title {
-    margin: 0 auto;
-    padding: 0 120px;
-    text-align: center;
-  }
-}
-
 .fire {
   position: absolute;
-  left: 0;
-  bottom: 0;
   z-index: 1;
   width: 100%;
+
+  &._bottom_left {
+    left: 0;
+    bottom: 0;
+  }
+
+  &._bottom_right {
+    right: 0;
+    bottom: 0;
+  }
+
+  &._top_left {
+    top: 0;
+    left: 0;
+  }
+
+  &._top_right {
+    top: 0;
+    right: 0;
+  }
+
+  &._bottom {
+    bottom: 0;
+  }
 }
 
 .fire2 {
@@ -66,9 +33,14 @@
 }
 
 .fire3 {
-  left: inherit !important;
-  right: 0;
   max-width: 600px;
+}
+
+.fire55 {
+  position: absolute;
+  z-index: -1;
+  width: 47%;
+  max-width: 1000px;
 }
 
 @include r($hdplus) {
@@ -77,9 +49,10 @@
   }
 }
 
-@include r($hd) {
+@include r(1499) {
   .fire2 {
-    max-width: 640px;
+    // max-width: 640px;
+    max-width: calc(100vw / 2);
   }
 
   .fire3 {
@@ -113,4 +86,8 @@
   .fire2 {
     max-width: 190px;
   }
+}
+
+.swiper {
+  user-select: none;
 }

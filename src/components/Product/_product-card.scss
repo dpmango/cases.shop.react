@@ -1,6 +1,10 @@
 .product-card {
   position: relative;
+  display: block;
+  display: flex;
   z-index: 3;
+  flex-direction: column;
+  align-items: center;
   width: 21%;
   margin-bottom: 85px;
   transition: all 0.25s $ease;
@@ -50,7 +54,7 @@
     transition: all 0.25s $ease;
   }
 
-  &__sum {
+  &__price {
     position: relative;
     font-family: var(--font-canada);
     font-weight: 600;
@@ -58,18 +62,18 @@
     line-height: 26px;
     text-align: center;
     color: rgb(0 0 0 / 80%);
-  }
 
-  &__sum sup {
-    position: absolute;
-    top: -8px;
-    right: 0;
-    font-family: var(--font-canada);
-    font-weight: 600;
-    font-size: 10px;
-    line-height: 12px;
-    text-decoration: line-through;
-    color: rgb(0 0 0 / 30%);
+    sup {
+      position: absolute;
+      top: -8px;
+      right: 0;
+      font-family: var(--font-canada);
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 12px;
+      text-decoration: line-through;
+      color: rgb(0 0 0 / 30%);
+    }
   }
 
   &:hover {

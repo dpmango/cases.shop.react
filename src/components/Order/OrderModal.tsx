@@ -1,6 +1,7 @@
-import { UiButton, UiModal } from '@c/Ui'
 import React from 'react'
 import { useParams } from 'react-router'
+
+import { UiButton, UiModal } from '@/components/Ui'
 
 const OrderModal = () => {
   const { telegram_bot_link } = useAppSelector((state) => state.sessionState)

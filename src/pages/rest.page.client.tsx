@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import remarkGfm from 'remark-gfm'
 
 export const documentProps = {
-  title: 'Текстовая',
+  title: 'Текстовая1',
   description: 'Описание страницы',
 }
 

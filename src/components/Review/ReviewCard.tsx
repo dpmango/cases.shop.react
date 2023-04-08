@@ -3,11 +3,21 @@ import React, { useEffect } from 'react'
 import { IReviewDto } from '@/core/interface/Review'
 
 export const ReviewCard = (review: IReviewDto) => {
+  const [hideAvatar, setHideAvatar] = useState(false)
+
   return (
     <div className="rev-card">
       <div className="rev-card__top">
         <div className="rev-card__ava">
-          <img src={review.photo_url} alt={review.nick} />
+          {!hideAvatar && (
+            <img
+              src={review.ava}
+              alt={review.nick}
+              onError={() => {
+                setHideAvatar(true)
+              }}
+            />
+          )}
         </div>
 
         <div className="rev-card__content">

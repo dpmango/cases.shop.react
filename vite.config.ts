@@ -17,11 +17,11 @@ export default ({ mode }) => {
 
   return defineConfig({
     publicDir: 'public',
-    server: {
-      https: true,
-    },
+    // server: {
+    //   https: true,
+    // },
     plugins: [
-      mkcert(),
+      // mkcert(),
       AutoImport({
         include: [
           /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -59,6 +59,10 @@ export default ({ mode }) => {
         '@utils': fileURLToPath(new URL('./src/core/utils', import.meta.url)),
         '@store': fileURLToPath(new URL('./src/core/store', import.meta.url)),
       },
+    },
+
+    ssr: {
+      noExternal: ['@reduxjs/toolkit'],
     },
 
     css: {

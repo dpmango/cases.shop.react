@@ -1,14 +1,15 @@
 import './_modal.scss'
 
-import { SvgIcon } from '@c/Ui'
 import cns from 'classnames'
 import { useEffect } from 'react'
+
+import { SvgIcon } from '@/components/Ui'
 
 interface IModalProps {
   name: string
   title?: string
   titleIcon?: string
-  children: React.ReactElement[] | React.ReactElement
+  children: ReactSlot
 }
 
 const Modal: React.FC<IModalProps> = ({ name, title, titleIcon, children }) => {

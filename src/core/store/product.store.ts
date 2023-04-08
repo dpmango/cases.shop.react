@@ -1,5 +1,4 @@
-import * as toolkitRaw from '@reduxjs/toolkit'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { IProductListDto } from '../interface/Product'
@@ -21,7 +20,7 @@ const initialState: IProductStore = {
 
 // thunks
 export const getProductThunk = createAsyncThunk(
-  'product/get',
+  'prodcut/getProductThunk',
   async ({ shopId }: { shopId: string }) => {
     const { data } = await getProducts({ shopId })
 
@@ -30,7 +29,7 @@ export const getProductThunk = createAsyncThunk(
 )
 
 export const getReviewsThunk = createAsyncThunk(
-  'reviews/get',
+  'product/getReviewsThunk',
   async ({ shopId }: { shopId: string }) => {
     const { data } = await getReviews({ shopId })
 
@@ -38,11 +37,11 @@ export const getReviewsThunk = createAsyncThunk(
   },
 )
 
-export const productState = toolkitRaw.createSlice({
+export const productState = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    updateReviews(state, action: toolkitRaw.PayloadAction<IReviewDto[]>) {
+    updateReviews(state, action: PayloadAction<IReviewDto[]>) {
       state.reviews = [...action.payload]
     },
   },
@@ -53,7 +52,7 @@ export const productState = toolkitRaw.createSlice({
     })
     builder.addCase(
       getProductThunk.fulfilled,
-      (state, action: toolkitRaw.PayloadAction<IProductListDto | null>) => {
+      (state, action: PayloadAction<IProductListDto | null>) => {
         if (action.payload) {
           state.items = {
             ...action.payload,
@@ -69,7 +68,7 @@ export const productState = toolkitRaw.createSlice({
     })
     builder.addCase(
       getReviewsThunk.fulfilled,
-      (state, action: toolkitRaw.PayloadAction<IReviewDto[] | null>) => {
+      (state, action: PayloadAction<IReviewDto[] | null>) => {
         if (action.payload) {
           state.reviews = [...action.payload]
         }

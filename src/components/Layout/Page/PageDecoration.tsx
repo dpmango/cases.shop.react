@@ -18,32 +18,32 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
         return [
           {
             image: settings.footer_image,
-            className: 'fire',
+            className: 'fire _bottom',
           },
         ]
       case 'faq':
         return [
           {
             image: settings.faq_left_footer_image,
-            className: 'fire fire2',
+            className: 'fire fire2 _bottom_left',
           },
           {
             image: settings.faq_right_footer_image,
-            className: 'fire fire2',
+            className: 'fire fire3 _bottom_right',
           },
         ]
       case 'product':
         return [
           {
             image: settings.item_right_footer_image,
-            className: 'fire55',
+            className: 'fire fire55 _bottom_right',
           },
         ]
       case 'reviews':
         return [
           {
             image: settings.reviews_footer_image,
-            className: 'fire',
+            className: 'fire _bottom_left',
           },
         ]
 

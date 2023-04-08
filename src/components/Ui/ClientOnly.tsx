@@ -1,7 +1,7 @@
 import React from 'react'
 import { Fragment, lazy, useEffect, useState } from 'react'
 
-const ClientOnly = ({ children }: { children: React.ReactElement }) => {
+const ClientOnly = ({ children }: { children: ReactSlot }) => {
   const [isMounted, setMount] = useState(false)
 
   useEffect(() => {

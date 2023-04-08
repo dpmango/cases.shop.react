@@ -10,11 +10,11 @@
   &__wrapper {
     position: relative;
     z-index: 2;
-    margin-top: 60px;
+    margin-top: 32px;
   }
 
   &__box {
-    width: 100%;
+    position: relative;
   }
 
   &__more {
@@ -22,12 +22,7 @@
   }
 }
 
-@include r($md) {
-  .rev-card {
-    padding: 12px 40px 14px 14px;
-  }
-}
-
+// review card
 .rev-card {
   width: 100%;
   height: auto;
@@ -94,6 +89,12 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
+  }
+}
+
+@include r($md) {
+  .rev-card {
+    padding: 12px 40px 14px 14px;
   }
 }
 

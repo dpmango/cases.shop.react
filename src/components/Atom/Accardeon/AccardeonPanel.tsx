@@ -19,9 +19,12 @@ const AccardeonPanel: React.FC<IPanelProps> = ({ faqitem, isActive, handleToggle
       >
         {faqitem[0]}
       </div>
-      <ul className={cns('accordeon__panel', isActive && '_active')}>
-        <li className="accordeon__text">{faqitem[1]}</li>
-      </ul>
+
+      <div className="accordeon__contents">
+        <ul className={cns('accordeon__dropdown', isActive && '_active')}>
+          <li className="accordeon__text">{faqitem[1]}</li>
+        </ul>
+      </div>
     </li>
   )
 }

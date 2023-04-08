@@ -16,7 +16,7 @@
     "lint:style:fix": "stylelint \"**/*.{css,scss}\" --fix --ignore-path .gitignore",
     "lint": "yarn lint:format && yarn lint:js:fix && yarn lint:style:fix"
   },
-  "pre-commit": "lint",
+  "_pre-commit": "lint",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",

@@ -1,5 +1,6 @@
-import { UiButton, UiModal } from '@c/Ui'
 import React from 'react'
+
+import { UiButton, UiModal } from '@/components/Ui'
 
 const DepositSuccessModal = () => {
   const { telegram_bot_link } = useAppSelector((state) => state.sessionState)

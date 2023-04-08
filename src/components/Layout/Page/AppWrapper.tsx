@@ -1,6 +1,6 @@
-import { LayoutMain } from '@c/Layout'
 import React, { useEffect } from 'react'
 
+import { LayoutMain } from '@/components/Layout'
 import type { PageContext } from '~/renderer/types'
 import { PageContextProvider } from '~/src/components/Layout/Page/PageContext'
 
@@ -8,7 +8,7 @@ export const AppWrapper = ({
   children,
   pageContext,
 }: {
-  children: React.ReactNode
+  children: ReactSlot
   pageContext: PageContext
 }) => {
   return (

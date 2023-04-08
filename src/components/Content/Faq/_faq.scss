@@ -1,14 +1,10 @@
 .faq {
   padding: 60px 0 150px;
 
-  &__title {
+  &__head {
     position: relative;
     z-index: 2;
     margin-bottom: 60px;
-    font-weight: 900;
-    font-size: 30px;
-    line-height: 35px;
-    text-align: center;
   }
 
   &__wrapper {
@@ -17,6 +13,7 @@
   }
 
   &__guide {
+    display: flex;
     justify-content: space-between;
     margin-bottom: 80px;
   }
@@ -26,6 +23,7 @@
     width: 100%;
     max-width: 17%;
     text-align: center;
+
     &:not(:last-child)::after {
       position: absolute;
       content: '';
@@ -46,11 +44,8 @@
     text-align: center;
   }
 
-  &__name {
+  &__subtitle {
     margin-bottom: 18px;
-    font-weight: 900;
-    font-size: 30px;
-    line-height: 35px;
     text-align: center;
   }
 }
@@ -91,7 +86,7 @@
       display: none;
     }
 
-    &__title {
+    &__head {
       margin-bottom: 20px;
     }
   }
@@ -106,8 +101,8 @@
       margin: 0 auto 40px;
     }
 
-    &__title,
-    &__name {
+    &__head,
+    &__subtitle {
       font-size: 21px;
       line-height: 27px;
     }

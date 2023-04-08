@@ -24,7 +24,7 @@ export interface IUiInput extends ICommonInterfaceProps {
 export interface IUiButton extends ICommonInterfaceProps {
   as?: string
   href?: string
-  children: any | React.ReactElement | React.ReactElement[]
+  children: ReactSlot
   theme?: 'primary' | 'secondary'
   size?: 'default' | 'small'
   type?: string

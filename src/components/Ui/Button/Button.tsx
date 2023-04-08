@@ -1,9 +1,9 @@
 import './_button.scss'
 
-import { SvgIcon, UiLoader } from '@c/Ui'
 import cns from 'classnames'
 import { memo } from 'react'
 
+import { SvgIcon, UiLoader } from '@/components/Ui'
 import { IUiButton } from '~/src/core/interface/Ui'
 
 const Button = ({

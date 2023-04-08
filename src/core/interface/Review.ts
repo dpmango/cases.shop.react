@@ -1,6 +1,5 @@
 export interface IReviewDto {
-  id: number
-  photo_url: string
+  ava: string
   date: string
   nick: string
   text: string

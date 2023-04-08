@@ -1,6 +1,6 @@
 const FaqInstruction = () => {
   return (
-    <div className="faq__guide d-flex">
+    <div className="faq__guide">
       <div className="faq__guide-card">
         <img src={'/img/faq/faq1.svg'} alt="" className="faq__pic" />
         <p className="faq__text">Авторизуйтесь под своим игровым аккаунтом на сайте EpicGames</p>

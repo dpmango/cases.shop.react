@@ -1,7 +1,8 @@
 .accordeon {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+
+  // max-width: 1000px;
+  // margin: 0 auto;
 
   &__item {
     margin-bottom: 18px;
@@ -61,17 +62,22 @@
     }
   }
 
-  &__panel {
+  &__contents {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__dropdown {
+    margin-top: -100%;
     margin-left: 0;
     padding: 0 40px 0 94px;
     background: #232834;
     border-radius: 4px;
-    margin-top: -100%;
     transition: margin-top 0.3s ease-in;
     overflow: hidden;
 
     &._active {
-      height: 100%;
+      margin-top: 0;
     }
   }
 
@@ -97,17 +103,17 @@
 @include r($sm) {
   .accordeon {
     &__toggle {
-      padding: 20px 20px 20px 50px !important;
+      padding: 20px 20px 20px 50px;
       font-size: 16px;
+
+      &::after {
+        left: 6px;
+        bottom: 32%;
+        background-size: 30px;
+      }
     }
 
-    &__toggle::after {
-      left: 6px !important;
-      bottom: 32% !important;
-      background-size: 30px !important;
-    }
-
-    &__panel {
+    &__dropdown {
       padding-left: 51px;
     }
   }

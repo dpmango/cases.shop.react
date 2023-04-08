@@ -18,10 +18,10 @@ export const useEventListener = (
 
     const eventListener = (event: Event) => savedHandler.current(event)
 
-    tElement.addEventListener(eventName, eventListener)
+    tElement.addEventListener(eventName, eventListener, true)
 
     return () => {
-      tElement.removeEventListener(eventName, eventListener)
+      tElement.removeEventListener(eventName, eventListener, true)
     }
   }, [eventName, element])
 }
