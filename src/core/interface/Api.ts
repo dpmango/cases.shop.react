@@ -1,9 +1,3 @@
-export interface IApiDto {
-  response: boolean
-  statusCode: number
-  data: any
-}
-
 export interface IError {
   code: number
   message: string

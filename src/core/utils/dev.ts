@@ -1,10 +1,4 @@
 /* eslint-disable no-console */
-export const getRandomInt = (min: number, max: number) => {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
 export const APP_VERSION = '1.1.0'
 
 export const LOG = {
@@ -30,5 +24,3 @@ export const PerformanceLog = (DEV_perf: number, name: string) => {
 
   LOG.log(`PERF :: ${name} :: ${(DEV_perf_end - DEV_perf).toFixed(2)} ms`)
 }
-
-export const isDevelopmentSite = window.location.host.includes('localhost')

@@ -1,32 +1,31 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import './_product-card.scss'
 
 import { UiLink } from '@/components/Ui'
-import { IProductDto } from '~/src/core/interface/Product'
+import { IProductDto } from '@/core/interface/Product'
 
 interface IProductCardProps extends IProductDto {
-  index: number
+  // index: number
 }
 
-const ProductCard = ({ name, images, price, salePrice, id, index }: IProductCardProps) => {
+const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) => {
   return (
-    <Link to={`product/${id}`} key={id} className={`main__item main__item_${index}`}>
-      <p className="main__name">{name}</p>
+    <UiLink href={`product/${id}`} key={id} className={`product-card`}>
+      <p className="product-card__name">{name}</p>
       <div
-        className="main__top"
+        className="product-card__top"
         style={{
           background: `url(${images?.length && images[1]}) no-repeat center center / cover`,
         }}
       >
-        {images?.length && <img src={images[0]} alt="" className="main__pic" />}
+        {images?.length && <img src={images[0]} alt="" className="product-card__pic" />}
       </div>
 
-      <div className="main__block">
-        <p className="main__sum">
+      <div className="product-card__block">
+        <p className="product-card__sum">
           {salePrice} Р{price !== salePrice ? <sup>{price} P </sup> : ''}
         </p>
       </div>
-    </Link>
+    </UiLink>
   )
 }
 

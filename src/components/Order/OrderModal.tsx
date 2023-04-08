@@ -1,42 +1,31 @@
+import { UiButton, UiModal } from '@c/Ui'
 import React from 'react'
-
-import Close from '@/assets/img/close.png'
+import { useParams } from 'react-router'
 
 const OrderModal = () => {
   const { telegram_bot_link } = useAppSelector((state) => state.sessionState)
 
+  const params = useParams()
+
   return (
-    <div
-      style={{
-        display: 'none',
-      }}
-    >
-      <div className="box-modal" id="a3">
-        <div className="popup">
-          <div className="popup-call__box">
-            <div className="box-modal__close articmodal-close">
-              <img src={Close} alt="" className="close__pic svg" />
-            </div>
-            <div className="popup__flex d-flex">
-              <img src="@/assets/img/personal3.png" alt="" />
-              <p>ОФОРМЛЕНИЕ ЗАКАЗА</p>
-            </div>
-            <p className="popup__text">
-              Оформление заказа продолжится в телеграм-боте! <br />
-              Спасибо, что пользуетесь нашим сервисом!
-            </p>
-            <a
-              href={`${telegram_bot_link}?start=item_${333}`}
-              target={'_blank'}
-              className="popup__btn bttn"
-              rel="noreferrer"
-            >
-              Перейти в чат-бота
-            </a>
-          </div>
-        </div>
+    <UiModal name="order" title="ОФОРМЛЕНИЕ ЗАКАЗА" titleIcon="cart-success">
+      <p className="modal__text">
+        Оформление заказа продолжится в телеграм-боте! <br />
+        Спасибо, что пользуетесь нашим сервисом!
+      </p>
+      <div className="modal__action">
+        <UiButton
+          as="a"
+          target="_blank"
+          rel="noreferrer"
+          size="small"
+          href={`${telegram_bot_link}?start=item_${params.id}`}
+          block={true}
+        >
+          Перейти в бот-чат
+        </UiButton>
       </div>
-    </div>
+    </UiModal>
   )
 }
 

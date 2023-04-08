@@ -1,12 +1,12 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import * as path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import eslintPlugin from 'vite-plugin-eslint'
 import mkcert from 'vite-plugin-mkcert'
-import { viteSingleFile } from 'vite-plugin-singlefile'
+// import { viteSingleFile } from 'vite-plugin-singlefile'
 import ssr from 'vite-plugin-ssr/plugin'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import svgLoader from 'vite-svg-loader'
@@ -46,7 +46,7 @@ export default ({ mode }) => {
         symbolId: 'icon-[dir]-[name]',
       }),
       svgLoader(),
-      process?.env?.ODR ? viteSingleFile() : null,
+      // process?.env?.ODR ? viteSingleFile() : null,
     ],
     resolve: {
       alias: {
@@ -60,10 +60,13 @@ export default ({ mode }) => {
         '@store': fileURLToPath(new URL('./src/core/store', import.meta.url)),
       },
     },
-    build: {
-      chunkSizeWarningLimit: 1000,
-      sourcemap: true,
-      outDir: process?.env?.ODR ? 'odr-dist' : 'dist',
+
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/styles/utils/index.scss";',
+        },
+      },
     },
   })
 }

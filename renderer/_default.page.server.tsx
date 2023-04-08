@@ -42,14 +42,10 @@ async function render(pageContext: PageContextServer) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Radio+Canada:wght@500;600;700&family=Raleway:wght@600;800;900&family=Ubuntu:wght@700&display=swap"
-          rel="stylesheet"
-        />
-        
+
         <title>${title}</title>
       </head>
-      <body>
+      <body class="theme-main">
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
     </html>`

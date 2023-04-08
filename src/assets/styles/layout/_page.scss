@@ -1,0 +1,116 @@
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > main {
+    flex: 1 0 auto;
+  }
+
+  > footer {
+    margin-top: auto;
+  }
+}
+
+.head {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__back {
+    position: absolute;
+    display: inline-flex;
+    top: 50%;
+    left: 0;
+    justify-content: flex-start;
+    align-items: center;
+    width: 120px;
+    color: rgb(255 255 255 / 31%);
+    transform: translateY(-50%);
+    transition: color 0.25s $ease;
+
+    .svg-icon {
+      flex: 0 0 auto;
+      margin-right: 6px;
+      font-size: 13px;
+    }
+
+    span {
+      flex: 0 0 auto;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  &__title {
+    margin: 0 auto;
+    padding: 0 120px;
+    text-align: center;
+  }
+}
+
+.fire {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+}
+
+.fire2 {
+  max-width: 850px;
+}
+
+.fire3 {
+  left: inherit !important;
+  right: 0;
+  max-width: 600px;
+}
+
+@include r($hdplus) {
+  .fire55 {
+    max-width: 685px;
+  }
+}
+
+@include r($hd) {
+  .fire2 {
+    max-width: 640px;
+  }
+
+  .fire3 {
+    max-width: 480px;
+  }
+}
+
+@include r($xl) {
+  .fire3 {
+    max-width: 300px;
+  }
+}
+
+@include r($lg) {
+  .fire2 {
+    max-width: 250px;
+  }
+}
+
+@include r($md) {
+  .fire55 {
+    width: 65%;
+  }
+}
+
+@include r($sm) {
+  .fire3 {
+    max-width: 220px;
+  }
+
+  .fire2 {
+    max-width: 190px;
+  }
+}

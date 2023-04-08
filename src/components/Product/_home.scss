@@ -1,0 +1,150 @@
+/* MAIN */
+.home {
+  position: relative;
+  padding: 192px 0 25px;
+  border-bottom: 4px solid #3f1e01;
+
+  &__fire {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: -1;
+  }
+
+  &__products {
+    margin-top: 100px;
+  }
+
+  // &__category{}
+
+  &__category-box {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__category-title {
+    position: relative;
+    margin: 0 auto 80px;
+    text-align: center;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+      display: block;
+      top: 20%;
+      width: 425px;
+      height: 5px;
+      background: white;
+      pointer-events: none;
+    }
+
+    &::before {
+      right: -469px;
+    }
+
+    &::after {
+      right: -469px;
+    }
+  }
+
+  &__category-bg {
+    position: absolute;
+    top: 10px;
+    left: -312px;
+    z-index: -1;
+    width: auto;
+  }
+}
+
+.slider {
+  &__title {
+    margin-bottom: 30px;
+  }
+
+  &__card {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@include r($xl) {
+  .home {
+    &__fire {
+      top: -93px;
+      width: 81%;
+    }
+  }
+}
+
+@include r($md) {
+  .home {
+    padding: 110px 0 2px;
+
+    &__fire {
+      top: -14px;
+      width: 81%;
+      opacity: 0.4;
+    }
+
+    &__category-box {
+      position: relative;
+      left: -20px;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+@include r($sm) {
+  .slider__title {
+    margin-bottom: 10px;
+  }
+
+  .home {
+    padding: 40px 0 2px;
+
+    &__products {
+      margin-top: 80px;
+    }
+
+    &__category-box {
+      left: 50%;
+      margin-left: -117px;
+    }
+
+    &__fire {
+      top: -47px;
+    }
+
+    &__name {
+      position: relative;
+      left: 0;
+      width: 320px;
+      margin: 0 0 0 -40px;
+      font-size: 18px;
+      line-height: 26px;
+      opacity: 1;
+    }
+
+    &__category-title {
+      margin-bottom: 50px;
+
+      &::before,
+      &::after {
+        top: 38%;
+        width: 95px;
+        height: 4px;
+      }
+
+      &::before {
+        left: -106px;
+      }
+
+      &::after {
+        right: -106px;
+      }
+    }
+  }
+}

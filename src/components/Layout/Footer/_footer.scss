@@ -1,0 +1,58 @@
+/* FOOTER */
+.footer {
+  padding: 106px 0;
+  background: url('@/assets/img/decor/footer.png') no-repeat center center / cover;
+
+  &__list {
+    position: relative;
+    z-index: 2;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    margin-right: 40px;
+  }
+
+  &__item:last-child {
+    margin-right: 0;
+  }
+
+  &__link {
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #fff;
+    opacity: 0.26;
+    letter-spacing: 0.32em;
+  }
+}
+
+.footer2 {
+  padding-bottom: 170px;
+  background: transparent;
+}
+
+@include r($xl) {
+  .footer {
+    position: relative;
+
+    &__link {
+      opacity: 1;
+    }
+  }
+}
+
+@include r($md) {
+  .footer {
+    &__list {
+      flex-direction: column;
+      align-items: center;
+
+      li {
+        margin: 0 auto 15px !important;
+      }
+    }
+  }
+}

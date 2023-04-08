@@ -2,17 +2,16 @@ import * as toolkitRaw from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
-import { fetchAuth, initializeApp } from '@/core/api/session.api'
+import { initializeApp } from '@/core/api/session.api'
 import { IFAQDto, IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
 
 export interface ISessionStore {
   initializationPending: boolean
   id: string
-  settings: ISettingsDto | Record<string, never>
+  settings: ISettingsDto
   faq: IFAQDto[]
   bot_connector_name: string
-  telegram_bot_link: string | null
-
+  telegram_bot_link: string
   user: IProfileDto | null
   lastPurchases: any
 }
@@ -20,10 +19,21 @@ export interface ISessionStore {
 const initialState: ISessionStore = {
   initializationPending: true,
   id: 'MurcciTGBot',
-  settings: {},
+  settings: {
+    background_site_color: '#000000',
+    header_color:
+      'radial-gradient( 78.79% 1603.12% at 18.89% 71.76%, #eb5f0e 0%, #851012 51.82%, #480136 100%)',
+    background_image: '/img/decor/fire.png',
+    footer_image: '/img/decor/fire.png',
+    faq_left_footer_image: '/img/decor/man22.png',
+    faq_right_footer_image: '/img/decor/image.png',
+    item_right_footer_image: '/img/decor/fire55.png',
+    reviews_footer_image: '/img/decor/fire-big2.png',
+    footer_color: '',
+  },
   faq: [],
   bot_connector_name: 'ShopCoreWeb_bot',
-  telegram_bot_link: null,
+  telegram_bot_link: '',
 
   user: null,
   lastPurchases: null,

@@ -12,15 +12,13 @@ export interface IInitDataDto {
 export interface ISettingsDto {
   background_image: string
   footer_image: string
-  reviews_footer_image: null
+  reviews_footer_image: string
   faq_left_footer_image: string
   faq_right_footer_image: string
   item_right_footer_image: string
   footer_color: string
-  header_first_color: string
+  header_color: string
   background_site_color: string
-  header_second_color: string
-  use_space: string
 }
 
 export type IFAQDto = string[]
@@ -37,9 +35,9 @@ export interface ITelegramAuthDto {
   hash: string
   auth_date: number
   first_name: string
-  last_name: string
-  photo_url: string
-  username: string
+  last_name?: string
+  photo_url?: string
+  username?: string
 }
 
 export interface IAuthDto {

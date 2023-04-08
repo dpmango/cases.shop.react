@@ -1,0 +1,114 @@
+.accordeon {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  &__item {
+    margin-bottom: 18px;
+  }
+
+  &__toggle {
+    position: relative;
+    width: 100%;
+    padding: 30px 96px 32px;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: left;
+    color: #fff;
+    background: #191f2c;
+    border-radius: 4px;
+    transition: color 0.25s $ease;
+    cursor: pointer;
+
+    &::after {
+      position: absolute;
+      content: '';
+      left: 25px;
+      right: inherit;
+      bottom: 23%;
+      width: 46px;
+      height: 44px;
+      margin-bottom: 0;
+      background: url('@/assets/img/arr-down.svg') no-repeat;
+      transition: all 0.25s $ease;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+
+      &::after {
+        background: url('@/assets/img/arr-down2.svg') no-repeat;
+      }
+    }
+
+    &.active {
+      padding: 30px 96px 20px;
+      background: #232834;
+
+      &::after {
+        position: absolute;
+        content: '';
+        left: 25px;
+        right: inherit;
+        bottom: 21%;
+        width: 46px;
+        height: 44px;
+        margin-bottom: 0;
+        background: url('@/assets/img/arr-top.svg') no-repeat;
+        transition: all 0.25s $ease;
+      }
+    }
+  }
+
+  &__panel {
+    margin-left: 0;
+    padding: 0 40px 0 94px;
+    background: #232834;
+    border-radius: 4px;
+    margin-top: -100%;
+    transition: margin-top 0.3s ease-in;
+    overflow: hidden;
+
+    &._active {
+      height: 100%;
+    }
+  }
+
+  &__text {
+    max-width: 897px;
+    padding-bottom: 40px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+    list-style-type: none;
+  }
+}
+
+@include r($md) {
+  .accordeon {
+    &__toggle {
+      font-size: 18px;
+    }
+  }
+}
+
+@include r($sm) {
+  .accordeon {
+    &__toggle {
+      padding: 20px 20px 20px 50px !important;
+      font-size: 16px;
+    }
+
+    &__toggle::after {
+      left: 6px !important;
+      bottom: 32% !important;
+      background-size: 30px !important;
+    }
+
+    &__panel {
+      padding-left: 51px;
+    }
+  }
+}

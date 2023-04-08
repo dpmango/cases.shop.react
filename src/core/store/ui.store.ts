@@ -17,9 +17,13 @@ export const uiState = toolkitRaw.createSlice({
       state.modal = [action.payload.name]
       state.modalParams = action.payload.params || {}
     },
+    closeModals(state, action: toolkitRaw.PayloadAction) {
+      state.modal = []
+      state.modalParams = {}
+    },
   },
 })
 
-export const { setModal } = uiState.actions
+export const { setModal, closeModals } = uiState.actions
 
 export default uiState.reducer

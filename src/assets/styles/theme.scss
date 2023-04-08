@@ -1,0 +1,44 @@
+@function makehex($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
+:root {
+  --font-base: 'Inter', sans-serif;
+  --font-canada: 'Radio Canada', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+  --font-system: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Ubuntu',
+    'Cantarell', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --container-main: 1405px;
+  --container-narrow: 1196px;
+  --container-mini: 820px;
+
+  /* ui */
+  --card-border-radius: 16px;
+  --button-border-radius: 6px;
+  --input-border-radius: 5px;
+  --map-border-radius: 12px;
+}
+
+.theme-main {
+  // scheme
+  --color-background: #f0f5f9;
+  --color-font: #FFF;
+  --color-font-rgb: #{hexToRbg(#FFF)};
+  --color-font-invert: #010206
+  --color-gray: #a1a1a1;
+  --color-muted: #cbcbcb;
+  --color-bg: #010206;
+  --color-border: #d5dde3;
+  --color-separator: #e5e5e5;
+
+  // brand colors
+  --color-primary: #ffba01;
+  --color-primary-rgb: #{hexToRbg(#ffba01)};
+  --color-primary-hover: #FFDE84;
+  --color-accent: #600728;
+  --color-green: #458940;
+  --color-red: #d53536;
+
+  // components
+  --header-background: #373f54;
+}

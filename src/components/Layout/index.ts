@@ -1,6 +1,10 @@
 export { AppWrapper } from './AppWrapper'
-export { default as LayoutFooter } from './Footer'
-export { default as LayoutHeader } from './Header'
+export { default as LayoutFooter } from './Footer/Footer'
+export { default as LayoutHeader } from './Header/Header'
 export { default as LayoutMain } from './LayoutMain'
-export { PageContextProvider, usePageContext } from './PageContext'
+export { PageContextProvider, usePageContext } from './Page/PageContext'
+export { default as PageDecoration } from './Page/PageDecoration'
 export { default as SharedModals } from './SharedModals'
+
+import './Header/_header.scss'
+import './Footer/_footer.scss'

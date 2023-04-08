@@ -1,40 +1,26 @@
-import { SvgIcon } from '@c/Ui'
+import { UiButton, UiModal } from '@c/Ui'
 import React from 'react'
 
 const DepositSuccessModal = () => {
   const { telegram_bot_link } = useAppSelector((state) => state.sessionState)
 
   return (
-    <div
-      style={{
-        display: 'none',
-      }}
-    >
-      <div className="box-modal" id="a2">
-        <div className="popup">
-          <div className="popup-call__box">
-            <div className="box-modal__close articmodal-close">
-              <SvgIcon name="close" />
-              {/* <img src={Close} alt="" className="close__pic svg" /> */}
-            </div>
-            <div className="popup__flex d-flex">
-              <img src="@/assets/img/personal2.png" alt="" />
-              <p>ПОПОЛНЕНИЕ БАЛАНСА</p>
-            </div>
-            <p className="popup__text">
-              Ваш баланс пополнен успешно! <br />
-              Дальнешее оформление заказа продолжится в чат-боте!
-            </p>
+    <UiModal name="deposit-success" title="ПОПОЛНЕНИЕ БАЛАНСА" titleIcon="checkmark-circle">
+      <>
+        <p className="modal__text">
+          Ваш баланс пополнен успешно! <br />
+          Дальнешее оформление заказа продолжится в чат-боте!
+        </p>
 
-            {telegram_bot_link && (
-              <a href={telegram_bot_link} className="popup__btn bttn">
-                Перейти в бот-чат
-              </a>
-            )}
+        {telegram_bot_link && (
+          <div className="modal__action">
+            <UiButton as="a" size="small" href={telegram_bot_link} block={true}>
+              Перейти в бот-чат
+            </UiButton>
           </div>
-        </div>
-      </div>
-    </div>
+        )}
+      </>
+    </UiModal>
   )
 }
 

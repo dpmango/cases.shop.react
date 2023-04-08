@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 import { FetchError, FetchOptions, ofetch } from 'ofetch'
 
 import type { IError } from '@/core/interface/Api'
@@ -10,10 +9,17 @@ interface IRequestOptions {
   params?: { [key: string]: string }
 }
 
+interface IApiResult {
+  data: any | null
+  raw: any | null
+  error: any | null
+  message: string | null
+}
+
 export const api = async (
   url: string,
   { method = 'GET', body, params, headers }: IRequestOptions,
-) => {
+): Promise<IApiResult> => {
   try {
     const accessToken = localStorage.getItem('access_token')
 
@@ -78,7 +84,7 @@ export const api = async (
     }
 
     if (err?.status === 5) {
-      const { data } = await userAuthRefresh({ token: localStorage.getItem('refresh_token') })
+      const { data } = await userAuthRefresh({ token: localStorage.getItem('refresh_token') || '' })
 
       if (data) {
         localStorage.setItem('access_token', data.access_token)
@@ -101,6 +107,6 @@ export const api = async (
 
     console.log('❌ Request Error', error)
 
-    return { data: null, message: null, error }
+    return { data: null, message: null, raw: null, error }
   }
 }

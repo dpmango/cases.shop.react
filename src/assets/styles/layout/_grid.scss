@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  max-width: var(--container-main);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  &._full {
+    max-width: 100%;
+  }
+
+  &._narrow {
+    max-width: var(--container-narrow);
+  }
+
+  &._mini {
+    max-width: var(--container-mini);
+  }
+
+  @include r($md) {
+    padding: 0 20px;
+  }
+}
+
+section {
+  position: relative;
+}

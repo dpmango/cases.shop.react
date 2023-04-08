@@ -1,0 +1,119 @@
+.faq {
+  padding: 60px 0 150px;
+
+  &__title {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 60px;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+  }
+
+  &__wrapper {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__guide {
+    justify-content: space-between;
+    margin-bottom: 80px;
+  }
+
+  &__guide-card {
+    position: relative;
+    width: 100%;
+    max-width: 17%;
+    text-align: center;
+    &:not(:last-child)::after {
+      position: absolute;
+      content: '';
+      display: block;
+      top: 75px;
+      right: -48px;
+      width: 30px;
+      height: 40px;
+      background: url('@/assets/img/arrow.svg') no-repeat;
+    }
+  }
+
+  &__text {
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  &__name {
+    margin-bottom: 18px;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 1299px) {
+  .faq {
+    &__guide-card::after {
+      right: -44px;
+    }
+  }
+}
+
+@include r($xl) {
+  .faq {
+    &__pic {
+      width: 100%;
+    }
+
+    &__guide-card::after {
+      right: -40px;
+    }
+  }
+}
+
+@include r($lg) {
+  .faq {
+    &__guide {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    &__guide-card {
+      max-width: 24%;
+      margin: 25px;
+    }
+
+    &__guide-card::after {
+      display: none;
+    }
+
+    &__title {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@include r($sm) {
+  .faq {
+    padding: 40px 0 100px;
+
+    &__guide-card {
+      max-width: 83%;
+      margin: 0 auto 40px;
+    }
+
+    &__title,
+    &__name {
+      font-size: 21px;
+      line-height: 27px;
+    }
+
+    &__pic {
+      max-width: 160px;
+    }
+  }
+}

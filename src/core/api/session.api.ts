@@ -77,7 +77,7 @@ export const getProfile = async () => {
 }
 
 // Orders
-export interface OrdersPayload {
+export interface IOrdersPayload {
   shopId: string
 }
 

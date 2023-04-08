@@ -1,8 +1,8 @@
 import { LayoutMain } from '@c/Layout'
 import React, { useEffect } from 'react'
 
-import { PageContextProvider } from '@/components/Layout/PageContext'
 import type { PageContext } from '~/renderer/types'
+import { PageContextProvider } from '~/src/components/Layout/Page/PageContext'
 
 export const AppWrapper = ({
   children,

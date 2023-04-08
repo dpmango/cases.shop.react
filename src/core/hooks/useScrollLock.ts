@@ -1,4 +1,6 @@
 export const useScrollLock = () => {
+  const [mounted, setMouted] = useState(false)
+
   const lockScroll = useCallback(() => {
     document.body.dataset.scrollLock = 'true'
     document.body.style.overflow = 'hidden'
@@ -12,10 +14,13 @@ export const useScrollLock = () => {
     delete document.body.dataset.scrollLock
   }, [])
 
-  useLayoutEffect(() => {
-    const scrollBarCompensation = window.innerWidth - document.body.offsetWidth
-    document.body.style.setProperty('--scrollbar-compensation', `${scrollBarCompensation}px`)
-  }, [])
+  useEffect(() => {
+    if (document) {
+      const scrollBarCompensation = window.innerWidth - document.body.offsetWidth
+      document.body.style.setProperty('--scrollbar-compensation', `${scrollBarCompensation}px`)
+    }
+    setMouted(true)
+  }, [mounted])
 
   return {
     lockScroll,
