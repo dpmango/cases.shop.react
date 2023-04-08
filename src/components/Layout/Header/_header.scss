@@ -21,8 +21,8 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    min-height: 114px;
-    padding: 17px 0 20px;
+    min-height: 105px;
+    padding: 14px 0;
     transition: transform 0.25s $ease;
   }
 
@@ -106,11 +106,11 @@
   }
 
   &._scrolled {
-    transform: translateY(-20px);
+    transform: translateY(-32px);
 
     .header {
       &__wrapper {
-        transform: translateY(10px);
+        transform: translateY(16px);
       }
 
       &__action-link {

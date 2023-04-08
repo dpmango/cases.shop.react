@@ -27,7 +27,6 @@ const Header = () => {
   const updateSticky = useCallback(() => {
     const startStickyAt = 0
 
-    console.log({ scroll: window.scrollY })
     if (window.scrollY > startStickyAt) {
       setScrolled(true)
     } else {
