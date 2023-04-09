@@ -1,4 +1,3 @@
-import React from 'react'
 import { Fragment, lazy, useEffect, useState } from 'react'
 
 const ClientOnly = ({ children }: { children: ReactSlot }) => {

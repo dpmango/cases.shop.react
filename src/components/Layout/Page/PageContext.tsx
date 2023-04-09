@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import { createContext } from 'react'
 
 import type { PageContext } from '~/renderer/types'
 
-const Context = React.createContext<PageContext>(undefined as any)
+const Context = createContext<PageContext>(undefined as any)
 
 function PageContextProvider({
   pageContext,

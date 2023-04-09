@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { UiButton, UiModal } from '@/components/Ui'
 
 const DepositSuccessModal = () => {

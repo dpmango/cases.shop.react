@@ -1,18 +1,12 @@
-export type { PageContextServer }
-export type { PageContextClient }
-export type { PageContext }
-export type { PageProps }
-
 import type {
   PageContextBuiltIn,
-  /*
   // When using Client Routing https://vite-plugin-ssr.com/clientRouting
-  PageContextBuiltInClientWithClientRouting as PageContextBuiltInClient
-  /*/
+  PageContextBuiltInClientWithClientRouting as PageContextBuiltInClient,
   // When using Server Routing
-  PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient,
-  //*/
+  // PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient,
 } from 'vite-plugin-ssr/types'
+
+import type { RootState } from '~/src/core/store'
 
 type Page = (pageProps: PageProps) => React.ReactElement
 type PageProps = object
@@ -21,7 +15,7 @@ export type PageContextCustom = {
   Page: Page
   pageProps?: PageProps
   urlPathname: string
-  PRELOADED_STATE: any
+  PRELOADED_STATE: Partial<RootState>
   exports: {
     documentProps?: {
       title?: string
@@ -34,3 +28,8 @@ type PageContextServer = PageContextBuiltIn<Page> & PageContextCustom
 type PageContextClient = PageContextBuiltInClient<Page> & PageContextCustom
 
 type PageContext = PageContextClient | PageContextServer
+
+export type { PageContextServer }
+export type { PageContextClient }
+export type { PageContext }
+export type { PageProps }

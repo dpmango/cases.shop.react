@@ -1,4 +1,3 @@
-import React from 'react'
 import { ScrollRestoration, useLocation } from 'react-router-dom'
 
 interface IPageDecorationProps {

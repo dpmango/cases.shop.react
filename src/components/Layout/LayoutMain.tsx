@@ -1,17 +1,16 @@
 import '@/assets/styles/app.scss'
 import 'virtual:svg-icons-register'
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { LayoutFooter, LayoutHeader } from '@/components/Layout'
 import { SharedModals } from '@/components/Layout'
-import { initializeApp } from '@/core/api/session.api'
-import { Page as FaqPage } from '~/src/pages/faq.page.client'
-// import { Page as RestPage } from '~/rest.page'
-import { Page as HomePage } from '~/src/pages/index.page.client'
-import { Page as ProductPage } from '~/src/pages/product.page.client'
-import { Page as ReviewPage } from '~/src/pages/reviews.page.client'
+import { Page as FaqPage } from '~/src/pages/faq/index.page'
+import { Page as HomePage } from '~/src/pages/index.page'
+import { Page as ProductPage } from '~/src/pages/product/index.page'
+import { Page as RestPage } from '~/src/pages/rest.page'
+import { Page as ReviewPage } from '~/src/pages/reviews/index.page'
 
 export const Layout = ({ children }: { children: ReactSlot }) => {
   const { id: shopId } = useAppSelector((state) => state.sessionState)
@@ -36,7 +35,7 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/reviews" element={<ReviewPage />} />
-        {/* <Route path="*" element={<RestPage />} /> */}
+        <Route path="*" element={<RestPage />} />
       </Routes>
       <LayoutFooter />
       <SharedModals />

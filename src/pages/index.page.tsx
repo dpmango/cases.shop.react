@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
-
 import { PageDecoration } from '@/components/Layout'
 import { ProductsSlider } from '@/components/Product'
 import { Categories, ProductCard } from '@/components/Product'
+import { UiLoader } from '@/components/Ui'
 
 export const documentProps = {
   title: 'Главная',
@@ -23,10 +22,11 @@ export const Page: React.FC = () => {
   return (
     <PageDecoration sectionClassName="home">
       <img src={settings.background_image} alt="" className="home__fire" />
-      <div className="container">
-        <ProductsSlider fullWidth={false} />
-        {/* <ProductsSlider fullWidth={true} /> */}
+      <UiLoader theme="page" loading={!items} />
 
+      <div className="container">
+        {/* <ProductsSlider fullWidth={false} /> */}
+        <ProductsSlider />
         <Categories />
       </div>
     </PageDecoration>

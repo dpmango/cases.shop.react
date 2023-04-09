@@ -1,5 +1,4 @@
 import cns from 'classnames'
-import React from 'react'
 import { useLocation } from 'react-router'
 
 import { UiLink } from '@/components/Ui'
@@ -8,7 +7,9 @@ const Footer: React.FC = () => {
   const { settings } = useAppSelector((state) => state.sessionState)
 
   const location = useLocation()
-  const isAltFooter = ['faq', 'product', 'reviews'].includes(location.pathname.split('/')[1])
+
+  const isAltFooter =
+    ['faq', 'product', 'reviews'].includes(location.pathname.split('/')[1]) || false
 
   const footerNav = [
     { link: '/reviews', name: 'Отзывы' },

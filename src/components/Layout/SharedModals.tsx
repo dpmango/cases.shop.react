@@ -1,12 +1,11 @@
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 import { DepositModal, DepositSuccessModal } from '@/components/Order'
 import { AuthModal } from '@/components/Profile'
 
 const SharedModals = () => {
-  const { modal, modalParams } = useAppSelector((state) => state.uiState)
-  const dispatch = useDispatch()
+  // const { modal, modalParams } = useAppSelector((state) => state.uiState)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   return (

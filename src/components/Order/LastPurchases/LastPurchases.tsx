@@ -4,17 +4,14 @@ import 'swiper/scss/free-mode'
 import 'swiper/scss/mousewheel'
 
 import cns from 'classnames'
-import React, { useEffect, useState } from 'react'
 import { FreeMode, Mousewheel } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { SvgIcon } from '@/components/Ui'
-
-interface IOrdersSliderProps {
+interface ILastPurchasesProps {
   className: string
 }
 
-const OrdersSlider: React.FC<IOrdersSliderProps> = ({ className }) => {
+const LastPurchases: React.FC<ILastPurchasesProps> = ({ className }) => {
   const { id: shopId, lastPurchases } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
@@ -56,4 +53,4 @@ const OrdersSlider: React.FC<IOrdersSliderProps> = ({ className }) => {
   )
 }
 
-export default OrdersSlider
+export default LastPurchases

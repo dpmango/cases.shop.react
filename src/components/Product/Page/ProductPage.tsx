@@ -1,6 +1,5 @@
 import './_product.scss'
 
-import React, { useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import remarkGfm from 'remark-gfm'
@@ -63,6 +62,13 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
               <p className="product__text p-regular markdown">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown>
               </p>
+            </div>
+
+            <div className="product__el">
+              <p className="product__name">В наборе:</p>
+              <ul className="product__list">
+                <li className="product__li">экипировка Нейро-Рыси</li>
+              </ul>
             </div>
 
             <p className="product__price">

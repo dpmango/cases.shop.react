@@ -20,7 +20,7 @@ const Categories: React.FC = () => {
                 <span>{category}</span>
               </h2>
 
-              <div className="home__category-box">
+              <div className="home__category-grid">
                 {items[category]?.length &&
                   items[category].map((card: IProductDto, idx) => (
                     <ProductCard key={card.id} {...card} />

@@ -2,23 +2,32 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { getOrders, getProfile, initializeApp } from '@/core/api/session.api'
-import { IFAQDto, IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
+import {
+  IFAQDto,
+  IInitDataDto,
+  IProfileDto,
+  ISettingsDto,
+  ISpecialOffersDto,
+} from '@/core/interface/Initialization'
 import { IOrderDto } from '@/core/interface/Order'
 
 export interface ISessionStore {
   id: string
-  settings: ISettingsDto
-  faq: IFAQDto[]
   auth_bot: string
   telegram_bot_link: string
+  settings: ISettingsDto
+  faq: IFAQDto[]
+  specialOffers: ISpecialOffersDto[]
+
   user: IProfileDto | null
   lastPurchases: IOrderDto[] | null
 }
 
-const initialState: ISessionStore = {
+export const initialState: ISessionStore = {
   id: 'MurcciTGBot',
   settings: {
     background_site_color: '#000000',
+    footer_color: '',
     header_color:
       'radial-gradient( 78.79% 1603.12% at 18.89% 71.76%, #eb5f0e 0%, #851012 51.82%, #480136 100%)',
     background_image: '/img/decor/fire.png',
@@ -27,9 +36,9 @@ const initialState: ISessionStore = {
     faq_right_footer_image: '/img/decor/image.png',
     item_right_footer_image: '/img/decor/fire55.png',
     reviews_footer_image: '/img/decor/fire-big2.png',
-    footer_color: '',
   },
   faq: [],
+  specialOffers: [],
   auth_bot: 'casesAuth_bot',
   telegram_bot_link: '',
 
@@ -62,7 +71,7 @@ export const getOrdersThunk = createAsyncThunk(
   },
 )
 
-const forceUpdateByDataType = (state: any, action: PayloadAction<{ key: string; data: any }>) => {
+const updateByDataType = (state: any, action: PayloadAction<{ key: string; data: any }>) => {
   if (Array.isArray(action.payload.data)) {
     // @ts-ignore
     state[action.payload.key] = [...action.payload.data]
@@ -85,21 +94,51 @@ export const sessionState = createSlice({
     resetState(state, action: PayloadAction) {
       Cookies.remove('auth')
     },
-    updateAnyState: forceUpdateByDataType,
+    updateAnyState: updateByDataType,
   },
   extraReducers: (builder) => {
     builder.addCase(
       startAppThunk.fulfilled,
       (state, action: PayloadAction<IInitDataDto | null>) => {
         if (action.payload) {
-          Object.keys(action.payload).forEach((key) => {
-            // @ts-ignore
-            const dataValue = action.payload[key]
-            forceUpdateByDataType(state, {
-              payload: { key, data: dataValue },
-              type: '',
-            })
+          updateByDataType(state, {
+            payload: { key: 'telegram_bot_link', data: action.payload.telegram_bot_link },
+            type: '',
           })
+
+          updateByDataType(state, {
+            payload: { key: 'faq', data: action.payload.settings.value.faqList || [] },
+            type: '',
+          })
+
+          updateByDataType(state, {
+            payload: {
+              key: 'settings',
+              data: {
+                ...state.settings,
+                // background_image: action.payload.settings.value.footerBG,
+                // footer_image: action.payload.settings.value.footerBG,
+                // reviews_footer_image: action.payload.settings.value.footerBG,
+                // faq_left_footer_image: action.payload.settings.value.footerBG,
+                // faq_right_footer_image: action.payload.settings.value.footerBG,
+                // item_right_footer_image: action.payload.settings.value.footerBG,
+
+                footer_color: action.payload.settings.value.footerBGColor,
+                header_color: action.payload.settings.value.headerBGColor,
+              },
+            },
+            type: '',
+          })
+
+          // TODO - mapping
+          // Object.keys(action.payload).forEach((key) => {
+          //   // @ts-ignore
+          //   const dataValue = action.payload[key]
+          //   updateByDataType(state, {
+          //     payload: { key, data: dataValue },
+          //     type: '',
+          //   })
+          // })
         }
       },
     )

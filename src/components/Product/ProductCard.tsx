@@ -17,7 +17,9 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
           background: `url(${images?.length && images[1]}) no-repeat center center / cover`,
         }}
       >
-        {images?.length && <img src={images[0]} alt="" className="product-card__image" />}
+        {images?.length && (
+          <img className="product-card__image" src={images[0]} alt={name} loading="lazy" />
+        )}
       </div>
 
       <div className="product-card__action">

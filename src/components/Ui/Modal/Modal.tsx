@@ -14,11 +14,11 @@ interface IModalProps {
 
 const Modal: React.FC<IModalProps> = ({ name, title, titleIcon, children }) => {
   const { lockScroll, unlockScroll } = useScrollLock()
-  const { modal, modalParams } = useAppSelector((state) => state.uiState)
+  const { modal } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
 
   const isModalActive = useMemo(() => {
-    return modal.includes(name)
+    return modal === name
   }, [name, modal])
 
   const closeModal = () => {
@@ -38,7 +38,7 @@ const Modal: React.FC<IModalProps> = ({ name, title, titleIcon, children }) => {
   }, [isModalActive])
 
   return (
-    <div className={cns('modal', `modal--${name}`, modal.includes(name) && '_active')}>
+    <div className={cns('modal', `modal--${name}`, modal === name && '_active')}>
       <div className="modal__background" onClick={closeModal} />
 
       <div className="modal__body">

@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
-  extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-standard-scss'],
   plugins: ['stylelint-order'],
   // add your custom config here
   // https://stylelint.io/user-guide/configuration

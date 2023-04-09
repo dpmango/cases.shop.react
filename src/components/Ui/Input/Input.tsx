@@ -2,7 +2,6 @@ import './_input.scss'
 
 import cns from 'classnames'
 import { nanoid } from 'nanoid'
-import React, { memo, useCallback, useMemo, useState } from 'react'
 
 import { SvgIcon } from '@/components/Ui'
 import { useEventListener } from '@/core/hooks/useEventListener'

@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IUiState {
-  modal: string[]
+  modal: string | null
   modalParams: Record<string, never> | null
 }
 
 const initialState: IUiState = {
-  modal: [''],
+  modal: null,
   modalParams: {},
 }
 
@@ -15,11 +15,11 @@ export const uiState = createSlice({
   initialState,
   reducers: {
     setModal(state, action: PayloadAction<{ name: string; params?: any }>) {
-      state.modal = [action.payload.name]
+      state.modal = action.payload.name
       state.modalParams = action.payload.params || {}
     },
     closeModals(state, action: PayloadAction) {
-      state.modal = []
+      state.modal = null
       state.modalParams = {}
     },
   },

@@ -4,30 +4,6 @@
   align-items: center;
 
   &__slider {
-    &::after,
-    &::before {
-      position: absolute;
-      content: ' ';
-      display: inline-block;
-      top: 0;
-      bottom: 0;
-      z-index: 2;
-      width: 160px;
-      border-radius: 6px;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-    }
-
-    &::before {
-      left: 0;
-      background: linear-gradient(to right, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 0%) 100%);
-    }
-
-    &::after {
-      right: 0;
-      background: linear-gradient(to left, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 0%) 100%);
-    }
-
     .swiper-slide {
       flex: 0 0 auto;
       width: 140px;

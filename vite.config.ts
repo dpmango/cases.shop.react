@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import react from '@vitejs/plugin-react'
 import * as path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import eslintPlugin from 'vite-plugin-eslint'
@@ -46,7 +47,13 @@ export default ({ mode }) => {
         symbolId: 'icon-[dir]-[name]',
       }),
       svgLoader(),
-
+      // visualizer({
+      //   template: 'treemap', // or sunburst
+      //   open: true,
+      //   gzipSize: true,
+      //   brotliSize: false,
+      //   filename: 'bundle-analyze.html',
+      // }),
       // process?.env?.ODR ? viteSingleFile() : null,
     ],
     resolve: {
@@ -63,7 +70,19 @@ export default ({ mode }) => {
     },
 
     ssr: {
-      noExternal: ['@reduxjs/toolkit'],
+      noExternal: ['@reduxjs/toolkit', 'redux-thunk'],
+    },
+
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (['components/Ui', 'components/Atom'].some((x) => id.includes(x))) {
+              return 'interface'
+            }
+          },
+        },
+      },
     },
 
     css: {

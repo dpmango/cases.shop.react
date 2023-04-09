@@ -24,6 +24,7 @@ declare global {
   const getReviewsThunk: typeof import('./src/core/store/product.store')['getReviewsThunk']
   const getStore: typeof import('./src/core/store')['getStore']
   const getUser: typeof import('./src/core/api/session.api')['getUser']
+  const initialState: typeof import('./src/core/store/session.store')['initialState']
   const initializeApp: typeof import('./src/core/api/session.api')['initializeApp']
   const lazy: typeof import('react')['lazy']
   const memo: typeof import('react')['memo']

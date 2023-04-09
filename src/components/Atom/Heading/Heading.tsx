@@ -1,7 +1,6 @@
 import './_heading.scss'
 
 import cns from 'classnames'
-import React from 'react'
 
 import { SvgIcon, UiLink } from '@/components/Ui'
 

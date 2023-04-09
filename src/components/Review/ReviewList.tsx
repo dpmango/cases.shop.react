@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import { IReviewDto } from '@/core/interface/Review'
 
 export const ReviewList = (review: IReviewDto) => {

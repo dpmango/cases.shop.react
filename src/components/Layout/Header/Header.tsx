@@ -1,5 +1,5 @@
 import cns from 'classnames'
-import React, { useEffect, useState } from 'react'
+import throttle from 'lodash/throttle'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { PurchasesSlider } from '@/components/Order'
@@ -8,14 +8,15 @@ import { IProfileDto } from '@/core/interface/Initialization'
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [focused, setFocused] = useState(false)
 
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { modal } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
 
   const setProfile = (data: IProfileDto) => {
     dispatch(updateAnyState({ key: 'user', data }))
   }
-
   const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
 
   // scroll functions
@@ -32,16 +33,32 @@ const Header = () => {
   useEventListener('scroll', updateSticky)
   // useEventListener('resize', updateSticky)
 
+  const handleHoverIn = throttle(
+    () => {
+      setFocused(true)
+    },
+    1000,
+    { leading: false, trailing: true },
+  )
+
+  const handleHoverOut = throttle(
+    () => {
+      setFocused(false)
+    },
+    1000,
+    { leading: true, traling: false },
+  )
+
   return (
     <header
-      className={cns('header', scrolled && '_scrolled')}
+      className={cns('header', scrolled && '_scrolled', focused && '_focused')}
       style={{
         background: settings.header_color,
       }}
     >
       <div className="container _full">
         <div className="header__wrapper">
-          <div className="header__main">
+          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
             {/* <div className="header__actions">
               <span className="header__action-link">
                 <SvgIcon name="star" />

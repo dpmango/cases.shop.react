@@ -1,12 +1,21 @@
 export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
-  // name: string
-  // auth_bot: string
   // footer: IFooterDto[]
-  // slider: any[]
-  // settings: ISettingsDto
-  faq: IFAQDto[]
+  settings: {
+    id: string
+    value: {
+      footerBG: string
+      footerBGColor: string
+      headerBG: string
+      headerBGColor: string
+      logo: string
+      mainBG: string
+      mainColor: string
+      faqList: IFAQDto[]
+      specialOffers: ISpecialOffersDto[]
+    }
+  }
 }
 
 export interface ISettingsDto {
@@ -21,6 +30,7 @@ export interface ISettingsDto {
   background_site_color: string
 }
 
+export type ISpecialOffersDto = string[]
 export type IFAQDto = string[]
 
 // export interface IFooterDto {

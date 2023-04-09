@@ -26,19 +26,18 @@ export const Page = () => {
           <FaqInstruction />
 
           <p className="faq__subtitle h3-title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</p>
-          <ClientOnly>
-            <ul className="accordeon">
-              {faq &&
-                faq.map((faqitem, idx) => (
-                  <AccardeonPanel
-                    key={idx}
-                    faqitem={faqitem}
-                    isActive={activeAccardeon === idx}
-                    handleToggle={() => setActiveAccardeon(idx)}
-                  />
-                ))}
-            </ul>
-          </ClientOnly>
+
+          <ul className="accordeon">
+            {faq &&
+              faq.map((faqitem, idx) => (
+                <AccardeonPanel
+                  key={idx}
+                  faqitem={faqitem}
+                  isActive={activeAccardeon === idx}
+                  handleToggle={() => setActiveAccardeon(idx)}
+                />
+              ))}
+          </ul>
         </div>
       </div>
     </PageDecoration>

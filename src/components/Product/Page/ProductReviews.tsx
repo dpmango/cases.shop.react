@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-
 import { ReviewCard } from '@/components/Review'
 
 const ProductReviews: React.FC = () => {

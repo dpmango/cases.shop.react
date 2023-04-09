@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import { LayoutMain } from '@/components/Layout'
 import type { PageContext } from '~/renderer/types'
 import { PageContextProvider } from '~/src/components/Layout/Page/PageContext'
