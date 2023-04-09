@@ -2,7 +2,7 @@ export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
   // name: string
-  // bot_connector_name: string
+  // auth_bot: string
   // footer: IFooterDto[]
   // slider: any[]
   // settings: ISettingsDto

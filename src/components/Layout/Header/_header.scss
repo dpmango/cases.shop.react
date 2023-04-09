@@ -1,21 +1,23 @@
 /* NAV */
 .header {
   position: sticky;
+  overflow: hidden;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  overflow: hidden;
   background: radial-gradient(
     78.79% 1603.12% at 18.89% 71.76%,
     #eb5f0e 0%,
     #851012 51.82%,
     #480136 100%
   );
-  transition: transform 0.25s $ease;
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  transition: transform 0.25s $ease, box-shadow 0.2s linear;
 
   .container {
-    padding: 0 20px;
+    padding: 0 20px 0 12px;
   }
 
   &__wrapper {
@@ -23,6 +25,7 @@
     align-items: center;
     min-height: 105px;
     padding: 14px 0;
+    will-change: transform;
     transition: transform 0.25s $ease;
   }
 
@@ -30,40 +33,6 @@
     display: flex;
     flex: 0 1 65%;
     min-width: 1px;
-  }
-
-  &__actions {
-    flex: 0 0 auto;
-    margin-right: 2px;
-  }
-
-  &__action-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 49px;
-    height: 37px;
-    background: rgb(217 217 217 / 19%);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: color 0.25s $ease, height 0.25s $ease;
-
-    &:nth-child(1) {
-      margin-bottom: 2px;
-      border-top-left-radius: 10px;
-    }
-
-    &:nth-child(2) {
-      border-bottom-left-radius: 10px;
-    }
-
-    .svg-icon {
-      font-size: 16px;
-    }
-
-    &:hover {
-      color: var(--color-primary);
-    }
   }
 
   &__purchases {
@@ -85,6 +54,7 @@
 
   &__telegram {
     position: relative;
+    overflow: hidden;
     display: block;
     z-index: 1;
     width: 100%;
@@ -93,7 +63,6 @@
     font-size: 0;
     border-radius: 6px;
     transition: box-shadow 0.25s $ease;
-    overflow: hidden;
 
     &:hover {
       box-shadow: 0 10px 39px 0 rgb(84 169 235 / 100%);
@@ -105,33 +74,35 @@
     }
   }
 
+  // scroll modifier
   &._scrolled {
     transform: translateY(-32px);
+    box-shadow: 0 2px 16px 0 rgba(#000, 30%);
 
     .header {
       &__wrapper {
         transform: translateY(16px);
       }
 
-      &__action-link {
-        height: 29px;
-      }
+      // &__action-link {
+      //   height: 29px;
+      // }
     }
 
     .purchases {
-      &__slider {
-        .swiper-slide {
-          width: 120px;
-        }
-      }
+      // &__slider {
+      //   .swiper-slide {
+      //     width: 120px;
+      //   }
+      // }
 
       &__slide {
         height: 60px;
       }
 
-      &__slide-price {
-        font-size: 12px;
-      }
+      // &__slide-price {
+      //   font-size: 12px;
+      // }
     }
   }
 }
@@ -185,6 +156,7 @@
 
   &__name {
     margin-bottom: 4px;
+    font-family: var(--font-accent);
     font-weight: 700;
     font-size: 10px;
     line-height: 12px;
@@ -192,7 +164,7 @@
   }
 
   &__balance {
-    font-family: var(--font-canada);
+    font-family: var(--font-alt);
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
@@ -242,10 +214,6 @@
 
 @include r($sm) {
   .header {
-    // &__wrapper {
-    //   padding: 14px 5px 14px 2px;
-    // }
-
     &__user {
       margin-left: 0;
     }
@@ -255,3 +223,37 @@
     }
   }
 }
+
+// &__actions {
+//   flex: 0 0 auto;
+//   margin-right: 2px;
+// }
+
+// &__action-link {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 49px;
+//   height: 37px;
+//   background: rgb(217 217 217 / 19%);
+//   border-radius: 10px;
+//   cursor: pointer;
+//   transition: color 0.25s $ease, height 0.25s $ease;
+
+//   &:nth-child(1) {
+//     margin-bottom: 2px;
+//     border-top-left-radius: 10px;
+//   }
+
+//   &:nth-child(2) {
+//     border-bottom-left-radius: 10px;
+//   }
+
+//   .svg-icon {
+//     font-size: 16px;
+//   }
+
+//   &:hover {
+//     color: var(--color-primary);
+//   }
+// }

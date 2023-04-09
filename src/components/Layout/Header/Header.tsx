@@ -9,12 +9,7 @@ import { IProfileDto } from '@/core/interface/Initialization'
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
 
-  const {
-    id: shopId,
-    settings,
-    user,
-    bot_connector_name,
-  } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
   const setProfile = (data: IProfileDto) => {
@@ -47,14 +42,14 @@ const Header = () => {
       <div className="container _full">
         <div className="header__wrapper">
           <div className="header__main">
-            <div className="header__actions">
+            {/* <div className="header__actions">
               <span className="header__action-link">
                 <SvgIcon name="star" />
               </span>
               <span className="header__action-link">
                 <SvgIcon name="menu" />
               </span>
-            </div>
+            </div> */}
 
             <PurchasesSlider className="header__purchases" />
           </div>
@@ -83,11 +78,11 @@ const Header = () => {
             ) : (
               <a className="header__telegram">
                 <TLoginButton
-                  botName={bot_connector_name}
+                  botName={auth_bot}
                   buttonSize={TLoginButtonSize.Large}
                   lang="ru"
                   usePic={false}
-                  cornerRadius={20}
+                  cornerRadius={6}
                   onAuthCallback={onAuthSuccess}
                   requestAccess={'write'}
                 />

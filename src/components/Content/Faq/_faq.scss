@@ -38,6 +38,7 @@
 
   &__text {
     margin-top: 16px;
+    font-family: var(--font-accent);
     font-weight: 600;
     font-size: 14px;
     line-height: 16px;
@@ -60,7 +61,7 @@
 
 @include r($xl) {
   .faq {
-    &__pic {
+    &__image {
       width: 100%;
     }
 
@@ -107,7 +108,7 @@
       line-height: 27px;
     }
 
-    &__pic {
+    &__image {
       max-width: 160px;
     }
   }

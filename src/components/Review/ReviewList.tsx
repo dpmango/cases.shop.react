@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { IReviewDto } from '@/core/interface/Review'
 
-export const ReviewCard = (review: IReviewDto) => {
+export const ReviewList = (review: IReviewDto) => {
   const [hideAvatar, setHideAvatar] = useState(false)
 
   return (

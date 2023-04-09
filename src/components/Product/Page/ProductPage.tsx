@@ -49,16 +49,18 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
           <div className="product__left">
             <div className="product__slider">
               <PhotoView src={product.images[2]}>
-                <span className="product__pic" data-fancybox="gallery">
+                <span className="product__image" data-fancybox="gallery">
                   <img src={product.images[2]} alt="" />
                 </span>
               </PhotoView>
             </div>
           </div>
+
+          {/* content */}
           <div className="product__content">
             <div className="product__el">
-              <p className="product__name">Описание:</p>
-              <p className="product__text markdown">
+              <p className="product__name h5-title _canada">Описание:</p>
+              <p className="product__text p-regular markdown">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown>
               </p>
             </div>

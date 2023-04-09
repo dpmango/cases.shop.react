@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
-import { AppWrapper } from '../src/components/Layout'
+import { PageConsumer } from '../src/components/Layout'
 import { getStore } from '../src/core/store'
 import type { PageContextClient } from './types'
 
@@ -21,9 +21,9 @@ async function render(pageContext: PageContextClient) {
   reactRoot.render(
     <BrowserRouter>
       <Provider store={store}>
-        <AppWrapper pageContext={pageContext}>
+        <PageConsumer pageContext={pageContext}>
           <Page {...pageProps} />
-        </AppWrapper>
+        </PageConsumer>
       </Provider>
     </BrowserRouter>,
   )
@@ -34,9 +34,9 @@ async function render(pageContext: PageContextClient) {
 
   // <BrowserRouter>
   //   <Provider store={store}>
-  //     <AppWrapper pageContext={pageContext}>
+  //     <PageConsumer pageContext={pageContext}>
   //       <Page {...pageProps} />
-  //     </AppWrapper>
+  //     </PageConsumer>
   //   </Provider>
   // </BrowserRouter>,
   // )

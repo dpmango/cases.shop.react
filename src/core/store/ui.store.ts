@@ -6,7 +6,7 @@ export interface IUiState {
 }
 
 const initialState: IUiState = {
-  modal: [],
+  modal: [''],
   modalParams: {},
 }
 

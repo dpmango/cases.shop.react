@@ -20,18 +20,14 @@
   }
 
   &__link {
-    font-family: Inter, sans-serif;
-    font-weight: 500;
     font-size: 20px;
-    line-height: 24px;
-    color: #fff;
-    opacity: 0.26;
+    line-height: calc(24 / 20);
+    color: rgba(#fff, 0.26);
     letter-spacing: 0.32em;
-    transition: color 0.25s $ease, opacity 0.25s $ease;
+    transition: color 0.25s $ease;
 
     &:hover {
-      color: var(--color-font);
-      opacity: 0.5;
+      color: rgba(var(--color-font-rgb) 0.5);
     }
   }
 }

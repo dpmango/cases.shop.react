@@ -31,7 +31,7 @@ const LoaderComponent: FC<ILoaderProps> = ({ theme = 'inline', loading, threshol
     <div
       className={cns('loading-block', 'loader', theme && `_${theme}`, loadingState && '_active')}
     >
-      <div className="loading-block__pic">
+      <div className="loading-block__image">
         <div className="loader-anim">
           <div></div>
           <div></div>

@@ -46,6 +46,7 @@ export default ({ mode }) => {
         symbolId: 'icon-[dir]-[name]',
       }),
       svgLoader(),
+
       // process?.env?.ODR ? viteSingleFile() : null,
     ],
     resolve: {
@@ -68,7 +69,7 @@ export default ({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/assets/styles/utils/index.scss";',
+          additionalData: `@import "@/assets/styles/utils/index.scss";`,
         },
       },
     },

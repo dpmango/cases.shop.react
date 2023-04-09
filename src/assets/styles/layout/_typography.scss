@@ -7,8 +7,10 @@ h3,
 h4,
 .h4-title,
 h5,
-.h5-title {
-  font-family: var(--font-raleway);
+.h5-title,
+h6,
+.h6-title {
+  font-family: var(--font-accent);
 }
 
 .h1-title {
@@ -16,14 +18,12 @@ h5,
   font-weight: 900;
   font-size: 50px;
   line-height: calc(59 / 50);
-  text-align: center;
 }
 
 .h2-title {
   font-weight: 800;
   font-size: 34px;
   line-height: 40px;
-  text-align: center;
 }
 
 .h3-title {
@@ -77,17 +77,38 @@ h5,
 }
 
 .p-main {
-  font-family: var(--font-raleway);
+  font-family: var(--font-accent);
   font-weight: 600;
   font-size: 18px;
   line-height: calc(21 / 18);
 }
 
 .p-regular {
-  font-family: var(--font-canada);
+  font-family: var(--font-alt);
   font-weight: 500;
   font-size: 16px;
-  line-height: calc(16 / 19);
+  line-height: calc(19 / 16);
+}
+
+.p-small {
+  font-family: var(--font-base);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: calc(19 / 16);
+}
+
+@include r($sm) {
+  .p-main {
+    font-size: 16px;
+  }
+
+  .p-regular {
+    font-size: 14px;
+  }
+
+  .p-small {
+    font-size: 12px;
+  }
 }
 
 ul,
@@ -122,4 +143,16 @@ main,
 footer,
 header {
   overflow: hidden;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tal {
+  text-align: left;
+}
+
+.tar {
+  text-align: right;
 }

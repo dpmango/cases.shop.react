@@ -7,7 +7,7 @@
   color: var(--color-gray);
 }
 
-.loading-block__pic {
+.loading-block__image {
   width: 70px;
   height: 70px;
   margin: 0 auto 16px;
@@ -62,7 +62,7 @@
     width: 8px;
     height: 8px;
     background: var(--color-primary);
-    border-radius: 4px;
+    border-radius: var(--ui-border-radius);
     animation: loader 1.5s linear infinite;
     backface-visibility: hidden;
   }

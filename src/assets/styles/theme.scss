@@ -4,20 +4,18 @@
 
 :root {
   --font-base: 'Inter', sans-serif;
-  --font-canada: 'Radio Canada', sans-serif;
-  --font-raleway: 'Raleway', sans-serif;
-  --font-system: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Ubuntu',
-    'Cantarell', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-alt: 'Radio Canada', sans-serif;
+  --font-accent: 'Raleway', sans-serif;
   --container-main: 1405px;
   --container-narrow: 1196px;
   --container-wide: 1536px;
   --container-mini: 820px;
 
   /* ui */
-  --card-border-radius: 16px;
-  --button-border-radius: 6px;
-  --input-border-radius: 5px;
-  --map-border-radius: 12px;
+  --card-border-radius: 4px;
+  --button-border-radius: 4px;
+  --input-border-radius: 4px;
+  --ui-border-radius: 4px;
 }
 
 .theme-main {
@@ -29,8 +27,6 @@
   --color-gray: #a1a1a1;
   --color-muted: #cbcbcb;
   --color-bg: #010206;
-  --color-border: #d5dde3;
-  --color-separator: #e5e5e5;
 
   // brand colors
   --color-primary: #ffba01;
@@ -41,5 +37,7 @@
   --color-red: #d53536;
 
   // components
+  --body-background: linear-gradient(0deg, #010206, #010206),
+    linear-gradient(180deg, #1d5fdd 0%, #002e88 51.56%, #00102e 100%);
   --header-background: #373f54;
 }

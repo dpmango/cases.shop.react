@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom/server'
 import { dangerouslySkipEscape, escapeInject } from 'vite-plugin-ssr/server'
 
-import { AppWrapper } from '../src/components/Layout'
+import { PageConsumer } from '../src/components/Layout'
 import { getStore } from '../src/core/store'
 import type { PageContextServer } from './types'
 
@@ -26,9 +26,9 @@ async function render(pageContext: PageContextServer) {
   // const pageHtml = ReactDOMServer.renderToString(
   //   <StaticRouter location={urlPathname}>
   //     <Provider store={store}>
-  //       <AppWrapper pageContext={pageContext}>
+  //       <PageConsumer pageContext={pageContext}>
   //         <Page {...pageProps} />
-  //       </AppWrapper>
+  //       </PageConsumer>
   //     </Provider>
   //   </StaticRouter>,
   // )

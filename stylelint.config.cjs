@@ -22,6 +22,7 @@ module.exports = {
     'order/properties-order': [
       'position',
       'content',
+      'overflow',
       'display',
       'top',
       'left',
@@ -67,6 +68,8 @@ module.exports = {
       'opacity',
       'transform',
       'pointer-events',
+      'will-change',
+      'backface-visibility',
       'transition',
     ],
   },

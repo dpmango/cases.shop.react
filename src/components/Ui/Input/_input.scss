@@ -24,9 +24,9 @@
     border: 0;
     border-bottom: 2px solid var(--color-font);
     border-radius: 0;
+    backface-visibility: hidden;
     transition: border 0.1s $ease, color 0.1s $ease, background 0.1s $ease;
     appearance: none;
-    backface-visibility: hidden;
 
     &::placeholder {
       color: var(--color-gray);

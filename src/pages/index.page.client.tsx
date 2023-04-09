@@ -24,7 +24,8 @@ export const Page: React.FC = () => {
     <PageDecoration sectionClassName="home">
       <img src={settings.background_image} alt="" className="home__fire" />
       <div className="container">
-        <ProductsSlider />
+        <ProductsSlider fullWidth={false} />
+        {/* <ProductsSlider fullWidth={true} /> */}
 
         <Categories />
       </div>

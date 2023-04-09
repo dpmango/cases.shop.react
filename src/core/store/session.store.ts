@@ -9,7 +9,7 @@ export interface ISessionStore {
   id: string
   settings: ISettingsDto
   faq: IFAQDto[]
-  bot_connector_name: string
+  auth_bot: string
   telegram_bot_link: string
   user: IProfileDto | null
   lastPurchases: IOrderDto[] | null
@@ -30,7 +30,7 @@ const initialState: ISessionStore = {
     footer_color: '',
   },
   faq: [],
-  bot_connector_name: 'ShopCoreWeb_bot',
+  auth_bot: 'casesAuth_bot',
   telegram_bot_link: '',
 
   user: null,
