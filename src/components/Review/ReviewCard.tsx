@@ -11,6 +11,7 @@ export const ReviewCard = (review: IReviewDto) => {
             <img
               src={review.ava}
               alt={review.nick}
+              loading="lazy"
               onError={() => {
                 setHideAvatar(true)
               }}

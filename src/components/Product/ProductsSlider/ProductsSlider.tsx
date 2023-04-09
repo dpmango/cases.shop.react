@@ -1,5 +1,3 @@
-import 'swiper/css'
-import 'swiper/scss/autoplay'
 import './_products-slider.scss'
 
 import cns from 'classnames'

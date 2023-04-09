@@ -6,7 +6,7 @@ const DepositSuccessModal = () => {
   return (
     <UiModal name="deposit-success" title="ПОПОЛНЕНИЕ БАЛАНСА" titleIcon="checkmark-circle">
       <>
-        <p className="modal__text">
+        <p className="modal__text p-main">
           Ваш баланс пополнен успешно! <br />
           Дальнешее оформление заказа продолжится в чат-боте!
         </p>

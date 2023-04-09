@@ -87,14 +87,14 @@ h6,
   font-family: var(--font-alt);
   font-weight: 500;
   font-size: 16px;
-  line-height: calc(19 / 16);
+  line-height: 1.42;
 }
 
 .p-small {
   font-family: var(--font-base);
   font-weight: 500;
   font-size: 16px;
-  line-height: calc(19 / 16);
+  line-height: 1.42;
 }
 
 @include r($sm) {

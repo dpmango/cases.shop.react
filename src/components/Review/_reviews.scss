@@ -34,7 +34,7 @@
     margin-bottom: 15px;
   }
 
-  &__item:nth-child(2n) {
+  &:nth-child(2n) {
     background: #0b101b;
   }
 

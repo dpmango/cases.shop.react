@@ -16,6 +16,7 @@ a {
 }
 
 body {
+  min-width: 320px;
   margin: 0;
   font-family: var(--font-base);
   font-weight: 500;
@@ -28,5 +29,11 @@ body {
 
   &.js-locked {
     overflow: hidden;
+  }
+}
+
+@include r(374) {
+  body {
+    zoom: 0.9;
   }
 }

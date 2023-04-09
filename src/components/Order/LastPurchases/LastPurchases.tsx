@@ -1,7 +1,5 @@
 import './_purchases.scss'
 import 'swiper/scss'
-import 'swiper/scss/free-mode'
-import 'swiper/scss/mousewheel'
 
 import cns from 'classnames'
 import { FreeMode, Mousewheel } from 'swiper'

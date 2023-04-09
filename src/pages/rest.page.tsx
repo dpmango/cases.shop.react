@@ -1,6 +1,7 @@
-import ReactMarkdown from 'react-markdown'
+/* eslint-disable react/no-unknown-property */
+// import ReactMarkdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router'
-import remarkGfm from 'remark-gfm'
+// import remarkGfm from 'remark-gfm'
 
 export const documentProps = {
   title: 'Текстовая',
@@ -31,7 +32,9 @@ export const Page: React.FC = () => {
 
   return (
     <div className={'custom-page'}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      {content && <div className="wysiwg" v-html={content}></div>}
+
+      {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown> */}
     </div>
   )
 }

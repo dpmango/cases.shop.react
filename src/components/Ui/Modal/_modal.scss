@@ -129,6 +129,11 @@
     background: rgba(#d7d7d7, 0.05);
     border-radius: 9px;
   }
+
+  &__tg-auth {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .payment-options {

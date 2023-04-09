@@ -30,8 +30,24 @@
     bottom: 0;
     z-index: 1;
     padding: 4px 8px;
+    font-weight: 700;
     font-size: 14px;
     color: var(--color-font);
     background: var(--color-font-invert);
+    border-top-left-radius: var(--card-border-radius);
+  }
+}
+
+@include r($md) {
+  .purchases {
+    &__slider {
+      .swiper-slide {
+        width: 120px;
+      }
+    }
+
+    &__slide {
+      height: 60px;
+    }
   }
 }

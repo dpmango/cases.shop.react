@@ -41,12 +41,18 @@ const Header = () => {
     { leading: false, trailing: true },
   )
 
-  const handleHoverOut = throttle(
+  const handleHoverOut = () => {
+    setFocused(false)
+    handleHoverOutBounce()
+  }
+  const handleHoverOutBounce = throttle(
     () => {
-      setFocused(false)
+      setTimeout(() => {
+        setFocused(false)
+      }, 1)
     },
     1000,
-    { leading: true, traling: false },
+    { leading: false, traling: true },
   )
 
   return (
@@ -94,15 +100,17 @@ const Header = () => {
               </div>
             ) : (
               <a className="header__telegram">
-                <TLoginButton
-                  botName={auth_bot}
-                  buttonSize={TLoginButtonSize.Large}
-                  lang="ru"
-                  usePic={false}
-                  cornerRadius={6}
-                  onAuthCallback={onAuthSuccess}
-                  requestAccess={'write'}
-                />
+                {modal !== 'auth' && (
+                  <TLoginButton
+                    botName={auth_bot}
+                    buttonSize={TLoginButtonSize.Large}
+                    lang="ru"
+                    usePic={false}
+                    cornerRadius={6}
+                    onAuthCallback={onAuthSuccess}
+                    requestAccess={'write'}
+                  />
+                )}
               </a>
             )}
           </div>

@@ -9,7 +9,7 @@ const OrderModal = () => {
 
   return (
     <UiModal name="order" title="ОФОРМЛЕНИЕ ЗАКАЗА" titleIcon="cart-success">
-      <p className="modal__text">
+      <p className="modal__text p-main">
         Оформление заказа продолжится в телеграм-боте! <br />
         Спасибо, что пользуетесь нашим сервисом!
       </p>

@@ -109,12 +109,6 @@
       &__wrapper {
         transform: translateY(16px);
       }
-
-      // &__purchases {
-      //   margin-right: -30%;
-      //   transform: scale(0.7);
-      //   transform-origin: center left;
-      // }
     }
 
     .purchases {
@@ -219,28 +213,23 @@
 @include r($lg) {
   .header {
     &__wrapper {
-      min-height: 1px;
-      padding-top: 10px;
-      padding-bottom: 12px;
+      // min-height: 1px;
     }
   }
 }
 
 @include r($md) {
   .header {
-    .container {
-      padding-left: 12px;
-      padding-right: 20px;
+    transform: translateY(-32px);
+
+    &__wrapper {
+      transform: translateY(16px);
     }
   }
 }
 
 @include r($sm) {
   .header {
-    &__user {
-      margin-left: 0;
-    }
-
     &__telegram {
       max-width: 238px;
     }

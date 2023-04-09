@@ -37,6 +37,16 @@
     }
   }
 
+  &._secondary {
+    color: rgba(#fff, 0.8);
+    background: var(--color-accent);
+
+    &:hover {
+      color: rgba(#fff, 0.8);
+      background: #790b34;
+    }
+  }
+
   &._default {
     height: 66px;
   }
