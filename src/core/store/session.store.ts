@@ -24,7 +24,7 @@ export interface ISessionStore {
 }
 
 export const initialState: ISessionStore = {
-  id: 'MurcciTGBot',
+  id: 'Khmelevskoy',
   settings: {
     background_site_color: '#000000',
     footer_color: '',

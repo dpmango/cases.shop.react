@@ -5,7 +5,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
   const PRELOADED_STATE = {
     sessionState: {
       ...initialState,
-      id: 'MurcciTGBot',
+      id: 'Khmelevskoy',
     },
   }
 
