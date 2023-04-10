@@ -3,22 +3,26 @@ export interface IInitDataDto {
   telegram_bot_link: string
   // footer: IFooterDto[]
   settings: {
-    id: string
-    value: {
-      footerBG: string
-      footerBGColor: string
-      headerBG: string
-      headerBGColor: string
-      logo: string
-      mainBG: string
-      mainColor: string
-      faqList: IFAQDto[]
-      specialOffers: ISpecialOffersDto[]
-    }
+    logo: string
+    paymentLogo: string
+    footerBG: string
+    footerBGColor: string
+    headerBG: string
+    headerBGColor: string
+    mainBG: string
+    mainColor: string
+    faqList: IFAQDto[]
+    specialOffers: ISpecialOffersDto[]
+
+    // footerBgFAQ: ''
+    // reviewBG: ''
+    // productBG: ''
   }
 }
 
 export interface ISettingsDto {
+  logo: string
+  paymentLogo: string
   background_image: string
   footer_image: string
   reviews_footer_image: string
@@ -53,6 +57,10 @@ export interface ITelegramAuthDto {
 export interface IAuthDto {
   access_token: string
   refresh_token: string
+  expires_at: string
+  expires_in: number
+  refresh_expires: number
+  refresh_expires_at: string
 }
 
 // Profile

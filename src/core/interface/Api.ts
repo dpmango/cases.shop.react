@@ -9,3 +9,15 @@ export interface IApiResponse<T> {
   error: IError | null
   raw: T
 }
+
+interface PromiseFulfilledResult<T> {
+  status: 'fulfilled'
+  value: { data: T | any; error: IError | null }
+}
+
+interface PromiseRejectedResult {
+  status: 'rejected'
+  reason: any
+}
+
+export type PromiseSettledResult<T> = PromiseFulfilledResult<T> | PromiseRejectedResult

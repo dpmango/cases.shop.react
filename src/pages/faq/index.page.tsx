@@ -9,7 +9,6 @@ export const documentProps = {
 }
 
 import '@/components/Content/Faq/_faq.scss'
-import '@/components/Content/Faq/_faq.scss'
 
 export const Page = () => {
   const { faq } = useAppSelector((state) => state.sessionState)

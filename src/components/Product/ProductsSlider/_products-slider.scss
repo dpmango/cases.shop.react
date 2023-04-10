@@ -1,6 +1,11 @@
 .slider {
   position: static;
   overflow: visible;
+  transition: opacity 0.1s ease;
+
+  &._loading {
+    opacity: 0;
+  }
 
   &::before,
   &::after {

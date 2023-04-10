@@ -13,7 +13,7 @@ const DepositSuccessModal = () => {
 
         {telegram_bot_link && (
           <div className="modal__action">
-            <UiButton as="a" size="small" href={telegram_bot_link} block={true}>
+            <UiButton as="a" size="small" target="_blank" href={telegram_bot_link} block={true}>
               Перейти в бот-чат
             </UiButton>
           </div>

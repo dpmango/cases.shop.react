@@ -13,11 +13,11 @@ const LastPurchases: React.FC<ILastPurchasesProps> = ({ className }) => {
   const { id: shopId, lastPurchases } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    if (lastPurchases === null && shopId) {
-      dispatch(getOrdersThunk({ shopId }))
-    }
-  }, [shopId])
+  // useEffect(() => {
+  //   if (lastPurchases === null ) {
+  //     dispatch(getOrdersThunk({ shopId }))
+  //   }
+  // }, [shopId])
 
   return (
     <div className={cns('purchases', className)}>

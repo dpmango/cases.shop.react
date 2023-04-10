@@ -1,6 +1,7 @@
 import '@/assets/styles/app.scss'
 import 'virtual:svg-icons-register'
 
+import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -19,9 +20,9 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
   // const location = usePageContext()
 
   useEffect(() => {
-    dispatch(startAppThunk({ shopId }))
+    // dispatch(startAppThunk({ shopId }))
 
-    const accessToken = localStorage.getItem('access_token')
+    const accessToken = Cookies.get('access_token')
     if (accessToken) {
       dispatch(getProfileThunk())
     }

@@ -15,11 +15,11 @@ export const Page = () => {
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    if (reviews === null && shopId) {
-      dispatch(getReviewsThunk({ shopId }))
-    }
-  }, [shopId])
+  // useEffect(() => {
+  //   if (reviews === null) {
+  //     dispatch(getReviewsThunk({ shopId }))
+  //   }
+  // }, [shopId])
 
   return (
     <PageDecoration sectionClassName="reviews">

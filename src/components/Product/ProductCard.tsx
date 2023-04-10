@@ -1,5 +1,7 @@
 import './_product-card.scss'
 
+import cns from 'classnames'
+
 import { UiLink } from '@/components/Ui'
 import { IProductDto } from '@/core/interface/Product'
 
@@ -23,8 +25,9 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
       </div>
 
       <div className="product-card__action">
-        <p className="product-card__price">
-          {salePrice} Р{price !== salePrice ? <sup>{price} P </sup> : ''}
+        <p className={cns('product-card__price', price !== salePrice && '_discount')}>
+          <span className="product-card__price-old">{formatPrice(price)}</span>
+          {formatPrice(salePrice)}
         </p>
       </div>
     </UiLink>

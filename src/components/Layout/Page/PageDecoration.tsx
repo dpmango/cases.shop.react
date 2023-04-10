@@ -52,20 +52,18 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
   }, [page])
 
   return (
-    <main data-shop={shopId}>
+    <main
+      data-shop={shopId}
+      style={{
+        background: settings.background_site_color,
+      }}
+    >
       {decorImages.length &&
         decorImages.map((img, idx) => (
           <img key={idx} src={img.image} alt="decor" className={img.className} />
         ))}
 
-      <section
-        className={sectionClassName}
-        style={{
-          background: settings.background_site_color,
-        }}
-      >
-        {children}
-      </section>
+      <section className={sectionClassName}>{children}</section>
 
       {/* <ScrollRestoration /> */}
     </main>

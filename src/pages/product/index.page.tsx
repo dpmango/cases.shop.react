@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router'
 
 import { PageDecoration } from '@/components/Layout'
+import { usePageContext } from '@/components/Layout'
 import { OrderModal } from '@/components/Order'
 import { ProductPage } from '@/components/Product'
 import { UiLoader } from '@/components/Ui'
@@ -11,41 +12,22 @@ export const documentProps = {
 }
 
 export const Page: React.FC = () => {
-  const [selectedItem, setSelectedItem] = useState<any>(null)
-
   const { id: shopId } = useAppSelector((state) => state.sessionState)
-  const { items, reviews } = useAppSelector((state) => state.productState)
+  const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  const params = useParams()
-  const navigate = useNavigate()
+  const pageContext = usePageContext()
 
-  useEffect(() => {
-    if (reviews === null && shopId) {
-      dispatch(getReviewsThunk({ shopId }))
-    }
-    if (items === null && shopId) {
-      dispatch(getProductThunk({ shopId }))
-    }
-  }, [shopId])
-
-  useEffect(() => {
-    if (items !== null) {
-      const allItems = Object.values(items).flat()
-      const item = allItems.find((el) => el.id === params.id)
-
-      setSelectedItem(item)
-
-      if (!item) {
-        navigate('/404', { replace: true })
-      }
-    }
-  }, [items, params?.id])
+  // useEffect(() => {
+  //   if (reviews === null) {
+  //     dispatch(getReviewsThunk({ shopId }))
+  //   }
+  // }, [shopId])
 
   return (
     <PageDecoration sectionClassName="product">
-      {selectedItem ? (
-        <ProductPage product={selectedItem} />
+      {pageContext.productData ? (
+        <ProductPage product={pageContext.productData} />
       ) : (
         <UiLoader theme="page" loading={true} />
       )}

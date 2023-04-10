@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import { FetchError, FetchOptions, ofetch } from 'ofetch'
 
 import type { IError } from '@/core/interface/Api'
@@ -21,7 +22,7 @@ export const api = async (
   { method = 'GET', body, params, headers }: IRequestOptions,
 ): Promise<IApiResult> => {
   try {
-    const accessToken = localStorage.getItem('access_token')
+    const accessToken = Cookies.get('access_token')
 
     const requestOptions = {
       method,
@@ -51,9 +52,11 @@ export const api = async (
       requestUrl = url
     }
 
+    const DEV_perf_start = performance.now()
     const { data, msg, status, errorCode, ...raw } = await ofetch(requestUrl, requestOptions)
+    const DEV_perf_end = performance.now()
 
-    console.log(`👌 fetch ${url} ${JSON.stringify(requestOptions.params)}`, data)
+    console.log(`👌 fetch ${url} in ${(DEV_perf_end - DEV_perf_start).toFixed(2)} ms`, data)
 
     if (status) {
       return { data, raw, message: msg, error: null }
@@ -84,16 +87,18 @@ export const api = async (
     }
 
     if (err?.status === 5) {
-      const { data } = await userAuthRefresh({ token: localStorage.getItem('refresh_token') || '' })
+      const { data } = await userAuthRefresh({
+        token: Cookies.get('refresh_token') || '',
+      })
 
       if (data) {
-        localStorage.setItem('access_token', data.access_token)
-        localStorage.setItem('refresh_token', data.refresh_token)
+        Cookies.set('access_token', data.access_token)
+        Cookies.set('refresh_token', data.refresh_token)
         console.log('refetch', url, { method, body, params, headers })
         return await api(url, { method, body, params, headers })
       } else {
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
+        Cookies.remove('access_token')
+        Cookies.remove('refresh_token')
 
         window && window.location.reload()
       }

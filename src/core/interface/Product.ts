@@ -1,13 +1,17 @@
-export interface IProductListDto {
-  [key: string]: IProductDto[]
+export interface IProductCategoryDto {
+  categoryName: string
+  categoryColor: string
+  items: IProductDto[]
 }
 
 export interface IProductDto {
   id: string
-  description: string
   name: string
   images: string[]
   price: number
   salePrice: number
-  images_ids: number[]
+}
+
+export interface IProductFullDto extends IProductDto {
+  description: string
 }

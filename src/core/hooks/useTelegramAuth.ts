@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 import { fetchAuth, getProfile } from '@/core/api/session.api'
 import { IProfileDto, ITelegramAuthDto } from '~/src/core/interface/Initialization'
 
@@ -11,8 +13,8 @@ export const useTelegramAuth = ({ shopId, cb }: IUseTelegramAuth) => {
     const { data } = await fetchAuth({ shopId, telegram: req })
 
     if (data) {
-      localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('refresh_token', data.refresh_token)
+      Cookies.set('access_token', data.access_token)
+      Cookies.set('refresh_token', data.refresh_token)
 
       const { data: userData } = await getProfile()
       if (userData) cb(userData)

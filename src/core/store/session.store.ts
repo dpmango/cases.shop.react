@@ -23,13 +23,16 @@ export interface ISessionStore {
   lastPurchases: IOrderDto[] | null
 }
 
-export const initialState: ISessionStore = {
-  id: 'Khmelevskoy',
+export const initialSessionState: ISessionStore = {
+  id: import.meta.env.VITE_SHOP_ID || '',
+  auth_bot: import.meta.env.VITE_SHOP_AUTH_BOT || '',
+  telegram_bot_link: '',
   settings: {
+    logo: '',
+    paymentLogo: '',
     background_site_color: '#000000',
     footer_color: '',
-    header_color:
-      'radial-gradient( 78.79% 1603.12% at 18.89% 71.76%, #eb5f0e 0%, #851012 51.82%, #480136 100%)',
+    header_color: '',
     background_image: '/img/decor/fire.png',
     footer_image: '/img/decor/fire-big.png',
     faq_left_footer_image: '/img/decor/man22.png',
@@ -39,8 +42,6 @@ export const initialState: ISessionStore = {
   },
   faq: [],
   specialOffers: [],
-  auth_bot: 'casesAuth_bot',
-  telegram_bot_link: '',
 
   user: null,
   lastPurchases: null,
@@ -84,9 +85,35 @@ const updateByDataType = (state: any, action: PayloadAction<{ key: string; data:
   }
 }
 
+export const covertInitDto = (state: any, payload: IInitDataDto) => {
+  const createImgLink = (img: string) => {
+    if (!img) return ''
+    return `${import.meta.env.VITE_ASSETS_URL}${img}`
+  }
+
+  const { faqList, specialOffers, logo, paymentLogo, footerBGColor, headerBGColor, mainColor } =
+    payload.settings
+
+  return {
+    ...state,
+    telegram_bot_link: payload.telegram_bot_link,
+    settings: {
+      ...state.settings,
+      logo: createImgLink(logo),
+      paymentLogo: createImgLink(paymentLogo),
+
+      background_site_color: mainColor,
+      footer_color: footerBGColor,
+      header_color: headerBGColor,
+    },
+    faq: faqList || [],
+    specialOffers: specialOffers || [],
+  }
+}
+
 export const sessionState = createSlice({
   name: 'session',
-  initialState,
+  initialState: initialSessionState,
   reducers: {
     setUser(state, action: PayloadAction<IProfileDto>) {
       state.user = { ...action.payload }
@@ -101,44 +128,11 @@ export const sessionState = createSlice({
       startAppThunk.fulfilled,
       (state, action: PayloadAction<IInitDataDto | null>) => {
         if (action.payload) {
-          updateByDataType(state, {
-            payload: { key: 'telegram_bot_link', data: action.payload.telegram_bot_link },
-            type: '',
-          })
+          const covertedSessionState = covertInitDto(state, action.payload)
 
-          updateByDataType(state, {
-            payload: { key: 'faq', data: action.payload.settings.value.faqList || [] },
-            type: '',
-          })
-
-          updateByDataType(state, {
-            payload: {
-              key: 'settings',
-              data: {
-                ...state.settings,
-                // background_image: action.payload.settings.value.footerBG,
-                // footer_image: action.payload.settings.value.footerBG,
-                // reviews_footer_image: action.payload.settings.value.footerBG,
-                // faq_left_footer_image: action.payload.settings.value.footerBG,
-                // faq_right_footer_image: action.payload.settings.value.footerBG,
-                // item_right_footer_image: action.payload.settings.value.footerBG,
-
-                footer_color: action.payload.settings.value.footerBGColor,
-                header_color: action.payload.settings.value.headerBGColor,
-              },
-            },
-            type: '',
-          })
-
-          // TODO - mapping
-          // Object.keys(action.payload).forEach((key) => {
-          //   // @ts-ignore
-          //   const dataValue = action.payload[key]
-          //   updateByDataType(state, {
-          //     payload: { key, data: dataValue },
-          //     type: '',
-          //   })
-          // })
+          state = {
+            ...covertInitDto(state, action.payload),
+          }
         }
       },
     )
@@ -154,7 +148,7 @@ export const sessionState = createSlice({
       getOrdersThunk.fulfilled,
       (state, action: PayloadAction<IOrderDto[] | null>) => {
         if (action.payload) {
-          state.lastPurchases = [...action.payload, ...action.payload, ...action.payload] // todo - only for dev pruporses
+          state.lastPurchases = [...action.payload]
         }
       },
     )
@@ -164,3 +158,13 @@ export const sessionState = createSlice({
 export const { resetState, setUser, updateAnyState } = sessionState.actions
 
 export default sessionState.reducer
+
+// TODO - mapping
+// Object.keys(action.payload).forEach((key) => {
+//   // @ts-ignore
+//   const dataValue = action.payload[key]
+//   updateByDataType(state, {
+//     payload: { key, data: dataValue },
+//     type: '',
+//   })
+// })

@@ -63,24 +63,31 @@
 
   &__price {
     position: relative;
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-alt);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 22px;
     line-height: 26px;
     text-align: center;
     color: rgb(0 0 0 / 80%);
 
-    sup {
-      position: absolute;
-      top: -8px;
-      right: 0;
-      font-family: var(--font-alt);
-      font-weight: 600;
-      font-size: 10px;
-      line-height: 12px;
-      text-decoration: line-through;
-      color: rgb(0 0 0 / 30%);
+    &._discount {
+      color: var(--color-accent);
+
+      .product-card__price-old {
+        display: inline-block;
+      }
     }
+  }
+
+  &__price-old {
+    display: none;
+    margin-right: 8px;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: line-through;
+    color: rgb(0 0 0 / 50%);
   }
 
   &:hover {

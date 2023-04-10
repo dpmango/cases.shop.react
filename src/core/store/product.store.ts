@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
-import { IProductListDto } from '../interface/Product'
+import { IProductCategoryDto } from '../interface/Product'
 import { IReviewDto } from '../interface/Review'
 
 export interface IProductStore {
   productsFetching: boolean
-  items: IProductListDto | null
+  items: IProductCategoryDto[] | null
   reviewsFetching: boolean
   reviews: IReviewDto[] | null
 }
 
-const initialState: IProductStore = {
+export const initialProductState: IProductStore = {
   productsFetching: true,
   items: null,
   reviewsFetching: true,
@@ -19,8 +19,8 @@ const initialState: IProductStore = {
 }
 
 // thunks
-export const getProductThunk = createAsyncThunk(
-  'prodcut/getProductThunk',
+export const getProductsThunk = createAsyncThunk(
+  'prodcut/getProductsThunk',
   async ({ shopId }: { shopId: string }) => {
     const { data } = await getProducts({ shopId })
 
@@ -39,7 +39,7 @@ export const getReviewsThunk = createAsyncThunk(
 
 export const productState = createSlice({
   name: 'product',
-  initialState,
+  initialState: initialProductState,
   reducers: {
     updateReviews(state, action: PayloadAction<IReviewDto[]>) {
       state.reviews = [...action.payload]
@@ -47,16 +47,14 @@ export const productState = createSlice({
   },
   extraReducers: (builder) => {
     // Catalog* like with Product Dto's
-    builder.addCase(getProductThunk.pending, (state) => {
+    builder.addCase(getProductsThunk.pending, (state) => {
       state.productsFetching = true
     })
     builder.addCase(
-      getProductThunk.fulfilled,
-      (state, action: PayloadAction<IProductListDto | null>) => {
+      getProductsThunk.fulfilled,
+      (state, action: PayloadAction<IProductCategoryDto[] | null>) => {
         if (action.payload) {
-          state.items = {
-            ...action.payload,
-          }
+          state.items = [...action.payload]
         }
 
         state.productsFetching = false

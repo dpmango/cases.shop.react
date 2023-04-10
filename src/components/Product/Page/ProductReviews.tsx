@@ -5,7 +5,7 @@ import { ReviewCard } from '@/components/Review'
 import { UiButton, UiLink } from '@/components/Ui'
 
 const ProductReviews: React.FC = () => {
-  const { items, reviews } = useAppSelector((state) => state.productState)
+  const { reviews } = useAppSelector((state) => state.productState)
 
   return (
     <div className="product-rev">

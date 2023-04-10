@@ -3,6 +3,7 @@ import throttle from 'lodash/throttle'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { PurchasesSlider } from '@/components/Order'
+import { ClientOnly } from '@/components/Ui'
 import { SvgIcon } from '@/components/Ui'
 import { IProfileDto } from '@/core/interface/Initialization'
 

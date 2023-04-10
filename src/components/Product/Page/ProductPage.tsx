@@ -8,27 +8,25 @@ import { Swiper, type Swiper as SwiperRef, SwiperSlide } from 'swiper/react'
 
 import { ProductReviews } from '@/components/Product'
 import { UiButton } from '@/components/Ui'
-import { IProductDto } from '~/src/core/interface/Product'
+import { IProductFullDto } from '~/src/core/interface/Product'
 
 interface IProductPageProps {
-  product: IProductDto
+  product: IProductFullDto
 }
 
 const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
   const { id: shopId, user } = useAppSelector((state) => state.sessionState)
-  const { items, reviews } = useAppSelector((state) => state.productState)
+  const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperRef | null>(null)
+  const [thumbsSwiper, setThumbsSwiper] = useState<typeof SwiperRef | null>(null)
 
-  useEffect(() => {
-    if (reviews === null && shopId) {
-      dispatch(getReviewsThunk({ shopId }))
-    }
-    if (items === null && shopId) {
-      dispatch(getProductThunk({ shopId }))
-    }
-  }, [shopId])
+  // useEffect(() => {
+  //   if (reviews === null) {
+  //     dispatch(getReviewsThunk({ shopId }))
+  //   }
+
+  // }, [shopId])
 
   const generatePaymentLink = async () => {
     const { data } = await getPayment({ amount: +product.price - +(user?.balance || 0) })
@@ -66,7 +64,11 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
   }, [])
 
   const gallery = useMemo(() => {
-    return Array.from(product.images).reverse()
+    if (Array.isArray(product.images)) {
+      return product.images.slice(2)
+    }
+
+    return []
   }, [product.images])
 
   return (
@@ -92,40 +94,42 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
               ))}
             </Swiper>
 
-            <Swiper
-              className="product__thumbs"
-              modules={[Thumbs]}
-              slidesPerView={'auto'}
-              spaceBetween={10}
-              watchSlidesProgress
-              onSwiper={setThumbsSwiper}
-            >
-              {gallery.map((img, idx) => (
-                <SwiperSlide key={idx}>
-                  <div className="product__thumb" key={idx}>
-                    <img src={img} alt="" />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            {gallery.length > 1 && (
+              <Swiper
+                className="product__thumbs"
+                modules={[Thumbs]}
+                slidesPerView={'auto'}
+                spaceBetween={10}
+                watchSlidesProgress
+                onSwiper={setThumbsSwiper}
+              >
+                {gallery.map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <div className="product__thumb" key={idx}>
+                      <img src={img} alt="" />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
 
           {/* content */}
           <div className="product__content">
+            {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown> */}
+            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+            {/* 
             <div className="product__el">
-              <p className="product__name h5-title _canada">Описание:</p>
-              <p className="product__text p-regular markdown">
-                {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown> */}
-                {product.description}
-              </p>
+              <p className="product__name h5-title">Описание:</p>
+              <p className="product__text p-regular markdown">{product.description}</p>
             </div>
 
             <div className="product__el">
-              <p className="product__name h5-title _canada">В наборе:</p>
+              <p className="product__name h5-title">В наборе:</p>
               <ul className="product__list">
                 <li className="product__li">todo - добавить отдельный массив в апи </li>
               </ul>
-            </div>
+            </div> */}
 
             <div className="product__payment">
               <p className="product__price">
