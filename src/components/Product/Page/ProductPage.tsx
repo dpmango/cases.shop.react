@@ -21,14 +21,23 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState<typeof SwiperRef | null>(null)
 
-  // useEffect(() => {
-  //   if (reviews === null) {
-  //     dispatch(getReviewsThunk({ shopId }))
-  //   }
-
-  // }, [shopId])
+  useEffect(() => {
+    if (reviews === null) {
+      dispatch(getReviewsThunk({ shopId }))
+    }
+  }, [])
 
   const generatePaymentLink = async () => {
+    if (!user) {
+      dispatch(setModal({ name: 'auth' }))
+      return
+    } else {
+      if (user.balance >= +product.price) {
+        dispatch(setModal({ name: 'order' }))
+        return
+      }
+    }
+
     const { data } = await getPayment({ amount: +product.price - +(user?.balance || 0) })
 
     if (data) {
@@ -117,7 +126,10 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
           {/* content */}
           <div className="product__content">
             {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown> */}
-            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+            <div className="product__wysiwyg wysiwyg">
+              <div dangerouslySetInnerHTML={{ __html: product.description }} />
+            </div>
+
             {/* 
             <div className="product__el">
               <p className="product__name h5-title">Описание:</p>
@@ -133,8 +145,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
             <div className="product__payment">
               <p className="product__price">
-                {product.salePrice} Р
-                {product.price !== product.salePrice ? <sup>{product.price} P</sup> : ''}
+                {formatPrice(product.salePrice)}
+                {product.price !== product.salePrice ? <sup>{formatPrice(product.price)}</sup> : ''}
               </p>
               <div className="product__options">
                 {paymentOptions.map((x) => (
@@ -145,19 +157,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
               </div>
             </div>
 
-            <UiButton
-              as="a"
-              onClick={() => {
-                if (user) {
-                  if (user.balance >= +product.price) {
-                    dispatch(setModal({ name: 'order' }))
-                  } else generatePaymentLink()
-                } else {
-                  dispatch(setModal({ name: 'auth' }))
-                }
-              }}
-              className={`product__btn`}
-            >
+            <UiButton as="a" onClick={generatePaymentLink} className={`product__btn`}>
               КУПИТЬ
             </UiButton>
           </div>

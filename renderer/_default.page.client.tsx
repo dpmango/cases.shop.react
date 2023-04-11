@@ -15,31 +15,32 @@ async function render(pageContext: PageContextClient) {
   const store = getStore(PRELOADED_STATE)
   if (!Page) throw new Error('Client-side render() hook expects pageContext.Page to be defined')
 
-  // SSR mode
-  hydrateRoot(
-    document.getElementById('react-app')!,
+  if (pageContext.isHydration) {
+    // SSR mode
+    hydrateRoot(
+      document.getElementById('react-app')!,
 
-    <BrowserRouter>
-      <Provider store={store}>
-        <PageConsumer pageContext={pageContext}>
-          <Page {...pageProps} />
-        </PageConsumer>
-      </Provider>
-    </BrowserRouter>,
-  )
-
-  // SPA mode
-  // const reactRoot = createRoot(document.getElementById('react-app')!)
-
-  // reactRoot.render(
-  //   <BrowserRouter>
-  //     <Provider store={store}>
-  //       <PageConsumer pageContext={pageContext}>
-  //         <Page {...pageProps} />
-  //       </PageConsumer>
-  //     </Provider>
-  //   </BrowserRouter>,
-  // )
+      <BrowserRouter>
+        <Provider store={store}>
+          <PageConsumer pageContext={pageContext}>
+            <Page {...pageProps} />
+          </PageConsumer>
+        </Provider>
+      </BrowserRouter>,
+    )
+  } else {
+    // SPA mode
+    // const reactRoot = createRoot(document.getElementById('react-app')!)
+    // reactRoot.render(
+    //   <BrowserRouter>
+    //     <Provider store={store}>
+    //       <PageConsumer pageContext={pageContext}>
+    //         <Page {...pageProps} />
+    //       </PageConsumer>
+    //     </Provider>
+    //   </BrowserRouter>,
+    // )
+  }
 }
 
 export const clientRouting = true

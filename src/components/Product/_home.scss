@@ -8,11 +8,17 @@
     padding-top: 0;
   }
 
+  &._loading {
+    .slider {
+      opacity: 0;
+    }
+  }
+
   &__fire {
     position: absolute;
     top: -105px;
     left: 0;
-    z-index: 3;
+    z-index: 1;
     pointer-events: none;
     mix-blend-mode: lighten;
   }
@@ -52,6 +58,8 @@
 
   &__category-title {
     position: relative;
+    overflow: hidden;
+    max-width: 80%;
     margin: 0 auto 80px;
     text-align: center;
     text-transform: uppercase;
@@ -60,32 +68,40 @@
       position: relative;
       display: inline-block;
       z-index: 2;
-      padding: 0 45px;
-      background: #010206;
-    }
 
-    &::before {
-      position: absolute;
-      content: '';
-      display: block;
-      top: 50%;
-      left: 50%;
-      z-index: 1;
-      width: 100%;
-      height: 5px;
-      max-width: 80%;
-      background: #fff;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+      &::before,
+      &::after {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 50%;
+        z-index: 1;
+        width: 50vw;
+        height: 5px;
+        background: #fff;
+        transform: translateY(-50%) rotate(180deg);
+        pointer-events: none;
+      }
+
+      &::before {
+        left: -45px;
+        transform-origin: left center;
+      }
+
+      &::after {
+        right: -45px;
+        transform-origin: right center;
+      }
     }
   }
 
   &__category-decor {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 14px;
+    left: calc((((100vw - var(--container-main)) / 2) * -1) - 40px);
+    right: calc((((100vw - var(--container-main)) / 2) * -1) - 40px);
     height: 420px;
+    pointer-events: none;
   }
 }
 
@@ -98,6 +114,11 @@
 
     &__category-grid {
       // grid-template-columns: repeat(3, 1fr);
+    }
+
+    &__category-decor {
+      left: -40px;
+      right: -40px;
     }
   }
 }
@@ -138,6 +159,11 @@
       // flex-direction: column;
       // align-items: center;
     }
+
+    &__category-decor {
+      left: -20px;
+      right: -20px;
+    }
   }
 }
 
@@ -164,16 +190,19 @@
     }
 
     &__category-title {
+      max-width: 100%;
       margin-bottom: 50px;
 
-      &::before {
-        width: 80%;
-        height: 3px;
-      }
-
       span {
-        padding-left: 24px;
-        padding-right: 24px;
+        &::before {
+          left: -24px;
+          height: 3px;
+        }
+
+        &::after {
+          right: -24px;
+          height: 3px;
+        }
       }
     }
 

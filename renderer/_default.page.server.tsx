@@ -11,10 +11,11 @@ import type { IError, PromiseSettledResult } from '@/core/interface/Api'
 
 import type { IPromiseFactory, PageContextServer } from './types'
 
-const passToClient = ['pageProps', 'productData', 'redirectTo', 'PRELOADED_STATE']
+const passToClient = ['pageProps', 'productData', 'PRELOADED_STATE']
 
 export async function onBeforeRender(pageContext: PageContextServer) {
   const { isClientSideNavigation, urlPathname, _pageId, routeParams } = pageContext
+  if (isClientSideNavigation) return { pageContext: {} }
 
   const DEV_perf_start = performance.now()
   const shopId = import.meta.env.VITE_SHOP_ID

@@ -102,7 +102,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
       logo: createImgLink(logo),
       paymentLogo: createImgLink(paymentLogo),
 
-      background_site_color: mainColor,
+      background_site_color: mainColor || '#000000',
       footer_color: footerBGColor,
       header_color: headerBGColor,
     },

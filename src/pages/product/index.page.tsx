@@ -5,6 +5,7 @@ import { usePageContext } from '@/components/Layout'
 import { OrderModal } from '@/components/Order'
 import { ProductPage } from '@/components/Product'
 import { UiLoader } from '@/components/Ui'
+import type { IProductFullDto } from '@/core/interface/Product'
 
 export const documentProps = {
   title: '[Товар]',
@@ -12,22 +13,39 @@ export const documentProps = {
 }
 
 export const Page: React.FC = () => {
+  const [product, setProduct] = useState<IProductFullDto | null>(null)
+  const { isHydrated } = useAppSelector((state) => state.uiState)
   const { id: shopId } = useAppSelector((state) => state.sessionState)
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
   const pageContext = usePageContext()
+  const routeParams = useParams()
+  const renderProduct = product || (!isHydrated && pageContext.productData)
 
-  // useEffect(() => {
-  //   if (reviews === null) {
-  //     dispatch(getReviewsThunk({ shopId }))
-  //   }
-  // }, [shopId])
+  useEffect(() => {
+    if (!isHydrated) return
+
+    if (reviews === null) {
+      dispatch(getReviewsThunk({ shopId }))
+    }
+
+    const fetchProduct = async () => {
+      const { data, error } = await getProduct({
+        shopId,
+        id: routeParams.id as string,
+      })
+
+      if (data) setProduct(data)
+    }
+
+    fetchProduct()
+  }, [])
 
   return (
     <PageDecoration sectionClassName="product">
-      {pageContext.productData ? (
-        <ProductPage product={pageContext.productData} />
+      {renderProduct ? (
+        <ProductPage product={renderProduct} />
       ) : (
         <UiLoader theme="page" loading={true} />
       )}

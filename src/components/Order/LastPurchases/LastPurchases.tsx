@@ -10,14 +10,7 @@ interface ILastPurchasesProps {
 }
 
 const LastPurchases: React.FC<ILastPurchasesProps> = ({ className }) => {
-  const { id: shopId, lastPurchases } = useAppSelector((state) => state.sessionState)
-  const dispatch = useAppDispatch()
-
-  // useEffect(() => {
-  //   if (lastPurchases === null ) {
-  //     dispatch(getOrdersThunk({ shopId }))
-  //   }
-  // }, [shopId])
+  const { lastPurchases } = useAppSelector((state) => state.sessionState)
 
   return (
     <div className={cns('purchases', className)}>

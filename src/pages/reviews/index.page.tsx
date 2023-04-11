@@ -11,15 +11,18 @@ export const documentProps = {
 }
 
 export const Page = () => {
+  const { isHydrated } = useAppSelector((state) => state.uiState)
   const { id: shopId } = useAppSelector((state) => state.sessionState)
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //   if (reviews === null) {
-  //     dispatch(getReviewsThunk({ shopId }))
-  //   }
-  // }, [shopId])
+  useEffect(() => {
+    if (!isHydrated) return
+
+    if (reviews === null) {
+      dispatch(getReviewsThunk({ shopId }))
+    }
+  }, [])
 
   return (
     <PageDecoration sectionClassName="reviews">

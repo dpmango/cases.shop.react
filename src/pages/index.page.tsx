@@ -15,24 +15,24 @@ export const Page: React.FC = () => {
 
   const { id: shopId, settings } = useAppSelector((state) => state.sessionState)
   const { items } = useAppSelector((state) => state.productState)
+  const { isHydrated } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
 
-  // useEffect(() => {
-  //   if (items === null) {
-  //     dispatch(getProductsThunk({ shopId }))
-  //   }
-  // }, [shopId])
+  useEffect(() => {
+    setReady(true)
+    if (!isHydrated) return
 
-  // useEffect(() => {
-  //   setReady(true)
-  // }, [])
+    if (items === null) {
+      dispatch(getProductsThunk({ shopId }))
+    }
+  }, [])
 
   return (
     <PageDecoration
       sectionClassName={cns('home', settings.logo && '_has-logo', !ready && '_loading')}
     >
       <img src={settings.background_image} alt="" className="home__fire" />
-      {/* <UiLoader theme="page" loading={!ready} /> */}
+      <UiLoader theme="page" loading={!ready} />
 
       <div className="container">
         {settings.logo && (

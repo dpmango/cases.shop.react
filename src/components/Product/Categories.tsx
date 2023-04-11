@@ -4,6 +4,7 @@ import { ProductCard } from '@/components/Product'
 import { IProductDto } from '@/core/interface/Product'
 
 const Categories: React.FC = () => {
+  const { settings } = useAppSelector((state) => state.sessionState)
   const { items } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
@@ -17,7 +18,9 @@ const Categories: React.FC = () => {
                 <div
                   className="home__category-decor"
                   style={{
-                    backgroundColor: `radial-gradient(100% 100% at 50% 0%, ${category.categoryColor} 0%, #000 67.9%)`,
+                    background: `radial-gradient(100% 100% at 50% 0%, rgba(${hexToRgb(
+                      category.categoryColor,
+                    )}, 0.44) 0%, rgba(${hexToRgb(settings.background_site_color)}, 0.44) 67.9%)`,
                   }}
                 />
               )}

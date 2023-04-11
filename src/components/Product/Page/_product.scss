@@ -10,7 +10,8 @@
   &__box {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
+    // align-items: center;
     margin-bottom: 74px;
   }
 
@@ -21,12 +22,13 @@
   }
 
   &__slider {
-    margin-bottom: 23px;
+    border-radius: var(--card-border-radius);
 
     .swiper-slide {
       display: flex;
       flex-direction: column;
       height: auto;
+      cursor: zoom-in;
     }
   }
 
@@ -47,6 +49,8 @@
   }
 
   &__thumbs {
+    margin-top: 23px;
+
     .swiper-slide {
       flex: 0 0 auto;
       width: auto;
@@ -81,13 +85,13 @@
   }
 
   &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     max-width: 781px;
     margin-left: 47px;
-  }
-
-  &__name {
-    margin-bottom: 5px;
+    padding-top: 10px;
   }
 
   &__text {
@@ -96,33 +100,33 @@
     }
   }
 
-  &__el {
+  &__wysiwyg {
     margin-bottom: 40px;
   }
 
-  &__list {
-    margin-bottom: 70px;
-  }
+  // &__list {
+  //   margin-bottom: 70px;
+  // }
 
-  &__li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4px;
+  // &__li {
+  //   display: flex;
+  //   align-items: center;
+  //   margin-bottom: 4px;
 
-    // @apply .p-regular;
+  //   // @apply .p-regular;
 
-    &::before {
-      content: '';
-      display: inline;
-      flex: 1 0 auto;
-      width: 3px;
-      height: 3px;
-      max-width: 3px;
-      margin-right: 5px;
-      background: #fff;
-      border-radius: 50%;
-    }
-  }
+  //   &::before {
+  //     content: '';
+  //     display: inline;
+  //     flex: 1 0 auto;
+  //     width: 3px;
+  //     height: 3px;
+  //     max-width: 3px;
+  //     margin-right: 5px;
+  //     background: #fff;
+  //     border-radius: 50%;
+  //   }
+  // }
 
   &__payment {
     display: flex;
@@ -130,6 +134,7 @@
     align-items: center;
     width: 100%;
     max-width: 356px;
+    margin-top: auto;
     margin-bottom: 16px;
   }
 
@@ -216,15 +221,6 @@
 
     &__payment {
       margin: -10px auto 25px;
-    }
-  }
-}
-
-@include r($lg) {
-  .product {
-    &__image {
-      width: 100%;
-      height: auto;
     }
   }
 }
