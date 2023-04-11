@@ -25,7 +25,7 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
 
     const accessToken = Cookies.get('access_token')
     if (accessToken) {
-      dispatch(getProfileThunk())
+      // dispatch(getProfileThunk())
     }
   }, [])
 

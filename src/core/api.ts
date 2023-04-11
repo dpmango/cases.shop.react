@@ -58,7 +58,7 @@ export const api = async (
 
     console.log(`👌 fetch ${url} in ${(DEV_perf_end - DEV_perf_start).toFixed(2)} ms`, data)
 
-    if (status) {
+    if (status === true || status === undefined) {
       return { data, raw, message: msg, error: null }
     } else {
       const fetchWithNoResponse = new Error(msg)
