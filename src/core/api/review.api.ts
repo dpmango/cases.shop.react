@@ -15,5 +15,5 @@ export const getReviews = async ({ shopId, offset }: IReviewsPayload) => {
     },
   })
 
-  return { data: raw.reviews, error }
+  return { data: raw?.reviews, error }
 }

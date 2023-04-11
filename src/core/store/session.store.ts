@@ -115,11 +115,9 @@ export const sessionState = createSlice({
   name: 'session',
   initialState: initialSessionState,
   reducers: {
-    setUser(state, action: PayloadAction<IProfileDto>) {
-      state.user = { ...action.payload }
-    },
     resetState(state, action: PayloadAction) {
-      Cookies.remove('auth')
+      Cookies.remove('access_token')
+      Cookies.remove('refresh_token')
     },
     updateAnyState: updateByDataType,
   },
@@ -128,8 +126,6 @@ export const sessionState = createSlice({
       startAppThunk.fulfilled,
       (state, action: PayloadAction<IInitDataDto | null>) => {
         if (action.payload) {
-          const covertedSessionState = covertInitDto(state, action.payload)
-
           state = {
             ...covertInitDto(state, action.payload),
           }
@@ -156,7 +152,7 @@ export const sessionState = createSlice({
   },
 })
 
-export const { resetState, setUser, updateAnyState } = sessionState.actions
+export const { resetState, updateAnyState } = sessionState.actions
 
 export default sessionState.reducer
 

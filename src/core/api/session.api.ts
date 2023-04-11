@@ -30,7 +30,7 @@ export const getOrders = async ({ shopId }: IOrdersPayload) => {
     params: { shopId },
   })
 
-  return { data: raw.orders, error }
+  return { data: raw?.orders, error }
 }
 
 // Auth (авторизация от ТГ)
@@ -73,7 +73,7 @@ export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
 
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {})
+  const { error, raw }: IApiResponse<{ user: IProfileDto }> = await api('profile/get', {})
 
-  return { data: raw, error }
+  return { data: raw?.user, error }
 }

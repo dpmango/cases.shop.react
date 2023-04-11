@@ -1,7 +1,8 @@
+import { ToastContainer } from 'react-toastify'
+
 import { LayoutMain } from '@/components/Layout'
 import type { PageContext } from '~/renderer/types'
 import { PageContextProvider } from '~/src/components/Layout/Page/PageContext'
-
 export const PageConsumer = ({
   children,
   pageContext,
@@ -12,6 +13,8 @@ export const PageConsumer = ({
   return (
     <PageContextProvider pageContext={pageContext}>
       <LayoutMain>{children}</LayoutMain>
+
+      <ToastContainer />
     </PageContextProvider>
   )
 }

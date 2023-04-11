@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 
 import { fetchAuth } from '@/core/api/session.api'
 import { ITelegramAuthDto } from '~/src/core/interface/Initialization'
@@ -13,13 +14,24 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
 
   const onAuthSuccess = async (req: ITelegramAuthDto) => {
     const { data } = await fetchAuth({ shopId, telegram: req })
+    // const data = {
+    //   access_token: '1',
+    //   refresh_token: '2',
+    // }
 
-    if (data) {
-      Cookies.set('access_token', data.access_token)
-      Cookies.set('refresh_token', data.refresh_token)
+    console.log({ data })
+    try {
+      if (data) {
+        Cookies.set('access_token', data.access_token)
+        Cookies.set('refresh_token', data.refresh_token)
 
-      console.log('get profile')
-      dispatch(getProfileThunk())
+        console.log('start profile thunnk')
+        const { payload } = await dispatch(getProfileThunk())
+        if (!payload) throw new Error()
+      }
+    } catch (err) {
+      console.log(err)
+      toast.error('Что то пошло не так. Обратитьс к администратору')
     }
   }
 

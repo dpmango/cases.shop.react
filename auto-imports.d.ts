@@ -43,7 +43,6 @@ declare global {
   const sessionStore: typeof import('./src/core/store/session.store')['default']
   const setHydrated: typeof import('./src/core/store/ui.store')['setHydrated']
   const setModal: typeof import('./src/core/store/ui.store')['setModal']
-  const setUser: typeof import('./src/core/store/session.store')['setUser']
   const startAppThunk: typeof import('./src/core/store/session.store')['startAppThunk']
   const startTransition: typeof import('react')['startTransition']
   const uiState: typeof import('./src/core/store/ui.store')['uiState']

@@ -11,7 +11,7 @@ export const getProducts = async ({ shopId }: IProductsPayload) => {
     params: { shopId },
   })
 
-  return { data: raw.items, error }
+  return { data: raw?.items, error }
 }
 
 export interface IProductPayload {
@@ -24,5 +24,5 @@ export const getProduct = async ({ shopId, id }: IProductPayload) => {
     params: { shopId, id },
   })
 
-  return { data: raw.item, error }
+  return { data: raw?.item, error }
 }
