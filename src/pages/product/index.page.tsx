@@ -21,7 +21,7 @@ export const Page: React.FC = () => {
 
   const pageContext = usePageContext()
   const routeParams = useParams()
-  const renderProduct = product || (!isHydrated && pageContext.productData)
+  const renderProduct = product || pageContext.productData
 
   useEffect(() => {
     if (!isHydrated) return

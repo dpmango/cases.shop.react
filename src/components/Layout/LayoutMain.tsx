@@ -3,7 +3,7 @@ import 'virtual:svg-icons-register'
 
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { LayoutFooter, LayoutHeader } from '@/components/Layout'
 import { SharedModals } from '@/components/Layout'
@@ -17,7 +17,7 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
   const { id: shopId } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
-  // const location = usePageContext()
+  const location = useLocation()
 
   useEffect(() => {
     // dispatch(startAppThunk({ shopId }))
@@ -28,6 +28,10 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
       dispatch(getProfileThunk())
     }
   }, [])
+
+  useEffect(() => {
+    scrollPageToTop()
+  }, [location.pathname])
 
   return (
     <div className={'page'}>

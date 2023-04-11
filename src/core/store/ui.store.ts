@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IUiState {
-  isHydrated: boolean
+  isHydrated: boolean | null
   modal: string | null
   modalParams: Record<string, never> | null
 }
 
 const initialState: IUiState = {
-  isHydrated: false,
+  isHydrated: null,
   modal: null,
   modalParams: {},
 }

@@ -20,6 +20,19 @@ export const initializeApp = async ({ shopId }: ISettingsPayload) => {
   return { data: raw, error }
 }
 
+// Orders
+export interface IOrdersPayload {
+  shopId: string
+}
+
+export const getOrders = async ({ shopId }: IOrdersPayload) => {
+  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(`orders`, {
+    params: { shopId },
+  })
+
+  return { data: raw.orders, error }
+}
+
 // Auth (авторизация от ТГ)
 export interface IAuthPayload {
   shopId: string
@@ -58,33 +71,9 @@ export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
   return { data: raw, error }
 }
 
-// User
-export const getUser = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api('user', {
-    body: {},
-  })
-
-  return { data: raw, error }
-}
-
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {
-    body: {},
-  })
+  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {})
 
   return { data: raw, error }
-}
-
-// Orders
-export interface IOrdersPayload {
-  shopId: string
-}
-
-export const getOrders = async ({ shopId }: IOrdersPayload) => {
-  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(`orders`, {
-    params: { shopId },
-  })
-
-  return { data: raw.orders, error }
 }

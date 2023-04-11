@@ -5,9 +5,8 @@ import { UiModal } from '@/components/Ui'
 const LoginModal = () => {
   const { id: shopId, auth_bot } = useAppSelector((state) => state.sessionState)
   const { modal } = useAppSelector((state) => state.uiState)
-  const dispatch = useAppDispatch()
 
-  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => dispatch(setUser(data)) })
+  const { onAuthSuccess } = useTelegramAuth({ shopId })
 
   return (
     <UiModal name="auth" title="АВТОРИЗАЦИЯ" titleIcon="user-verified">

@@ -3,7 +3,7 @@ import throttle from 'lodash/throttle'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { PurchasesSlider } from '@/components/Order'
-import { ClientOnly } from '@/components/Ui'
+import { ClientOnly, UiButton } from '@/components/Ui'
 import { SvgIcon } from '@/components/Ui'
 import { IProfileDto } from '@/core/interface/Initialization'
 
@@ -15,10 +15,7 @@ const Header = () => {
   const { modal } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
 
-  const setProfile = (data: IProfileDto) => {
-    dispatch(updateAnyState({ key: 'user', data }))
-  }
-  const { onAuthSuccess } = useTelegramAuth({ shopId, cb: (data) => setProfile(data) })
+  const { onAuthSuccess } = useTelegramAuth({ shopId })
 
   // scroll functions
   const updateSticky = useCallback(() => {

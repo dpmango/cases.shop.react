@@ -1,14 +1,16 @@
 import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux'
 
 import { fetchAuth, getProfile } from '@/core/api/session.api'
 import { IProfileDto, ITelegramAuthDto } from '~/src/core/interface/Initialization'
 
 export interface IUseTelegramAuth {
   shopId: string
-  cb: (x: IProfileDto) => void
 }
 
-export const useTelegramAuth = ({ shopId, cb }: IUseTelegramAuth) => {
+export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
+  const dispatch = useDispatch()
+
   const onAuthSuccess = async (req: ITelegramAuthDto) => {
     const { data } = await fetchAuth({ shopId, telegram: req })
 
@@ -16,8 +18,7 @@ export const useTelegramAuth = ({ shopId, cb }: IUseTelegramAuth) => {
       Cookies.set('access_token', data.access_token)
       Cookies.set('refresh_token', data.refresh_token)
 
-      const { data: userData } = await getProfile()
-      if (userData) cb(userData)
+      dispatch(getProfileThunk())
     }
   }
 
