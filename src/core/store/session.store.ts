@@ -139,6 +139,7 @@ export const sessionState = createSlice({
     builder.addCase(
       getProfileThunk.fulfilled,
       (state, action: PayloadAction<IProfileDto | null>) => {
+        console.log({ profile: action.payload })
         if (action.payload) {
           state.user = { ...action.payload }
         }
