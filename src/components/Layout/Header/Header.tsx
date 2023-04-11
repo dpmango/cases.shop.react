@@ -98,7 +98,7 @@ const Header = () => {
               </div>
             ) : (
               <a className="header__telegram">
-                <UiButton onClick={onAuthSuccess}>dd</UiButton>
+                {/* <UiButton onClick={onAuthSuccess}>dd</UiButton> */}
                 {modal !== 'auth' && (
                   <TLoginButton
                     botName={auth_bot}

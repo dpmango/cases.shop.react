@@ -26,12 +26,10 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
         Cookies.set('access_token', data.access_token)
         Cookies.set('refresh_token', data.refresh_token)
 
-        console.log('start profile thunnk')
         const { payload } = await dispatch(getProfileThunk())
         if (!payload) throw new Error()
       }
     } catch (err) {
-      console.log(err)
       toast.error('Что то пошло не так. Обратитьс к администратору')
     }
   }
