@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unknown-property */
-// import ReactMarkdown from 'react-markdown'
 import { useNavigate, useParams } from 'react-router'
-// import remarkGfm from 'remark-gfm'
+
+import { CustomPage } from '@/components/Content'
+import { PageDecoration } from '@/components/Layout'
+import { UiLoader } from '@/components/Ui'
 
 export const documentProps = {
   title: 'Текстовая',
@@ -18,10 +20,13 @@ export const Page: React.FC = () => {
 
   useEffect(() => {
     const getPage = async () => {
-      const { data } = await api(`pages/${shopId}${params['*']}`, {})
+      const { data } = await getStaticPage({
+        shopId,
+        id: params['*'] || '',
+      })
 
       if (data) {
-        setContent(data.data.content)
+        setContent(data)
       } else {
         navigate('/', { replace: true })
       }
@@ -31,10 +36,12 @@ export const Page: React.FC = () => {
   }, [params])
 
   return (
-    <div className={'custom-page'}>
-      {content && <div className="wysiwg" v-html={content}></div>}
+    <PageDecoration sectionClassName={'custom-page'}>
+      <UiLoader theme="page" loading={!content} />
 
-      {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown> */}
-    </div>
+      <div className="container">
+        <CustomPage content={content} />
+      </div>
+    </PageDecoration>
   )
 }

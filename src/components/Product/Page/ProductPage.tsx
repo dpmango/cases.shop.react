@@ -1,8 +1,6 @@
 import './_product.scss'
 
-// import ReactMarkdown from 'react-markdown'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
-// import remarkGfm from 'remark-gfm'
 import { Thumbs } from 'swiper'
 import { Swiper, type Swiper as SwiperRef, SwiperSlide } from 'swiper/react'
 
@@ -125,7 +123,6 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
           {/* content */}
           <div className="product__content">
-            {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>{product.description}</ReactMarkdown> */}
             <div className="product__wysiwyg wysiwyg">
               <div dangerouslySetInnerHTML={{ __html: product.description }} />
             </div>

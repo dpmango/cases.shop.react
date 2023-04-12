@@ -4,15 +4,21 @@ export interface IInitDataDto {
   // footer: IFooterDto[]
   settings: {
     logo: string
-    paymentLogo: string
-    footerBG: string
-    footerBGColor: string
-    headerBG: string
-    headerBGColor: string
     mainBG: string
     mainColor: string
+    headerBG: string
+    headerBGColor: string
+    footerBG: string
+    footerBGColor: string
+    paymentLogo: string
+    footerBgFAQ: string
+    reviewBG: string
+    productBG: string
+    agreementHtml: string
     faqList: IFAQDto[]
     specialOffers: ISpecialOffersDto[]
+    customPages: ICustomPageMetaDto[]
+    faqInfo: any[]
 
     // footerBgFAQ: ''
     // reviewBG: ''
@@ -36,6 +42,7 @@ export interface ISettingsDto {
 
 export type ISpecialOffersDto = string[]
 export type IFAQDto = string[]
+export type ICustomPageMetaDto = string[]
 
 // export interface IFooterDto {
 //   id: number

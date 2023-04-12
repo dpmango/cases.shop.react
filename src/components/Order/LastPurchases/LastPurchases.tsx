@@ -5,6 +5,8 @@ import cns from 'classnames'
 import { FreeMode, Mousewheel } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { UiLink } from '@/components/Ui'
+
 interface ILastPurchasesProps {
   className: string
 }
@@ -26,8 +28,9 @@ const LastPurchases: React.FC<ILastPurchasesProps> = ({ className }) => {
       >
         {lastPurchases?.map((order, idx) => (
           <SwiperSlide key={idx}>
-            <div
+            <UiLink
               className="purchases__slide"
+              href={`/product/${order.itemId}`}
               style={{
                 background: order.img.startsWith('http')
                   ? `url(${order.img}) no-repeat center center / cover`
@@ -36,7 +39,7 @@ const LastPurchases: React.FC<ILastPurchasesProps> = ({ className }) => {
               title={order.name}
             >
               <div className="purchases__slide-price">{order.price} Р</div>
-            </div>
+            </UiLink>
           </SwiperSlide>
         ))}
       </Swiper>

@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 
 import { getOrders, getProfile, initializeApp } from '@/core/api/session.api'
 import {
+  ICustomPageMetaDto,
   IFAQDto,
   IInitDataDto,
   IProfileDto,
@@ -18,6 +19,7 @@ export interface ISessionStore {
   settings: ISettingsDto
   faq: IFAQDto[]
   specialOffers: ISpecialOffersDto[]
+  customPages: ICustomPageMetaDto[]
 
   user: IProfileDto | null
   lastPurchases: IOrderDto[] | null
@@ -42,6 +44,7 @@ export const initialSessionState: ISessionStore = {
   },
   faq: [],
   specialOffers: [],
+  customPages: [],
 
   user: null,
   lastPurchases: null,
@@ -91,8 +94,16 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     return `${import.meta.env.VITE_ASSETS_URL}${img}`
   }
 
-  const { faqList, specialOffers, logo, paymentLogo, footerBGColor, headerBGColor, mainColor } =
-    payload.settings
+  const {
+    faqList,
+    specialOffers,
+    customPages,
+    logo,
+    paymentLogo,
+    footerBGColor,
+    headerBGColor,
+    mainColor,
+  } = payload.settings
 
   return {
     ...state,
@@ -108,6 +119,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     },
     faq: faqList || [],
     specialOffers: specialOffers || [],
+    customPages: customPages || [],
   }
 }
 

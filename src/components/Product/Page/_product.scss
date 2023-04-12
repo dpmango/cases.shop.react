@@ -104,30 +104,6 @@
     margin-bottom: 40px;
   }
 
-  // &__list {
-  //   margin-bottom: 70px;
-  // }
-
-  // &__li {
-  //   display: flex;
-  //   align-items: center;
-  //   margin-bottom: 4px;
-
-  //   // @apply .p-regular;
-
-  //   &::before {
-  //     content: '';
-  //     display: inline;
-  //     flex: 1 0 auto;
-  //     width: 3px;
-  //     height: 3px;
-  //     max-width: 3px;
-  //     margin-right: 5px;
-  //     background: #fff;
-  //     border-radius: 50%;
-  //   }
-  // }
-
   &__payment {
     display: flex;
     justify-content: space-between;
@@ -193,18 +169,9 @@
       text-align: center;
     }
 
-    &__li {
-      width: 374px;
-      margin: 0 auto 4px;
-    }
-
     &__text {
       max-width: 80%;
       margin: 0 auto;
-    }
-
-    &__el {
-      margin-bottom: 20px;
     }
 
     &__btn {
@@ -243,10 +210,6 @@
 
     &__content {
       text-align: left;
-    }
-
-    &__li {
-      width: 100%;
     }
 
     // &__price {

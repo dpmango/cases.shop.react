@@ -4,7 +4,7 @@ import { useLocation } from 'react-router'
 import { UiLink } from '@/components/Ui'
 
 const Footer: React.FC = () => {
-  const { settings } = useAppSelector((state) => state.sessionState)
+  const { settings, customPages } = useAppSelector((state) => state.sessionState)
 
   const location = useLocation()
 
@@ -14,8 +14,9 @@ const Footer: React.FC = () => {
   const footerNav = [
     { link: '/reviews', name: 'Отзывы' },
     { link: '/faq', name: 'FAQ' },
-    { link: '/', name: 'Поддержка' },
+    ...customPages.map((x) => ({ link: `/${x[1]}`, name: x[0] })),
   ]
+
   return (
     <footer
       className={cns('footer', isAltFooter && 'footer2')}

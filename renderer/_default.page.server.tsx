@@ -200,7 +200,7 @@ async function render(pageContext: PageContextServer) {
         <link rel="preconnect" href="https://fonts.gstatic.com/" />
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link href="https://fonts.googleapis.com/css2?Inter:wght@500;600;700&family=Radio+Canada:wght@600&family=Raleway:wght@600;700;800;900&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?Inter:wght@500;600;700;500i&family=Radio+Canada:wght@600&family=Raleway:wght@600;700;800;900&display=swap" rel="stylesheet"/>
 
         <title>${title}</title>
       </head>

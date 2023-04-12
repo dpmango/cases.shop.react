@@ -47,7 +47,12 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
         ]
 
       default:
-        return []
+        return [
+          {
+            image: settings.footer_image,
+            className: 'fire _bottom',
+          },
+        ]
     }
   }, [page])
 
@@ -58,7 +63,7 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
         background: settings.background_site_color,
       }}
     >
-      {decorImages.length &&
+      {decorImages.length > 0 &&
         decorImages.map((img, idx) => (
           <img key={idx} src={img.image} alt="decor" className={img.className} />
         ))}

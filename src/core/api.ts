@@ -36,7 +36,7 @@ export const api = async (
     if (accessToken) {
       requestOptions.headers = {
         ...requestOptions.headers,
-        Authorization: `${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       }
     }
 

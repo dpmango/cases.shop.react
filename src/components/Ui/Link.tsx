@@ -2,7 +2,15 @@ import { Link } from 'react-router-dom'
 
 import { usePageContext } from '@/components/Layout'
 
-function LinkWrapper(props: { href?: string; className?: string; children: ReactSlot }) {
+interface ILinkWrapper {
+  href?: string
+  className?: string
+  children: ReactSlot
+  style?: any
+  title?: any
+}
+
+function LinkWrapper(props: ILinkWrapper) {
   const pageContext = usePageContext()
   const className = [props.className, pageContext.urlPathname === props.href && 'is-active']
     .filter(Boolean)
