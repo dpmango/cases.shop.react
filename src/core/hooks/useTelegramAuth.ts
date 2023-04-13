@@ -27,6 +27,7 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
         Cookies.set('refresh_token', data.refresh_token)
 
         const { payload } = await dispatch(getProfileThunk())
+        console.log({ payload })
         if (!payload) throw new Error()
       }
     } catch (err) {

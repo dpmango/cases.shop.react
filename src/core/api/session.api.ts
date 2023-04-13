@@ -49,7 +49,6 @@ export const fetchAuth = async ({ shopId, telegram, ...rest }: IAuthPayload) => 
     },
   })
 
-  console.log(error, { raw })
   return { data: raw, error }
 }
 

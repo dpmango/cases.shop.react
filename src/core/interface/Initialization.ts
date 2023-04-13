@@ -1,3 +1,5 @@
+import { IOrderDto } from './Order'
+
 export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
@@ -73,6 +75,9 @@ export interface IAuthDto {
 // Profile
 export interface IProfileDto {
   balance: number
-  userName: string
-  is_admin: number
+  bonusBalance: number
+  id: number
+  is_admin: 1 | 0
+  orders: IOrderDto[]
+  userName: null
 }
