@@ -2,6 +2,7 @@
   position: absolute;
   z-index: 1;
   width: 100%;
+  pointer-events: none;
 
   &._bottom_left {
     left: 0;
@@ -23,20 +24,28 @@
     right: 0;
   }
 
+  &._top {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
   &._bottom {
+    left: 0;
+    right: 0;
     bottom: 0;
   }
 }
 
-.fire2 {
+._faq-left {
   max-width: 850px;
 }
 
-.fire3 {
+._faq-right {
   max-width: 600px;
 }
 
-.fire55 {
+._product {
   position: absolute;
   z-index: 1;
   width: 47%;
@@ -44,46 +53,45 @@
 }
 
 @include r($hdplus) {
-  .fire55 {
+  ._product {
     max-width: 685px;
   }
 }
 
 @include r(1499) {
-  .fire2 {
-    // max-width: 640px;
+  ._faq-left {
     max-width: calc(100vw / 2);
   }
 
-  .fire3 {
+  ._faq-right {
     max-width: 480px;
   }
 }
 
 @include r($xl) {
-  .fire3 {
+  ._faq-right {
     max-width: 300px;
   }
 }
 
 @include r($lg) {
-  .fire2 {
+  ._faq-left {
     max-width: 250px;
   }
 }
 
 @include r($md) {
-  .fire55 {
+  ._product {
     width: 65%;
   }
 }
 
 @include r($sm) {
-  .fire3 {
+  ._faq-right {
     max-width: 220px;
   }
 
-  .fire2 {
+  ._faq-left {
     max-width: 190px;
   }
 }

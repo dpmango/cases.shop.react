@@ -18,6 +18,8 @@
   }
 
   &__more {
+    display: flex;
+    justify-content: flex-end;
     margin: 29px 0 0 auto;
   }
 }

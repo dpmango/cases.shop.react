@@ -31,7 +31,7 @@ export const Page: React.FC = () => {
     <PageDecoration
       sectionClassName={cns('home', settings.logo && '_has-logo', !ready && '_loading')}
     >
-      <img src={settings.background_image} alt="" className="home__fire" />
+      <img src={settings.background_image} alt="" className="fire home__fire" />
       <UiLoader theme="page" loading={!ready} />
 
       <div className="container">

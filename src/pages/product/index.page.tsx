@@ -27,7 +27,7 @@ export const Page: React.FC = () => {
     if (!isHydrated) return
 
     if (reviews === null) {
-      dispatch(getReviewsThunk({ shopId }))
+      dispatch(getReviewsThunk({ shopId, limit: 30 }))
     }
 
     const fetchProduct = async () => {

@@ -21,10 +21,6 @@ export interface IInitDataDto {
     specialOffers: ISpecialOffersDto[]
     customPages: ICustomPageMetaDto[]
     faqInfo: any[]
-
-    // footerBgFAQ: ''
-    // reviewBG: ''
-    // productBG: ''
   }
 }
 
@@ -36,7 +32,7 @@ export interface ISettingsDto {
   reviews_footer_image: string
   faq_left_footer_image: string
   faq_right_footer_image: string
-  item_right_footer_image: string
+  product_footer_image: string
   footer_color: string
   header_color: string
   background_site_color: string

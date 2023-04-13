@@ -79,7 +79,7 @@ const Header = () => {
             {user ? (
               <div className="header-user header__user">
                 <a
-                  className="header-user__wrapper"
+                  className="header-user__deposit"
                   onClick={() => {
                     dispatch(setModal({ name: 'deposit' }))
                   }}
@@ -93,7 +93,7 @@ const Header = () => {
                 </a>
                 <div className="header-user__right">
                   <p className="header-user__name">@{user.userName}</p>
-                  <p className="header-user__balance">{user.balance}P</p>
+                  <p className="header-user__balance">{formatPrice(user.balance)}</p>
                 </div>
               </div>
             ) : (

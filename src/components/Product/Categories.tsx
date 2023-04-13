@@ -8,6 +8,15 @@ const Categories: React.FC = () => {
   const { items } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
+  const prepareGrid = (cards: IProductDto[]) => {
+    if (cards.length < 4) {
+      const placeholders = [...new Array(4 - cards.length)].map((x) => null)
+
+      return [...cards, ...placeholders]
+    }
+    return cards
+  }
+
   return (
     <div className="home__products">
       {items?.length &&
@@ -31,9 +40,13 @@ const Categories: React.FC = () => {
 
               <div className="home__category-grid">
                 {category.items?.length &&
-                  category.items.map((card: IProductDto, idx) => (
-                    <ProductCard key={card.id} {...card} />
-                  ))}
+                  prepareGrid(category.items).map((card: IProductDto | null, idx) => {
+                    if (card) {
+                      return <ProductCard key={card.id} {...card} />
+                    } else {
+                      return <div className="card-placeholder" key={`placeholder_${idx}`}></div>
+                    }
+                  })}
               </div>
             </div>
           )

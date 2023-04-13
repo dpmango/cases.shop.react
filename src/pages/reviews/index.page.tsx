@@ -10,17 +10,36 @@ export const documentProps = {
   description: 'Описание страницы',
 }
 
+const PAGE_LIMIT = 30
+
 export const Page = () => {
+  const [page, setPage] = useState(1)
+  const [moreAvailable, setMoreAvailable] = useState(true)
+
   const { isHydrated } = useAppSelector((state) => state.uiState)
   const { id: shopId } = useAppSelector((state) => state.sessionState)
-  const { reviews } = useAppSelector((state) => state.productState)
+  const { reviews, reviewsFetching } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
+
+  const handleLoadMore = async () => {
+    const { payload }: { payload: any } = await dispatch(
+      getReviewsThunk({ shopId, limit: PAGE_LIMIT, offset: page * PAGE_LIMIT }),
+    )
+
+    if (payload.data) {
+      setPage(page + 1)
+    }
+
+    if (payload.data.length && payload.data.length <= PAGE_LIMIT) {
+      setMoreAvailable(false)
+    }
+  }
 
   useEffect(() => {
     if (!isHydrated) return
 
     if (reviews === null) {
-      dispatch(getReviewsThunk({ shopId }))
+      dispatch(getReviewsThunk({ shopId, limit: PAGE_LIMIT }))
     }
   }, [])
 
@@ -40,9 +59,11 @@ export const Page = () => {
             )}
           </div>
 
-          {/* <div className="reviews__more">
-            <UiButton>Загрузить больше</UiButton>
-          </div> */}
+          {moreAvailable && (
+            <div className="reviews__more" onClick={handleLoadMore}>
+              <UiButton loading={reviewsFetching}>Загрузить больше</UiButton>
+            </div>
+          )}
         </div>
       </div>
     </PageDecoration>

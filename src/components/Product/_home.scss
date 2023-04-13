@@ -15,11 +15,9 @@
   }
 
   &__fire {
-    position: absolute;
     top: -105px;
     left: 0;
-    z-index: 1;
-    pointer-events: none;
+    width: auto;
     mix-blend-mode: lighten;
   }
 
@@ -125,11 +123,6 @@
 
 @include r($lg) {
   .home {
-    &__fire {
-      top: -93px;
-      width: 81%;
-    }
-
     &__category-grid {
       // grid-template-columns: 1fr 1fr;
       grid-gap: 60px 24px;

@@ -71,6 +71,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
       name: 'reviews',
       resolver: getReviews({
         shopId,
+        limit: 30,
       }),
     })
   }
@@ -81,6 +82,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
       name: 'reviews',
       resolver: getReviews({
         shopId,
+        limit: 30,
       }),
     })
   }

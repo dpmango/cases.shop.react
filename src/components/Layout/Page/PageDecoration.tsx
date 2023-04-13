@@ -12,48 +12,57 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
   const page = location.pathname.split('/')[1]
 
   const decorImages = useMemo(() => {
+    let images = []
+
     switch (page) {
       case '':
-        return [
+        images = [
           {
             image: settings.footer_image,
             className: 'fire _bottom',
           },
         ]
+        break
       case 'faq':
-        return [
+        images = [
           {
             image: settings.faq_left_footer_image,
-            className: 'fire fire2 _bottom_left',
+            className: 'fire _faq-left _bottom_left',
           },
           {
             image: settings.faq_right_footer_image,
-            className: 'fire fire3 _bottom_right',
+            className: 'fire _faq-right _bottom_right',
           },
         ]
+        break
       case 'product':
-        return [
+        images = [
           {
-            image: settings.item_right_footer_image,
-            className: 'fire fire55 _bottom_right',
+            image: settings.product_footer_image,
+            className: 'fire _product _bottom_right',
           },
         ]
+        break
       case 'reviews':
-        return [
+        images = [
           {
             image: settings.reviews_footer_image,
             className: 'fire _bottom_left',
           },
         ]
+        break
 
       default:
-        return [
+        images = [
           {
             image: settings.footer_image,
             className: 'fire _bottom',
           },
         ]
+        break
     }
+
+    return images.filter((x) => x.image)
   }, [page])
 
   return (

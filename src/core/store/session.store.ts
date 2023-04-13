@@ -39,7 +39,7 @@ export const initialSessionState: ISessionStore = {
     footer_image: '/img/decor/fire-big.png',
     faq_left_footer_image: '/img/decor/man22.png',
     faq_right_footer_image: '/img/decor/image.png',
-    item_right_footer_image: '/img/decor/fire55.png',
+    product_footer_image: '/img/decor/fire55.png',
     reviews_footer_image: '/img/decor/fire-big2.png',
   },
   faq: [],
@@ -103,6 +103,11 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     footerBGColor,
     headerBGColor,
     mainColor,
+    headerBG,
+    footerBG,
+    footerBgFAQ,
+    reviewBG,
+    productBG,
   } = payload.settings
 
   return {
@@ -116,6 +121,13 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
       background_site_color: mainColor || '#000000',
       footer_color: footerBGColor,
       header_color: headerBGColor,
+
+      background_image: createImgLink(headerBG),
+      footer_image: createImgLink(footerBG),
+      // faq_left_footer_image: '/img/decor/man22.png',
+      faq_right_footer_image: createImgLink(footerBgFAQ),
+      product_footer_image: createImgLink(productBG),
+      reviews_footer_image: createImgLink(reviewBG),
     },
     faq: faqList || [],
     specialOffers: specialOffers || [],

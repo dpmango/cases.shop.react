@@ -30,10 +30,13 @@ export const getProductsThunk = createAsyncThunk(
 
 export const getReviewsThunk = createAsyncThunk(
   'product/getReviewsThunk',
-  async ({ shopId }: { shopId: string }) => {
-    const { data } = await getReviews({ shopId })
+  async ({ shopId, limit, offset }: { shopId: string; limit?: number; offset?: number }) => {
+    const { data } = await getReviews({ shopId, offset, limit })
 
-    return data
+    return {
+      isMerge: offset,
+      data,
+    }
   },
 )
 
@@ -64,16 +67,17 @@ export const productState = createSlice({
     builder.addCase(getReviewsThunk.pending, (state) => {
       state.reviewsFetching = true
     })
-    builder.addCase(
-      getReviewsThunk.fulfilled,
-      (state, action: PayloadAction<IReviewDto[] | null>) => {
-        if (action.payload) {
-          state.reviews = [...action.payload]
+    builder.addCase(getReviewsThunk.fulfilled, (state, action: PayloadAction<any>) => {
+      if (action.payload.data) {
+        if (action.payload.isMerge) {
+          state.reviews = [...(state.reviews || []), ...action.payload.data]
+        } else {
+          state.reviews = [...action.payload.data]
         }
+      }
 
-        state.reviewsFetching = false
-      },
-    )
+      state.reviewsFetching = false
+    })
   },
 })
 

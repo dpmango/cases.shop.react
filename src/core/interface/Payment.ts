@@ -1,3 +1,4 @@
 export interface IPaymentDto {
-  payment_link: string
+  id: string
+  url: string
 }

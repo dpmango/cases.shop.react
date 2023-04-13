@@ -17,13 +17,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
-  const [thumbsSwiper, setThumbsSwiper] = useState<typeof SwiperRef | null>(null)
-
-  useEffect(() => {
-    if (reviews === null) {
-      dispatch(getReviewsThunk({ shopId }))
-    }
-  }, [])
+  const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null)
 
   const generatePaymentLink = async () => {
     if (!user) {
@@ -41,9 +35,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
     if (data) {
       const a = document.createElement('a')
       document.body.appendChild(a)
-      // @ts-ignore
-      a.style = 'display: none'
-      a.href = data.payment_link
+      a.setAttribute('style', 'display: none')
+      a.href = data.url
       a.target = '_blank'
       a.click()
       document.body.removeChild(a)
@@ -64,8 +57,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
       },
       {
         id: 'yoomoney',
-        src: '/img/payment/payment-cc.png',
-        srcset: '/img/payment/payment-cc@2x.png 2x',
+        src: '/img/payment/payment-yoomoney.png',
+        srcset: '/img/payment/payment-yoomoney@2x.png 2x',
       },
     ]
   }, [])

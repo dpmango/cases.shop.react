@@ -76,8 +76,9 @@
     padding-left: 20px;
   }
 
-  // &__user {
-  // }
+  &__user {
+    flex: 0 0 auto;
+  }
 
   &__telegram {
     position: relative;
@@ -127,18 +128,38 @@
 
 // user
 .header-user {
-  &__wrapper {
+  display: flex;
+
+  &__deposit {
     display: flex;
     align-items: center;
+    cursor: pointer;
     transition: all 0.25s $ease;
+
+    &:hover {
+      .header-user__cash {
+        color: #fff;
+        background: linear-gradient(
+          180deg,
+          rgb(217 217 217 / 54%) 0%,
+          rgb(255 255 255 / 54%) 0.01%,
+          rgb(255 255 255 / 23.8%) 100%
+        );
+      }
+    }
   }
 
   &__cash {
     display: flex;
+    flex: 0 0 auto;
     justify-content: center;
     align-items: center;
-    width: 54.46px;
-    height: 40.58px;
+    width: 54px;
+    height: 40px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    font-size: 0;
+    color: #dac5cc;
     background: linear-gradient(
       180deg,
       rgb(217 217 217 / 19%) 0%,
@@ -147,23 +168,28 @@
     );
     border-radius: 10px;
     transition: all 0.25s $ease;
+
+    .svg-icon {
+      font-size: 28px;
+    }
   }
 
   &__plus {
     position: relative;
+    display: inline-flex;
     left: -7px;
     z-index: 2;
-  }
+    justify-content: center;
+    align-items: center;
+    width: 14px;
+    height: 14px;
+    font-size: 0;
+    color: #575757;
+    background: #d9d9d9;
+    border-radius: 50%;
 
-  &__wrapper:hover {
-    .header__cash {
-      color: #fff;
-      background: linear-gradient(
-        180deg,
-        rgb(217 217 217 / 54%) 0%,
-        rgb(255 255 255 / 54%) 0.01%,
-        rgb(255 255 255 / 23.8%) 100%
-      );
+    .svg-icon {
+      font-size: 10px;
     }
   }
 

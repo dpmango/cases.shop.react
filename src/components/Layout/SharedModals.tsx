@@ -14,7 +14,7 @@ const SharedModals = () => {
       <DepositModal />
       <DepositSuccessModal />
 
-      <div className="dev-btns">
+      {/* <div className="dev-btns">
         <button onClick={() => dispatch(setModal({ name: 'auth' }))}>auth</button>
         <button onClick={() => dispatch(setModal({ name: 'deposit' }))}>deposit</button>
         <button onClick={() => dispatch(setModal({ name: 'deposit-success' }))}>dep OK</button>
@@ -26,7 +26,7 @@ const SharedModals = () => {
         >
           order
         </button>
-      </div>
+      </div> */}
     </>
   )
 }
