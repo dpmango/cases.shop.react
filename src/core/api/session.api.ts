@@ -73,7 +73,7 @@ export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
 
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<{ user: IProfileDto }> = await api('profile/get', {})
+  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {})
 
-  return { data: raw?.user, error }
+  return { data: raw, error }
 }
