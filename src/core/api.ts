@@ -22,9 +22,9 @@ export const api = async (
   { method = 'GET', body, params, headers }: IRequestOptions,
 ): Promise<IApiResult> => {
   try {
-    let accessToken = Cookies.get('access_token')
-    accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdG9yZV91c2VyIiwidXNlcl9pZCI6IjYwNzMyMjc3NzciLCJzaG9wX2lkIjoiS2htZWxldnNrb3kiLCJpc19hZG1pbiI6IjEiLCJleHAiOjE2ODE0MDkxNTksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzI3LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzI3LyJ9.2NEsY_7cfeA5BK95nKq1HeU44oPVFxNLgm4xcAR0y0Y'
+    const accessToken = Cookies.get('access_token')
+    // accessToken =
+    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdG9yZV91c2VyIiwidXNlcl9pZCI6IjYwNzMyMjc3NzciLCJzaG9wX2lkIjoiS2htZWxldnNrb3kiLCJpc19hZG1pbiI6IjEiLCJleHAiOjE2ODE0MDkxNTksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzI3LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzI3LyJ9.2NEsY_7cfeA5BK95nKq1HeU44oPVFxNLgm4xcAR0y0Y'
 
     const requestOptions = {
       method,

@@ -13,7 +13,7 @@ interface IProductPageProps {
 }
 
 const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
-  const { id: shopId, user } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, user, paymentsType } = useAppSelector((state) => state.sessionState)
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
@@ -45,23 +45,15 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
   const paymentOptions = useMemo(() => {
     return [
-      {
-        id: 'credit_card',
-        src: '/img/payment/payment-cc.png',
-        srcset: '/img/payment/payment-cc@2x.png 2x',
-      },
-      {
-        id: 'qiwi',
-        src: '/img/payment/payment-qiwi.png',
-        srcset: '/img/payment/payment-qiwi@2x.png 2x',
-      },
-      {
-        id: 'yoomoney',
-        src: '/img/payment/payment-yoomoney.png',
-        srcset: '/img/payment/payment-yoomoney@2x.png 2x',
-      },
+      ...paymentsType.map((x) => {
+        const [name, id, img, min, max] = x
+        return {
+          id: id,
+          src: img,
+        }
+      }),
     ]
-  }, [])
+  }, [paymentsType])
 
   const gallery = useMemo(() => {
     if (Array.isArray(product.images)) {
@@ -141,7 +133,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
               <div className="product__options">
                 {paymentOptions.map((x) => (
                   <div key={x.id} className="product__options-el">
-                    <img src={x.src} srcSet={x.srcset} alt={x.id} />
+                    <img src={x.src} alt={x.id} />
                   </div>
                 ))}
               </div>

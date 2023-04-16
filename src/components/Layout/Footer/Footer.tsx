@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
       className={cns('footer', isAltFooter && 'footer2')}
       id="footer"
       style={{
-        background: !isAltFooter ? settings.footer_color : 'transparent',
+        background: !isAltFooter ? settings.footer_color : settings.background_site_color,
       }}
     >
       <div className="container">

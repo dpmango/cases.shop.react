@@ -4,6 +4,7 @@ export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
   // footer: IFooterDto[]
+  paymentsType: IPaymentType[]
   settings: {
     logo: string
     mainBG: string
@@ -41,7 +42,7 @@ export interface ISettingsDto {
 export type ISpecialOffersDto = string[]
 export type IFAQDto = string[]
 export type ICustomPageMetaDto = string[]
-
+export type IPaymentType = [string, string, string, number, number]
 // export interface IFooterDto {
 //   id: number
 //   name: string

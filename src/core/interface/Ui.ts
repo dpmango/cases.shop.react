@@ -34,5 +34,6 @@ export interface IUiButton extends ICommonInterfaceProps {
   iconLeft?: string
   rel?: string
   target?: string
+  disabled?: boolean
   onClick?: () => void
 }

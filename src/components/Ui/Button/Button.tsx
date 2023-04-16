@@ -16,6 +16,7 @@ const Button = ({
   loading,
   iconLeft,
   iconRight,
+  disabled,
   children,
   ...props
 }: IUiButton) => {
@@ -34,12 +35,21 @@ const Button = ({
   const ButtonComponentName = `${as}` as any
 
   return (
-    <ButtonComponentName className={classStyle} type={as !== 'span' ? type : ''} {...props}>
+    <ButtonComponentName
+      className={classStyle}
+      type={as !== 'span' ? type : ''}
+      disabled={disabled}
+      {...props}
+    >
       {iconLeft && <SvgIcon name={iconLeft} />}
 
       {children}
 
-      {loading && <UiLoader theme="inline" />}
+      {loading && (
+        <span className="button__loader">
+          <SvgIcon name="loader" />
+        </span>
+      )}
 
       {iconRight && <SvgIcon name={iconRight} />}
     </ButtonComponentName>

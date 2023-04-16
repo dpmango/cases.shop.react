@@ -7,7 +7,7 @@ const DepositModal = () => {
   const [amount, setAmount] = useState(100)
   const [paymentOption, setPaymentOption] = useState<string | null>(null)
 
-  const { settings } = useAppSelector((state) => state.sessionState)
+  const { settings, paymentsType } = useAppSelector((state) => state.sessionState)
 
   const generateLink = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -23,26 +23,17 @@ const DepositModal = () => {
       document.body.removeChild(a)
     }
   }
-
   const paymentOptions = useMemo(() => {
     return [
-      {
-        id: 'credit_card',
-        src: '/img/payment/payment-cc.png',
-        srcset: '/img/payment/payment-cc@2x.png 2x',
-      },
-      {
-        id: 'qiwi',
-        src: '/img/payment/payment-qiwi.png',
-        srcset: '/img/payment/payment-qiwi@2x.png 2x',
-      },
-      {
-        id: 'yoomoney',
-        src: '/img/payment/payment-yoomoney.png',
-        srcset: '/img/payment/payment-yoomoney@2x.png 2x',
-      },
+      ...paymentsType.map((x) => {
+        const [name, id, img, min, max] = x
+        return {
+          id: id,
+          src: img,
+        }
+      }),
     ]
-  }, [])
+  }, [paymentsType])
 
   return (
     <UiModal name="deposit" title="ПОПОЛНЕНИЕ БАЛАНСА" titleIcon="download">
@@ -72,14 +63,14 @@ const DepositModal = () => {
                   className={cns(paymentOption === x.id && '_active')}
                   onClick={() => setPaymentOption(x.id)}
                 >
-                  <img src={x.src} srcSet={x.srcset} alt={x.id} />
+                  <img src={x.src} alt={x.id} />
                 </label>
               ))}
             </div>
           </div>
 
           <div className="modal__actions">
-            <UiButton type="submit" size="small" block={true}>
+            <UiButton type="submit" size="small" block={true} disabled={!paymentOption}>
               Пополнить
             </UiButton>
           </div>

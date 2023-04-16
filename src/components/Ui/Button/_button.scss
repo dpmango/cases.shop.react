@@ -11,6 +11,24 @@
   transition: background 0.1s $ease, color 0.1s $ease;
   cursor: pointer;
 
+  &__loader {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    font-size: 0;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    backface-visibility: hidden;
+    animation: loaderspin 1.2s linear infinite;
+    transition: opacity 0.25s 0.2s $ease;
+
+    .svg-icon {
+      font-size: 24px;
+    }
+  }
+
   &._primary {
     color: rgb(0 0 0 / 80%);
     background: var(--color-primary);
@@ -89,14 +107,10 @@
 
   &._loading {
     position: relative;
-
-    // font-size: 0;
     color: transparent;
 
-    .spinner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+    .button__loader {
+      opacity: 1;
     }
   }
 
@@ -116,5 +130,15 @@
   .btn {
     padding: 15px 20px;
     font-size: 16px;
+  }
+}
+
+@keyframes loaderspin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }

@@ -6,6 +6,7 @@ import {
   ICustomPageMetaDto,
   IFAQDto,
   IInitDataDto,
+  IPaymentType,
   IProfileDto,
   ISettingsDto,
   ISpecialOffersDto,
@@ -20,6 +21,7 @@ export interface ISessionStore {
   faq: IFAQDto[]
   specialOffers: ISpecialOffersDto[]
   customPages: ICustomPageMetaDto[]
+  paymentsType: IPaymentType[]
 
   user: IProfileDto | null
   lastPurchases: IOrderDto[] | null
@@ -45,6 +47,7 @@ export const initialSessionState: ISessionStore = {
   faq: [],
   specialOffers: [],
   customPages: [],
+  paymentsType: [],
 
   user: null,
   lastPurchases: null,
@@ -132,6 +135,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     faq: faqList || [],
     specialOffers: specialOffers || [],
     customPages: customPages || [],
+    paymentsType: payload.paymentsType || [],
   }
 }
 

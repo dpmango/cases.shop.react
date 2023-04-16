@@ -30,7 +30,7 @@ export const Page = () => {
       setPage(page + 1)
     }
 
-    if (payload.data.length && payload.data.length <= PAGE_LIMIT) {
+    if (payload.data.length && payload.data.length < PAGE_LIMIT) {
       setMoreAvailable(false)
     }
   }
