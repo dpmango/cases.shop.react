@@ -15,24 +15,53 @@
   &__guide {
     display: flex;
     justify-content: space-between;
+    margin-left: calc(((100vw - var(--container-wide) + 40px) / 2) * -1);
+    margin-right: calc(((100vw - var(--container-wide) + 40px) / 2) * -1);
     margin-bottom: 80px;
+
+    @include r(1536) {
+      margin-left: -40px;
+      margin-right: -40px;
+    }
+
+    @include r($md) {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+
+    .swiper-slide {
+      display: flex;
+      flex: 0 0 auto;
+      flex-direction: column;
+      width: auto;
+
+      &:not(:last-child)::after {
+        position: absolute;
+        content: '';
+        display: block;
+        top: 75px;
+        right: 0;
+        width: 19px;
+        height: 34px;
+        background: url('@/assets/img/arrow.svg') no-repeat;
+        background-size: cover;
+      }
+    }
   }
 
-  &__guide-card {
+  &__slide {
     position: relative;
-    width: 100%;
-    max-width: 17%;
+    flex: 1 0 auto;
+    max-width: 300px;
     text-align: center;
+  }
 
-    &:not(:last-child)::after {
-      position: absolute;
-      content: '';
-      display: block;
-      top: 75px;
-      right: -48px;
-      width: 30px;
-      height: 40px;
-      background: url('@/assets/img/arrow.svg') no-repeat;
+  &__image {
+    padding: 0 40px;
+    font-size: 0;
+
+    img {
+      max-width: 100%;
     }
   }
 
@@ -40,8 +69,6 @@
     margin-top: 16px;
     font-family: var(--font-accent);
     font-weight: 600;
-    font-size: 14px;
-    line-height: 16px;
     text-align: center;
   }
 
@@ -51,21 +78,13 @@
   }
 }
 
-@media screen and (max-width: 1299px) {
-  .faq {
-    &__guide-card::after {
-      right: -44px;
-    }
-  }
-}
-
 @include r($xl) {
   .faq {
     &__image {
       width: 100%;
     }
 
-    &__guide-card::after {
+    &__slide::after {
       right: -40px;
     }
   }
@@ -78,12 +97,11 @@
       justify-content: center;
     }
 
-    &__guide-card {
-      max-width: 24%;
+    &__slide {
       margin: 25px;
     }
 
-    &__guide-card::after {
+    &__slide::after {
       display: none;
     }
 
@@ -93,12 +111,11 @@
   }
 }
 
-@include r($sm) {
+@include r($md) {
   .faq {
     padding: 40px 0 100px;
 
-    &__guide-card {
-      max-width: 83%;
+    &__slide {
       margin: 0 auto 40px;
     }
 

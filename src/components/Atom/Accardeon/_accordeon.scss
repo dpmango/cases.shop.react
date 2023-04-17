@@ -15,7 +15,7 @@
     font-family: var(--font-accent);
     font-weight: 900;
     font-size: 20px;
-    line-height: 23px;
+    line-height: calc(23 / 20);
     text-align: left;
     color: #fff;
     background: #191f2c;

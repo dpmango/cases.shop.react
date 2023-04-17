@@ -38,3 +38,20 @@
     text-align: center;
   }
 }
+
+@include r($md) {
+  .heading {
+    flex-wrap: wrap;
+
+    &__back {
+      position: static;
+      transform: none;
+    }
+
+    &__title {
+      flex: 0 0 100%;
+      margin-top: 24px;
+      padding: 0;
+    }
+  }
+}

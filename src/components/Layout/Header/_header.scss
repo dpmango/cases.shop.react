@@ -246,10 +246,19 @@
 
 @include r($md) {
   .header {
-    transform: translateY(-32px);
-
     &__wrapper {
-      transform: translateY(16px);
+      min-height: 74px;
+      padding: 0;
+    }
+
+    &._scrolled:not(._focused) {
+      transform: none;
+
+      .header {
+        &__wrapper {
+          transform: none;
+        }
+      }
     }
   }
 }

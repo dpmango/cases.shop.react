@@ -4,25 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { UiButton, UiInput, UiModal } from '@/components/Ui'
 
 const DepositModal = () => {
-  const [amount, setAmount] = useState(100)
-  const [paymentOption, setPaymentOption] = useState<string | null>(null)
-
   const { settings, paymentsType } = useAppSelector((state) => state.sessionState)
-
-  const generateLink = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const { data } = await getPayment({ amount })
-
-    if (data) {
-      const a = document.createElement('a')
-      document.body.appendChild(a)
-      a.setAttribute('style', 'display: none')
-      a.href = data.url
-      a.target = '_blank'
-      a.click()
-      document.body.removeChild(a)
-    }
-  }
   const paymentOptions = useMemo(() => {
     return [
       ...paymentsType.map((x) => {
@@ -34,6 +16,24 @@ const DepositModal = () => {
       }),
     ]
   }, [paymentsType])
+
+  const [amount, setAmount] = useState(100)
+  const [paymentOption, setPaymentOption] = useState<string | null>(paymentOptions[0].id)
+
+  const generateLink = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const { data } = await getPayment({ amount, type: paymentOption || paymentOptions[0].id })
+
+    if (data) {
+      const a = document.createElement('a')
+      document.body.appendChild(a)
+      a.setAttribute('style', 'display: none')
+      a.href = data.url
+      a.target = '_blank'
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
 
   return (
     <UiModal name="deposit" title="ПОПОЛНЕНИЕ БАЛАНСА" titleIcon="download">

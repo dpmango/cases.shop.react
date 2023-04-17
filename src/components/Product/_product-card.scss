@@ -117,20 +117,25 @@
     // width: 36%;
 
     &__name {
-      background: #000; // TODO - site color
+      background: rgba(#000, 0.5);
     }
   }
 }
 
-@include r($sm) {
+@include r($md) {
   .product-card {
     &__name {
       position: static;
       width: 100%;
       max-width: 320px;
-      margin: 0 auto 16px;
+      margin: 0 auto 12px;
+      padding: 4px;
       font-size: 18px;
       opacity: 1;
+    }
+
+    &__top {
+      margin-top: auto;
     }
   }
 }

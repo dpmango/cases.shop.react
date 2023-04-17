@@ -5,9 +5,10 @@
   z-index: 99;
   justify-content: center;
   align-items: center;
+  padding-top: 80px;
   pointer-events: none;
-  inset: 0;
   backface-visibility: hidden;
+  inset: 0;
 
   &._active {
     pointer-events: all;

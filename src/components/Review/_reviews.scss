@@ -24,6 +24,31 @@
   }
 }
 
+@include r($hd) {
+  .reviews {
+    &__wrapper {
+      padding-left: 80px;
+      padding-right: 80px;
+    }
+  }
+}
+
+@include r($md) {
+  .reviews {
+    padding-top: 42px;
+    padding-bottom: 120px;
+
+    &__wrapper {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &__more {
+      justify-content: center;
+    }
+  }
+}
+
 // review card
 .rev-card {
   width: 100%;
@@ -88,16 +113,6 @@
 
 @include r($md) {
   .rev-card {
-    padding: 12px 40px 14px 14px;
-  }
-}
-
-@include r($sm) {
-  .rev {
-    padding: 40px 0 120px;
-
-    &__more {
-      width: 100%;
-    }
+    padding-right: 40px;
   }
 }

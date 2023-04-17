@@ -1,11 +1,7 @@
 .button {
   display: inline-flex;
   justify-content: center;
-  padding: 16px 52px;
   font-family: var(--font-base);
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 1.32;
   border: 0;
   border-radius: var(--button-border-radius);
   transition: background 0.1s $ease, color 0.1s $ease;
@@ -44,12 +40,12 @@
     }
 
     &[disabled] {
-      color: rgb(#000, 0.3);
+      background: rgba(#ffba01, 60%);
       cursor: not-allowed;
       pointer-events: none;
 
       &:hover {
-        color: rgb(#000, 0.3);
+        background: rgba(#ffba01, 60%);
         background: transparent;
       }
     }
@@ -66,7 +62,10 @@
   }
 
   &._default {
-    height: 66px;
+    padding: 16px 52px;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.32;
   }
 
   // variants
@@ -108,6 +107,7 @@
   &._loading {
     position: relative;
     color: transparent;
+    pointer-events: none;
 
     .button__loader {
       opacity: 1;
@@ -127,9 +127,11 @@
 }
 
 @include r($md) {
-  .btn {
-    padding: 15px 20px;
-    font-size: 16px;
+  .button {
+    &._default {
+      padding: 14px 32px;
+      font-size: 20px;
+    }
   }
 }
 

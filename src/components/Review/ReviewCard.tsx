@@ -25,7 +25,7 @@ export const ReviewCard = (review: IReviewDto) => {
         </div>
       </div>
 
-      <p className="rev-card__text p-small">{review.text}</p>
+      <p className="rev-card__text p-regular">{review.text}</p>
     </div>
   )
 }

@@ -13,18 +13,21 @@ export const documentProps = {
 const PAGE_LIMIT = 30
 
 export const Page = () => {
+  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const [moreAvailable, setMoreAvailable] = useState(true)
 
   const { isHydrated } = useAppSelector((state) => state.uiState)
   const { id: shopId } = useAppSelector((state) => state.sessionState)
-  const { reviews, reviewsFetching } = useAppSelector((state) => state.productState)
+  const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
 
   const handleLoadMore = async () => {
+    setLoading(true)
     const { payload }: { payload: any } = await dispatch(
       getReviewsThunk({ shopId, limit: PAGE_LIMIT, offset: page * PAGE_LIMIT }),
     )
+    setLoading(false)
 
     if (payload.data) {
       setPage(page + 1)
@@ -61,7 +64,7 @@ export const Page = () => {
 
           {moreAvailable && (
             <div className="reviews__more" onClick={handleLoadMore}>
-              <UiButton loading={reviewsFetching}>Загрузить больше</UiButton>
+              <UiButton loading={loading}>Загрузить больше</UiButton>
             </div>
           )}
         </div>

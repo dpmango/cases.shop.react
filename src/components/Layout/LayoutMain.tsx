@@ -20,7 +20,7 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
   const location = useLocation()
 
   useEffect(() => {
-    dispatch(startAppThunk({ shopId }))
+    // dispatch(startAppThunk({ shopId }))
     dispatch(setHydrated(true))
 
     const accessToken = Cookies.get('access_token')

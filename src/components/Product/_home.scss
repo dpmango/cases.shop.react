@@ -201,7 +201,20 @@
 
     &__category-grid {
       margin-bottom: 32px;
-      grid-template-columns: (auto-fit, minmax(242px, 1fr));
+    }
+  }
+}
+
+@include r(547) {
+  .home {
+    &__category-grid {
+      grid-template-columns: 1fr;
+      justify-content: center;
+
+      .product-card {
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 }

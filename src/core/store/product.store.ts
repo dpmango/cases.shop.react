@@ -5,16 +5,12 @@ import { IProductCategoryDto } from '../interface/Product'
 import { IReviewDto } from '../interface/Review'
 
 export interface IProductStore {
-  productsFetching: boolean
   items: IProductCategoryDto[] | null
-  reviewsFetching: boolean
   reviews: IReviewDto[] | null
 }
 
 export const initialProductState: IProductStore = {
-  productsFetching: true,
   items: null,
-  reviewsFetching: true,
   reviews: null,
 }
 
@@ -50,23 +46,15 @@ export const productState = createSlice({
   },
   extraReducers: (builder) => {
     // Catalog* like with Product Dto's
-    builder.addCase(getProductsThunk.pending, (state) => {
-      state.productsFetching = true
-    })
     builder.addCase(
       getProductsThunk.fulfilled,
       (state, action: PayloadAction<IProductCategoryDto[] | null>) => {
         if (action.payload) {
           state.items = [...action.payload]
         }
-
-        state.productsFetching = false
       },
     )
     // reviews
-    builder.addCase(getReviewsThunk.pending, (state) => {
-      state.reviewsFetching = true
-    })
     builder.addCase(getReviewsThunk.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.data) {
         if (action.payload.isMerge) {
@@ -75,8 +63,6 @@ export const productState = createSlice({
           state.reviews = [...action.payload.data]
         }
       }
-
-      state.reviewsFetching = false
     })
   },
 })
