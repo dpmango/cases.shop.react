@@ -23,6 +23,13 @@
 
   &__slider {
     border-radius: var(--card-border-radius);
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.25s $ease;
+
+    &._loaded {
+      opacity: 1;
+    }
 
     .swiper-slide {
       display: flex;
@@ -160,15 +167,31 @@
 
 @include r($xl) {
   .product {
+    &__left {
+      max-width: 480px;
+    }
+  }
+}
+
+@include r($lg) {
+  .product {
     &__box {
       flex-direction: column;
+    }
+
+    &__left {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     &__content {
       width: 100%;
       max-width: 100%;
+      max-width: 600px;
       margin-top: 30px;
-      margin-left: 0;
+      margin-left: auto;
+      margin-right: auto;
       text-align: center;
     }
 
@@ -197,39 +220,27 @@
 
 @include r($md) {
   .product {
-    &__text {
-      max-width: 100%;
-    }
-  }
-}
-
-@include r($sm) {
-  .product {
     padding: 30px 0 50px;
 
     &__title {
       margin-bottom: 25px;
     }
 
-    &__content {
-      text-align: left;
-    }
-
     // &__price {
     //   margin: -20px auto 20px;
     // }
 
-    &__btn {
+    &__btn,
+    &__payment {
       width: 100%;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     &__slider {
       overflow: visible;
       height: auto;
-    }
-
-    &__thumbs {
-      display: none;
     }
   }
 }
@@ -295,11 +306,43 @@
     margin-top: 15px;
     font-family: var(--font-accent);
     font-weight: 700;
-    color: rgba(#fff, 0.12);
+    color: rgba(#fff, 0.3);
   }
 
   &__more {
     display: inline-block;
     margin-top: 32px;
+  }
+}
+
+@include r($md) {
+  .product-rev {
+    max-width: 100%;
+
+    &__title {
+      margin-bottom: 16px;
+    }
+
+    &__slider {
+      margin-left: -20px;
+      margin-right: -20px;
+
+      .swiper-wrapper {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      &::after {
+        width: 120px;
+      }
+
+      .swiper-slide {
+        width: 360px;
+      }
+
+      .rev-card {
+        max-width: 360px;
+      }
+    }
   }
 }

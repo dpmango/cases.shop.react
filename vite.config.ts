@@ -2,12 +2,11 @@ import { fileURLToPath, URL } from 'node:url'
 
 import react from '@vitejs/plugin-react'
 import * as path from 'path'
-import { visualizer } from 'rollup-plugin-visualizer'
+// import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
-import eslintPlugin from 'vite-plugin-eslint'
-import mkcert from 'vite-plugin-mkcert'
-// import { viteSingleFile } from 'vite-plugin-singlefile'
+// import eslintPlugin from 'vite-plugin-eslint'
+// import mkcert from 'vite-plugin-mkcert'
 import ssr from 'vite-plugin-ssr/plugin'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import svgLoader from 'vite-svg-loader'
@@ -18,9 +17,9 @@ export default ({ mode }) => {
 
   return defineConfig({
     publicDir: 'public',
-    // server: {
-    //   https: true,
-    // },
+    server: {
+      // https: true,
+    },
     plugins: [
       // mkcert(),
       AutoImport({
@@ -38,10 +37,10 @@ export default ({ mode }) => {
       }),
       react(),
       ssr(),
-      eslintPlugin({
-        failOnError: false,
-        cache: false,
-      }),
+      // eslintPlugin({
+      //   failOnError: false,
+      //   cache: false,
+      // }),
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
         symbolId: 'icon-[dir]-[name]',
@@ -54,7 +53,6 @@ export default ({ mode }) => {
       //   brotliSize: false,
       //   filename: 'bundle-analyze.html',
       // }),
-      // process?.env?.ODR ? viteSingleFile() : null,
     ],
     resolve: {
       alias: {
@@ -79,6 +77,8 @@ export default ({ mode }) => {
           manualChunks: (id) => {
             if (['components/Ui', 'components/Atom'].some((x) => id.includes(x))) {
               return 'interface'
+            } else if (id.includes('components')) {
+              return 'components'
             }
           },
         },

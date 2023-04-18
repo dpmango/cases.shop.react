@@ -2,6 +2,7 @@ import './_accordeon.scss'
 
 import cns from 'classnames'
 
+import { SvgIcon } from '@/components/Ui'
 import type { IFAQDto } from '@/core/interface/Initialization'
 
 interface IPanelProps {
@@ -17,6 +18,9 @@ const AccardeonPanel: React.FC<IPanelProps> = ({ faqitem, isActive, handleToggle
         className={cns('accordeon__toggle', isActive ? 'active' : 'closed')}
         onClick={handleToggle}
       >
+        <div className="accordeon__toggle-box">
+          <SvgIcon name="caret" />
+        </div>
         {faqitem[0]}
       </div>
 

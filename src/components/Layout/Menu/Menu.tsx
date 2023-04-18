@@ -1,20 +1,46 @@
 import './_menu.scss'
 
 import cns from 'classnames'
+import { useLocation, useNavigate } from 'react-router'
 
-import { SvgIcon, UiButton, UiLink } from '@/components/Ui'
+import { UiLink } from '@/components/Ui'
 
 const Menu = () => {
-  const { settings, customPages } = useAppSelector((state) => state.sessionState)
+  const { customPages } = useAppSelector((state) => state.sessionState)
   const { settingsOpen } = useAppSelector((state) => state.uiState)
   const { items } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const footerNav = [
+  const [homeAnchor, setHomeAnchor] = useState<string | null>()
+
+  const siteNav = [
     { link: '/reviews', name: 'Отзывы' },
     { link: '/faq', name: 'FAQ' },
     ...customPages.map((x) => ({ link: `/${x[1]}`, name: x[0] })),
   ]
+
+  const handleScrollClick = useCallback(
+    (e: React.MouseEvent, idx: number) => {
+      e.preventDefault()
+      if (location.pathname !== '/') {
+        navigate('/')
+        setHomeAnchor(`category${idx}`)
+      } else {
+        scrollToElement(`category${idx}`)
+      }
+      dispatch(setSettings(false))
+    },
+    [location],
+  )
+
+  useEffect(() => {
+    if (homeAnchor) {
+      scrollToElement(homeAnchor)
+      setHomeAnchor(null)
+    }
+  }, [homeAnchor])
 
   return (
     <div
@@ -29,14 +55,7 @@ const Menu = () => {
               items.map((category, idx) => {
                 return (
                   <li key={idx}>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        scrollToElement(`category${idx}`)
-                        dispatch(setSettings(false))
-                      }}
-                    >
+                    <a href="#" onClick={(e) => handleScrollClick(e, idx)}>
                       {category.categoryName}
                     </a>
                   </li>
@@ -45,7 +64,7 @@ const Menu = () => {
           </ul>
 
           <ul className="settings__menu _nav">
-            {footerNav.map((item, idx) => (
+            {siteNav.map((item, idx) => (
               <li key={idx} onClick={(e) => dispatch(setSettings(false))}>
                 <UiLink href={item.link}>{item.name}</UiLink>
               </li>

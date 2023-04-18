@@ -19,30 +19,6 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null)
 
-  const generatePaymentLink = async () => {
-    if (!user) {
-      dispatch(setModal({ name: 'auth' }))
-      return
-    } else {
-      if (user.balance >= +product.price) {
-        dispatch(setModal({ name: 'order' }))
-        return
-      }
-    }
-
-    const { data } = await getPayment({ amount: +product.price - +(user?.balance || 0) })
-
-    if (data) {
-      const a = document.createElement('a')
-      document.body.appendChild(a)
-      a.setAttribute('style', 'display: none')
-      a.href = data.url
-      a.target = '_blank'
-      a.click()
-      document.body.removeChild(a)
-    }
-  }
-
   const paymentOptions = useMemo(() => {
     return [
       ...paymentsType.map((x) => {
@@ -62,6 +38,33 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
     return []
   }, [product.images])
+
+  const generatePaymentLink = async () => {
+    if (!user) {
+      dispatch(setModal({ name: 'auth' }))
+      return
+    } else {
+      if (user.balance >= +product.price) {
+        dispatch(setModal({ name: 'order' }))
+        return
+      }
+    }
+
+    const { data } = await getPayment({
+      amount: +product.price - +(user?.balance || 0),
+      id: paymentOptions[0].id,
+    })
+
+    if (data) {
+      const a = document.createElement('a')
+      document.body.appendChild(a)
+      a.setAttribute('style', 'display: none')
+      a.href = data.url
+      a.target = '_blank'
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
 
   return (
     <PhotoProvider>

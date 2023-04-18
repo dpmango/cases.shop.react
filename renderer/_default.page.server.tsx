@@ -169,7 +169,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
 }
 
 async function render(pageContext: PageContextServer) {
-  const { Page, pageProps, urlPathname, PRELOADED_STATE } = pageContext
+  const { Page, pageProps, urlPathname, productData, PRELOADED_STATE } = pageContext
   if (!Page) throw new Error('My render() hook expects pageContext.Page to be defined')
 
   if (pageContext.redirectTo) {
@@ -194,8 +194,13 @@ async function render(pageContext: PageContextServer) {
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext.exports
-  const title = (documentProps && documentProps.title) || 'Vite SSR app'
+  let title = (documentProps && documentProps.title) || 'Vite SSR app'
   const desc = (documentProps && documentProps.description) || 'App using Vite + vite-plugin-ssr'
+
+  const productTitle = documentProps?.title === '[Товар]'
+  if (productData && productTitle) {
+    title = productData.name
+  }
 
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="ru">

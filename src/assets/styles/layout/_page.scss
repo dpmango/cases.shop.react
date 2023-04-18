@@ -58,9 +58,9 @@
   }
 }
 
-@include r(1499) {
+@include r($hd) {
   ._faq-left {
-    max-width: calc(100vw / 2);
+    max-width: 640px;
   }
 
   ._faq-right {
@@ -76,13 +76,17 @@
 
 @include r($lg) {
   ._faq-left {
-    max-width: 250px;
+    max-width: 500px;
   }
 }
 
 @include r($md) {
   ._product {
     width: 65%;
+  }
+
+  ._faq-left {
+    max-width: 360px;
   }
 }
 
@@ -92,7 +96,7 @@
   }
 
   ._faq-left {
-    max-width: 190px;
+    max-width: 240px;
   }
 }
 

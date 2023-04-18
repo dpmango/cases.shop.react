@@ -1,3 +1,4 @@
+import cns from 'classnames'
 import { FreeMode, Grid, Mousewheel } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -7,11 +8,16 @@ import { UiButton, UiLink } from '@/components/Ui'
 const ProductReviews: React.FC = () => {
   const { reviews } = useAppSelector((state) => state.productState)
 
+  const [loaded, setLoaded] = useState(false)
+  useEffect(() => {
+    setLoaded(true)
+  }, [])
+
   return (
     <div className="product-rev">
       <p className="product-rev__title h2-title">Отзывы</p>
 
-      <div className="product-rev__slider">
+      <div className={cns('product-rev__slider', loaded && '_loaded')}>
         <Swiper
           modules={[Grid, FreeMode, Mousewheel]}
           freeMode={{ enabled: true, sticky: true }}

@@ -20,42 +20,54 @@
     color: #fff;
     background: #191f2c;
     border-radius: var(--ui-border-radius);
-    transition: color 0.25s $ease;
+    transition: color 0.25s $ease, background 0.25s $ease;
     cursor: pointer;
 
-    &::after {
-      position: absolute;
-      content: '';
-      left: 25px;
-      right: inherit;
-      bottom: 23%;
-      width: 46px;
-      height: 44px;
-      margin-bottom: 0;
-      background: url('@/assets/img/arr-down.svg') no-repeat;
-      transition: all 0.25s $ease;
-    }
-
-    &:hover {
-      color: var(--color-primary);
-
-      &::after {
-        background: url('@/assets/img/arr-down2.svg') no-repeat;
-      }
-    }
-
     &.active {
-      padding: 30px 96px 20px;
-      background: #232834;
-
       .accordeon__toggle {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
       }
 
-      &::after {
-        background: url('@/assets/img/arr-top.svg') no-repeat;
+      .accordeon__toggle-box {
+        .svg-icon {
+          transform: rotate(-180deg);
+        }
       }
+    }
+
+    &:hover,
+    &.active {
+      background: #232834;
+
+      .accordeon__toggle-box {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  &__toggle-box {
+    position: absolute;
+    content: '';
+    display: inline-flex;
+    top: 20px;
+    left: 24px;
+    right: inherit;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    font-size: 0;
+    color: var(--color-font);
+    border: 2px solid rgba(#fff, 0.6);
+    border-radius: 50%;
+    transition: all 0.25s $ease;
+
+    .svg-icon {
+      font-size: 16px;
+      will-change: transform;
+      backface-visibility: hidden;
+      transition: transform 0.25s $ease;
     }
   }
 
@@ -93,18 +105,23 @@
 @include r($md) {
   .accordeon {
     &__toggle {
-      padding: 20px 20px 20px 50px;
+      padding: 20px 20px 20px 54px;
       font-size: 18px;
+    }
 
-      &::after {
-        left: 6px;
-        bottom: 32%;
-        background-size: 30px;
+    &__toggle-box {
+      top: 16px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+
+      .svg-icon {
+        font-size: 12px;
       }
     }
 
     &__dropdown {
-      padding-left: 51px;
+      padding-left: 54px;
     }
   }
 }
