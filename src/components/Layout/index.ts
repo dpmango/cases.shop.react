@@ -1,6 +1,7 @@
 export { default as LayoutFooter } from './Footer/Footer'
 export { default as LayoutHeader } from './Header/Header'
 export { default as LayoutMain } from './LayoutMain'
+export { default as LayoutMenu } from './Menu/Menu'
 export { PageConsumer } from './Page/PageConsumer'
 export { PageContextProvider, usePageContext } from './Page/PageContext'
 export { default as PageDecoration } from './Page/PageDecoration'

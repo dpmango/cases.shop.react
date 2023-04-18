@@ -56,8 +56,8 @@
     background: var(--color-accent);
 
     &:hover {
-      color: rgba(#fff, 0.8);
-      background: #790b34;
+      color: rgb(0 0 0 / 80%);
+      background: var(--color-primary-hover);
     }
   }
 

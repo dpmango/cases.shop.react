@@ -6,7 +6,7 @@ export const scrollToElement = (id: string, offsetOpt = true) => {
   if (offsetOpt === true) {
     // применяется для десктопа
     const el = document.querySelector('.header') as HTMLElement
-    headerOffset = el?.offsetHeight
+    headerOffset = el?.offsetHeight + 16
   } else if (typeof offsetOpt === 'string') {
     // применяется с указанием селектора элемента шапки (или люббого другого элемента)
     const el = document.querySelector(offsetOpt as string) as HTMLElement

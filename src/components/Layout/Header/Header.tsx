@@ -12,7 +12,7 @@ const Header = () => {
   const [focused, setFocused] = useState(false)
 
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
-  const { modal } = useAppSelector((state) => state.uiState)
+  const { modal, settingsOpen } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
 
   const { onAuthSuccess } = useTelegramAuth({ shopId })
@@ -112,6 +112,14 @@ const Header = () => {
                 )}
               </a>
             )}
+          </div>
+
+          <div className="header__hamburger" onClick={() => dispatch(setSettings(!settingsOpen))}>
+            <div className={cns('hamburger', settingsOpen && '_active')}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
       </div>

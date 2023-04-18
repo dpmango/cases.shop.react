@@ -34,7 +34,7 @@ const FaqInstruction = () => {
         mousewheel={{
           forceToAxis: true,
         }}
-        spaceBetween={5}
+        spaceBetween={0}
       >
         {slides.map((x, idx) => (
           <SwiperSlide key={idx}>

@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
-import { LayoutFooter, LayoutHeader } from '@/components/Layout'
+import { LayoutFooter, LayoutHeader, LayoutMenu } from '@/components/Layout'
 import { SharedModals } from '@/components/Layout'
 import { Page as FaqPage } from '~/src/pages/faq/index.page'
 import { Page as HomePage } from '~/src/pages/index.page'
@@ -32,13 +32,14 @@ export const Layout = ({ children }: { children: ReactSlot }) => {
     }
   }, [])
 
-  useEffect(() => {
-    scrollPageToTop()
-  }, [location.pathname])
+  // useEffect(() => {
+  //   scrollPageToTop()
+  // }, [location.pathname])
 
   return (
     <div className={'page'}>
       <LayoutHeader />
+      <LayoutMenu />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />

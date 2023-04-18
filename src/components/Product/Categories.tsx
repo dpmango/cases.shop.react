@@ -1,6 +1,7 @@
 import './_home.scss'
 
 import { ProductCard } from '@/components/Product'
+import { UiButton } from '@/components/Ui'
 import { IProductDto } from '@/core/interface/Product'
 
 const Categories: React.FC = () => {
@@ -18,40 +19,57 @@ const Categories: React.FC = () => {
   }
 
   return (
-    <div className="home__products">
-      {items?.length &&
-        items.map((category, idx) => {
-          return (
-            <div className="home__category" key={idx}>
-              {category.categoryColor && (
-                <div
-                  className="home__category-decor"
-                  style={{
-                    background: `radial-gradient(100% 100% at 50% 0%, rgba(${hexToRgb(
-                      category.categoryColor,
-                    )}, 0.44) 0%, rgba(${hexToRgb(settings.background_site_color)}, 0.44) 67.9%)`,
-                  }}
-                />
-              )}
+    <>
+      <div className="home__categories">
+        {items?.length &&
+          items.map((category, idx) => {
+            return (
+              <UiButton
+                size="small"
+                theme="secondary"
+                key={idx}
+                onClick={() => scrollToElement(`category${idx}`)}
+              >
+                {category.categoryName}
+              </UiButton>
+            )
+          })}
+      </div>
+      <div className="home__products">
+        {items?.length &&
+          items.map((category, idx) => {
+            return (
+              <div className="home__category" id={`category${idx}`} key={idx}>
+                {category.categoryColor && (
+                  <div
+                    className="home__category-decor"
+                    style={{
+                      background: `radial-gradient(100% 100% at 50% 0%, rgba(${hexToRgb(
+                        category.categoryColor,
+                      )}, 0.44) 0%, rgba(${hexToRgb(settings.background_site_color)}, 0.44) 67.9%)`,
+                    }}
+                  />
+                )}
 
-              <h2 className="h4-title home__category-title">
-                <span>{category.categoryName}</span>
-              </h2>
+                <h2 className="h4-title home__category-title">
+                  <span>{category.categoryName}</span>
+                </h2>
 
-              <div className="home__category-grid">
-                {category.items?.length &&
-                  prepareGrid(category.items).map((card: IProductDto | null, idx) => {
-                    if (card) {
-                      return <ProductCard key={card.id} {...card} />
-                    } else {
-                      return <div className="card-placeholder" key={`placeholder_${idx}`}></div>
-                    }
-                  })}
+                <div className="home__category-grid">
+                  {category.items?.length &&
+                    prepareGrid(category.items).map((card: IProductDto | null, idx) => {
+                      if (card) {
+                        return <ProductCard key={card.id} {...card} />
+                      } else {
+                        return <div className="card-placeholder" key={`placeholder_${idx}`}></div>
+                      }
+                    })}
+                </div>
               </div>
-            </div>
-          )
-        })}
-    </div>
+            )
+          })}
+      </div>{' '}
+    </>
   )
 }
 

@@ -48,17 +48,13 @@
       padding: 30px 96px 20px;
       background: #232834;
 
+      .accordeon__toggle {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
       &::after {
-        position: absolute;
-        content: '';
-        left: 25px;
-        right: inherit;
-        bottom: 21%;
-        width: 46px;
-        height: 44px;
-        margin-bottom: 0;
         background: url('@/assets/img/arr-top.svg') no-repeat;
-        transition: all 0.25s $ease;
       }
     }
   }
@@ -70,14 +66,15 @@
 
   &__dropdown {
     overflow: hidden;
-    margin-top: -100%;
+    display: none;
     margin-left: 0;
     padding: 0 40px 0 94px;
     background: #232834;
-    border-radius: var(--ui-border-radius);
-    transition: margin-top 0.3s ease-in;
+    border-bottom-left-radius: var(--ui-border-radius);
+    border-bottom-right-radius: var(--ui-border-radius);
 
     &._active {
+      display: block;
       margin-top: 0;
     }
   }
@@ -85,7 +82,6 @@
   &__text {
     max-width: 897px;
     padding-bottom: 40px;
-    font-family: var(--font-accent);
     font-weight: 600;
     font-size: 16px;
     line-height: 19px;
@@ -97,16 +93,8 @@
 @include r($md) {
   .accordeon {
     &__toggle {
-      font-size: 18px;
-    }
-  }
-}
-
-@include r($sm) {
-  .accordeon {
-    &__toggle {
       padding: 20px 20px 20px 50px;
-      font-size: 16px;
+      font-size: 18px;
 
       &::after {
         left: 6px;

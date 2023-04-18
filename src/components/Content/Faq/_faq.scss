@@ -35,16 +35,8 @@
       flex-direction: column;
       width: auto;
 
-      &:not(:last-child)::after {
-        position: absolute;
-        content: '';
+      &:not(:last-child) .faq__slide::after {
         display: block;
-        top: 75px;
-        right: 0;
-        width: 19px;
-        height: 34px;
-        background: url('@/assets/img/arrow.svg') no-repeat;
-        background-size: cover;
       }
     }
   }
@@ -54,9 +46,22 @@
     flex: 1 0 auto;
     max-width: 300px;
     text-align: center;
+
+    &::after {
+      position: absolute;
+      content: ' ';
+      display: none;
+      top: 75px;
+      right: 0;
+      width: 19px;
+      height: 34px;
+      background: url('@/assets/img/arrow.svg') no-repeat;
+      background-size: cover;
+    }
   }
 
   &__image {
+    position: relative;
     padding: 0 40px;
     font-size: 0;
 
@@ -67,7 +72,6 @@
 
   &__text {
     margin-top: 16px;
-    font-family: var(--font-accent);
     font-weight: 600;
     text-align: center;
   }
@@ -78,35 +82,40 @@
   }
 }
 
-@include r($xl) {
+@include r($hd) {
   .faq {
-    &__image {
-      width: 100%;
+    &__wrapper {
+      padding-left: 80px;
+      padding-right: 80px;
     }
 
-    &__slide::after {
-      right: -40px;
+    &__guide {
+      margin-left: -120px;
+      margin-right: -120px;
+    }
+  }
+}
+
+@include r($xl) {
+  .faq {
+    &__guide {
+      .swiper-slide {
+        &:not(:last-child) .faq__slide::after {
+          transform: scale(0.7);
+        }
+      }
+    }
+
+    &__slide {
+      max-width: 270px;
     }
   }
 }
 
 @include r($lg) {
   .faq {
-    &__guide {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    &__slide {
-      margin: 25px;
-    }
-
-    &__slide::after {
-      display: none;
-    }
-
     &__head {
-      margin-bottom: 20px;
+      margin-bottom: 42px;
     }
   }
 }
@@ -115,18 +124,30 @@
   .faq {
     padding: 40px 0 100px;
 
-    &__slide {
-      margin: 0 auto 40px;
+    &__head {
+      margin-bottom: 32px;
     }
 
-    &__head,
-    &__subtitle {
-      font-size: 21px;
-      line-height: 27px;
+    &__guide {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+
+    &__wrapper {
+      padding-left: 0;
+      padding-right: 0;
     }
 
     &__image {
-      max-width: 160px;
+      max-width: 220px;
+    }
+
+    &__slide {
+      max-width: 235px;
+
+      &::after {
+        top: 56px;
+      }
     }
   }
 }

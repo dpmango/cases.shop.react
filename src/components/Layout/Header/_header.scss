@@ -101,6 +101,12 @@
     }
   }
 
+  &__hamburger {
+    margin-left: 10px;
+    margin-right: -10px;
+    padding: 10px;
+  }
+
   // scroll modifier
   &._scrolled:not(._focused) {
     transform: translateY(-32px);
@@ -267,6 +273,19 @@
   .header {
     &__telegram {
       max-width: 238px;
+    }
+
+    &__auth {
+      display: block;
+      padding-left: 0;
+    }
+
+    &__main {
+      display: none;
+    }
+
+    &__hamburger {
+      margin-left: auto;
     }
   }
 }
