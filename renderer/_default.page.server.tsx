@@ -44,16 +44,20 @@ export async function onBeforeRender(pageContext: PageContextServer) {
       name: 'orders',
       resolver: getOrders({ shopId }),
     },
+    {
+      name: 'products',
+      resolver: getProducts({ shopId }),
+    },
   ] as IPromiseFactory[]
   // isClientSideNavigation
 
   // Главная
-  if (_pageId.includes('pages/index')) {
-    promisesToBeFetched.push({
-      name: 'products',
-      resolver: getProducts({ shopId }),
-    })
-  }
+  // if (_pageId.includes('pages/index')) {
+  //   // promisesToBeFetched.push({
+  //   //   name: 'products',
+  //   //   resolver: getProducts({ shopId }),
+  //   // })
+  // }
 
   // Получение товара
   if (_pageId.includes('pages/product')) {

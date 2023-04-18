@@ -46,7 +46,7 @@ const Menu = () => {
 
           <ul className="settings__menu _nav">
             {footerNav.map((item, idx) => (
-              <li key={idx}>
+              <li key={idx} onClick={(e) => dispatch(setSettings(false))}>
                 <UiLink href={item.link}>{item.name}</UiLink>
               </li>
             ))}

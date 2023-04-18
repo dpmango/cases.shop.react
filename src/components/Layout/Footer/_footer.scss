@@ -2,6 +2,7 @@
 .footer {
   padding: 106px 0;
   background: url('/img/decor/footer.png') no-repeat center center / cover;
+  border-top: 4px solid #3f1e01;
 
   &__list {
     position: relative;
@@ -35,6 +36,7 @@
 .footer2 {
   padding-bottom: 170px;
   background: transparent;
+  border-top: 0;
 }
 
 @include r($xl) {
@@ -50,6 +52,7 @@
 @include r($md) {
   .footer {
     padding: 64px 0;
+    border-top-width: 2px;
 
     &__list {
       flex-direction: column;

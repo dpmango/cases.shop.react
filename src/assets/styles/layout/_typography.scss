@@ -186,8 +186,9 @@ h6,
   }
 
   ul,
-  li {
+  ol {
     list-style: none;
+    padding: 0;
 
     li {
       display: flex;
@@ -224,6 +225,7 @@ h6,
       &::before {
         content: counter(listcounter) ' ';
         counter-increment: listcounter;
+        margin-right: 8px;
       }
     }
   }
