@@ -27,13 +27,6 @@
 
   &__slider {
     border-radius: var(--card-border-radius);
-    opacity: 0;
-    will-change: opacity;
-    transition: opacity 0.25s $ease;
-
-    &._loaded {
-      opacity: 1;
-    }
 
     .swiper-slide {
       display: flex;
@@ -264,6 +257,13 @@
 
   &__slider {
     position: relative;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.25s $ease;
+
+    &._loaded {
+      opacity: 1;
+    }
 
     .swiper-slide {
       flex: 0 0 auto;
