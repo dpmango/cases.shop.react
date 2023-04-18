@@ -1,7 +1,7 @@
 import './_checkbox.scss'
 
 import cns from 'classnames'
-import { memo, useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { SvgIcon } from '@/components/Ui'
 
@@ -47,4 +47,4 @@ const Checkbox = ({
   )
 }
 
-export default memo(Checkbox)
+export default Checkbox

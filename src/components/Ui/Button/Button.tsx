@@ -1,7 +1,6 @@
 import './_button.scss'
 
 import cns from 'classnames'
-import { memo } from 'react'
 
 import { SvgIcon, UiLoader } from '@/components/Ui'
 import { IUiButton } from '~/src/core/interface/Ui'
@@ -56,4 +55,4 @@ const Button = ({
   )
 }
 
-export default memo(Button)
+export default Button

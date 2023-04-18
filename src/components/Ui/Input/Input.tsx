@@ -114,4 +114,4 @@ const Input: React.FC<IUiInput> = ({
     </div>
   )
 }
-export default memo(Input)
+export default Input
