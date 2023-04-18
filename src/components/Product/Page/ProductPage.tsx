@@ -5,7 +5,7 @@ import { Thumbs } from 'swiper'
 import { Swiper, type Swiper as SwiperRef, SwiperSlide } from 'swiper/react'
 
 import { ProductReviews } from '@/components/Product'
-import { UiButton } from '@/components/Ui'
+import { SvgIcon, UiButton, UiLink } from '@/components/Ui'
 import { IProductFullDto } from '~/src/core/interface/Product'
 
 interface IProductPageProps {
@@ -13,8 +13,7 @@ interface IProductPageProps {
 }
 
 const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
-  const { id: shopId, user, paymentsType } = useAppSelector((state) => state.sessionState)
-  const { reviews } = useAppSelector((state) => state.productState)
+  const { user, paymentsType } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null)
@@ -52,7 +51,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
 
     const { data } = await getPayment({
       amount: +product.price - +(user?.balance || 0),
-      id: paymentOptions[0].id,
+      type: paymentOptions[0].id,
     })
 
     if (data) {
@@ -69,6 +68,10 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
   return (
     <PhotoProvider>
       <div className="container">
+        <UiLink href={'/'} className="product__back heading__back custom-page__back">
+          <SvgIcon name="caret-left" />
+          <span className="h5-title">На главную</span>
+        </UiLink>
         <h1 className="h1-title product__title">{product.name}</h1>
         <div className="product__box ">
           <div className="product__left">
@@ -114,19 +117,6 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
             <div className="product__wysiwyg wysiwyg">
               <div dangerouslySetInnerHTML={{ __html: product.description }} />
             </div>
-
-            {/* 
-            <div className="product__el">
-              <p className="product__name h5-title">Описание:</p>
-              <p className="product__text p-regular markdown">{product.description}</p>
-            </div>
-
-            <div className="product__el">
-              <p className="product__name h5-title">В наборе:</p>
-              <ul className="product__list">
-                <li className="product__li">todo - добавить отдельный массив в апи </li>
-              </ul>
-            </div> */}
 
             <div className="product__payment">
               <p className="product__price">

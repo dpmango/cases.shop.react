@@ -2,6 +2,10 @@
 .product {
   padding: 48px 0 50px;
 
+  &__back {
+    margin-bottom: 12px;
+  }
+
   &__title {
     margin-bottom: 56px;
     text-align: center;
