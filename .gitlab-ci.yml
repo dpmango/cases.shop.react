@@ -34,6 +34,8 @@ deploy:
   stage: deploy_stage
   extends: .base-rules
   script:
+    - npm i
+    - npm run build
     - 'pm2 start ecosystem.config.js'
   cache:
     <<: *global_cache
