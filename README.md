@@ -11,6 +11,16 @@ Build for production:
 Lint errors (eslint + prettier + stylelint)
 `yarn lint`
 
+### настройка сервера
+
+cd ~
+curl -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh
+sudo bash /tmp/nodesource_setup.sh
+sudo apt install nodejs
+node -v
+npm -v
+npm i -g pm2
+
 ### API
 
 https://shopcore.ru/store/api

@@ -17,6 +17,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     publicDir: 'public',
+    base: './',
     server: {
       // https: true,
     },
