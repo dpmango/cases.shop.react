@@ -20,7 +20,6 @@ cache: &global_cache
 
 build:
   stage: build_stage
-  image: npm:latest
   extends: .base-rules
   script:
     - npm i
