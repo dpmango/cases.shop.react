@@ -1,5 +1,4 @@
 stages:
-  - build_stage
   - deploy_stage
 
 .base-rules:
@@ -11,25 +10,6 @@ stages:
     - if: $CI_COMMIT_TAG
       when: never
 
-cache: &global_cache
-  key: $CI_COMMIT_REF_SLUG
-  policy: pull-push
-  paths:
-    - node_modules/
-    - package-lock.json
-
-build:
-  stage: build_stage
-  extends: .base-rules
-  script:
-    - npm i
-    - npm run build
-  cache:
-    <<: *global_cache
-    policy: push
-  tags:
-    - local_runner
-
 deploy:
   stage: deploy_stage
   extends: .base-rules
@@ -37,8 +17,5 @@ deploy:
     - npm i
     - npm run build
     - 'pm2 start ecosystem.config.js'
-  cache:
-    <<: *global_cache
-    policy: pull
   tags:
     - local_runner
