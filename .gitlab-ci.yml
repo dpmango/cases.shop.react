@@ -22,7 +22,6 @@ build:
   stage: build_stage
   extends: .base-rules
   script:
-    - 'node --version'
     - npm i
     - npm run build
   cache:
