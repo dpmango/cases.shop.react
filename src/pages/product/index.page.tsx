@@ -40,7 +40,7 @@ export const Page: React.FC = () => {
     }
 
     fetchProduct()
-  }, [])
+  }, [routeParams.id])
 
   return (
     <PageDecoration sectionClassName="product">
