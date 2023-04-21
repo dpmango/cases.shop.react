@@ -46,8 +46,10 @@
     &::after,
     &::before {
       position: absolute;
-      content: ' ';
-      display: inline-block;
+
+      // content: ' ';
+      // display: inline-block;
+      display: none;
       top: 0;
       bottom: 0;
       z-index: 2;
