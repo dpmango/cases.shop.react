@@ -6,10 +6,13 @@
   "engines": {
     "node": ">=16.15.0"
   },
+  "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run server",
     "build": "vite build --base=/",
     "serve": "vite preview",
+    "server": "ts-node-esm ./server/index.ts",
+    "server:prod": "cross-env NODE_ENV=production ts-node-esm ./server/index.ts",
     "lint:js:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint:style:fix": "stylelint \"**/*.{css,scss}\" --fix --ignore-path .gitignore",
@@ -36,6 +39,8 @@
     "vite-plugin-ssr": "^0.4.113"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.2",
+    "@types/express": "^4.17.17",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.35",
@@ -44,12 +49,15 @@
     "@typescript-eslint/parser": "^5.58.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitejs/plugin-react-swc": "^3.3.0",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "express": "^4.18.2",
     "pre-commit": "^1.2.2",
     "prettier": "^2.8.7",
     "rollup-plugin-visualizer": "^5.9.0",
@@ -57,6 +65,7 @@
     "stylelint": "^15.5.0",
     "stylelint-config-standard-scss": "^8.0.0",
     "stylelint-order": "^6.0.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "unplugin-auto-import": "^0.15.3",
     "vite": "^4.2.1",

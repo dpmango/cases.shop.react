@@ -6,7 +6,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -26,6 +26,6 @@
     },
     "types": ["vite-plugin-svg-icons/client"]
   },
-  "include": ["src/vite-env.d.tsd.ts", "auto-imports.d.ts", "src/**/*", "renderer/**/*"],
+  "include": ["src/vite-env.d.tsd.ts", "auto-imports.d.ts", "src/**/*", "renderer/**/*", "server/**/*"],
   "references": [{ "path": "./tsconfig.config.json" }]
 }

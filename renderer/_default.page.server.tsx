@@ -20,9 +20,16 @@ export async function onBeforeRender(pageContext: PageContextServer) {
   const DEV_perf_start = performance.now()
   const accessToken = Cookies.get('access_token')
 
+  let parsedSiteHost = pageContext.urlParsed.origin?.replace('http://', '') || 'donatfun.ru'
+  if (parsedSiteHost?.includes('localhost')) {
+    parsedSiteHost = 'donatfun.ru'
+  }
+
   const {
     data: { id: shopId },
-  } = await getWhois({ site: pageContext.urlParsed.origin || 'donatfun.ru' })
+  } = await getWhois({
+    site: parsedSiteHost,
+  })
 
   const PRELOADED_STATE = {
     sessionState: {
