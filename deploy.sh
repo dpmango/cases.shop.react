@@ -5,5 +5,6 @@ ssh root@195.2.75.40 << EOF
   git pull
   npm i
   npm run build
-  pm2 start ecosystem.config.js
+  pm2 stop all
+  pm2 start ecosystem.config.cjs
 EOF

@@ -19,7 +19,7 @@ const ProductsSlider = () => {
 
   return (
     <section className={cns('slider', false && '_compact')}>
-      {sliderData && sliderData.length && (
+      {sliderData && sliderData.length > 0 && (
         <>
           <p className="slider__title h2-title tac">ЛУЧШИЕ ПРЕДЛОЖЕНИЯ</p>
           <Swiper
