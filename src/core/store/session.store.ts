@@ -28,7 +28,7 @@ export interface ISessionStore {
 }
 
 export const initialSessionState: ISessionStore = {
-  id: import.meta.env.VITE_SHOP_ID || '',
+  id: '',
   auth_bot: import.meta.env.VITE_SHOP_AUTH_BOT || '',
   telegram_bot_link: '',
   settings: {
@@ -92,11 +92,6 @@ const updateByDataType = (state: any, action: PayloadAction<{ key: string; data:
 }
 
 export const covertInitDto = (state: any, payload: IInitDataDto) => {
-  const createImgLink = (img: string) => {
-    if (!img) return ''
-    return `${import.meta.env.VITE_ASSETS_URL}${img}`
-  }
-
   const {
     faqList,
     specialOffers,
@@ -118,19 +113,19 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     telegram_bot_link: payload.telegram_bot_link,
     settings: {
       ...state.settings,
-      logo: createImgLink(logo),
-      paymentLogo: createImgLink(paymentLogo),
+      logo: logo,
+      paymentLogo: paymentLogo,
 
       background_site_color: mainColor || '#000000',
       footer_color: footerBGColor,
       header_color: headerBGColor,
 
-      background_image: createImgLink(headerBG),
-      footer_image: createImgLink(footerBG),
+      background_image: headerBG,
+      footer_image: footerBG,
       // faq_left_footer_image: '/img/decor/man22.png',
-      faq_right_footer_image: createImgLink(footerBgFAQ),
-      product_footer_image: createImgLink(productBG),
-      reviews_footer_image: createImgLink(reviewBG),
+      faq_right_footer_image: footerBgFAQ,
+      product_footer_image: productBG,
+      reviews_footer_image: reviewBG,
     },
     faq: faqList || [],
     specialOffers: specialOffers || [],

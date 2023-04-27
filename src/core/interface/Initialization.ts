@@ -1,5 +1,9 @@
 import { IOrderDto } from './Order'
 
+export interface IWhoisDto {
+  id: string
+}
+
 export interface IInitDataDto {
   // id: number
   telegram_bot_link: string

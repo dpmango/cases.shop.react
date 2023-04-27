@@ -1,11 +1,25 @@
 import type { IApiResponse } from '@/core/interface/Api'
 import type {
+  IWhoisDto,
   IAuthDto,
   IInitDataDto,
   IProfileDto,
   ITelegramAuthDto,
 } from '@/core/interface/Initialization'
 import type { IOrderDto } from '@/core/interface/Order'
+
+// domain resolve
+export interface IWhoisPayload {
+  site: string
+}
+
+export const getWhois = async ({ site }: IWhoisPayload) => {
+  const { data, error, raw }: IApiResponse<IWhoisDto> = await api(`whois`, {
+    params: { site },
+  })
+
+  return { data: raw, error }
+}
 
 // initialize
 export interface ISettingsPayload {

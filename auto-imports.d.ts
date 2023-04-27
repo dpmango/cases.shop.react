@@ -28,6 +28,7 @@ declare global {
   const getReviewsThunk: typeof import('./src/core/store/product.store')['getReviewsThunk']
   const getStaticPage: typeof import('./src/core/api/page.api')['getStaticPage']
   const getStore: typeof import('./src/core/store')['getStore']
+  const getWhois: typeof import('./src/core/api/session.api')['getWhois']
   const hexToRgb: typeof import('./src/core/utils/color')['hexToRgb']
   const initialProductState: typeof import('./src/core/store/product.store')['initialProductState']
   const initialSessionState: typeof import('./src/core/store/session.store')['initialSessionState']

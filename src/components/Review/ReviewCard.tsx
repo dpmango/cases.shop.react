@@ -3,11 +3,6 @@ import dayjs from 'dayjs'
 import { IReviewDto } from '@/core/interface/Review'
 
 export const ReviewCard = (review: IReviewDto) => {
-  const fullAvatarPath = useMemo(() => {
-    if (!review.ava) return ''
-    return `${import.meta.env.VITE_ASSETS_URL}${review.ava}`
-  }, [])
-
   const reviewDate = useMemo(() => {
     return dayjs(review.date).format('MM.DD.YYYY')
   }, [])
@@ -16,7 +11,7 @@ export const ReviewCard = (review: IReviewDto) => {
     <div className="rev-card">
       <div className="rev-card__top">
         <div className="rev-card__ava">
-          <img src={fullAvatarPath} alt={review.nick} loading="lazy" />
+          <img src={review.ava} alt={review.nick} loading="lazy" />
         </div>
 
         <div className="rev-card__content">

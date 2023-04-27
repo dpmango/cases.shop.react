@@ -18,12 +18,16 @@ export async function onBeforeRender(pageContext: PageContextServer) {
   if (isClientSideNavigation) return { pageContext: {} }
 
   const DEV_perf_start = performance.now()
-  const shopId = import.meta.env.VITE_SHOP_ID
   const accessToken = Cookies.get('access_token')
+
+  const {
+    data: { id: shopId },
+  } = await getWhois({ site: pageContext.urlParsed.origin || 'donatfun.ru' })
 
   const PRELOADED_STATE = {
     sessionState: {
       ...initialSessionState,
+      id: shopId,
     },
     productState: {
       ...initialProductState,
