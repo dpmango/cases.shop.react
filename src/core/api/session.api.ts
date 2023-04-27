@@ -1,10 +1,10 @@
 import type { IApiResponse } from '@/core/interface/Api'
 import type {
-  IWhoisDto,
   IAuthDto,
   IInitDataDto,
   IProfileDto,
   ITelegramAuthDto,
+  IWhoisDto,
 } from '@/core/interface/Initialization'
 import type { IOrderDto } from '@/core/interface/Order'
 
