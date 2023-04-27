@@ -127,6 +127,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
           case 'init':
             PRELOADED_STATE.sessionState = {
               ...covertInitDto(initialSessionState, data),
+              id: shopId,
             }
             break
           case 'orders':

@@ -44,6 +44,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
       return
     } else {
       if (user.balance >= +product.price) {
+        saveProductToBot({ id: product.id })
+
         dispatch(setModal({ name: 'order' }))
         return
       }

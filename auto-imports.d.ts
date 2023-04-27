@@ -38,6 +38,7 @@ declare global {
   const productState: typeof import('./src/core/store/product.store')['productState']
   const productStore: typeof import('./src/core/store/product.store')['default']
   const resetState: typeof import('./src/core/store/session.store')['resetState']
+  const saveProductToBot: typeof import('./src/core/api/payment.api')['saveProductToBot']
   const scrollPageToTop: typeof import('./src/core/utils/scroll')['scrollPageToTop']
   const scrollToElement: typeof import('./src/core/utils/scroll')['scrollToElement']
   const scrollWithSpeed: typeof import('./src/core/utils/scroll')['scrollWithSpeed']
