@@ -7,6 +7,7 @@ export interface IWhoisDto {
 export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
+  telegram_bot_id: string
   // footer: IFooterDto[]
   paymentsType: IPaymentType[]
   settings: {

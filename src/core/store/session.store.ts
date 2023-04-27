@@ -29,7 +29,7 @@ export interface ISessionStore {
 
 export const initialSessionState: ISessionStore = {
   id: '',
-  auth_bot: import.meta.env.VITE_SHOP_AUTH_BOT || '',
+  auth_bot: '',
   telegram_bot_link: '',
   settings: {
     logo: '',
@@ -56,8 +56,8 @@ export const initialSessionState: ISessionStore = {
 // thunks
 export const startAppThunk = createAsyncThunk(
   'session/startAppThunk',
-  async ({ shopId }: { shopId: string }) => {
-    const { data } = await initializeApp({ shopId })
+  async ({ shopId, site }: { shopId: string; site: string }) => {
+    const { data } = await initializeApp({ shopId, site })
 
     return data
   },
@@ -110,6 +110,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
 
   return {
     ...state,
+    auth_bot: payload.telegram_bot_id,
     telegram_bot_link: payload.telegram_bot_link,
     settings: {
       ...state.settings,

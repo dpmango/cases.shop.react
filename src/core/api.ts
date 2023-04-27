@@ -112,7 +112,7 @@ export const api = async (
       raw: err,
     }
 
-    console.log('❌ Request Error', error)
+    console.log(`❌ Request Error ${url}`, error)
 
     return { data: null, message: null, raw: null, error }
   }

@@ -46,7 +46,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
   const promisesToBeFetched = [
     {
       name: 'init',
-      resolver: initializeApp({ shopId }),
+      resolver: initializeApp({ shopId, site: parsedSiteHost }),
       errorRouter: {
         fatal: true,
       },

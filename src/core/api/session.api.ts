@@ -24,6 +24,7 @@ export const getWhois = async ({ site }: IWhoisPayload) => {
 // initialize
 export interface ISettingsPayload {
   shopId: string
+  site: string
 }
 
 export const initializeApp = async ({ shopId }: ISettingsPayload) => {
