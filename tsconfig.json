@@ -26,6 +26,12 @@
     },
     "types": ["vite-plugin-svg-icons/client"]
   },
-  "include": ["src/vite-env.d.tsd.ts", "auto-imports.d.ts", "src/**/*", "renderer/**/*", "server/**/*"],
+  "include": [
+    "src/vite-env.d.tsd.ts",
+    "auto-imports.d.ts",
+    "src/**/*",
+    "renderer/**/*",
+    "server/**/*"
+  ],
   "references": [{ "path": "./tsconfig.config.json" }]
 }
