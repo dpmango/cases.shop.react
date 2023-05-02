@@ -40,7 +40,7 @@ async function startServer() {
     const { httpResponse } = pageContext
     if (!httpResponse) return next()
     const { body, statusCode, contentType, earlyHints } = httpResponse
-    if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
+    // if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
     res.status(statusCode).send(body)
   })
 
