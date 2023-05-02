@@ -34,7 +34,7 @@ async function startServer() {
     console.log({ hostName })
 
     const pageContextInit = {
-      urlOriginal: 'http://' + hostName + req.originalUrl,
+      urlOriginal: 'https://' + hostName + req.originalUrl,
     }
     const pageContext = await renderPage(pageContextInit)
     const { httpResponse } = pageContext

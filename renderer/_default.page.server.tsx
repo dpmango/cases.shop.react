@@ -20,7 +20,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
   const DEV_perf_start = performance.now()
   const accessToken = Cookies.get('access_token')
 
-  let parsedSiteHost = pageContext.urlParsed.origin?.replace('http://', '') || 'donatfun.ru'
+  let parsedSiteHost = pageContext.urlParsed.origin?.replace('https://', '') || 'donatfun.ru'
   if (parsedSiteHost?.includes('localhost')) {
     parsedSiteHost = 'donatfun.ru'
   }
