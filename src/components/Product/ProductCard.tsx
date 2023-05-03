@@ -15,12 +15,14 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
       <p className="product-card__name">{name}</p>
       <div
         className="product-card__top"
-        style={{
-          background: `url(${images?.length && images[1]}) no-repeat center center / cover`,
-        }}
+        // style={{
+        //   background: `url(${images?.length && images[1]}) no-repeat center center / cover`,
+        // }}
       >
         {images?.length > 0 && (
-          <img className="product-card__image" src={images[0]} alt={name} loading="lazy" />
+          <div className="product-card__image">
+            <img src={images[0]} alt={name} loading="lazy" />
+          </div>
         )}
       </div>
 

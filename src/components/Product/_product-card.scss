@@ -33,17 +33,30 @@
   &__top {
     position: relative;
     z-index: 2;
+    flex: 0 0 auto;
     width: 242px;
     height: 203px;
     background-size: 100%;
   }
 
   &__image {
-    display: block;
-    height: 105%;
-    margin: 0 auto;
-    transition: all 0.25s $ease;
-    object-fit: cover;
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+    height: 100%;
+    padding: 22px 15px;
+    background: white;
+    clip-path: polygon(0% 0%, 100% 13%, 85% 100%, 8% 100%);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      transition: all 0.25s $ease;
+      object-fit: cover;
+      clip-path: polygon(0% 0%, 100% 10%, 88% 100%, 6% 100%);
+    }
   }
 
   &__action {
@@ -56,6 +69,7 @@
     align-items: center;
     width: 228px;
     height: 45px;
+    margin-right: 24px;
     background: var(--color-primary);
     transition: all 0.25s $ease;
   }
@@ -100,7 +114,7 @@
       transform: scale(1.05);
     }
 
-    .product-card__image {
+    .product-card__image img {
       transform: scale(1.1);
     }
   }

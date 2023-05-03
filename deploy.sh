@@ -1,5 +1,5 @@
-ssh root@195.2.75.40 << EOF
-  cd /home/nobody.su
+ssh root@94.103.84.59 << EOF
+  cd /home/root
   git checkout main
   git stash
   git pull
