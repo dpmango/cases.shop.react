@@ -23,7 +23,12 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
       >
         {images?.length > 0 && (
           <div className="product-card__image" style={{ clipPath: settings.itemClip }}>
-            <img src={images[0]} alt={name} loading="lazy" />
+            <img
+              src={images[0]}
+              alt={name}
+              loading="lazy"
+              style={{ clipPath: settings.itemClip }}
+            />
           </div>
         )}
       </div>
