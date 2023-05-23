@@ -31,8 +31,6 @@ async function startServer() {
   app.get('*', async (req, res, next) => {
     const hostName = req.get('host') || req.get('origin')
 
-    console.log({ hostName })
-
     const pageContextInit = {
       urlOriginal: 'https://' + hostName + req.originalUrl,
     }

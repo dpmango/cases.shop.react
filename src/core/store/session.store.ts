@@ -19,6 +19,7 @@ export interface ISessionStore {
   telegram_bot_link: string
   settings: ISettingsDto
   faq: IFAQDto[]
+  faqInfo: IFAQDto[]
   specialOffers: ISpecialOffersDto[]
   customPages: ICustomPageMetaDto[]
   paymentsType: IPaymentType[]
@@ -38,13 +39,16 @@ export const initialSessionState: ISessionStore = {
     footer_color: '',
     header_color: '',
     background_image: '/img/decor/fire.png',
+    background_main: '',
     footer_image: '/img/decor/fire-big.png',
     faq_left_footer_image: '/img/decor/man22.png',
     faq_right_footer_image: '/img/decor/image.png',
     product_footer_image: '/img/decor/fire55.png',
     reviews_footer_image: '/img/decor/fire-big2.png',
+    itemClip: 'polygon(0% 0%, 100% 10%, 88% 100%, 6% 100%)',
   },
   faq: [],
+  faqInfo: [],
   specialOffers: [],
   customPages: [],
   paymentsType: [],
@@ -94,6 +98,7 @@ const updateByDataType = (state: any, action: PayloadAction<{ key: string; data:
 export const covertInitDto = (state: any, payload: IInitDataDto) => {
   const {
     faqList,
+    faqInfo,
     specialOffers,
     customPages,
     logo,
@@ -101,11 +106,13 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     footerBGColor,
     headerBGColor,
     mainColor,
+    mainBG,
     headerBG,
     footerBG,
-    footerBgFAQ,
+    footerBGFAQ,
     reviewBG,
     productBG,
+    itemClip,
   } = payload.settings
 
   return {
@@ -118,17 +125,20 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
       paymentLogo: paymentLogo,
 
       background_site_color: mainColor || '#000000',
+      background_main: mainBG,
       footer_color: footerBGColor,
       header_color: headerBGColor,
 
       background_image: headerBG,
       footer_image: footerBG,
-      faq_left_footer_image: footerBgFAQ,
-      // faq_right_footer_image: footerBgFAQ,
+      faq_left_footer_image: footerBGFAQ,
+      // faq_right_footer_image: footerBGFAQ,
       product_footer_image: productBG,
       reviews_footer_image: reviewBG,
+      itemClip,
     },
     faq: faqList || [],
+    faqInfo: faqInfo || [],
     specialOffers: specialOffers || [],
     customPages: customPages || [],
     paymentsType: payload.paymentsType || [],

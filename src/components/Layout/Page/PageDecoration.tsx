@@ -69,7 +69,7 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
     <main
       data-shop={shopId}
       style={{
-        background: settings.background_site_color,
+        background: `${settings.background_site_color} url(${settings.background_main}) repeat center`,
       }}
     >
       {decorImages.length > 0 &&

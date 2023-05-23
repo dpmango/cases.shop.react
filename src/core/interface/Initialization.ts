@@ -19,14 +19,15 @@ export interface IInitDataDto {
     footerBG: string
     footerBGColor: string
     paymentLogo: string
-    footerBgFAQ: string
+    footerBGFAQ: string
     reviewBG: string
     productBG: string
     agreementHtml: string
     faqList: IFAQDto[]
+    faqInfo: IFAQDto[]
     specialOffers: ISpecialOffersDto[]
     customPages: ICustomPageMetaDto[]
-    faqInfo: any[]
+    itemClip: string
   }
 }
 
@@ -34,6 +35,8 @@ export interface ISettingsDto {
   logo: string
   paymentLogo: string
   background_image: string
+  background_site_color: string
+  background_main: string
   footer_image: string
   reviews_footer_image: string
   faq_left_footer_image: string
@@ -41,7 +44,7 @@ export interface ISettingsDto {
   product_footer_image: string
   footer_color: string
   header_color: string
-  background_site_color: string
+  itemClip: string
 }
 
 export type ISpecialOffersDto = string[]

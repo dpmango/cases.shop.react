@@ -10,6 +10,8 @@ interface IProductCardProps extends IProductDto {
 }
 
 const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) => {
+  const { settings } = useAppSelector((state) => state.sessionState)
+
   return (
     <UiLink href={`product/${id}`} key={id} className={`product-card`}>
       <p className="product-card__name">{name}</p>
@@ -20,7 +22,7 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
         // }}
       >
         {images?.length > 0 && (
-          <div className="product-card__image">
+          <div className="product-card__image" style={{ clipPath: settings.itemClip }}>
             <img src={images[0]} alt={name} loading="lazy" />
           </div>
         )}
