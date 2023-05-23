@@ -29,10 +29,10 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
             image: settings.faq_left_footer_image,
             className: 'fire _faq-left _bottom_left',
           },
-          {
-            image: settings.faq_right_footer_image,
-            className: 'fire _faq-right _bottom_right',
-          },
+          // {
+          //   image: settings.faq_right_footer_image,
+          //   className: 'fire _faq-right _bottom_right',
+          // },
         ]
         break
       case 'product':
@@ -63,7 +63,7 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
     }
 
     return images.filter((x) => x.image)
-  }, [page])
+  }, [page, settings])
 
   return (
     <main

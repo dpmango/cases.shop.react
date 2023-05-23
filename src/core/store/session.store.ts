@@ -123,8 +123,8 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
 
       background_image: headerBG,
       footer_image: footerBG,
-      // faq_left_footer_image: '/img/decor/man22.png',
-      faq_right_footer_image: footerBgFAQ,
+      faq_left_footer_image: footerBgFAQ,
+      // faq_right_footer_image: footerBgFAQ,
       product_footer_image: productBG,
       reviews_footer_image: reviewBG,
     },
