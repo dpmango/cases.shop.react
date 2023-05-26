@@ -15,8 +15,9 @@
 
   &__fire {
     top: -105px;
-    left: 0;
-    width: auto;
+
+    // left: 0;
+    // width: auto;
     mix-blend-mode: lighten;
   }
 
@@ -126,7 +127,8 @@
   .home {
     &__fire {
       top: -93px;
-      width: 81%;
+
+      // width: 81%;
     }
 
     &__category-grid {
@@ -164,7 +166,8 @@
     &__fire {
       top: -14px;
       z-index: 1;
-      width: 81%;
+
+      // width: 81%;
       opacity: 0.4;
       mix-blend-mode: none;
     }

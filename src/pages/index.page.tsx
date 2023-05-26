@@ -32,7 +32,10 @@ export const Page: React.FC = () => {
       documentProps={documentProps}
       sectionClassName={cns('home', settings.logo && '_has-logo', !ready && '_loading')}
     >
-      <img src={settings.background_image} alt="" className="fire home__fire" />
+      <div className={cns('fire', 'home__fire')}>
+        <img src={settings.background_image} alt="" />
+      </div>
+
       <UiLoader theme="page" loading={!ready} />
 
       <div className="container">

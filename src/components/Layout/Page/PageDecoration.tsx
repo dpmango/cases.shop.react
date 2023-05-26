@@ -1,3 +1,4 @@
+import cns from 'classnames'
 import { Helmet } from 'react-helmet'
 import { ScrollRestoration, useLocation } from 'react-router-dom'
 
@@ -70,6 +71,7 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
   return (
     <main
       data-shop={shopId}
+      className="main-wrapper"
       style={{
         background: `${settings.background_site_color} url(${settings.background_main}) repeat center`,
       }}
@@ -83,7 +85,9 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
 
       {decorImages.length > 0 &&
         decorImages.map((img, idx) => (
-          <img key={idx} src={img.image} alt="decor" className={img.className} />
+          <div key={idx} className={cns('fire', img.className)}>
+            <img src={img.image} alt="decor" />{' '}
+          </div>
         ))}
 
       <section className={sectionClassName}>{children}</section>
