@@ -15,7 +15,7 @@ export const Page = () => {
   const [activeAccardeon, setActiveAccardeon] = useState<number | null>(null)
 
   return (
-    <PageDecoration sectionClassName="faq">
+    <PageDecoration documentProps={documentProps} sectionClassName="faq">
       <div className="container _wide">
         <AtomHeading className="faq__head" useBack={true}>
           <h2 className="h3-title">КАК ЭТО РАБОТАЕТ?</h2>

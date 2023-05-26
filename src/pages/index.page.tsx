@@ -29,6 +29,7 @@ export const Page: React.FC = () => {
 
   return (
     <PageDecoration
+      documentProps={documentProps}
       sectionClassName={cns('home', settings.logo && '_has-logo', !ready && '_loading')}
     >
       <img src={settings.background_image} alt="" className="fire home__fire" />

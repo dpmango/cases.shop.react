@@ -36,7 +36,7 @@ export const Page: React.FC = () => {
   }, [params])
 
   return (
-    <PageDecoration sectionClassName={'custom-page'}>
+    <PageDecoration documentProps={documentProps} sectionClassName={'custom-page'}>
       <UiLoader theme="page" loading={!content} />
 
       <div className="container">

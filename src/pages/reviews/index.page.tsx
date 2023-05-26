@@ -47,7 +47,7 @@ export const Page = () => {
   }, [])
 
   return (
-    <PageDecoration sectionClassName="reviews">
+    <PageDecoration documentProps={documentProps} sectionClassName="reviews">
       <div className="container _narrow">
         <AtomHeading className="reviews__head" useBack={true}>
           <h1 className="h1-title">ОТЗЫВЫ</h1>

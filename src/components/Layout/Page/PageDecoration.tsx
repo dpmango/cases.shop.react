@@ -1,11 +1,17 @@
+import { Helmet } from 'react-helmet'
 import { ScrollRestoration, useLocation } from 'react-router-dom'
 
 interface IPageDecorationProps {
   sectionClassName?: string
+  documentProps?: { title?: string; description?: string }
   children: React.ReactElement | React.ReactElement[]
 }
 
-export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassName, children }) => {
+export const PageDecoration: React.FC<IPageDecorationProps> = ({
+  sectionClassName,
+  documentProps,
+  children,
+}) => {
   const { id: shopId, settings } = useAppSelector((state) => state.sessionState)
 
   const location = useLocation()
@@ -72,6 +78,13 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({ sectionClassNam
         background: `${settings.background_site_color} url(${settings.background_main}) repeat center`,
       }}
     >
+      <Helmet>
+        {documentProps?.title && <title>{documentProps?.title}</title>}
+        {documentProps?.description && (
+          <meta name="description" content={documentProps?.description} />
+        )}
+      </Helmet>
+
       {decorImages.length > 0 &&
         decorImages.map((img, idx) => (
           <img key={idx} src={img.image} alt="decor" className={img.className} />

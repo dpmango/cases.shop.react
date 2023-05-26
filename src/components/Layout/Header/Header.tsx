@@ -62,17 +62,12 @@ const Header = () => {
     >
       <div className="container _full">
         <div className="header__wrapper">
-          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
-            {/* <div className="header__actions">
-              <span className="header__action-link">
-                <SvgIcon name="star" />
-              </span>
-              <span className="header__action-link">
-                <SvgIcon name="menu" />
-              </span>
-            </div> */}
-
-            <PurchasesSlider className="header__purchases" />
+          <div className="header__hamburger" onClick={() => dispatch(setSettings(!settingsOpen))}>
+            <div className={cns('hamburger', settingsOpen && '_active')}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
 
           <div className="header__auth">
@@ -114,12 +109,17 @@ const Header = () => {
             )}
           </div>
 
-          <div className="header__hamburger" onClick={() => dispatch(setSettings(!settingsOpen))}>
-            <div className={cns('hamburger', settingsOpen && '_active')}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
+            {/* <div className="header__actions">
+              <span className="header__action-link">
+                <SvgIcon name="star" />
+              </span>
+              <span className="header__action-link">
+                <SvgIcon name="menu" />
+              </span>
+            </div> */}
+
+            <PurchasesSlider className="header__purchases" />
           </div>
         </div>
       </div>

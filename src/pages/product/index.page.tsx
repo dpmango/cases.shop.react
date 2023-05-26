@@ -43,7 +43,7 @@ export const Page: React.FC = () => {
   }, [routeParams.id])
 
   return (
-    <PageDecoration sectionClassName="product">
+    <PageDecoration documentProps={{ title: renderProduct?.name }} sectionClassName="product">
       {renderProduct ? (
         <ProductPage product={renderProduct} />
       ) : (
