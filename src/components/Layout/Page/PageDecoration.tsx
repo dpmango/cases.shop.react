@@ -33,19 +33,15 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
         images = [
           {
             image: settings.faq_left_footer_image,
-            className: 'fire _faq-left _bottom_left',
+            className: 'fire _bottom',
           },
-          // {
-          //   image: settings.faq_right_footer_image,
-          //   className: 'fire _faq-right _bottom_right',
-          // },
         ]
         break
       case 'product':
         images = [
           {
             image: settings.product_footer_image,
-            className: 'fire _product _bottom_right',
+            className: 'fire _product _bottom',
           },
         ]
         break
@@ -53,7 +49,7 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
         images = [
           {
             image: settings.reviews_footer_image,
-            className: 'fire _bottom_left',
+            className: 'fire _bottom',
           },
         ]
         break

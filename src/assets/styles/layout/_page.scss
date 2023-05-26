@@ -1,104 +1,38 @@
 .fire {
   position: absolute;
+  left: 50%;
   z-index: 1;
-  width: 100%;
+  width: min-content;
+  transform: translateX(-50%);
   pointer-events: none;
 
-  &._bottom_left {
-    left: 0;
+  &._bottom {
     bottom: 0;
-  }
-
-  &._bottom_right {
-    right: 0;
-    bottom: 0;
-  }
-
-  &._top_left {
-    top: 0;
-    left: 0;
-  }
-
-  &._top_right {
-    top: 0;
-    right: 0;
   }
 
   &._top {
     top: 0;
-    left: 0;
-    right: 0;
-  }
-
-  &._bottom {
-    left: 0;
-    right: 0;
-    bottom: 0;
   }
 }
 
-._faq-left {
-  max-width: 850px;
-}
+// ._product {
+//   position: absolute;
+//   z-index: 1;
+//   width: 47%;
+//   max-width: 1000px;
+// }
 
-._faq-right {
-  max-width: 600px;
-}
+// @include r($hdplus) {
+//   ._product {
+//     max-width: 685px;
+//   }
+// }
 
-._product {
-  position: absolute;
-  z-index: 1;
-  width: 47%;
-  max-width: 1000px;
-}
-
-@include r($hdplus) {
-  ._product {
-    max-width: 685px;
-  }
-}
-
-@include r($hd) {
-  ._faq-left {
-    max-width: 640px;
-  }
-
-  ._faq-right {
-    max-width: 480px;
-  }
-}
-
-@include r($xl) {
-  ._faq-right {
-    max-width: 300px;
-  }
-}
-
-@include r($lg) {
-  ._faq-left {
-    max-width: 500px;
-  }
-}
-
-@include r($md) {
-  ._product {
-    width: 65%;
-  }
-
-  ._faq-left {
-    max-width: 360px;
-  }
-}
-
-@include r($sm) {
-  ._faq-right {
-    max-width: 220px;
-  }
-
-  ._faq-left {
-    max-width: 240px;
-  }
-}
+// @include r($md) {
+//   ._product {
+//     width: 65%;
+//   }
+// }
 
 .swiper {
   user-select: none;
