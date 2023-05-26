@@ -1,5 +1,7 @@
 /* Product */
 .product {
+  position: relative;
+  z-index: 2;
   padding: 48px 0 50px;
 
   &__back {

@@ -70,6 +70,19 @@ const Header = () => {
             </div>
           </div>
 
+          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
+            {/* <div className="header__actions">
+              <span className="header__action-link">
+                <SvgIcon name="star" />
+              </span>
+              <span className="header__action-link">
+                <SvgIcon name="menu" />
+              </span>
+            </div> */}
+
+            <PurchasesSlider className="header__purchases" />
+          </div>
+
           <div className="header__auth">
             {user ? (
               <div className="header-user header__user">
@@ -107,19 +120,6 @@ const Header = () => {
                 )}
               </a>
             )}
-          </div>
-
-          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
-            {/* <div className="header__actions">
-              <span className="header__action-link">
-                <SvgIcon name="star" />
-              </span>
-              <span className="header__action-link">
-                <SvgIcon name="menu" />
-              </span>
-            </div> */}
-
-            <PurchasesSlider className="header__purchases" />
           </div>
         </div>
       </div>
