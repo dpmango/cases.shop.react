@@ -25,13 +25,11 @@ export async function onBeforeRender(pageContext: PageContextServer) {
     parsedSiteHost = 'donatfun.ru'
   }
 
-  // const {
-  //   data: { id: shopId },
-  // } = await getWhois({
-  //   site: parsedSiteHost,
-  // })
-
-  const shopId = 'itSnobody_bot'
+  const {
+    data: { id: shopId },
+  } = await getWhois({
+    site: parsedSiteHost,
+  })
 
   const PRELOADED_STATE = {
     sessionState: {
