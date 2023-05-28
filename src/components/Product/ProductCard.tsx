@@ -23,7 +23,7 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
       >
         {images?.length > 0 && (
           <>
-            <div className="product-card__image" style={{ clipPath: settings.itemClip }}>
+            <div className="product-card__image" style={{ clipPath: settings.itemBGClip }}>
               {images[1] && (
                 <img
                   className="product-card__image-img"

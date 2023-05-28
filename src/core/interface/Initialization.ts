@@ -28,6 +28,7 @@ export interface IInitDataDto {
     specialOffers: ISpecialOffersDto[]
     customPages: ICustomPageMetaDto[]
     itemClip: string
+    itemBGClip: string
   }
 }
 
@@ -45,6 +46,7 @@ export interface ISettingsDto {
   footer_color: string
   header_color: string
   itemClip: string
+  itemBGClip: string
 }
 
 export type ISpecialOffersDto = string[]

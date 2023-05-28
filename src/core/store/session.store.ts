@@ -45,7 +45,8 @@ export const initialSessionState: ISessionStore = {
     faq_right_footer_image: '/img/decor/image.png',
     product_footer_image: '/img/decor/fire55.png',
     reviews_footer_image: '/img/decor/fire-big2.png',
-    itemClip: 'polygon(0% 0%, 100% 10%, 88% 100%, 6% 100%)',
+    itemClip: 'polygon(0% 0%, 100% 15%, 85% 100%, 8% 100%)',
+    itemBGClip: 'polygon(0% 0%, 100% 13%, 85% 100%, 8% 100%)',
   },
   faq: [],
   faqInfo: [],
@@ -113,6 +114,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     reviewBG,
     productBG,
     itemClip,
+    itemBGClip,
   } = payload.settings
 
   return {
@@ -136,6 +138,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
       product_footer_image: productBG,
       reviews_footer_image: reviewBG,
       itemClip,
+      itemBGClip,
     },
     faq: faqList || [],
     faqInfo: faqInfo || [],
