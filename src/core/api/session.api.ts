@@ -88,7 +88,11 @@ export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
 
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {})
+  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {
+    params: {
+      imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE,
+    },
+  })
 
   return { data: raw, error }
 }

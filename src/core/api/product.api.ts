@@ -8,7 +8,7 @@ export interface IProductsPayload {
 
 export const getProducts = async ({ shopId }: IProductsPayload) => {
   const { error, raw }: IApiResponse<{ items: IProductCategoryDto[] }> = await api(`items/v2`, {
-    params: { shopId },
+    params: { shopId, imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE },
   })
 
   return { data: raw?.items, error }
@@ -21,7 +21,7 @@ export interface IProductPayload {
 
 export const getProduct = async ({ shopId, id }: IProductPayload) => {
   const { error, raw }: IApiResponse<{ item: IProductFullDto }> = await api(`item`, {
-    params: { shopId, id },
+    params: { shopId, id, imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE },
   })
 
   return { data: raw?.item, error }
