@@ -67,7 +67,7 @@
     grid-gap: 85px 32px;
     margin-bottom: 85px;
 
-    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-columns: repeat(auto-fit, 180px);
 
     // grid-template-columns: repeat(auto-fit, minmax(242px, 1fr));
 
@@ -181,7 +181,7 @@
       // flex-direction: column;
       // align-items: center;
 
-      grid-template-columns: repeat(auto-fit, 184px);
+      grid-template-columns: repeat(auto-fit, 170px);
     }
 
     &__category-decor {
