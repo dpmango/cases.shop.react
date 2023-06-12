@@ -13,7 +13,14 @@ const ProductCard = ({ name, images, price, salePrice, id }: IProductCardProps) 
   const { settings } = useAppSelector((state) => state.sessionState)
 
   return (
-    <UiLink href={`product/${id}`} key={id} className={`product-card`}>
+    <UiLink
+      href={`product/${id}`}
+      key={id}
+      className={cns(
+        `product-card`,
+        import.meta.env.VITE_USE_BOT_IMAGE?.toString() === 'true' && '_vertical',
+      )}
+    >
       <p className="product-card__name">{name}</p>
       <div
         className="product-card__top"

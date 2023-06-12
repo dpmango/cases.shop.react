@@ -1,5 +1,7 @@
 import './_home.scss'
 
+import cns from 'classnames'
+
 import { ProductCard } from '@/components/Product'
 import { UiButton } from '@/components/Ui'
 import { IProductDto } from '@/core/interface/Product'
@@ -39,7 +41,14 @@ const Categories: React.FC = () => {
         {items?.length &&
           items.map((category, idx) => {
             return (
-              <div className="home__category" id={`category${idx}`} key={idx}>
+              <div
+                className={cns(
+                  'home__category',
+                  import.meta.env.VITE_USE_BOT_IMAGE?.toString() === 'true' && '_alt',
+                )}
+                id={`category${idx}`}
+                key={idx}
+              >
                 {category.categoryColor && (
                   <div
                     className="home__category-decor"
