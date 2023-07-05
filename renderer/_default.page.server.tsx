@@ -22,7 +22,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
 
   let parsedSiteHost = pageContext.urlParsed.origin?.replace('https://', '') || 'donatfun.ru'
   if (parsedSiteHost?.includes('localhost')) {
-    parsedSiteHost = 'donatfun.ru'
+    parsedSiteHost = 'nobody.su'
   }
 
   const {

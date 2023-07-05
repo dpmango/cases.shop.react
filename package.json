@@ -1,7 +1,7 @@
 {
   "name": "fortnite-frontend",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "./",
   "engines": {
     "node": ">=16.15.0"

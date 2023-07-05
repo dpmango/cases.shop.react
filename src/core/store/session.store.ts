@@ -117,6 +117,7 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
     itemBGClip,
   } = payload.settings
 
+  console.log(payload.id)
   return {
     ...state,
     auth_bot: payload.telegram_bot_id,

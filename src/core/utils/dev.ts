@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-export const APP_VERSION = '1.1.0'
+export const APP_VERSION = '1.1.1'
 
 export const LOG = {
   log: (...args: any) => {
