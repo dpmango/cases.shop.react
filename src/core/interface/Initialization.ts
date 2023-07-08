@@ -86,5 +86,6 @@ export interface IProfileDto {
   id: number
   is_admin: 1 | 0
   orders: IOrderDto[]
-  userName: null
+  status: boolean
+  userName: string | null
 }

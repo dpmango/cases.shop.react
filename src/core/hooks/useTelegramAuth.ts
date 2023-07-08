@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 
 import { fetchAuth } from '@/core/api/session.api'

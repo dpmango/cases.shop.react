@@ -14,6 +14,7 @@ import type { IPromiseFactory, PageContextServer } from './types'
 const passToClient = ['pageProps', 'productData', 'PRELOADED_STATE']
 
 export async function onBeforeRender(pageContext: PageContextServer) {
+  console.log('server renderer')
   const { isClientSideNavigation, urlPathname, _pageId, routeParams } = pageContext
   if (isClientSideNavigation) return { pageContext: {} }
 

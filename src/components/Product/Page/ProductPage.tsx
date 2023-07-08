@@ -1,6 +1,7 @@
 import './_product.scss'
 
 import { PhotoProvider, PhotoView } from 'react-photo-view'
+import { useLocation } from 'react-router'
 import { Thumbs } from 'swiper'
 import { Swiper, type Swiper as SwiperRef, SwiperSlide } from 'swiper/react'
 
@@ -15,6 +16,9 @@ interface IProductPageProps {
 const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
   const { user, paymentsType } = useAppSelector((state) => state.sessionState)
   const dispatch = useAppDispatch()
+
+  const location = useLocation()
+  const hrefID = location.pathname.split('/')[2]
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any | null>(null)
 
@@ -44,7 +48,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
       return
     } else {
       if (user.balance >= +product.price) {
-        saveProductToBot({ id: product.id })
+        await saveProductToBot({ id: product.id || hrefID })
 
         dispatch(setModal({ name: 'order' }))
         return

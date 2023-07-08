@@ -7,6 +7,8 @@ const OrderModal = () => {
 
   const params = useParams()
 
+  // const handleClickEffect = () => {}
+
   return (
     <UiModal name="order" title="ОФОРМЛЕНИЕ ЗАКАЗА" titleIcon="cart-success">
       <p className="modal__text p-main">
@@ -19,7 +21,7 @@ const OrderModal = () => {
           target="_blank"
           rel="noreferrer"
           size="small"
-          href={`${telegram_bot_link}?start=item_${params.id}`}
+          href={`${telegram_bot_link}`}
           block={true}
         >
           Перейти в бот-чат

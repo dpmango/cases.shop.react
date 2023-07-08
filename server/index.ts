@@ -18,6 +18,7 @@ async function startServer() {
     const sirv = (await import('sirv')).default
     app.use(sirv(`${root}/dist/client`))
   } else {
+    // @ts-ignore
     const vite = await import('vite')
     const viteDevMiddleware = (
       await vite.createServer({
