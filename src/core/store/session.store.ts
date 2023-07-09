@@ -54,15 +54,7 @@ export const initialSessionState: ISessionStore = {
   customPages: [],
   paymentsType: [],
 
-  user: {
-    balance: 900,
-    userName: 'developer',
-    bonusBalance: 0,
-    id: 99999,
-    status: true,
-    is_admin: 0,
-    orders: [],
-  },
+  user: null,
   lastPurchases: null,
 }
 
