@@ -3,10 +3,18 @@ import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 import { UiModal } from '@/components/Ui'
 
 const LoginModal = () => {
-  const { id: shopId, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { id: shopId, auth_bot, user } = useAppSelector((state) => state.sessionState)
   const { modal } = useAppSelector((state) => state.uiState)
 
+  const dispatch = useAppDispatch()
+
   const { onAuthSuccess } = useTelegramAuth({ shopId })
+
+  useEffect(() => {
+    if (user) {
+      dispatch(closeModals())
+    }
+  }, [user])
 
   return (
     <UiModal name="auth" title="АВТОРИЗАЦИЯ" titleIcon="user-verified">
