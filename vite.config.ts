@@ -6,7 +6,7 @@ import * as path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 // import eslintPlugin from 'vite-plugin-eslint'
-// import mkcert from 'vite-plugin-mkcert'
+import mkcert from 'vite-plugin-mkcert'
 import ssr from 'vite-plugin-ssr/plugin'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import svgLoader from 'vite-svg-loader'
@@ -19,10 +19,10 @@ export default ({ mode }) => {
     publicDir: 'public',
     base: '/',
     server: {
-      // https: true,
+      https: true,
     },
     plugins: [
-      // mkcert(),
+      mkcert(),
       AutoImport({
         include: [
           /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx

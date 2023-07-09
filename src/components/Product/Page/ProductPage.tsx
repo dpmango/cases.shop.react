@@ -46,8 +46,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
     if (!user) {
       dispatch(setModal({ name: 'auth' }))
       return
-    } else {
-      if (user.balance >= +product.price) {
+    } else if (user) {
+      if (user.balance >= +(product.salePrice || product.price)) {
         await saveProductToBot({ id: product.id || hrefID })
 
         dispatch(setModal({ name: 'order' }))
@@ -56,7 +56,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
     }
 
     const { data } = await getPayment({
-      amount: +product.price - +(user?.balance || 0),
+      amount: +(product.salePrice || product.price) - +(user?.balance || 0),
       type: paymentOptions[0].id,
     })
 
