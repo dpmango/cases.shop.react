@@ -2,6 +2,7 @@ import './_product.scss'
 
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import { useLocation } from 'react-router'
+import { toast } from 'react-toastify'
 import { Thumbs } from 'swiper'
 import { Swiper, type Swiper as SwiperRef, SwiperSlide } from 'swiper/react'
 
@@ -60,7 +61,7 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
       type: paymentOptions[0].id,
     })
 
-    if (data) {
+    if (data && data.url) {
       const a = document.createElement('a')
       document.body.appendChild(a)
       a.setAttribute('style', 'display: none')
@@ -68,6 +69,8 @@ const ProductPage: React.FC<IProductPageProps> = ({ product }) => {
       a.target = '_blank'
       a.click()
       document.body.removeChild(a)
+    } else if (data) {
+      toast.info(data.message)
     }
   }
 

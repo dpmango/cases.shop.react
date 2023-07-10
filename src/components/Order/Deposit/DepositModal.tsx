@@ -1,5 +1,6 @@
 import cns from 'classnames'
 import React, { useEffect, useMemo, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { UiButton, UiInput, UiModal } from '@/components/Ui'
 
@@ -24,7 +25,7 @@ const DepositModal = () => {
     e.preventDefault()
     const { data } = await getPayment({ amount, type: paymentOption || paymentOptions[0].id })
 
-    if (data) {
+    if (data && data.url) {
       const a = document.createElement('a')
       document.body.appendChild(a)
       a.setAttribute('style', 'display: none')
@@ -32,6 +33,8 @@ const DepositModal = () => {
       a.target = '_blank'
       a.click()
       document.body.removeChild(a)
+    } else if (data) {
+      toast.info(data.message)
     }
   }
 
