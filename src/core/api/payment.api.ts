@@ -27,7 +27,7 @@ export const getPayment = async ({ amount, type }: IPaymentPayload) => {
   const { data, error, raw }: IApiResponse<IPaymentDto> = await api('payment/create', {
     method: 'POST',
     body: {
-      amount,
+      amount: amount < 99 ? 99 : amount,
       type,
     },
   })
