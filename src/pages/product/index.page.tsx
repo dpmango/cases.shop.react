@@ -18,6 +18,7 @@ export const Page: React.FC = () => {
   const { id: shopId } = useAppSelector((state) => state.sessionState)
   const { reviews } = useAppSelector((state) => state.productState)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const pageContext = usePageContext()
   const routeParams = useParams()
@@ -36,11 +37,20 @@ export const Page: React.FC = () => {
         id: routeParams.id as string,
       })
 
-      if (data) setProduct(data)
+      if (data) {
+        setProduct(data)
+      } else {
+        navigate('/')
+      }
     }
 
     fetchProduct()
   }, [routeParams.id])
+
+  // @ts-ignore
+  if (isHydrated && !product && pageContext.productData === false) {
+    navigate('/')
+  }
 
   return (
     <PageDecoration documentProps={{ title: renderProduct?.name }} sectionClassName="product">

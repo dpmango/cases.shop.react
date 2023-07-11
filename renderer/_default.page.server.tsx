@@ -119,6 +119,10 @@ export async function onBeforeRender(pageContext: PageContextServer) {
             // redirectTo
           }
         }
+
+        if (name === 'product') {
+          productData = false
+        }
       }
 
       // console.log(name, { result })
@@ -151,7 +155,7 @@ export async function onBeforeRender(pageContext: PageContextServer) {
             }
             break
           case 'product':
-            productData = data
+            productData = data || false
             break
           case 'reviews':
             PRELOADED_STATE.productState = {
