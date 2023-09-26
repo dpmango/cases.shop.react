@@ -1,37 +1,31 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./src/*"],
-      "@c/*": ["./src/components/*"],
-      "@ui": ["./src/components/Ui"],
-      "@ui/*": ["./src/components/Ui/*"],
-      "@interface/*": ["./src/core/interface/*"]
-    },
-    "types": ["vite-plugin-svg-icons/client"]
+      "@/*": ["./app/*"],
+      "@c/*": ["./app/components/*"],
+      "@ui": ["./app/components/Ui"],
+      "@ui/*": ["./app/components/Ui/*"],
+      "@interface/*": ["./app/core/interface/*"]
+    }
   },
-  "include": [
-    "src/vite-env.d.tsd.ts",
-    "auto-imports.d.ts",
-    "src/**/*",
-    "renderer/**/*",
-    "server/**/*"
-  ],
-  "references": [{ "path": "./tsconfig.config.json" }]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
