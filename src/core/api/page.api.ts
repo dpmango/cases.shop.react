@@ -7,7 +7,7 @@ export interface IReviewsPayload {
 }
 
 export const getStaticPage = async ({ shopId, id }: IReviewsPayload) => {
-  const data = await ofetch(`${import.meta.env.VITE_BACKEND_URL}custom_page`, {
+  const data = await ofetch(`${process.env.VITE_BACKEND_URL}custom_page`, {
     params: {
       shopId,
       ID: id,

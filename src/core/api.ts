@@ -48,7 +48,7 @@ export const api = async (
       }
     }
 
-    let requestUrl = `${import.meta.env.VITE_BACKEND_URL}${url}`
+    let requestUrl = `${process.env.VITE_BACKEND_URL}${url}`
     if (url.startsWith('http')) {
       requestUrl = url
     }

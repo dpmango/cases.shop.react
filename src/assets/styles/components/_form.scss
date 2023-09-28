@@ -1,0 +1,107 @@
+.inp-def{
+  display: block;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, 0.05);
+  height: 50px;
+  border-radius: 10px;
+  padding: 0 20px;
+  color: #FFF;
+  font-family: PT Root UI VF;
+  font-size: 16px;
+  font-weight: 500;
+  transition: .3s;
+  &:hover{
+    border-color: rgba(255, 255, 255, 0.40);
+  }
+  &:focus{
+    border-radius: 10px;
+    border-color: #1F75EA;
+    background: #191B22;
+    box-shadow: 0px 0px 0px 5px rgba(31, 117, 234, 0.25);
+  }
+}
+
+.form-el{
+  position: relative;
+  &__text{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    right: 0;
+    pointer-events: none;
+    z-index: 10;
+    color: rgba(255, 255, 255, 0.60);
+    font-family: PT Root UI VF;
+    font-size: 16px;
+    font-weight: 500;
+    width: 50px;
+  }
+  &__title{
+    color: #FFF;
+    font-family: PT Root UI VF;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    span{
+      opacity: 0.8;
+    }
+  }
+  &_m{
+    margin-bottom: 16px;
+  }
+  &__inp{
+    position: relative;
+    z-index: 10;
+  }
+  &__message{
+    position: relative;
+    z-index: 1;
+  }
+  &__textbottom{
+    margin-top: 10px;
+  }
+  &.error{
+    .form-el__inp{
+      border: 1px solid #C1352C;
+      background: rgba(255, 255, 255, 0.05);
+      &:focus{
+        box-shadow: 0px 0px 0px 5px rgba(193, 53, 44, 0.25);
+      }
+    }
+  }
+}
+
+.wrap-form{
+  display: flex;
+  &__el{
+    width: 100%;
+    margin-right: 30px;
+    &:last-child{
+      margin-right: 0 !important;
+    }
+  }
+}
+
+.message-form{
+  border-radius: 10px;
+  padding: 30px 30px;
+  padding-top: 70px;
+  margin-top: -50px;
+  &_error{
+    background: rgba(193, 53, 44, 0.20);
+  }
+  &__top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  &__btn{
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,123 @@
+'use client'
+
+import cns from 'classnames'
+import throttle from 'lodash/throttle'
+import { useCallback, useEffect, useState } from 'react'
+import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
+
+import { useEventListener, useTelegramAuth } from '@/core/hooks'
+import { IProfileDto } from '@/core/interface/Initialization'
+import { useAppDispatch, useAppSelector } from '@/core/store'
+
+const Header = () => {
+  const [scrolled, setScrolled] = useState(false)
+  const [focused, setFocused] = useState(false)
+
+  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { modal, settingsOpen } = useAppSelector((state) => state.uiState)
+  const dispatch = useAppDispatch()
+
+  const { onAuthSuccess } = useTelegramAuth({ shopId })
+
+  // scroll functions
+  const updateSticky = useCallback(() => {
+    const startStickyAt = 0
+
+    if (window.scrollY > startStickyAt) {
+      setScrolled(true)
+    } else {
+      setScrolled(false)
+    }
+  }, [])
+
+  useEventListener('scroll', updateSticky)
+  // useEventListener('resize', updateSticky)
+
+  const handleHoverIn = throttle(
+    () => {
+      setFocused(true)
+    },
+    1000,
+    { leading: false, trailing: true },
+  )
+
+  const handleHoverOut = () => {
+    setFocused(false)
+    handleHoverOutBounce()
+  }
+  const handleHoverOutBounce = throttle(
+    () => {
+      setTimeout(() => {
+        setFocused(false)
+      }, 1)
+    },
+    1000,
+    { leading: false, traling: true },
+  )
+
+  return (
+    <header
+      className={cns('header', scrolled && '_scrolled', focused && '_focused')}
+      style={{
+        background: settings.header_color,
+      }}
+    >
+      {/* <div className="container _full">
+        <div className="header__wrapper">
+          <div className="header__hamburger" onClick={() => dispatch(setSettings(!settingsOpen))}>
+            <div className={cns('hamburger', settingsOpen && '_active')}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
+
+            <PurchasesSlider className="header__purchases" />
+          </div>
+
+          <div className="header__auth">
+            {user ? (
+              <div className="header-user header__user">
+                <a
+                  className="header-user__deposit"
+                  onClick={() => {
+                    dispatch(setModal({ name: 'deposit' }))
+                  }}
+                >
+                  <div className="header-user__cash">
+                    <SvgIcon name="wallet" />
+                  </div>
+                  <div className="header-user__plus">
+                    <SvgIcon name="plus" />
+                  </div>
+                </a>
+                <div className="header-user__right">
+                  <p className="header-user__name">@{user.userName}</p>
+                  <p className="header-user__balance">{formatPrice(user.balance)}</p>
+                </div>
+              </div>
+            ) : (
+              <a className="header__telegram">
+                {modal !== 'auth' && (
+                  <TLoginButton
+                    botName={auth_bot}
+                    buttonSize={TLoginButtonSize.Large}
+                    lang="ru"
+                    usePic={false}
+                    cornerRadius={6}
+                    onAuthCallback={onAuthSuccess}
+                    requestAccess={'write'}
+                  />
+                )}
+              </a>
+            )}
+          </div>
+        </div>
+      </div> */}
+    </header>
+  )
+}
+
+export default Header

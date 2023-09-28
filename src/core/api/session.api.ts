@@ -90,7 +90,7 @@ export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
 export const getProfile = async () => {
   const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {
     params: {
-      imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE,
+      imagefrombot: process.env.VITE_USE_BOT_IMAGE,
     },
   })
 

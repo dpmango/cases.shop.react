@@ -1,6 +1,6 @@
 import cns from 'classnames'
-import { Helmet } from 'react-helmet'
-import { ScrollRestoration, useLocation } from 'react-router-dom'
+
+// import { ScrollRestoration, useLocation } from 'react-router-dom'
 
 interface IPageDecorationProps {
   sectionClassName?: string
@@ -15,9 +15,9 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
 }) => {
   const { id: shopId, settings } = useAppSelector((state) => state.sessionState)
 
-  const location = useLocation()
-  const page = location.pathname.split('/')[1]
-
+  // const location = useLocation()
+  // const page = location.pathname.split('/')[1]
+  const page = '' as any
   const decorImages = useMemo(() => {
     let images = []
 
@@ -76,12 +76,12 @@ export const PageDecoration: React.FC<IPageDecorationProps> = ({
         background: `${settings.background_site_color} url(${settings.background_main}) repeat center`,
       }}
     >
-      <Helmet>
+      {/* <Helmet>
         {documentProps?.title && <title>{documentProps?.title}</title>}
         {documentProps?.description && (
           <meta name="description" content={documentProps?.description} />
         )}
-      </Helmet>
+      </Helmet> */}
 
       {decorImages.length > 0 &&
         decorImages.map((img, idx) => (

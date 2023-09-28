@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react'
+
 export const useScrollLock = () => {
   const [mounted, setMouted] = useState(false)
 

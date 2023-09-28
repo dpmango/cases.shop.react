@@ -1,9 +1,11 @@
 import Cookies from 'js-cookie'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { fetchAuth } from '@/core/api/session.api'
-import { ITelegramAuthDto } from '~/src/core/interface/Initialization'
-
+import { ITelegramAuthDto } from '@/core/interface/Initialization'
+import { useAppDispatch } from '@/core/store'
+import { getProfileThunk } from '@/core/store/session.store'
 export interface IUseTelegramAuth {
   shopId: string
 }

@@ -1,9 +1,11 @@
+'use client'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { IProductCategoryDto } from '../interface/Product'
 import { IReviewDto } from '../interface/Review'
-
+import { getProducts } from './../api/product.api'
+import { getReviews } from './../api/review.api'
 export interface IProductStore {
   items: IProductCategoryDto[] | null
   reviews: IReviewDto[] | null
