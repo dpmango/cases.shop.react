@@ -1,4 +1,4 @@
-ssh root@94.103.84.59 << EOF
+ssh root@195.2.75.40 << EOF
   cd /home/root
   git checkout 2.0
   git stash
