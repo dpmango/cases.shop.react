@@ -1,4 +1,4 @@
-import type { IApiResponse } from '@/core/interface/Api'
+import type { IApiResponse, IReqId } from '@/core/interface/Api'
 import type {
   IAuthDto,
   IInitDataDto,
@@ -8,54 +8,61 @@ import type {
 } from '@/core/interface/Initialization'
 import type { IOrderDto } from '@/core/interface/Order'
 
+import { api } from './api'
+
 // domain resolve
 export interface IWhoisPayload {
   site: string
 }
 
 export const getWhois = async ({ site }: IWhoisPayload) => {
-  const { data, error, raw }: IApiResponse<IWhoisDto> = await api(`whois`, {
-    params: { site },
-  })
+  const { data, error, raw }: IApiResponse<IWhoisDto> = await api(
+    `${process.env.BACKEND_OLD_URL}whois`,
+    {
+      params: { site },
+    },
+  )
 
   return { data: raw, error }
 }
 
 // initialize
-export interface ISettingsPayload {
-  shopId: string
+export interface ISettingsPayload extends IReqId {
   site: string
 }
 
 export const initializeApp = async ({ shopId }: ISettingsPayload) => {
-  const { data, error, raw }: IApiResponse<IInitDataDto> = await api(`settings`, {
-    params: { shopId },
-  })
+  const { data, error, raw }: IApiResponse<IInitDataDto> = await api(
+    `${process.env.BACKEND_OLD_URL}settings`,
+    {
+      params: { shopId },
+    },
+  )
 
   return { data: raw, error }
 }
 
 // Orders
-export interface IOrdersPayload {
-  shopId: string
-}
+export interface IOrdersPayload extends IReqId {}
 
 export const getOrders = async ({ shopId }: IOrdersPayload) => {
-  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(`orders`, {
-    params: { shopId },
-  })
+  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(
+    `${process.env.BACKEND_OLD_URL}orders`,
+    {
+      params: { shopId },
+    },
+  )
 
   return { data: raw?.orders, error }
 }
 
 // Auth (авторизация от ТГ)
-export interface IAuthPayload {
-  shopId: string
+export interface IAuthPayload extends IReqId {
   telegram: ITelegramAuthDto
 }
 
 export const fetchAuth = async ({ shopId, telegram, ...rest }: IAuthPayload) => {
-  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth`, {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`${process.env.BACKEND_OLD_URL}auth`, {
     method: 'POST',
     body: {
       ...rest,
@@ -73,26 +80,32 @@ export interface IUserAuthRefreshPayload {
 }
 
 export const userAuthRefresh = async ({ token }: IUserAuthRefreshPayload) => {
-  const { error, raw }: IApiResponse<IAuthDto> = await api(`token/refresh`, {
-    method: 'POST',
-    body: {
-      token,
+  const { error, raw }: IApiResponse<IAuthDto> = await api(
+    `${process.env.BACKEND_OLD_URL}token/refresh`,
+    {
+      method: 'POST',
+      body: {
+        token,
+      },
+      headers: {
+        refresh_token: token,
+      },
     },
-    headers: {
-      refresh_token: token,
-    },
-  })
+  )
 
   return { data: raw, error }
 }
 
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api('profile/get', {
-    params: {
-      imagefrombot: process.env.VITE_USE_BOT_IMAGE,
+  const { error, raw }: IApiResponse<IProfileDto> = await api(
+    '${process.env.BACKEND_OLD_URL}profile/get',
+    {
+      params: {
+        imagefrombot: process.env.VITE_USE_BOT_IMAGE || 'false',
+      },
     },
-  })
+  )
 
   return { data: raw, error }
 }

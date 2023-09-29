@@ -1,13 +1,28 @@
-import { ofetch } from 'ofetch'
+import type { IApiResponse, IReqId } from '@/core/interface/Api'
 
-// get reviews
-export interface IReviewsPayload {
-  shopId: string
+import { IHomePageDto } from '../interface/Homepage'
+import { api } from './api'
+
+// homepage
+export interface IGetMainPagePayload extends IReqId {}
+
+export const getMainPage = async ({ shopId }: IGetMainPagePayload) => {
+  const { error, raw }: IApiResponse<IHomePageDto> = await api(`main`, {
+    params: {
+      shopId,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// static page (content page)
+export interface IGetStaticPagePayload extends IReqId {
   id: string
 }
 
-export const getStaticPage = async ({ shopId, id }: IReviewsPayload) => {
-  const data = await ofetch(`${process.env.VITE_BACKEND_URL}custom_page`, {
+export const getStaticPage = async ({ shopId, id }: IGetStaticPagePayload) => {
+  const data = await api(`${process.env.BACKEND_URL}custom_page`, {
     params: {
       shopId,
       ID: id,

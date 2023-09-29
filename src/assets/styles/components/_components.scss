@@ -225,6 +225,10 @@ img{
 			max-width: 140px;
 		}
 		&__icon{
+			img{
+				max-width: 40px;
+				max-height: 40px;
+			}
 		}
 	}
 }

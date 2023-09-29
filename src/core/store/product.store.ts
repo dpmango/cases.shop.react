@@ -1,4 +1,3 @@
-'use client'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 

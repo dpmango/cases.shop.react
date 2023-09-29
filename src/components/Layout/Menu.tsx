@@ -1,5 +1,3 @@
-'use client'
-
 import cns from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 

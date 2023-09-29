@@ -1,3 +1,11 @@
+export interface IReqId {
+  shopId: string
+}
+export interface IReqPagination {
+  limit?: number
+  offset?: number
+}
+
 export interface IError {
   code: number
   message: string
@@ -21,3 +29,12 @@ interface PromiseRejectedResult {
 }
 
 export type PromiseSettledResult<T> = PromiseFulfilledResult<T> | PromiseRejectedResult
+
+export interface IPromiseFactory {
+  name: string
+  resolver: Promise<{ data: any; error: IError | null }>
+  errorRouter?: {
+    redirectTo?: string
+    fatal?: boolean
+  }
+}
