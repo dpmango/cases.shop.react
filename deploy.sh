@@ -1,6 +1,6 @@
 ssh root@94.103.84.59 << EOF
   cd /home/root
-  git checkout main
+  git checkout 2.0
   git stash
   git pull
   npm i

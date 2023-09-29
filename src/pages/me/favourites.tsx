@@ -19,9 +19,7 @@ export default function Page() {
             </div>
             <div className="sec-page__content2">
               <div className="products">
-                <div className="products__el">
-                  <ProductCard />
-                </div>
+                <div className="products__el">{/* <ProductCard /> */}</div>
               </div>
             </div>
           </div>

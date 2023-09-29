@@ -58,16 +58,15 @@ export const getOrders = async ({ shopId }: IOrdersPayload) => {
 
 // Auth (авторизация от ТГ)
 export interface IAuthPayload extends IReqId {
-  telegram: ITelegramAuthDto
+  user: ITelegramAuthDto
 }
 
-export const fetchAuth = async ({ shopId, telegram, ...rest }: IAuthPayload) => {
-  const { error, raw }: IApiResponse<IAuthDto> = await api(`${process.env.BACKEND_OLD_URL}auth`, {
+export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth`, {
     method: 'POST',
     body: {
-      ...rest,
       shop_id: shopId,
-      user: telegram,
+      user,
     },
   })
 
