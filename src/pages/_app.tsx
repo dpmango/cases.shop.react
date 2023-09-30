@@ -5,12 +5,14 @@ import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
-import { store } from '@/core/store'
+import { getStore } from '@/core/store'
 
 function APP({ Component, pageProps }: any) {
   useEffect(() => {
     // console.log('app render')
   }, [])
+
+  const store = getStore(pageProps.PRELOADED_STATE || {})
 
   return (
     <Provider store={store}>

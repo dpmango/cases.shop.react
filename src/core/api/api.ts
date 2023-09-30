@@ -49,7 +49,6 @@ export const api = async (
       }
     }
 
-    console.log('backendURL', process.env.BACKEND_URL)
     let requestUrl = `${process.env.BACKEND_URL}${url}`
     if (url.startsWith('http')) {
       requestUrl = url

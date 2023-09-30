@@ -8,7 +8,7 @@ export const HomeReviews: React.FC<{ reviews?: IReviewDto[] }> = ({ reviews }) =
   if (!reviews) return
 
   return (
-    <section className="sec-def sec-reviews">
+    <section className="sec-def sec-reviews" id="reviews">
       <div className="container-def">
         <div className="sec-def__wrap">
           <h2 className="title-def title-def_sec sec-def__title">Отзывы</h2>

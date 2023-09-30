@@ -21,7 +21,7 @@ import {
   Wallet2Icon,
   WalletIcon,
 } from '@/components/Ui'
-import { useEventListener, useTelegramAuth } from '@/core/hooks'
+import { useEventListener } from '@/core/hooks'
 import { IProfileDto } from '@/core/interface/Initialization'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 const Header = () => {
@@ -31,8 +31,6 @@ const Header = () => {
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
   const { modal, settingsOpen } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
-
-  const { onAuthSuccess } = useTelegramAuth({ shopId })
 
   // scroll functions
   const updateSticky = useCallback(() => {
@@ -95,19 +93,19 @@ const Header = () => {
                 <nav className="top-menu__links">
                   <ul className="links-def">
                     <li className="links-def__el">
-                      <a className="links-def__link" href="#">
+                      <Link className="links-def__link" href="/#games">
                         Игры
-                      </a>
+                      </Link>
                     </li>
                     <li className="links-def__el">
-                      <a className="links-def__link" href="#">
+                      <Link className="links-def__link" href="/#reviews">
                         Отзывы
-                      </a>
+                      </Link>
                     </li>
                     <li className="links-def__el">
-                      <a className="links-def__link" href="#">
+                      <Link className="links-def__link" href="/#faq">
                         Ответы на вопросы
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </nav>
@@ -198,12 +196,12 @@ const Header = () => {
                     </div>
                   </>
                 ) : (
-                  <>
+                  <Link href="/auth">
                     <button className="btn-def top-menu__btnSign">
                       <LoginIcon />
                       <span>Вход</span>
                     </button>
-                  </>
+                  </Link>
                 )}
               </div>
               <div className="top-menu__burger btn-burger">

@@ -3,7 +3,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { HomeFaq, HomeNavigation, HomeProcess, HomeReviews } from '@/components/Home'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard, ReviewCard } from '@/components/Product'
-import { getMainPage, getReviews, initializeApp } from '@/core/api'
+import { getMainPage, getPopularProducts, getReviews, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
@@ -23,10 +23,10 @@ export const getServerSideProps = (async (context) => {
       name: 'homepage',
       resolver: getMainPage({ shopId }),
     },
-    // {
-    //   name: 'popular',
-    //   resolver: getPopularProducts({ shopId, limit: 8 + 1, offset: 0 }),
-    // },
+    {
+      name: 'popular',
+      resolver: getPopularProducts({ shopId, limit: 8 + 1, offset: 0 }),
+    },
     {
       name: 'reviews',
       resolver: getReviews({ shopId, limit: 9, offset: 0 }),
@@ -39,6 +39,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       PRELOADED_STATE,
       homepageData,
+      popularData,
     },
   }
 }) satisfies GetServerSideProps<IResolver>
@@ -46,7 +47,9 @@ export const getServerSideProps = (async (context) => {
 export default function Home({
   PRELOADED_STATE,
   homepageData,
+  popularData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log({ PRELOADED_STATE }, { popularData }, { homepageData })
   return (
     <LayoutGeneral>
       <img className="home-bg" src="/img/home-bg.jpg" alt="" />

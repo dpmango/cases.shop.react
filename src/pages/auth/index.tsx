@@ -1,9 +1,70 @@
+import cns from 'classnames'
+import { Formik, FormikHelpers } from 'formik'
+import type { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
+import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
-import { TelegramIcon } from '@/components/Ui'
+import { initializeApp } from '@/core/api'
+import { useTelegramAuth } from '@/core/hooks'
+import { IPromiseFactory } from '@/core/interface/Api'
+import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+import { useAppDispatch, useAppSelector } from '@/core/store'
+
+export const getServerSideProps = (async (context) => {
+  const { shopId, parsedSiteHost } = await DomainResolver(context)
+
+  // Управление запросами страниц
+  const promisesToBeFetched = [
+    {
+      name: 'init',
+      resolver: initializeApp({ shopId, site: parsedSiteHost }),
+      errorRouter: {
+        fatal: true,
+      },
+    },
+  ] as IPromiseFactory[]
+
+  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched)
+
+  return {
+    props: {
+      PRELOADED_STATE,
+    },
+  }
+}) satisfies GetServerSideProps<IResolver>
+
+export interface IForm {
+  email: string
+}
 
 export default function Page() {
+  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+
+  const { onAuthSuccess } = useTelegramAuth({ shopId })
+  const router = useRouter()
+
+  const initialValues = { email: '' }
+
+  const handleValidate = useCallback((values: IForm) => {
+    const errors = {} as { [key: string]: string }
+    if (!values.email) {
+      errors.email = 'Введите email'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = 'Невалидный email'
+    }
+    return errors
+  }, [])
+
+  const handleSubmit = useCallback((values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
+    setTimeout(() => {
+      setSubmitting(false)
+      router.push('/auth/login')
+    }, 400)
+  }, [])
+
   return (
     <LayoutGeneral>
       <div className="padding-top"></div>
@@ -15,21 +76,68 @@ export default function Page() {
                 <div className="block-form__title title-def title-def_sec">
                   Вход или регистрация
                 </div>
-                <div className="block-form__el form-el">
-                  <div className="form-el__title">Электронная почта</div>
-                  <input className="form-el__inp inp-def" type="text" value="kuzya990@mail.ru" />
-                </div>
-                <button className="block-form__btn btn-def btn-def_full btn-def_min">
-                  <span>Продолжить</span>
-                </button>
+                <Formik
+                  initialValues={initialValues}
+                  validate={handleValidate}
+                  onSubmit={handleSubmit}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <div
+                        className={cns(
+                          'block-form__el form-el',
+                          errors.email && touched.email && 'error',
+                        )}
+                      >
+                        <div className="form-el__title">Электронная почта</div>
+                        <input
+                          className="form-el__inp inp-def"
+                          type="email"
+                          name="email"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.email}
+                        />
+                      </div>
+                      {errors.email && touched.email && <AuthErrorMessage message={errors.email} />}
+
+                      <button
+                        type="submit"
+                        className="block-form__btn btn-def btn-def_full btn-def_min"
+                        disabled={isSubmitting}
+                      >
+                        <span>Продолжить</span>
+                      </button>
+                    </form>
+                  )}
+                </Formik>
+
                 <div className="block-form__line">
                   <span>Или</span>
                 </div>
                 <button className="block-form__social btn-telegram">
+                  <TLoginButton
+                    botName={auth_bot}
+                    buttonSize={TLoginButtonSize.Large}
+                    lang="ru"
+                    usePic={false}
+                    cornerRadius={6}
+                    onAuthCallback={onAuthSuccess}
+                    requestAccess={'write'}
+                  />
+                  {/* 
                   <div className="btn-telegram__icon">
                     <TelegramIcon />
                   </div>
-                  <span>Войти через Телеграм</span>
+                  <span>Войти через Телеграм</span> */}
                 </button>
               </div>
             </div>

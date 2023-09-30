@@ -26,7 +26,7 @@ export const HomeFaq: React.FC<{ faq?: Array<string[]> }> = ({ faq }) => {
   if (!faq) return
 
   return (
-    <section className="sec-def sec-def_last">
+    <section className="sec-def sec-def_last" id="faq">
       <div className="container-def">
         <div className="sec-def__wrap">
           <h2 className="title-def title-def_sec sec-def__title">Ответы на вопросы</h2>

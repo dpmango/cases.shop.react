@@ -1,5 +1,33 @@
+import type { GetServerSideProps } from 'next'
+
 import { LayoutGeneral } from '@/components/Layout'
 import { DarkThemeIcon, EmailPLusIcon, LightThemeIcon } from '@/components/Ui'
+import { initializeApp } from '@/core/api'
+import { IPromiseFactory } from '@/core/interface/Api'
+import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+
+export const getServerSideProps = (async (context) => {
+  const { shopId, parsedSiteHost } = await DomainResolver(context)
+
+  // Управление запросами страниц
+  const promisesToBeFetched = [
+    {
+      name: 'init',
+      resolver: initializeApp({ shopId, site: parsedSiteHost }),
+      errorRouter: {
+        fatal: true,
+      },
+    },
+  ] as IPromiseFactory[]
+
+  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched)
+
+  return {
+    props: {
+      PRELOADED_STATE,
+    },
+  }
+}) satisfies GetServerSideProps<IResolver>
 
 export default function Page() {
   return (

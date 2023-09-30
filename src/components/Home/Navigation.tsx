@@ -1,8 +1,10 @@
+import Link from 'next/link'
+
 import { IProductCategory } from '@/core/interface/Product'
 
 export const HomeNavigation: React.FC<{ categories: IProductCategory[] }> = ({ categories }) => {
   return (
-    <section className="sec-def">
+    <section className="sec-def" id="games">
       <div className="container-def">
         <div className="sec-def__wrap">
           <h2 className="title-def title-def_sec sec-def__title">Игры, предметы и подписки</h2>
@@ -10,7 +12,7 @@ export const HomeNavigation: React.FC<{ categories: IProductCategory[] }> = ({ c
             <div className="cat cat_limit">
               {categories.map((cat, idx) => (
                 <div className="cat__el" key={idx}>
-                  <a className="cat-el content-bg" href="#">
+                  <Link className="cat-el content-bg" href={`/games/${cat.id}`}>
                     <div className="cat-el__content">
                       {cat.icon && <img className="cat-el__icon" src={cat.icon} alt="" />}
                       <div className="cat-el__body">
@@ -20,7 +22,7 @@ export const HomeNavigation: React.FC<{ categories: IProductCategory[] }> = ({ c
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>
