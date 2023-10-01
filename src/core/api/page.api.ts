@@ -10,6 +10,7 @@ export const getMainPage = async ({ shopId }: IGetMainPagePayload) => {
   const { error, raw }: IApiResponse<IHomePageDto> = await api(`main`, {
     params: {
       shopId,
+      showItemsInCategory: 'true',
     },
   })
 

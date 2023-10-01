@@ -77,7 +77,7 @@ export default function Home({
         </div>
       </section>
 
-      <HomeReviews reviews={PRELOADED_STATE.productState.reviews} />
+      <HomeReviews reviews={homepageData?.reviews} />
       <HomeFaq faq={homepageData?.faq} />
     </LayoutGeneral>
   )

@@ -2,30 +2,19 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
 
 import { getOrders, getProfile, initializeApp } from '@/core/api/session.api'
-import {
-  ICustomPageMetaDto,
-  IFAQDto,
-  IInitDataDto,
-  IPaymentType,
-  IProfileDto,
-  ISettingsDto,
-  ISpecialOffersDto,
-} from '@/core/interface/Initialization'
+import { IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
 import { IOrderDto } from '@/core/interface/Order'
+
+import { IPaymentMethod } from '../interface/Homepage'
 
 export interface ISessionStore {
   id: string
   auth_bot: string
   telegram_bot_link: string
   settings: ISettingsDto
-  faq: IFAQDto[]
-  faqInfo: IFAQDto[]
-  specialOffers: ISpecialOffersDto[]
-  customPages: ICustomPageMetaDto[]
-  paymentsType: IPaymentType[]
-
+  customPages: Array<string[]>
+  paymentsMethods: IPaymentMethod[]
   user: IProfileDto | null
-  lastPurchases: IOrderDto[] | null
 }
 
 export const initialSessionState: ISessionStore = {
@@ -48,14 +37,9 @@ export const initialSessionState: ISessionStore = {
     itemClip: 'polygon(0% 0%, 100% 15%, 85% 100%, 8% 100%)',
     itemBGClip: 'polygon(0% 0%, 100% 13%, 85% 100%, 8% 100%)',
   },
-  faq: [],
-  faqInfo: [],
-  specialOffers: [],
   customPages: [],
-  paymentsType: [],
-
+  paymentsMethods: [],
   user: null,
-  lastPurchases: null,
 }
 
 // thunks
@@ -74,14 +58,14 @@ export const getProfileThunk = createAsyncThunk('session/getProfileThunk', async
   return data
 })
 
-export const getOrdersThunk = createAsyncThunk(
-  'session/getOrdersThunk',
-  async ({ shopId }: { shopId: string }) => {
-    const { data } = await getOrders({ shopId })
+// export const getOrdersThunk = createAsyncThunk(
+//   'session/getOrdersThunk',
+//   async ({ shopId }: { shopId: string }) => {
+//     const { data } = await getOrders({ shopId })
 
-    return data
-  },
-)
+//     return data
+//   },
+// )
 
 const updateByDataType = (state: any, action: PayloadAction<{ key: string; data: any }>) => {
   if (Array.isArray(action.payload.data)) {
@@ -98,10 +82,6 @@ const updateByDataType = (state: any, action: PayloadAction<{ key: string; data:
 
 export const covertInitDto = (state: any, payload: IInitDataDto) => {
   const {
-    faqList,
-    faqInfo,
-    specialOffers,
-    customPages,
     logo,
     paymentLogo,
     footerBGColor,
@@ -140,11 +120,6 @@ export const covertInitDto = (state: any, payload: IInitDataDto) => {
       itemClip,
       itemBGClip,
     },
-    faq: faqList || [],
-    faqInfo: faqInfo || [],
-    specialOffers: specialOffers || [],
-    customPages: customPages || [],
-    paymentsType: payload.paymentsType || [],
   }
 }
 
@@ -169,22 +144,22 @@ export const sessionState = createSlice({
         }
       },
     )
-    builder.addCase(
-      getProfileThunk.fulfilled,
-      (state, action: PayloadAction<IProfileDto | null>) => {
-        if (action.payload) {
-          state.user = { ...action.payload }
-        }
-      },
-    )
-    builder.addCase(
-      getOrdersThunk.fulfilled,
-      (state, action: PayloadAction<IOrderDto[] | null>) => {
-        if (action.payload) {
-          state.lastPurchases = [...action.payload]
-        }
-      },
-    )
+    // builder.addCase(
+    //   getProfileThunk.fulfilled,
+    //   (state, action: PayloadAction<IProfileDto | null>) => {
+    //     if (action.payload) {
+    //       state.user = { ...action.payload }
+    //     }
+    //   },
+    // )
+    // builder.addCase(
+    //   getOrdersThunk.fulfilled,
+    //   (state, action: PayloadAction<IOrderDto[] | null>) => {
+    //     if (action.payload) {
+    //       state.lastPurchases = [...action.payload]
+    //     }
+    //   },
+    // )
   },
 })
 

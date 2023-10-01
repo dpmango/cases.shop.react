@@ -2,9 +2,8 @@ import { ProductCard, ReviewCard } from '@/components/Product'
 import { FaqToggleIcon } from '@/components/Ui'
 import { IReviewShort } from '@/core/interface/Homepage'
 import { IProductCategory } from '@/core/interface/Product'
-import { IReviewDto } from '@/core/interface/Review'
 
-export const HomeReviews: React.FC<{ reviews?: IReviewDto[] }> = ({ reviews }) => {
+export const HomeReviews: React.FC<{ reviews?: IReviewShort[] }> = ({ reviews }) => {
   if (!reviews) return
 
   return (

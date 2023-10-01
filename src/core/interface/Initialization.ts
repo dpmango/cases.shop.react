@@ -1,3 +1,4 @@
+import { IPaymentMethod } from './Homepage'
 import { IOrderDto } from './Order'
 
 export interface IWhoisDto {
@@ -8,8 +9,7 @@ export interface IInitDataDto {
   // id: number
   telegram_bot_link: string
   telegram_bot_id: string
-  // footer: IFooterDto[]
-  paymentsType: IPaymentType[]
+  paymentsMethods: IPaymentMethod[]
   settings: {
     logo: string
     mainBG: string
@@ -23,9 +23,6 @@ export interface IInitDataDto {
     reviewBG: string
     productBG: string
     agreementHtml: string
-    faqList: IFAQDto[]
-    faqInfo: IFAQDto[]
-    specialOffers: ISpecialOffersDto[]
     customPages: ICustomPageMetaDto[]
     itemClip: string
     itemBGClip: string
@@ -49,15 +46,7 @@ export interface ISettingsDto {
   itemBGClip: string
 }
 
-export type ISpecialOffersDto = string[]
-export type IFAQDto = string[]
 export type ICustomPageMetaDto = string[]
-export type IPaymentType = [string, string, string, number, number]
-// export interface IFooterDto {
-//   id: number
-//   name: string
-//   link: string
-// }
 
 // auth
 export interface ITelegramAuthDto {

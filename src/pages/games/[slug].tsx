@@ -1,13 +1,18 @@
-import type { GetServerSideProps } from 'next'
+import cns from 'classnames'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useCallback, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
-import { StarButtonIcon } from '@/components/Ui'
-import { initializeApp } from '@/core/api'
+import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
+import { getCategory, getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
   const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const pageSlug = context.params?.slug as string
 
   // Управление запросами страниц
   const promisesToBeFetched = [
@@ -18,18 +23,40 @@ export const getServerSideProps = (async (context) => {
         fatal: true,
       },
     },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
+    },
+    {
+      name: 'category',
+      resolver: getCategory({ shopId, id: pageSlug }),
+    },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched)
+  const { PRELOADED_STATE, categoryData } = await Resolver(shopId, promisesToBeFetched)
 
   return {
     props: {
       PRELOADED_STATE,
+      categoryData,
     },
   }
 }) satisfies GetServerSideProps<IResolver>
 
-export default function CategoryPage() {
+export default function CategoryPage({
+  PRELOADED_STATE,
+  categoryData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log({ PRELOADED_STATE }, { categoryData })
+
+  const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
+  const [notifyDropdown, setNotifyDropdown] = useState(false)
+  const router = useRouter()
+
+  const enableNotifications = useCallback(() => {
+    router.push('/auth')
+  }, [])
+
   return (
     <LayoutGeneral>
       <div className="padding-top"></div>
@@ -39,69 +66,39 @@ export default function CategoryPage() {
           <div className="sec-header-cat__wrap">
             <div className="sec-header-cat__top">
               <div className="sec-header-cat__top-left">
-                <a className="sec-header-cat__prev action-btn" href="#">
+                <Link className="sec-header-cat__prev action-btn" href="/">
                   <div className="action-btn__content">
-                    <svg
-                      width="10"
-                      height="18"
-                      viewBox="0 0 10 18"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.9585 17L0.986158 9L8.9585 1"
-                        stroke="white"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <BackIcon />
                   </div>
-                </a>
+                </Link>
                 <div className="cat-name">
-                  <img className="cat-name__img" src="../img/cat/fortnite.svg" alt="" />
+                  {categoryData?.icon && (
+                    <img
+                      className="cat-name__img"
+                      src={categoryData?.icon}
+                      alt={categoryData.name}
+                    />
+                  )}
                   <div className="cat-name__body">
-                    <div className="cat-name__title">Fortnite</div>
+                    <div className="cat-name__title">{categoryData?.name}</div>
                   </div>
                 </div>
               </div>
               <div className="sec-header-cat__top-title title-cat">Игры</div>
               <div className="sec-header-cat__top-right">
-                <div className="action-btn">
-                  <button className="action-btn__content">
+                <div className={cns('action-btn', notifyDropdown && 'active')}>
+                  <button
+                    className="action-btn__content"
+                    onClick={() => setNotifyDropdown(!notifyDropdown)}
+                  >
                     <div className="action-btn__icon">
-                      <svg
-                        width="20"
-                        height="22"
-                        viewBox="0 0 20 22"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8.19385 19.6665C8.45959 20.4665 9.16824 20.9998 9.96548 20.9998C10.7627 20.9998 11.4714 20.4665 11.7371 19.6665"
-                          stroke="white"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M9.96533 2.95556V1"
-                          stroke="white"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M9.9655 2.95557C13.5973 2.95557 16.6091 5.97779 16.6091 9.62223C16.6091 15.8445 17.9378 17 17.9378 17H1.99316C1.99316 17 3.32189 15.3111 3.32189 9.62223C3.32189 5.97779 6.24508 2.95557 9.9655 2.95557Z"
-                          stroke="white"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <NotificationIcon />
                     </div>
                   </button>
-                  <div className="action-btn__dropdown action-btn__dropdown_2">
+                  <div
+                    className="action-btn__dropdown action-btn__dropdown_2"
+                    style={{ display: notifyDropdown ? 'block' : 'none' }}
+                  >
                     <div className="action-btn__dropdown-content">
                       <div className="action-btn__dropdown-block">
                         <div className="action-btn__dropdown-title">
@@ -112,10 +109,18 @@ export default function CategoryPage() {
                           в категории Fortnite.
                         </div>
                         <div className="wrap-btns action-btn__btns">
-                          <button className="wrap-btns__btn btn-def btn-def_small btn-def_gray action-btn__dropdown-close">
+                          <button
+                            className="wrap-btns__btn btn-def btn-def_small btn-def_gray action-btn__dropdown-close"
+                            onClick={() => setNotifyDropdown(false)}
+                          >
                             Отмена
                           </button>
-                          <button className="wrap-btns__btn btn-def btn-def_small">Включить</button>
+                          <button
+                            className="wrap-btns__btn btn-def btn-def_small"
+                            onClick={enableNotifications}
+                          >
+                            Включить
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -125,7 +130,9 @@ export default function CategoryPage() {
             </div>
             <div className="sec-header-cat__mob">
               <div className="cat-name">
-                <img className="cat-name__img" src="../img/cat/fortnite.svg" alt="" />
+                {categoryData?.icon && (
+                  <img className="cat-name__img" src={categoryData?.icon} alt={categoryData.name} />
+                )}
                 <div className="cat-name__body">
                   <div className="cat-name__title">Fortnite</div>
                 </div>
@@ -133,41 +140,20 @@ export default function CategoryPage() {
             </div>
             <div className="sec-header-cat__content">
               <ul className="sec-header-cat__links links-cat">
-                <li className="links-cat__el active">
-                  <a className="links-cat__link" href="#">
-                    Популярное
-                  </a>
-                </li>
-                <li className="links-cat__el">
-                  <a className="links-cat__link" href="#">
-                    Предметы
-                  </a>
-                </li>
-                <li className="links-cat__el">
-                  <a className="links-cat__link" href="#">
-                    Подписки
-                  </a>
-                </li>
-                <li className="links-cat__el">
-                  <a className="links-cat__link" href="#">
-                    Наборы
-                  </a>
-                </li>
-                <li className="links-cat__el">
-                  <a className="links-cat__link" href="#">
-                    Задания
-                  </a>
-                </li>
-                <li className="links-cat__el">
-                  <a className="links-cat__link links-cat__link_bg" href="#">
-                    Эксклюзивы
-                  </a>
-                </li>
+                {categoryData?.categories.map((x) => (
+                  <li className={cns('links-cat__el', activeTab === x.id && 'active')} key={x.id}>
+                    <a className="links-cat__link" href="#">
+                      {/* links-cat__link_bg */}
+                      {x.name}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
       </section>
+
       <section className="sec-cat">
         <div className="container-def">
           <div className="sec-cat__wrap">
@@ -183,19 +169,9 @@ export default function CategoryPage() {
                 <div className="product-el-big__tags">
                   <div className="title-small title-small_m">Количество В-баксов</div>
                   <div className="tags tags_2">
-                    <button className="tags__el">
-                      <div className="tags__point"></div>
-                      <span>1 000</span>
-                    </button>
-                    <button className="tags__el">
-                      <span>2 800</span>
-                    </button>
                     <button className="tags__el active">
-                      <div className="tags__point"></div>
-                      <span>5 000</span>
-                    </button>
-                    <button className="tags__el">
-                      <span>13 500</span>
+                      {/* <div className="tags__point"></div> */}
+                      <span>1 000</span>
                     </button>
                   </div>
                 </div>

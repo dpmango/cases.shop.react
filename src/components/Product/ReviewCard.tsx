@@ -1,14 +1,15 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 
+import { IReviewShort } from '@/core/interface/Homepage'
 import { IReviewDto } from '@/core/interface/Review'
 
-interface IReviewCard extends IReviewDto {}
+interface IReviewCard extends IReviewShort {}
 
-export const ReviewCard: React.FC<IReviewCard> = ({ id, ava, nick, text }) => {
+export const ReviewCard: React.FC<IReviewCard> = ({ date, ava, nick, text }) => {
   const reviewDate = useMemo(() => {
-    return dayjs(id.creationTime).format('DD MMM YYYY в HH:mm')
-  }, [id.creationTime])
+    return dayjs.unix(date).format('DD MMM YYYY в HH:mm')
+  }, [date])
 
   return (
     <div className="rewiews__el">

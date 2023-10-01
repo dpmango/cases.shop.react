@@ -123,24 +123,7 @@ class App {
   }
   menu() {
     let _this = this
-    $('.action-btn__dropdown').each(function () {
-      $(this)
-        .closest('.action-btn')
-        .find('.action-btn__content')
-        .on('click', function () {
-          let $wrap = $(this).closest('.action-btn')
-          if ($wrap.hasClass('active')) {
-            $wrap.removeClass('active')
-            $wrap.find('.action-btn__dropdown').stop().fadeOut(300)
-          } else {
-            $('.action-btn').removeClass('active')
-            $('.action-btn__dropdown').stop().hide()
-            $wrap.addClass('active')
-            $wrap.find('.action-btn__dropdown').stop().fadeIn(300)
-          }
-          return false
-        })
-    })
+
     if ($('.top-menu').length) {
       function menuBg() {
         if ($(window).scrollTop() >= 1) {

@@ -1,21 +1,3 @@
-export interface IProductCategoryDto {
-  categoryName: string
-  categoryColor: string
-  items: IProductDto[]
-}
-
-export interface IProductDto {
-  id: string
-  name: string
-  images: string[]
-  price: number
-  salePrice: number
-}
-
-export interface IProductFullDto extends IProductDto {
-  description: string
-}
-
 export interface IPopularProduct {
   category: IProductCategory
   item: IProductItem
@@ -27,7 +9,7 @@ export interface IProductCategory {
   name: string
   description: string
   items: IProductItem[]
-  categories: any[]
+  categories: IProductCategory[]
   tags: null
 }
 

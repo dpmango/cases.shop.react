@@ -3,7 +3,7 @@ import { GetServerSidePropsContext, PreviewData } from 'next'
 import { getWhois } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { IHomePageDto } from '@/core/interface/Homepage'
-import { IPopularProduct } from '@/core/interface/Product'
+import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { initialProductState } from '@/core/store/product.store'
 import { covertInitDto, initialSessionState } from '@/core/store/session.store'
 
@@ -12,6 +12,7 @@ export interface IResolver {
   popularData?: IPopularProduct[]
   homepageData?: IHomePageDto
   productData?: any
+  categoryData?: IProductCategory
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -39,6 +40,7 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
   let productData
   let popularData: IPopularProduct[] = []
   let homepageData: IHomePageDto | null = null
+  let categoryData: IProductCategory | null = null
 
   const PRELOADED_STATE = {
     sessionState: {
@@ -84,23 +86,25 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
             break
           case 'homepage':
             homepageData = data
+            PRELOADED_STATE.sessionState = {
+              ...PRELOADED_STATE.sessionState,
+              paymentsMethods: data.paymentMethods || [],
+              customPages: data.pages || [],
+            }
             break
           case 'popular':
             popularData = data
             break
           case 'product':
-            productData = data || false
+            productData = data || null
             break
-          case 'orders':
-            PRELOADED_STATE.sessionState = {
-              ...PRELOADED_STATE.sessionState,
-              // lastPurchases: data,
-            }
-            break
+          case 'category':
+            categoryData = data || null
+
           case 'products':
             PRELOADED_STATE.productState = {
               ...PRELOADED_STATE.productState,
-              items: data,
+              // items: data,
             }
             break
           case 'reviews':
@@ -124,6 +128,10 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
 
   if (productData) {
     returnatble['productData'] = productData
+  }
+
+  if (categoryData) {
+    returnatble['categoryData'] = categoryData
   }
 
   if (homepageData) {

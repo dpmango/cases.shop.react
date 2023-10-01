@@ -27,6 +27,7 @@ import { useAppDispatch, useAppSelector } from '@/core/store'
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [focused, setFocused] = useState(false)
+  const [balanceDropdown, setBalanceDropdown] = useState(false)
 
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
   const { modal, settingsOpen } = useAppSelector((state) => state.uiState)
@@ -149,13 +150,19 @@ const Header = () => {
                         </div>
                       </div>
                     </a>
-                    <div className="action-btn top-menu__btn">
-                      <button className="action-btn__content">
+                    <div className={cns('action-btn top-menu__btn', balanceDropdown && 'active')}>
+                      <button
+                        className="action-btn__content"
+                        onClick={() => setBalanceDropdown(!balanceDropdown)}
+                      >
                         <div className="action-btn__icon">
                           <UserIcon />
                         </div>
                       </button>
-                      <div className="action-btn__dropdown">
+                      <div
+                        className="action-btn__dropdown"
+                        style={{ display: balanceDropdown ? 'block' : 'none' }}
+                      >
                         <div className="balance-info">
                           <div className="balance-info__top">
                             <div className="action-btn__dropdown-title">Баланс</div>

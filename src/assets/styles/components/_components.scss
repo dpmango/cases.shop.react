@@ -479,6 +479,9 @@ img{
 		&:last-child{
 			margin-right: 0 !important;
 		}
+		img{
+			max-height: 100%;
+		}
 	}
 	&__title{
 		margin-right: 20px;
