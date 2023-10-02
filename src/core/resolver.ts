@@ -16,16 +16,14 @@ export interface IResolver {
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
-  console.log('onBeforeRender', context.resolvedUrl)
   // const cookieStore = cookies()
 
   // const accessToken = cookieStore.get('access_token')
 
-  // let parsedSiteHost = pageContext.urlParsed.origin?.replace('https://', '') || 'donatfun.ru'
-  // if (parsedSiteHost?.includes('localhost')) {
-  //   parsedSiteHost = 'nobody.su'
-  // }
-  const parsedSiteHost = 'nobody.su'
+  let parsedSiteHost = context.req.rawHeaders[1]
+  if (parsedSiteHost?.includes('localhost')) {
+    parsedSiteHost = 'nobody.su'
+  }
 
   const {
     data: { id: shopId },

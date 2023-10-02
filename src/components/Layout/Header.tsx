@@ -17,21 +17,24 @@ import {
   NotificationIcon,
   StarIcon,
   SupportIcon,
+  UiModal,
   UserIcon,
   Wallet2Icon,
   WalletIcon,
 } from '@/components/Ui'
-import { useEventListener } from '@/core/hooks'
+import { useEventListener, useScrollLock } from '@/core/hooks'
 import { IProfileDto } from '@/core/interface/Initialization'
 import { useAppDispatch, useAppSelector } from '@/core/store'
+import { setMobileMenu, setModal } from '@/core/store/ui.store'
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
-  const [focused, setFocused] = useState(false)
   const [balanceDropdown, setBalanceDropdown] = useState(false)
 
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
-  const { modal, settingsOpen } = useAppSelector((state) => state.uiState)
+  const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
+  const { lockScroll, unlockScroll } = useScrollLock()
 
   // scroll functions
   const updateSticky = useCallback(() => {
@@ -47,32 +50,18 @@ const Header = () => {
   useEventListener('scroll', updateSticky)
   // useEventListener('resize', updateSticky)
 
-  const handleHoverIn = throttle(
-    () => {
-      setFocused(true)
-    },
-    1000,
-    { leading: false, trailing: true },
-  )
-
-  const handleHoverOut = () => {
-    setFocused(false)
-    handleHoverOutBounce()
-  }
-  const handleHoverOutBounce = throttle(
-    () => {
-      setTimeout(() => {
-        setFocused(false)
-      }, 1)
-    },
-    1000,
-    { leading: false, traling: true },
-  )
+  useEffect(() => {
+    if (mobileMenuActive) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+  }, [mobileMenuActive])
 
   return (
     <>
       <header
-        className={cns('top-menu', scrolled && '_scrolled', focused && '_focused')}
+        className={cns('top-menu', scrolled && 'bg')}
         style={
           {
             // background: settings.header_color,
@@ -114,7 +103,9 @@ const Header = () => {
               <div className="top-menu__right">
                 <button
                   className="action-btn action-btn_long top-menu__btn btn-modal"
-                  data-modal="#modal-support"
+                  onClick={() => {
+                    dispatch(setModal({ name: 'support' }))
+                  }}
                 >
                   <div className="action-btn__content">
                     <div className="action-btn__text">Поддержка</div>
@@ -171,7 +162,9 @@ const Header = () => {
                           <div className="balance-info__cost">25 045,62 ₽</div>
                           <button
                             className="balance-info__btn btn-def btn-def_full btn-modal"
-                            data-modal="#modal-balance"
+                            onClick={() => {
+                              dispatch(setModal({ name: 'balance' }))
+                            }}
                           >
                             <span>Пополнить</span>
                           </button>
@@ -211,74 +204,28 @@ const Header = () => {
                   </Link>
                 )}
               </div>
-              <div className="top-menu__burger btn-burger">
+              <div
+                className="top-menu__burger btn-burger"
+                onClick={() => dispatch(setMobileMenu(!mobileMenuActive))}
+              >
                 <BurgerIcon />
               </div>
             </div>
           </div>
         </div>
-
-        {/* <div className="container _full">
-        <div className="header__wrapper">
-          <div className="header__hamburger" onClick={() => dispatch(setSettings(!settingsOpen))}>
-            <div className={cns('hamburger', settingsOpen && '_active')}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-
-          <div className="header__main" onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
-
-            <PurchasesSlider className="header__purchases" />
-          </div>
-
-          <div className="header__auth">
-            {user ? (
-              <div className="header-user header__user">
-                <a
-                  className="header-user__deposit"
-                  onClick={() => {
-                    dispatch(setModal({ name: 'deposit' }))
-                  }}
-                >
-                  <div className="header-user__cash">
-                    <SvgIcon name="wallet" />
-                  </div>
-                  <div className="header-user__plus">
-                    <SvgIcon name="plus" />
-                  </div>
-                </a>
-                <div className="header-user__right">
-                  <p className="header-user__name">@{user.userName}</p>
-                  <p className="header-user__balance">{formatPrice(user.balance)}</p>
-                </div>
-              </div>
-            ) : (
-              <a className="header__telegram">
-                {modal !== 'auth' && (
-                  <TLoginButton
-                    botName={auth_bot}
-                    buttonSize={TLoginButtonSize.Large}
-                    lang="ru"
-                    usePic={false}
-                    cornerRadius={6}
-                    onAuthCallback={onAuthSuccess}
-                    requestAccess={'write'}
-                  />
-                )}
-              </a>
-            )}
-          </div>
-        </div>
-      </div> */}
       </header>
 
-      <div className="menu-mob">
+      <div
+        className={cns('menu-mob', mobileMenuActive && 'actve')}
+        style={{ display: mobileMenuActive ? 'block' : 'none' }}
+      >
         <div className="menu-mob__content">
           <div className="menu-mob__top">
             <div className="menu-mob__title">Меню</div>
-            <div className="close-btn menu-mob__close">
+            <div
+              className="close-btn menu-mob__close"
+              onClick={() => dispatch(setMobileMenu(false))}
+            >
               <CloseIcon />
             </div>
           </div>
@@ -322,7 +269,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="modal-act profile-mob" id="profile-mob" style={{ display: 'none' }}>
+      <UiModal className="modal-act profile-mob" name="profile-mob">
         <div className="profile-mob__content">
           <div className="profile-mob__title">Профиль</div>
           <div className="balance-info profile-mob__balance">
@@ -333,7 +280,9 @@ const Header = () => {
             <div className="balance-info__cost">25 045,62 ₽</div>
             <button
               className="balance-info__btn btn-def btn-def_full btn-modal"
-              data-modal="#modal-balance"
+              onClick={() => {
+                dispatch(setModal({ name: 'balance' }))
+              }}
             >
               <span>Пополнить</span>
             </button>
@@ -375,34 +324,49 @@ const Header = () => {
             </li>
           </ul>
         </div>
-      </div>
+      </UiModal>
 
-      <div className="mob-acts">
-        <div className="mob-acts__content">
-          <button className="mob-acts__el act-mob" data-modal="#modal-games">
+      <div className="mobile-navi">
+        <div className="mobile-navi__content">
+          <button
+            className={cns('mobile-navi__el act-mob', modal === 'games' && 'active')}
+            onClick={() => {
+              dispatch(setModal({ name: 'games' }))
+            }}
+          >
             <div className="act-mob__icon">
               <MobNavGamesIcon />
             </div>
           </button>
-          <button className="mob-acts__el act-mob" data-modal="#modal-support">
+          <button
+            className={cns('mobile-navi__el act-mob', modal === 'support' && 'active')}
+            onClick={() => {
+              dispatch(setModal({ name: 'support' }))
+            }}
+          >
             <div className="act-mob__count">2</div>
             <div className="act-mob__icon">
               <MobNavSupportIcon />
             </div>
           </button>
-          <a className="mob-acts__el act-mob" href="#">
+          <a className="mobile-navi__el act-mob" href="#">
             <div className="act-mob__count act-mob__count_black">39</div>
             <div className="act-mob__icon">
               <MobNavStarIcon />
             </div>
           </a>
-          <a className="mob-acts__el act-mob" href="#">
+          <a className="mobile-navi__el act-mob" href="#">
             <div className="act-mob__count">1</div>
             <div className="act-mob__icon">
               <MobNavWalletIcon />
             </div>
           </a>
-          <button className="mob-acts__el act-mob" data-modal="#profile-mob">
+          <button
+            className={cns('mobile-navi__el act-mob', modal === 'profile-mob' && 'active')}
+            onClick={() => {
+              dispatch(setModal({ name: 'profile-mob' }))
+            }}
+          >
             <div className="act-mob__count">9</div>
             <div className="act-mob__icon">
               <MobNavProfileIcon />

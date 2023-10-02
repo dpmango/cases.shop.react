@@ -672,6 +672,10 @@ img{
 			align-items: center;
 			justify-content: space-between;
 			padding: 20px 30px;
+			img{
+				max-width: 40px;
+				max-height: 40px;
+			}
 		}
 		&__title{
 			color: #FFF;
@@ -776,7 +780,7 @@ img{
 	}
 }
 
-.mob-acts{
+.mobile-navi{
 	display: none;
 	position: fixed;
 	bottom: 0;

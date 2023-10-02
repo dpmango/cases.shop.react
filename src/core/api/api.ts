@@ -89,9 +89,7 @@ export const api = async (
     }
 
     if (err?.status === 5) {
-      const { data } = await userAuthRefresh({
-        token: Cookies.get('refresh_token') || '',
-      })
+      const { data } = await userAuthRefresh()
 
       if (data) {
         Cookies.set('access_token', data.access_token)

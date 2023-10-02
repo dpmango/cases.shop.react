@@ -1,10 +1,12 @@
 // 1000.00 -> 1 000.00
-export const formatPrice = (num: number, digits = 0, showFree = false) => {
+export const formatPrice = (num: number, digits = 0, showRub = true) => {
   const spacesRegex = /\B(?=(\d{3})+(?!\d))/g
   let value = ''
   if (num === null || num === undefined) {
     return '0.00'
   }
+
+  let rubSign = showRub ? '₽' : ''
 
   if (typeof num === 'number') {
     value = num.toFixed(digits).replace(spacesRegex, ' ')
@@ -12,15 +14,7 @@ export const formatPrice = (num: number, digits = 0, showFree = false) => {
     value = parseFloat(num).toFixed(digits).replace(spacesRegex, ' ')
   }
 
-  if (+value === 0) {
-    if (showFree) {
-      return 'Бесплатно'
-    } else {
-      return '0 ₽'
-    }
-  }
-
-  return `${value} ₽`
+  return `${value} ${rubSign}`
 }
 
 export const Plurize = (number: number, one: string, two: string, five: string) => {

@@ -1,23 +1,5 @@
 class App {
   // run() {
-  //   function getScrollBarWidth() {
-  //     var e = document.createElement('p')
-  //     ;(e.style.width = '100%'), (e.style.height = '200px')
-  //     var t = document.createElement('div')
-  //     ;(t.style.position = 'absolute'),
-  //       (t.style.top = '0px'),
-  //       (t.style.left = '0px'),
-  //       (t.style.visibility = 'hidden'),
-  //       (t.style.width = '200px'),
-  //       (t.style.height = '150px'),
-  //       (t.style.overflow = 'hidden'),
-  //       t.appendChild(e),
-  //       document.body.appendChild(t)
-  //     var l = e.offsetWidth
-  //     t.style.overflow = 'scroll'
-  //     e = e.offsetWidth
-  //     return l == e && (e = t.clientWidth), document.body.removeChild(t), l - e
-  //   }
   //   $('head').append('<style>.noscroll{margin-right: ' + getScrollBarWidth() + 'px;}</style>')
   //   $('head').append(
   //     '<style>.noscroll .top-menu{padding-right: ' + getScrollBarWidth() + 'px;}</style>',
@@ -48,52 +30,8 @@ class App {
   //     })
   //   }
   // }
-  ordersMob() {
-    if ($(window).width() <= 600) {
-      let _this = this
-      $('.orders-el').on('click', function () {
-        $(this).addClass('fixed')
-        _this.setNoscroll()
-        return false
-      })
-      $('.orders-el__mob-prev').on('click', function () {
-        $('.orders-el').removeClass('fixed')
-        _this.unsetNoscroll()
-        return false
-      })
-    }
-  }
-  choose() {
-    $('.choose-el').on('click', function () {
-      let $wrap = $(this).closest('.choose')
-      $wrap.find('.choose-el').removeClass('active')
-      $(this).addClass('active')
-      return false
-    })
-  }
-  tags() {
-    $('.tags__el').on('click', function () {
-      let $wrap = $(this).closest('.tags')
-      $wrap.find('.tags__el').removeClass('active')
-      $(this).addClass('active')
-      return false
-    })
-  }
-  paymentChoose() {
-    $('.payment-choose-el__top').on('click', function () {
-      let $wrap = $(this).closest('.payment-choose-el')
-      if ($wrap.hasClass('active')) {
-        $wrap.removeClass('active')
-        $wrap.find('.payment-choose-el__dropdown').stop().slideUp(300)
-      } else {
-        $('.payment-choose-el').removeClass('active')
-        $('.payment-choose-el__dropdown').stop().slideUp(300)
-        $wrap.addClass('active')
-        $wrap.find('.payment-choose-el__dropdown').stop().slideDown(300)
-      }
-      return false
-    })
-  }
+
+
   // theme() {
   //   $('.theme-btn__btn_black').on('click', function () {
   //     $('.theme-btn__btn').removeClass('active')
@@ -124,19 +62,6 @@ class App {
   menu() {
     let _this = this
 
-    if ($('.top-menu').length) {
-      function menuBg() {
-        if ($(window).scrollTop() >= 1) {
-          $('.top-menu').addClass('bg')
-        } else {
-          $('.top-menu').removeClass('bg')
-        }
-      }
-      menuBg()
-      $(window).on('scroll', function () {
-        menuBg()
-      })
-    }
     $('.top-menu__burger, .menu-mob__close').on('click', function () {
       if ($('.menu-mob').hasClass('active')) {
         $('.menu-mob').removeClass('active')
@@ -158,24 +83,24 @@ class App {
       return false
     })
 
-    $('button.act-mob').on('click', function () {
-      let $modal = $($(this).data('modal'))
-      if ($(this).hasClass('active')) {
-        $(this).removeClass('active')
-        $modal.stop().fadeOut(400)
-        $('.top-menu').removeClass('bgPage')
-        _this.unsetNoscroll()
-      } else {
-        $('.modal-act').stop().hide()
-        $('.modal-mob').stop().hide()
-        $('.modal-def').stop().hide()
-        $('button.act-mob').removeClass('active')
-        $(this).addClass('active')
-        $modal.stop().fadeIn(400)
-        $('.top-menu').addClass('bgPage')
-        _this.setNoscroll()
-      }
-    })
+    // $('button.act-mob').on('click', function () {
+    //   let $modal = $($(this).data('modal'))
+    //   if ($(this).hasClass('active')) {
+    //     $(this).removeClass('active')
+    //     $modal.stop().fadeOut(400)
+    //     $('.top-menu').removeClass('bgPage')
+    //     _this.unsetNoscroll()
+    //   } else {
+    //     $('.modal-act').stop().hide()
+    //     $('.modal-mob').stop().hide()
+    //     $('.modal-def').stop().hide()
+    //     $('button.act-mob').removeClass('active')
+    //     $(this).addClass('active')
+    //     $modal.stop().fadeIn(400)
+    //     $('.top-menu').addClass('bgPage')
+    //     _this.setNoscroll()
+    //   }
+    // })
 
     this.clickOutside($('.action-btn'), function () {
       $('.action-btn').removeClass('active')
@@ -192,30 +117,30 @@ class App {
       }
       return false
     })
-    $('.btn-modal').on('click', function () {
-      $('.modal-def').hide()
-      let $modal = $($(this).data('modal'))
-      _this.setNoscroll()
-      $modal.fadeIn(300)
-      return false
-    })
-    $('.btn-modal-act').on('click', function () {
-      let $modal = $($(this).data('modal'))
-      $('.profile-mob').hide()
-      $('.profile-btn').removeClass('active')
-      if ($(this).hasClass('active')) {
-        _this.unsetNoscroll()
-        $modal.fadeOut(300)
-        $('.top-menu').removeClass('bg-modal')
-        $(this).removeClass('active')
-      } else {
-        $(this).addClass('active')
-        $('.top-menu').addClass('bg-modal')
-        _this.setNoscroll()
-        $modal.fadeIn(300)
-      }
-      return false
-    })
+    // $('.btn-modal').on('click', function () {
+    //   $('.modal-def').hide()
+    //   let $modal = $($(this).data('modal'))
+    //   _this.setNoscroll()
+    //   $modal.fadeIn(300)
+    //   return false
+    // })
+    // $('.btn-modal-act').on('click', function () {
+    //   let $modal = $($(this).data('modal'))
+    //   $('.profile-mob').hide()
+    //   $('.profile-btn').removeClass('active')
+    //   if ($(this).hasClass('active')) {
+    //     _this.unsetNoscroll()
+    //     $modal.fadeOut(300)
+    //     $('.top-menu').removeClass('bg-modal')
+    //     $(this).removeClass('active')
+    //   } else {
+    //     $(this).addClass('active')
+    //     $('.top-menu').addClass('bg-modal')
+    //     _this.setNoscroll()
+    //     $modal.fadeIn(300)
+    //   }
+    //   return false
+    // })
     $('.btn-notify').on('click', function () {
       if ($('.sec-notify').hasClass('active')) {
         $('.sec-notify').removeClass('active')
@@ -234,21 +159,5 @@ class App {
         // _this.unsetNoscroll();
       })
     }
-  }
-  setNoscroll() {
-    if ($('html').height() > $(window).height()) {
-      document.querySelector('html').classList.add('noscroll')
-    }
-  }
-  unsetNoscroll() {
-    document.querySelector('html').classList.remove('noscroll')
-  }
-  clickOutside(wrap, func) {
-    this.app.document.mouseup(function (e) {
-      var container = wrap
-      if (container.has(e.target).length === 0) {
-        func()
-      }
-    })
   }
 }

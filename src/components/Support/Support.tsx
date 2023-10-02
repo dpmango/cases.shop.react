@@ -1,15 +1,23 @@
 import cns from 'classnames'
 
-import { Close2Icon, DislikeIcon, LikeIcon, OrderCardDecorSvg } from '../Ui'
+import { useAppDispatch } from '@/core/store'
+import { closeModals, setModal } from '@/core/store/ui.store'
+
+import { Close2Icon, DislikeIcon, LikeIcon, OrderCardDecorSvg, UiModal } from '../Ui'
 
 export const SupportModal: React.FC<{}> = ({}) => {
-  const isFavourited = false
+  const dispatch = useAppDispatch()
 
   return (
-    <div className="modal-def" id="modal-support">
+    <UiModal className="modal-def" name="support">
       <div className="modal-def__wrap">
         <div className="modal-def__content modal-content modal-chat">
-          <div className="modal-content__close modal-def__close close-btn">
+          <div
+            className="modal-content__close modal-def__close close-btn"
+            onClick={() => {
+              dispatch(closeModals())
+            }}
+          >
             <Close2Icon />
           </div>
           <div className="container-def">
@@ -276,6 +284,6 @@ export const SupportModal: React.FC<{}> = ({}) => {
         </div>
         <div className="modal-def__overlay overlay"></div>
       </div>
-    </div>
+    </UiModal>
   )
 }

@@ -1,4 +1,7 @@
 import cns from 'classnames'
+import { useCallback, useEffect, useState } from 'react'
+
+import { useScrollLock } from '@/core/hooks'
 
 import { Close3Icon, DislikeIcon, LikeIcon, OrderCardDecorSvg } from '../Ui'
 
@@ -15,14 +18,27 @@ export const OrderCard: React.FC<IOrderCard> = ({
   supportID,
   supportUnread,
 }) => {
-  const isFavourited = false
+  const [isFixed, setIsFixed] = useState(false)
+  const { lockScroll, unlockScroll } = useScrollLock()
+
+  const handleCardClick = useCallback(() => {
+    setIsFixed(!isFixed)
+  }, [isFixed])
+
+  useEffect(() => {
+    if (isFixed) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+  }, [isFixed])
 
   return (
-    <div className="orders-el">
+    <div className={cns('orders-el', isFixed && 'fixed')} onClick={handleCardClick}>
       <img className="orders-el__bg" src={background} alt="" />
       <div className="orders-el__body">
-        <div className="orders-el__mob">
-          <div className="orders-el__mob-prev close-btn">
+        <div className="orders-el__mob" onClick={(e) => e.stopPropagation()}>
+          <div className="orders-el__mob-prev close-btn" onClick={() => setIsFixed(false)}>
             <Close3Icon />
           </div>
           <div className="orders-el__mob-title">Информция о заказе</div>

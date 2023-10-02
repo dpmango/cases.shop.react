@@ -49,7 +49,6 @@ export default function Home({
   homepageData,
   popularData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ PRELOADED_STATE }, { popularData }, { homepageData })
   return (
     <LayoutGeneral>
       <img className="home-bg" src="/img/home-bg.jpg" alt="" />

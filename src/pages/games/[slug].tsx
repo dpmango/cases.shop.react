@@ -51,6 +51,8 @@ export default function CategoryPage({
 
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
   const [notifyDropdown, setNotifyDropdown] = useState(false)
+  const [deliveryType, setDeliveryType] = useState(0)
+
   const router = useRouter()
 
   const enableNotifications = useCallback(() => {
@@ -178,39 +180,22 @@ export default function CategoryPage({
                 <div className="product-el-big__choose">
                   <div className="title-small title-small_m">Способ получения</div>
                   <div className="choose">
-                    <div className="choose__el">
-                      <div className="choose-el active">
-                        <div className="choose-el__top">
-                          <div className="choose-el__title title-small">Покупка на аккаунт</div>
-                          <div className="choose-el__icon">%</div>
-                        </div>
-                        <div className="choose-el__text text-cat text-cat_small">
-                          Мы купим товар зайдя в ваш аккаунт
-                        </div>
-                      </div>
-                    </div>
-                    <div className="choose__el">
-                      <div className="choose-el">
-                        <div className="choose-el__top">
-                          <div className="choose-el__title title-small">Ключ</div>
-                          <div className="choose-el__icon">%</div>
-                        </div>
-                        <div className="choose-el__text text-cat text-cat_small">
-                          Ключ активации придёт на электронную почту
+                    {[1, 2, 3].map((x, idx) => (
+                      <div className="choose__el" key={x}>
+                        <div
+                          className={cns('choose-el', deliveryType === idx && 'active')}
+                          onClick={() => setDeliveryType(idx)}
+                        >
+                          <div className="choose-el__top">
+                            <div className="choose-el__title title-small">Покупка на аккаунт</div>
+                            <div className="choose-el__icon">%</div>
+                          </div>
+                          <div className="choose-el__text text-cat text-cat_small">
+                            Мы купим товар зайдя в ваш аккаунт
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="choose__el">
-                      <div className="choose-el">
-                        <div className="choose-el__top">
-                          <div className="choose-el__title title-small">Ключ Nintendo</div>
-                          <div className="choose-el__icon">%</div>
-                        </div>
-                        <div className="choose-el__text text-cat text-cat_small">
-                          Ключ активации придёт на электронную почту
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
                 <div className="product-el-big__bottom">

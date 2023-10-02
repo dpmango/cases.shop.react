@@ -2,15 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IUiState {
   isHydrated: boolean | null
-  settingsOpen: boolean
+  mobileMenuActive: boolean
   modal: string | null
   modalParams: Record<string, never> | null
 }
 
 const initialState: IUiState = {
   isHydrated: null,
-  settingsOpen: false,
-  modal: null,
+  mobileMenuActive: false,
+  modal: 'balance',
   modalParams: {},
 }
 
@@ -21,12 +21,17 @@ export const uiState = createSlice({
     setHydrated(state, action: PayloadAction<boolean>) {
       state.isHydrated = action.payload
     },
-    setSettings(state, action: PayloadAction<boolean>) {
-      state.settingsOpen = action.payload
+    setMobileMenu(state, action: PayloadAction<boolean>) {
+      state.mobileMenuActive = action.payload
     },
     setModal(state, action: PayloadAction<{ name: string; params?: any }>) {
-      state.modal = action.payload.name
-      state.modalParams = action.payload.params || {}
+      if (state.modal === action.payload.name) {
+        state.modal = null
+        state.modalParams = {}
+      } else {
+        state.modal = action.payload.name
+        state.modalParams = action.payload.params || {}
+      }
     },
     closeModals(state, action: PayloadAction) {
       state.modal = null
@@ -35,6 +40,6 @@ export const uiState = createSlice({
   },
 })
 
-export const { setHydrated, setSettings, setModal, closeModals } = uiState.actions
+export const { setHydrated, setMobileMenu, setModal, closeModals } = uiState.actions
 
 export default uiState.reducer

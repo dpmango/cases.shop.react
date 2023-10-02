@@ -18,12 +18,9 @@ export interface IWhoisPayload {
 }
 
 export const getWhois = async ({ site }: IWhoisPayload) => {
-  const { data, error, raw }: IApiResponse<IWhoisDto> = await api(
-    `${process.env.BACKEND_OLD_URL}whois`,
-    {
-      params: { site },
-    },
-  )
+  const { data, error, raw }: IApiResponse<IWhoisDto> = await api(`whois`, {
+    params: { site },
+  })
 
   return { data: raw, error }
 }
