@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -19,12 +19,12 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
 
   const refreshWatcher = useCallback(() => {
     const updateSession = async () => {
-      const refreshToken = Cookies.get('refresh_token')
+      const refreshToken = getCookie('refresh_token')
       if (!refreshToken) return
       const { data, error } = await userAuthRefresh()
 
       if (data) {
-        Cookies.set('access_token', data?.access_token)
+        setCookie('access_token', data?.access_token)
       }
     }
 
@@ -47,8 +47,8 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
 
     try {
       if (data) {
-        Cookies.set('access_token', data.access_token)
-        Cookies.set('refresh_token', data.refresh_token)
+        setCookie('access_token', data.access_token)
+        setCookie('refresh_token', data.refresh_token)
 
         const { payload } = await dispatch(getProfileThunk())
         console.log({ payload })

@@ -1,4 +1,6 @@
 import cns from 'classnames'
+// import { localStorageGet, localStorageSet } from '@/core/utils'
+import { getCookie, setCookie } from 'cookies-next'
 import throttle from 'lodash/throttle'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
@@ -35,6 +37,22 @@ const Header = () => {
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
   const { lockScroll, unlockScroll } = useScrollLock()
+
+  const theme = getCookie('theme')
+
+  const setDarkTheme = useCallback(() => {
+    const $html = document.querySelector('html')
+    $html?.classList.remove('theme-white')
+
+    setCookie('theme', 'dark')
+  }, [])
+
+  const setLightTheme = useCallback(() => {
+    const $html = document.querySelector('html')
+    $html?.classList.add('theme-white')
+
+    setCookie('theme', 'light')
+  }, [])
 
   // scroll functions
   const updateSticky = useCallback(() => {
@@ -131,7 +149,7 @@ const Header = () => {
                   </div>
                 </a>
 
-                {user ? (
+                {!user ? (
                   <>
                     <a className="action-btn action-btn_red top-menu__btn" href="#">
                       <div className="action-btn__count">1</div>
@@ -173,7 +191,12 @@ const Header = () => {
                           <div className="action-btn__dropdown-block">
                             <div className="action-btn__dropdown-title">Тема</div>
                             <div className="theme-btn">
-                              <button className="theme-btn__btn theme-btn__btn_black active">
+                              <button
+                                className={cns(
+                                  'theme-btn__btn theme-btn__btn_black',
+                                  theme === 'dark' && active,
+                                )}
+                              >
                                 <DarkThemeIcon />
                                 <span>Тёмная</span>
                               </button>
@@ -301,11 +324,11 @@ const Header = () => {
           <div className="profile-mob__theme">
             <div className="action-btn__dropdown-title">Тема</div>
             <div className="theme-btn">
-              <button className="theme-btn__btn theme-btn__btn_black active">
+              <button className="theme-btn__btn theme-btn__btn_black active" onClick={setDarkTheme}>
                 <DarkThemeIcon />
                 <span>Тёмная</span>
               </button>
-              <button className="theme-btn__btn theme-btn__btn_white">
+              <button className="theme-btn__btn theme-btn__btn_white" onClick={setLightTheme}>
                 <LightThemeIcon />
                 <span>Светлая</span>
               </button>

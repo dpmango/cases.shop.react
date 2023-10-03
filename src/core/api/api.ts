@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import { FetchError, FetchOptions, ofetch } from 'ofetch'
 
 import { userAuthRefresh } from '@/core/api/session.api'
@@ -23,7 +23,7 @@ export const api = async (
   { method = 'GET', body, params, headers }: IRequestOptions,
 ): Promise<IApiResult> => {
   try {
-    const accessToken = Cookies.get('access_token')
+    const accessToken = getCookie('access_token')
     // || ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdG9yZV91c2VyIiwidXNlcl9pZCI6IjMyMzIzNzA0MSIsInNob3BfaWQiOiJpdFNub2JvZHlfYm90IiwiaXNfYWRtaW4iOiIwIiwiZXhwIjoxNjg4OTEyNzk2LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMyNy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMyNy8ifQ.kwXmZ_cCetB3NAPqUhFDBy4f1MHnAsz6mgPiCkVYI30')
 
     const requestOptions = {
@@ -92,13 +92,13 @@ export const api = async (
       const { data } = await userAuthRefresh()
 
       if (data) {
-        Cookies.set('access_token', data.access_token)
-        Cookies.set('refresh_token', data.refresh_token)
+        setCookie('access_token', data.access_token)
+        setCookie('refresh_token', data.refresh_token)
         console.log('refetch', url, { method, body, params, headers })
         return await api(url, { method, body, params, headers })
       } else {
-        Cookies.remove('access_token')
-        Cookies.remove('refresh_token')
+        deleteCookie('access_token')
+        deleteCookie('refresh_token')
 
         window && window.location.reload()
       }

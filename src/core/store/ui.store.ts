@@ -10,7 +10,7 @@ export interface IUiState {
 const initialState: IUiState = {
   isHydrated: null,
   mobileMenuActive: false,
-  modal: 'balance',
+  modal: null,
   modalParams: {},
 }
 

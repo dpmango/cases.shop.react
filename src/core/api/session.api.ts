@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie'
+import { getCookie, setCookie } from 'cookies-next'
 
 import type { IApiResponse, IReqId } from '@/core/interface/Api'
 import type {
@@ -74,7 +74,7 @@ export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
 
 // Auth refresh
 export const userAuthRefresh = async () => {
-  const refreshToken = Cookies.get('refresh-ticketv2')
+  const refreshToken = getCookie('access_token')
 
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/refresh`, {
     headers: {

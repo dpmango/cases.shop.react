@@ -31,51 +31,9 @@ class App {
   //   }
   // }
 
-
-  // theme() {
-  //   $('.theme-btn__btn_black').on('click', function () {
-  //     $('.theme-btn__btn').removeClass('active')
-  //     $('html').removeClass('theme-white')
-  //     $('.theme-btn__btn_black').addClass('active')
-  //     return false
-  //   })
-  //   $('.theme-btn__btn_white').on('click', function () {
-  //     $('.theme-btn__btn').removeClass('active')
-  //     $('html').addClass('theme-white')
-  //     $('.theme-btn__btn_white').addClass('active')
-  //     return false
-  //   })
-  // }
-
-  masonry() {
-    if ($(window).width() > 600) {
-      let mas = $('.rewiews_masonry').masonry({
-        itemSelector: '.rewiews__el',
-        horizontalOrder: true,
-        resize: true,
-      })
-      setTimeout(() => {
-        mas.masonry('layout')
-      }, 100)
-    }
-  }
   menu() {
     let _this = this
 
-    $('.top-menu__burger, .menu-mob__close').on('click', function () {
-      if ($('.menu-mob').hasClass('active')) {
-        $('.menu-mob').removeClass('active')
-        $('.menu-mob').stop().fadeOut(400)
-        if (!$('.top-menu').hasClass('profile')) {
-          _this.unsetNoscroll()
-        }
-      } else {
-        $('.menu-mob').addClass('active')
-        $('.menu-mob').stop().fadeIn(400)
-        _this.setNoscroll()
-      }
-      return false
-    })
     $('.action-btn__dropdown-close').on('click', function () {
       let $wrap = $(this).closest('.action-btn')
       $wrap.removeClass('active')
@@ -109,14 +67,7 @@ class App {
   }
   modal() {
     let _this = this
-    $('.modal-def__overlay, .modal-content__close, .modal-def__close').on('click', function () {
-      let $modal = $(this).closest('.modal-def')
-      $modal.fadeOut(300)
-      if (!$('.top-menu').hasClass('profile')) {
-        _this.unsetNoscroll()
-      }
-      return false
-    })
+
     // $('.btn-modal').on('click', function () {
     //   $('.modal-def').hide()
     //   let $modal = $($(this).data('modal'))

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Cookies from 'js-cookie'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 
 import { getOrders, getProfile, initializeApp } from '@/core/api/session.api'
 import { IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
@@ -128,8 +128,8 @@ export const sessionState = createSlice({
   initialState: initialSessionState,
   reducers: {
     resetState(state, action: PayloadAction) {
-      Cookies.remove('access_token')
-      Cookies.remove('refresh_token')
+      deleteCookie('access_token')
+      deleteCookie('refresh_token')
     },
     updateAnyState: updateByDataType,
   },

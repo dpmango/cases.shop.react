@@ -282,7 +282,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
             </div>
           </div>
         </div>
-        <div className="modal-def__overlay overlay"></div>
+        <div className="modal-def__overlay overlay" onClick={() => dispatch(closeModals())}></div>
       </div>
     </UiModal>
   )
