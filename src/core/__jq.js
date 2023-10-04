@@ -92,17 +92,7 @@ class App {
     //   }
     //   return false
     // })
-    $('.btn-notify').on('click', function () {
-      if ($('.sec-notify').hasClass('active')) {
-        $('.sec-notify').removeClass('active')
-        $('.sec-page__sidebar').fadeOut(400)
-        _this.unsetNoscroll()
-      } else {
-        $('.sec-notify').addClass('active')
-        $('.sec-page__sidebar').fadeIn(400)
-      }
-      return false
-    })
+
     if ($(window).width() <= 768) {
       _this.clickOutside($('.sec-page__sidebar'), function () {
         $('.sec-notify').removeClass('active')

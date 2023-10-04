@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next'
 import { LayoutGeneral } from '@/components/Layout'
 import { OrderPasswordNote } from '@/components/Order'
 import { HintIcon, RadioCheckIcon, WarningIcon } from '@/components/Ui'
-import { initializeApp } from '@/core/api'
+import { getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
@@ -18,6 +18,10 @@ export const getServerSideProps = (async (context) => {
       errorRouter: {
         fatal: true,
       },
+    },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
     },
   ] as IPromiseFactory[]
 

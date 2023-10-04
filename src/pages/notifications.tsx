@@ -1,11 +1,13 @@
+import cns from 'classnames'
 import type { GetServerSideProps } from 'next'
+import { useRef, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { Close2Icon, SettingsIcon, StarButtonIcon } from '@/components/Ui'
-import { initializeApp } from '@/core/api'
+import { getMainPage, initializeApp } from '@/core/api'
+import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
-
 export const getServerSideProps = (async (context) => {
   const { shopId, parsedSiteHost } = await DomainResolver(context)
 
@@ -17,6 +19,10 @@ export const getServerSideProps = (async (context) => {
       errorRouter: {
         fatal: true,
       },
+    },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
     },
   ] as IPromiseFactory[]
 
@@ -30,15 +36,23 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<IResolver>
 
 export default function Page() {
+  const [settingsOpened, setSettingsOpened] = useState(false)
+
+  const sidebarRef = useRef<HTMLDivElement | null>(null)
+  useClickOutside(sidebarRef, () => setSettingsOpened(false))
+
   return (
     <LayoutGeneral>
       <div className="padding-top"></div>
-      <section className="sec-page sec-notify">
+      <section className={cns('sec-page sec-notify', settingsOpened && 'active')}>
         <div className="container-def">
           <div className="sec-page__wrap">
             <div className="sec-page__top">
               <div className="sec-page__title title-def title-def_page">Уведомления</div>
-              <button className="action-btn btn-notify sec-notify__mob">
+              <button
+                className="action-btn btn-notify sec-notify__mob"
+                onClick={() => setSettingsOpened(!settingsOpened)}
+              >
                 <div className="action-btn__content">
                   <SettingsIcon />
                 </div>
@@ -85,47 +99,15 @@ export default function Page() {
                     </div>
                   </div>
                 </div>
-                <div className="products-2-el products-2-el_2">
-                  <img className="products-2-el__img" src="../img/bg/5.jpg" alt="" />
-                  <div className="products-2-el__content">
-                    <div className="products-2-el__top">
-                      <div className="products-2-el__tag tag">Новинка</div>
-                      <div className="products-2-el__cat cat-info cat-info_big">
-                        <img className="cat-info__icon" src="../img/cat/fortnite.svg" alt="" />
-                        <div className="cat-info__body">
-                          <div className="cat-info__title">Fortnite</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="products-2-el__title title-def title-def_sec2">
-                      Крюк Женщины-кошки
-                    </div>
-                    <div className="products-2-el__text text-cat">
-                      Приобретая этот ключ — вы получаете предмет Крюк Женщины-кошки «Замурчательное
-                      приспособление», который необходимо использовать на официальном сайте
-                      EpicGames
-                    </div>
-                    <div className="products-2-el__bottom">
-                      <div className="products-2-el__cost pr-cost pr-cost_big">
-                        <div className="pr-cost__val">715 ₽</div>
-                      </div>
-                      <div className="products-2-el__acts">
-                        <button className="btn-def btn-def_br btn-def_small products-el__acts-el">
-                          <span>Купить</span>
-                        </button>
-                        <button className="action-btn products-el__acts-el">
-                          <div className="action-btn__content">
-                            <div className="action-btn__icon">
-                              <StarButtonIcon />
-                            </div>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <div className="sec-page__sidebar sidebar-subscriptions">
+              <div
+                className={cns(
+                  'sec-page__sidebar sidebar-subscriptions',
+                  settingsOpened && 'active',
+                )}
+                style={{ display: settingsOpened ? 'block' : 'none' }}
+                ref={sidebarRef}
+              >
                 <div className="sidebar-subscriptions__title title-def title-def_sec3">
                   Ваши подписки
                 </div>

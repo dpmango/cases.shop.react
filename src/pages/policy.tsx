@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from 'next'
 
-import { initializeApp } from '@/core/api'
+import { getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
@@ -15,6 +15,10 @@ export const getServerSideProps = (async (context) => {
       errorRouter: {
         fatal: true,
       },
+    },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
     },
   ] as IPromiseFactory[]
 

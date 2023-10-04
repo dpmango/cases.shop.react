@@ -132,14 +132,14 @@ const Header = () => {
                     </div>
                   </div>
                 </button>
-                <a className="action-btn action-btn_red top-menu__btn" href="#">
+                <Link className="action-btn action-btn_red top-menu__btn" href="/notifications">
                   <div className="action-btn__count">2</div>
                   <div className="action-btn__content">
                     <div className="action-btn__icon">
                       <NotificationIcon />
                     </div>
                   </div>
-                </a>
+                </Link>
                 <a className="action-btn top-menu__btn" href="#">
                   <div className="action-btn__count">39</div>
                   <div className="action-btn__content">

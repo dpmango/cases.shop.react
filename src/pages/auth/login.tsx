@@ -8,7 +8,7 @@ import { useCallback } from 'react'
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon } from '@/components/Ui'
-import { initializeApp } from '@/core/api'
+import { getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -28,6 +28,10 @@ export const getServerSideProps = (async (context) => {
       errorRouter: {
         fatal: true,
       },
+    },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
     },
   ] as IPromiseFactory[]
 

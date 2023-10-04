@@ -7,7 +7,7 @@ import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
-import { initializeApp } from '@/core/api'
+import { getMainPage, initializeApp } from '@/core/api'
 import { useTelegramAuth } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -24,6 +24,10 @@ export const getServerSideProps = (async (context) => {
       errorRouter: {
         fatal: true,
       },
+    },
+    {
+      name: 'homepage',
+      resolver: getMainPage({ shopId }),
     },
   ] as IPromiseFactory[]
 
