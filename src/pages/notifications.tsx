@@ -36,7 +36,7 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<IResolver>
 
 export default function Page() {
-  const [settingsOpened, setSettingsOpened] = useState(false)
+  const [settingsOpened, setSettingsOpened] = useState(true)
 
   const sidebarRef = useRef<HTMLDivElement | null>(null)
   useClickOutside(sidebarRef, () => setSettingsOpened(false))
