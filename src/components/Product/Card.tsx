@@ -12,7 +12,7 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
 
   return (
     <div className="products-el">
-      <img className="products-el__img" src="/img/pr_bg.jpg" alt="" />
+      {/* <img className="products-el__img" src="/img/pr_bg.jpg" alt="" /> */}
       <div className="products-el__content">
         <div className="products-el__cat cat-info">
           <img className="cat-info__icon" src="/img/cat/heartstone.svg" alt="" />

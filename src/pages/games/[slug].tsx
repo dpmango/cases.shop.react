@@ -2,13 +2,15 @@ import cns from 'classnames'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
+import { ProductCardLarge, ProductCoinCard } from '@/components/Product'
 import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
 import { getCategory, getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+import { formatPrice } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
   const { shopId, parsedSiteHost } = await DomainResolver(context)
@@ -51,19 +53,24 @@ export default function CategoryPage({
 
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
   const [notifyDropdown, setNotifyDropdown] = useState(false)
-  const [deliveryType, setDeliveryType] = useState(0)
 
   const router = useRouter()
+
+  const displayCategory = useMemo(() => {
+    return categoryData?.categories.find((x) => x.id === activeTab)
+  }, [categoryData?.categories, activeTab])
 
   const enableNotifications = useCallback(() => {
     router.push('/auth')
   }, [])
 
+  const coinProduct = categoryData?.categories.find((x) => x.id === 'FVBucks')
+
   return (
     <LayoutGeneral>
       <div className="padding-top"></div>
       <section className="sec-header-cat">
-        <img className="sec-header-cat__bg" src="../img/bg-cat.jpg" alt="" />
+        <img className="sec-header-cat__bg" src={categoryData?.icon || ''} alt="" />
         <div className="container-def">
           <div className="sec-header-cat__wrap">
             <div className="sec-header-cat__top">
@@ -144,7 +151,7 @@ export default function CategoryPage({
               <ul className="sec-header-cat__links links-cat">
                 {categoryData?.categories.map((x) => (
                   <li className={cns('links-cat__el', activeTab === x.id && 'active')} key={x.id}>
-                    <a className="links-cat__link" href="#">
+                    <a className="links-cat__link" href="#" onClick={() => setActiveTab(x.id)}>
                       {/* links-cat__link_bg */}
                       {x.name}
                     </a>
@@ -159,99 +166,15 @@ export default function CategoryPage({
       <section className="sec-cat">
         <div className="container-def">
           <div className="sec-cat__wrap">
-            <div className="sec-cat__top product-el-big">
-              <img className="product-el-big__img" src="../img/bg/1.jpg" alt="" />
-              <div className="product-el-big__content">
-                <div className="product-el-big__title title-def title-def_sec">Валюта: В-баксы</div>
-                <div className="product-el-big__text text-info">
-                  В-баксы можно потратить в «Королевской битве» и творческом режиме, чтобы купить
-                  экипировки, дельтапланы, кирки, эмоции, обёртки и боевой пропуск текущего сезона!
-                  Дельтапланы и воздушные следы недоступны в режиме «Сражение с Бурей».
-                </div>
-                <div className="product-el-big__tags">
-                  <div className="title-small title-small_m">Количество В-баксов</div>
-                  <div className="tags tags_2">
-                    <button className="tags__el active">
-                      {/* <div className="tags__point"></div> */}
-                      <span>1 000</span>
-                    </button>
-                  </div>
-                </div>
-                <div className="product-el-big__choose">
-                  <div className="title-small title-small_m">Способ получения</div>
-                  <div className="choose">
-                    {[1, 2, 3].map((x, idx) => (
-                      <div className="choose__el" key={x}>
-                        <div
-                          className={cns('choose-el', deliveryType === idx && 'active')}
-                          onClick={() => setDeliveryType(idx)}
-                        >
-                          <div className="choose-el__top">
-                            <div className="choose-el__title title-small">Покупка на аккаунт</div>
-                            <div className="choose-el__icon">%</div>
-                          </div>
-                          <div className="choose-el__text text-cat text-cat_small">
-                            Мы купим товар зайдя в ваш аккаунт
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="product-el-big__bottom">
-                  <div className="product-el-big__cost pr-cost pr-cost_big">
-                    <div className="pr-cost__new">249 ₽</div>
-                    <div className="pr-cost__old">299 ₽</div>
-                  </div>
-                  <div className="product-el-big__acts">
-                    <button className="btn-def btn-def_br btn-def_small products-el__acts-el">
-                      <span>В корзину</span>
-                    </button>
-                    <button className="action-btn products-el__acts-el">
-                      <div className="action-btn__content">
-                        <div className="action-btn__icon">
-                          <StarButtonIcon />
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProductCoinCard coinsCategory={coinProduct} />
+
             <div className="sec-cat__content">
               <div className="products-2">
-                <div className="products-2__el">
-                  <div className="products-2-el">
-                    <img className="products-2-el__img" src="../img/bg/2.jpg" alt="" />
-                    <div className="products-2-el__content">
-                      <div className="products-2-el__title title-def title-def_sec2">
-                        Подписка: Отряд Fortnite
-                      </div>
-                      <div className="products-2-el__text text-cat">
-                        «Отряд Fortnite» — это ежемесячная подписка. За текущий месяц вы получите
-                        1000 В-баксов и игровые предметы, а также полный доступ к боевому пропуску.
-                        Подписка действует 30 дней с момента выполнения заказа, без автопродления.
-                      </div>
-                      <div className="products-2-el__bottom">
-                        <div className="products-2-el__cost pr-cost pr-cost_big">
-                          <div className="pr-cost__val">749 ₽</div>
-                        </div>
-                        <div className="products-2-el__acts">
-                          <button className="btn-def btn-def_br btn-def_small products-el__acts-el">
-                            <span>В корзину</span>
-                          </button>
-                          <button className="action-btn action-btn_red products-el__acts-el">
-                            <div className="action-btn__content">
-                              <div className="action-btn__icon">
-                                <StarButtonIcon />
-                              </div>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                {displayCategory?.items.map((product, idx) => (
+                  <div className="products-2__el" key={idx}>
+                    <ProductCardLarge {...product} />
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

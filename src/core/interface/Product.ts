@@ -10,7 +10,7 @@ export interface IProductCategory {
   description: string
   items: IProductItem[]
   categories: IProductCategory[]
-  tags: null
+  tags: { [key: string]: string | number }
 }
 
 export interface IProductItem {
@@ -18,6 +18,7 @@ export interface IProductItem {
   name: string
   icon: string
   price: IProductPrice
+  tags: { [key: string]: string | number }
 }
 
 export interface IProductPrice {
