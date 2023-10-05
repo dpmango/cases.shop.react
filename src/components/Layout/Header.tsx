@@ -30,20 +30,27 @@ import { useAppDispatch, useAppSelector } from '@/core/store'
 import { setMobileMenu, setModal } from '@/core/store/ui.store'
 
 const Header = () => {
+  const [theme, setTheme] = useState<string>(getCookie('theme') || 'dark')
   const [scrolled, setScrolled] = useState(false)
   const [balanceDropdown, setBalanceDropdown] = useState(false)
 
-  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const {
+    id: shopId,
+    settings,
+    user,
+    auth_bot,
+    paymentsMethods,
+    customPages,
+  } = useAppSelector((state) => state.sessionState)
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
   const { lockScroll, unlockScroll } = useScrollLock()
-
-  const theme = getCookie('theme')
 
   const setDarkTheme = useCallback(() => {
     const $html = document.querySelector('html')
     $html?.classList.remove('theme-white')
 
+    setTheme('dark')
     setCookie('theme', 'dark')
   }, [])
 
@@ -51,6 +58,7 @@ const Header = () => {
     const $html = document.querySelector('html')
     $html?.classList.add('theme-white')
 
+    setTheme('light')
     setCookie('theme', 'light')
   }, [])
 
@@ -140,25 +148,25 @@ const Header = () => {
                     </div>
                   </div>
                 </Link>
-                <a className="action-btn top-menu__btn" href="#">
+                <Link className="action-btn top-menu__btn" href="/me/favourites">
                   <div className="action-btn__count">39</div>
                   <div className="action-btn__content">
                     <div className="action-btn__icon">
                       <StarIcon />
                     </div>
                   </div>
-                </a>
+                </Link>
 
                 {!user ? (
                   <>
-                    <a className="action-btn action-btn_red top-menu__btn" href="#">
+                    <Link className="action-btn action-btn_red top-menu__btn" href="#">
                       <div className="action-btn__count">1</div>
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <WalletIcon />
                         </div>
                       </div>
-                    </a>
+                    </Link>
                     <div className={cns('action-btn top-menu__btn', balanceDropdown && 'active')}>
                       <button
                         className="action-btn__content"
@@ -194,13 +202,20 @@ const Header = () => {
                               <button
                                 className={cns(
                                   'theme-btn__btn theme-btn__btn_black',
-                                  theme === 'dark' && active,
+                                  theme === 'dark' && 'active',
                                 )}
+                                onClick={setDarkTheme}
                               >
                                 <DarkThemeIcon />
                                 <span>Тёмная</span>
                               </button>
-                              <button className="theme-btn__btn theme-btn__btn_white">
+                              <button
+                                className={cns(
+                                  'theme-btn__btn theme-btn__btn_white',
+                                  theme === 'light' && 'active',
+                                )}
+                                onClick={setLightTheme}
+                              >
                                 <LightThemeIcon />
                                 <span>Светлая</span>
                               </button>
@@ -254,38 +269,36 @@ const Header = () => {
           </div>
           <ul className="menu-mob__links links-profile">
             <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
+              <Link className="links-profile__link" href="/">
                 Главная
-              </a>
+              </Link>
             </li>
             <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
+              <Link className="links-profile__link" href="/#reviews">
                 Отзывы
-              </a>
+              </Link>
             </li>
             <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
+              <Link className="links-profile__link" href="/#faq">
                 Ответы на вопросы
-              </a>
+              </Link>
             </li>
-            <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
-                Договор оферты
-              </a>
-            </li>
+            {customPages.map((x, idx) => (
+              <li className="links-profile__el" key={idx}>
+                <Link className="links-profile__link" href={`/${x[1]}`} key={idx}>
+                  {x[0]}
+                </Link>
+              </li>
+            ))}
           </ul>
           <div className="menu-mob__footer">
             <div className="pay-info">
               <div className="pay-info__title">Принимаем к оплате</div>
-              <div className="pay-info__el pay-info-el">
-                <img className="pay-info-el__img" src="/img/pay/1.svg" alt="" />
-              </div>
-              <div className="pay-info__el pay-info-el">
-                <img className="pay-info-el__img" src="/img/pay/2.svg" alt="" />
-              </div>
-              <div className="pay-info__el pay-info-el">
-                <img className="pay-info-el__img" src="/img/pay/3.svg" alt="" />
-              </div>
+              {paymentsMethods.map((pay, idx) => (
+                <div className="pay-info__el pay-info-el" key={pay.id}>
+                  <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                </div>
+              ))}
             </div>
             <div className="menu-mob__text">© 2023 RuPlayShop</div>
           </div>
@@ -324,11 +337,20 @@ const Header = () => {
           <div className="profile-mob__theme">
             <div className="action-btn__dropdown-title">Тема</div>
             <div className="theme-btn">
-              <button className="theme-btn__btn theme-btn__btn_black active" onClick={setDarkTheme}>
+              <button
+                className={cns('theme-btn__btn theme-btn__btn_black', theme === 'dark' && 'active')}
+                onClick={setDarkTheme}
+              >
                 <DarkThemeIcon />
                 <span>Тёмная</span>
               </button>
-              <button className="theme-btn__btn theme-btn__btn_white" onClick={setLightTheme}>
+              <button
+                className={cns(
+                  'theme-btn__btn theme-btn__btn_white',
+                  theme === 'light' && 'active',
+                )}
+                onClick={setLightTheme}
+              >
                 <LightThemeIcon />
                 <span>Светлая</span>
               </button>
@@ -372,18 +394,18 @@ const Header = () => {
               <MobNavSupportIcon />
             </div>
           </button>
-          <a className="mobile-navi__el act-mob" href="#">
+          <Link className="mobile-navi__el act-mob" href="/me/favourites">
             <div className="act-mob__count act-mob__count_black">39</div>
             <div className="act-mob__icon">
               <MobNavStarIcon />
             </div>
-          </a>
-          <a className="mobile-navi__el act-mob" href="#">
+          </Link>
+          <Link className="mobile-navi__el act-mob" href="/me/orders">
             <div className="act-mob__count">1</div>
             <div className="act-mob__icon">
               <MobNavWalletIcon />
             </div>
-          </a>
+          </Link>
           <button
             className={cns('mobile-navi__el act-mob', modal === 'profile-mob' && 'active')}
             onClick={() => {

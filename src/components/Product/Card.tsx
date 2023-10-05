@@ -1,18 +1,24 @@
 import cns from 'classnames'
+import { useRouter } from 'next/router'
 
 import { IPopularProduct } from '@/core/interface/Product'
 import { formatPrice } from '@/core/utils'
 
-import { CardIcon, Star16Icon } from '../Ui'
+import { CartIcon, Star16Icon } from '../Ui'
 
 interface IProductCard extends IPopularProduct {}
 
 export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
   const isFavourited = false
+  const router = useRouter()
+
+  const handleOrderClick = () => {
+    router.push(`/order?id=${item.id}`)
+  }
 
   return (
-    <div className="products-el">
-      {/* <img className="products-el__img" src="/img/pr_bg.jpg" alt="" /> */}
+    <div className="products-el" onClick={handleOrderClick}>
+      <img className="products-el__img" src={item.icon} alt="" />
       <div className="products-el__content">
         <div className="products-el__cat cat-info">
           <img className="cat-info__icon" src="/img/cat/heartstone.svg" alt="" />
@@ -24,13 +30,15 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
         <div className="products-el__bottom">
           <div className="products-el__cost pr-cost">
             <div className="pr-cost__new">{formatPrice(item.price.salePrice)}</div>
-            <div className="pr-cost__old">{formatPrice(item.price.price)}</div>
+            {item.price.salePrice !== item.price.price && (
+              <div className="pr-cost__old">{formatPrice(item.price.price)}</div>
+            )}
           </div>
-          <div className="products-el__acts">
+          <div className="products-el__acts" onClick={(e) => e.stopPropagation()}>
             <button className="action-btn action-btn_bg action-btn_small products-el__acts-el">
-              <div className="action-btn__content">
+              <div className="action-btn__content" onClick={handleOrderClick}>
                 <div className="action-btn__icon">
-                  <CardIcon />
+                  <CartIcon />
                 </div>
               </div>
             </button>

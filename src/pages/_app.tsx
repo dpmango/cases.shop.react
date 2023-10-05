@@ -1,6 +1,7 @@
 import '@/assets/styles/app.scss'
 
 import Head from 'next/head'
+import NextNProgress from 'nextjs-progressbar'
 import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -19,6 +20,7 @@ function APP({ Component, pageProps }: any) {
         />
       </Head>
 
+      <NextNProgress />
       <Component {...pageProps} />
       <ToastContainer />
     </Provider>

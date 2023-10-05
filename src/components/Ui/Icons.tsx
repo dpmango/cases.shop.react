@@ -914,7 +914,7 @@ export const EmailPLusIcon = () => (
   </svg>
 )
 
-export const CardIcon = () => (
+export const CartIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M15 1L11.5204 10.8675C11.3961 11.247 11.0233 11.5 10.6505 11.5H3.93986C3.56705 11.5 3.19424 11.247 3.06997 10.8675L1.08163 5.1747C0.957357 4.92169 0.957356 4.54217 1.2059 4.28916C1.33017 4.03615 1.70298 3.90964 1.95153 3.90964H14.0058"
