@@ -13,6 +13,7 @@ export interface IResolver {
   homepageData?: IHomePageDto
   productData?: any
   categoryData?: IProductCategory
+  pageData?: any
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -39,6 +40,7 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
   let popularData: IPopularProduct[] = []
   let homepageData: IHomePageDto | null = null
   let categoryData: IProductCategory | null = null
+  let pageData: any | null = null
 
   const PRELOADED_STATE = {
     sessionState: {
@@ -98,7 +100,10 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
             break
           case 'category':
             categoryData = data || null
-
+            break
+          case 'page':
+            pageData = data || null
+            break
           case 'products':
             PRELOADED_STATE.productState = {
               ...PRELOADED_STATE.productState,
@@ -134,6 +139,10 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
 
   if (homepageData) {
     returnatble['homepageData'] = homepageData
+  }
+
+  if (pageData) {
+    returnatble['pageData'] = pageData
   }
 
   return returnatble

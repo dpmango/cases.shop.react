@@ -1,11 +1,13 @@
-import type { GetServerSideProps } from 'next'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
-import { getMainPage, initializeApp } from '@/core/api'
+import { LayoutGeneral } from '@/components/Layout'
+import { getMainPage, getStaticPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
   const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const pageSlug = context.params?.slug as string
 
   // Управление запросами страниц
   const promisesToBeFetched = [
@@ -20,20 +22,29 @@ export const getServerSideProps = (async (context) => {
       name: 'homepage',
       resolver: getMainPage({ shopId }),
     },
+    {
+      name: 'page',
+      resolver: getStaticPage({ shopId, id: pageSlug }),
+    },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched)
+  const { PRELOADED_STATE, pageData } = await Resolver(shopId, promisesToBeFetched)
 
   return {
     props: {
       PRELOADED_STATE,
+      pageData,
     },
   }
 }) satisfies GetServerSideProps<IResolver>
 
-export default function Policy() {
+export default function SlugPage({
+  pageData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log({ pageData })
+
   return (
-    <>
+    <LayoutGeneral>
       <div className="padding-top"></div>
       <section className="sec-page sec-offer">
         <div className="container-def">
@@ -188,6 +199,6 @@ export default function Policy() {
           </div>
         </div>
       </section>
-    </>
+    </LayoutGeneral>
   )
 }

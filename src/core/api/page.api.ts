@@ -23,7 +23,7 @@ export interface IGetStaticPagePayload extends IReqId {
 }
 
 export const getStaticPage = async ({ shopId, id }: IGetStaticPagePayload) => {
-  const data = await api(`${process.env.BACKEND_URL}custom_page`, {
+  const data = await api(`${process.env.BACKEND_OLD_URL}custom_page`, {
     params: {
       shopId,
       ID: id,
