@@ -8,7 +8,7 @@ import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
-import { getMainPage, initializeApp } from '@/core/api'
+import { authCheckUser, getMainPage, initializeApp } from '@/core/api'
 import { useTelegramAuth } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -63,14 +63,25 @@ export default function Page() {
     return errors
   }, [])
 
-  const handleSubmit = useCallback((values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
-    setTimeout(() => {
-      setSubmitting(false)
+  const handleSubmit = useCallback(
+    async (values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
+      const { status, error } = await authCheckUser({
+        shopId,
+        email: values.email,
+      })
+
       setCookie('loginEmail', values.email)
       setCookie('authSignupStep', 1)
-      router.push('/auth/login')
-    }, 400)
-  }, [])
+      setSubmitting(false)
+
+      if (error) {
+        router.push('/auth/signup')
+      } else {
+        router.push('/auth/login')
+      }
+    },
+    [],
+  )
 
   return (
     <LayoutGeneral>

@@ -837,7 +837,7 @@ export const SuccessIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect width="40" height="40" rx="20" fill="#1F9C56" fill-opacity="0.2" />
+    <rect width="40" height="40" rx="20" fill="#1F9C56" fillOpacity="0.2" />
     <path
       d="M11.25 21.6748L14.8958 26.7718C15.1875 27.2087 15.625 27.5 16.0625 27.5C16.5 27.5 17.0833 27.3544 17.375 26.9175L28.75 12.5"
       stroke="#2AB969"

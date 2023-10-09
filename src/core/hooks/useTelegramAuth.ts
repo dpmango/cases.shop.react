@@ -20,12 +20,21 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
   const refreshWatcher = useCallback(() => {
     const updateSession = async () => {
       const refreshToken = getCookie('refresh_token')
+
       if (!refreshToken) return
       const { data, error } = await userAuthRefresh()
 
       if (data) {
         setCookie('access_token', data?.access_token)
+        setCookie('refresh_token', data?.refresh_token)
       }
+
+      // if (error) {
+      //   deleteCookie('access_token')
+      //   deleteCookie('refresh_token')
+
+      //   window && window.location.reload()
+      // }
     }
 
     updateSession()
@@ -51,7 +60,6 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
         setCookie('refresh_token', data.refresh_token)
 
         const { payload } = await dispatch(getProfileThunk())
-        console.log({ payload })
         if (!payload) throw new Error()
       }
     } catch (err) {

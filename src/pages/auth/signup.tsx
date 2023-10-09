@@ -4,7 +4,7 @@ import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
@@ -20,6 +20,8 @@ import {
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
+import { setModal } from '@/core/store/ui.store'
+import { secondsToStamp } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
   const { shopId, parsedSiteHost } = await DomainResolver(context)
@@ -56,7 +58,7 @@ export default function Page() {
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const [stage, setStage] = useState(1)
-
+  const dispatch = useAppDispatch()
   const router = useRouter()
 
   const initialValues = { password: '' }
@@ -70,6 +72,21 @@ export default function Page() {
     }
     return errors
   }, [])
+
+  const resendEmail = useCallback(async () => {
+    const cookieEmail = getCookie('loginEmail')
+
+    if (!cookieEmail) {
+      router.push('/auth')
+      return
+    }
+
+    const { data, error } = await authRequestConfirm({ shopId, email: cookieEmail })
+
+    if (data) {
+      setRepeatTime(60)
+    }
+  }, [shopId])
 
   const handleSubmit = useCallback(
     async (values: IForm, { setSubmitting, setFieldError }: FormikHelpers<IForm>) => {
@@ -92,14 +109,15 @@ export default function Page() {
       }
 
       if (data) {
-        await authRequestConfirm({ shopId, email: cookieEmail })
+        await resendEmail()
+
         setCookie('authSignupStep', 2)
         setStage(2)
       }
 
       setSubmitting(false)
     },
-    [],
+    [shopId],
   )
 
   const resetEmail = useCallback(() => {
@@ -114,6 +132,31 @@ export default function Page() {
       setStage(+stepCookie)
     }
   }, [])
+
+  const timer: { current: NodeJS.Timeout | null } = useRef(null)
+  const [repeatTime, setRepeatTime] = useState(60)
+
+  useEffect(() => {
+    if (stage !== 2) {
+      setRepeatTime(60)
+      return
+    }
+
+    const updateTime = () => {
+      setRepeatTime((prev) => {
+        let next = prev - 1
+        if (next <= 0) next = 0
+        return next
+      })
+    }
+
+    updateTime()
+    timer.current = setInterval(updateTime, 1000)
+
+    return () => {
+      clearInterval(timer.current as NodeJS.Timeout)
+    }
+  }, [stage])
 
   return (
     <LayoutGeneral>
@@ -193,36 +236,39 @@ export default function Page() {
                   <div className="title-def title-def_m title-def_small">
                     Письмо так и не пришло?
                   </div>
-                  <div className="countdown mb-2">
-                    <span>
-                      Отправить ещё раз через <span className="countdown__time"> 5:43</span>
-                    </span>
-                  </div>
-                  <button className="btn-def btn-def_full btn-def_min mb-2">
+                  {repeatTime > 0 ? (
+                    <div className="countdown mb-2">
+                      <span>
+                        Отправить ещё раз через{' '}
+                        <span className="countdown__time">{secondsToStamp(repeatTime)}</span>
+                      </span>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn-def btn-def_full btn-def_min mb-2"
+                      onClick={resendEmail}
+                    >
+                      <span>Отправить новое письмо</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className="btn-def btn-def_full btn-def_min mb-2"
+                    onClick={() => {
+                      dispatch(setModal({ name: 'support' }))
+                    }}
+                  >
                     <span>Написать в поддержку</span>
                   </button>
-                  <button className="btn-def btn-def_full btn-def_min" onClick={resetEmail}>
+                  <button
+                    type="button"
+                    className="btn-def btn-def_full btn-def_min"
+                    onClick={resetEmail}
+                  >
                     <span>Указать другую почту</span>
                   </button>
-                </div>
-              )}
-
-              {/* success */}
-              {stage === 3 && (
-                <div className="block-form">
-                  <div className="block-form__title title-def title-def_sec">Регистрация</div>
-                  <div className="form-info block-form__info">
-                    <SuccessIcon />
-                    <div className="form-info__body">
-                      <div className="form-info__text text-cat">
-                        Вы успешно подтвердили свою электронную почту. Теперь можете совершать
-                        покупки и пополнять баланс.
-                      </div>
-                    </div>
-                  </div>
-                  <Link className="block-form__btn btn-def btn-def_full btn-def_min" href="/">
-                    <span>На главную</span>
-                  </Link>
                 </div>
               )}
             </div>

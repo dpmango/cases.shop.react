@@ -71,10 +71,6 @@ export interface IAuthDto {
 // Profile
 export interface IProfileDto {
   balance: number
-  bonusBalance: number
-  id: number
-  is_admin: 1 | 0
-  orders: IOrderDto[]
-  status: boolean
-  userName: string | null
+  id: string
+  email: string
 }

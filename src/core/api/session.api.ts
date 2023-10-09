@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next'
 
-import type { IApiResponse, IReqId } from '@/core/interface/Api'
+import type { IApiResponse, IBooleanResponse, IReqId } from '@/core/interface/Api'
 import type {
   IAuthDto,
   IInitDataDto,
@@ -58,6 +58,23 @@ export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
   return { data: raw, error }
 }
 
+// Проверка юзера (роутинг куда направлять)
+export interface IAuthCheckUser extends IReqId {
+  email: string
+}
+
+export const authCheckUser = async ({ shopId, email }: IAuthCheckUser) => {
+  const { error, status }: IApiResponse<IBooleanResponse> = await api(`auth/check-user`, {
+    method: 'POST',
+    body: {
+      shopId,
+      email: email.toLowerCase(),
+    },
+  })
+
+  return { status, error }
+}
+
 // Логин
 export interface IAuthLogin extends IReqId {
   email: string
@@ -69,7 +86,7 @@ export const authLogin = async ({ shopId, email, password }: IAuthLogin) => {
     method: 'POST',
     body: {
       shopId,
-      email,
+      email: email.toLowerCase(),
       password,
     },
   })
@@ -88,7 +105,7 @@ export const authSignup = async ({ shopId, email, password }: IAuthSignup) => {
     method: 'POST',
     body: {
       shopId,
-      email,
+      email: email.toLowerCase(),
       password,
     },
   })
@@ -102,11 +119,11 @@ export interface IAuthRequestConfirm extends IReqId {
 }
 
 export const authRequestConfirm = async ({ shopId, email }: IAuthRequestConfirm) => {
-  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/request-confirm`, {
+  const { error, raw }: IApiResponse<IBooleanResponse> = await api(`auth/request-confirm`, {
     method: 'POST',
     body: {
       shopId,
-      email,
+      email: email.toLowerCase(),
     },
   })
 
@@ -125,7 +142,7 @@ export const authConfirmEmail = async ({ shopId, token, email }: IAuthConfirmEma
     body: {
       shopId,
       token,
-      email,
+      email: email.toLowerCase(),
     },
   })
 
@@ -141,7 +158,7 @@ export const authRecover = async ({ shopId, email }: IAuthRecover) => {
     method: 'POST',
     body: {
       shopId,
-      email,
+      email: email.toLowerCase(),
     },
   })
 
@@ -160,7 +177,7 @@ export const authResetConfirm = async ({ shopId, token, email }: IAuthResetConfi
     body: {
       shopId,
       token,
-      email,
+      email: email.toLowerCase(),
     },
   })
 
@@ -169,7 +186,7 @@ export const authResetConfirm = async ({ shopId, token, email }: IAuthResetConfi
 
 // Auth refresh
 export const userAuthRefresh = async () => {
-  const refreshToken = getCookie('access_token')
+  const refreshToken = getCookie('refresh_token')
 
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/refresh`, {
     headers: {
@@ -182,14 +199,7 @@ export const userAuthRefresh = async () => {
 
 // Profile
 export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api(
-    `${process.env.BACKEND_OLD_URL}profile/get`,
-    {
-      params: {
-        imagefrombot: process.env.VITE_USE_BOT_IMAGE || 'false',
-      },
-    },
-  )
+  const { error, raw }: IApiResponse<IProfileDto> = await api(`user`, {})
 
   return { data: raw, error }
 }

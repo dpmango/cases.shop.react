@@ -27,7 +27,9 @@ import {
 import { useEventListener, useScrollLock } from '@/core/hooks'
 import { IProfileDto } from '@/core/interface/Initialization'
 import { useAppDispatch, useAppSelector } from '@/core/store'
+import { resetState } from '@/core/store/session.store'
 import { setMobileMenu, setModal } from '@/core/store/ui.store'
+import { formatPrice } from '@/core/utils'
 
 const Header = () => {
   const [theme, setTheme] = useState<string>(getCookie('theme') || 'dark')
@@ -60,6 +62,10 @@ const Header = () => {
 
     setTheme('light')
     setCookie('theme', 'light')
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    dispatch(resetState())
   }, [])
 
   // scroll functions
@@ -157,7 +163,7 @@ const Header = () => {
                   </div>
                 </Link>
 
-                {!user ? (
+                {user ? (
                   <>
                     <Link className="action-btn action-btn_red top-menu__btn" href="/my/orders">
                       <div className="action-btn__count">1</div>
@@ -185,7 +191,7 @@ const Header = () => {
                             <div className="action-btn__dropdown-title">Баланс</div>
                             <Wallet2Icon />
                           </div>
-                          <div className="balance-info__cost">25 045,62 ₽</div>
+                          <div className="balance-info__cost">{formatPrice(user.balance)}</div>
                           <button
                             className="balance-info__btn btn-def btn-def_full btn-modal"
                             onClick={() => {
@@ -225,7 +231,11 @@ const Header = () => {
                             <a className="action-btn__dropdown-link" href="#">
                               Сменить пароль
                             </a>
-                            <a className="action-btn__dropdown-link" href="#">
+                            <a
+                              className="action-btn__dropdown-link"
+                              href="#"
+                              onClick={handleLogout}
+                            >
                               Выйти
                             </a>
                           </div>
@@ -285,7 +295,7 @@ const Header = () => {
             </li>
             {customPages.map((x, idx) => (
               <li className="links-profile__el" key={idx}>
-                <Link className="links-profile__link" href={`/${x[1]}`} key={idx}>
+                <Link className="links-profile__link" href={`/page/${x[1]}`} key={idx}>
                   {x[0]}
                 </Link>
               </li>

@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
               <div className="sec-footer__text">© 2023 RuPlayShop</div>
 
               {customPages.map((x, idx) => (
-                <Link className="sec-footer__text" href={`/${x[1]}`} key={idx}>
+                <Link className="sec-footer__text" href={`/page/${x[1]}`} key={idx}>
                   {x[0]}
                 </Link>
               ))}

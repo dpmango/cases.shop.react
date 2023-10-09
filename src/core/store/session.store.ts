@@ -119,6 +119,7 @@ export const sessionState = createSlice({
   initialState: initialSessionState,
   reducers: {
     resetState(state, action: PayloadAction) {
+      state.user = null
       deleteCookie('access_token')
       deleteCookie('refresh_token')
     },
@@ -134,7 +135,15 @@ export const sessionState = createSlice({
           }
         }
       },
-    )
+    ),
+      builder.addCase(
+        getProfileThunk.fulfilled,
+        (state, action: PayloadAction<IProfileDto | null>) => {
+          if (action.payload) {
+            state.user = { ...action.payload }
+          }
+        },
+      )
   },
 })
 

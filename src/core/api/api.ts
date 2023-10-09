@@ -12,6 +12,7 @@ interface IRequestOptions {
 }
 
 interface IApiResult {
+  status: boolean
   data: any | null
   raw: any | null
   error: any | null
@@ -24,7 +25,6 @@ export const api = async (
 ): Promise<IApiResult> => {
   try {
     const accessToken = getCookie('access_token')
-    // || ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdG9yZV91c2VyIiwidXNlcl9pZCI6IjMyMzIzNzA0MSIsInNob3BfaWQiOiJpdFNub2JvZHlfYm90IiwiaXNfYWRtaW4iOiIwIiwiZXhwIjoxNjg4OTEyNzk2LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMyNy8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo0NDMyNy8ifQ.kwXmZ_cCetB3NAPqUhFDBy4f1MHnAsz6mgPiCkVYI30')
 
     const requestOptions = {
       method,
@@ -61,7 +61,7 @@ export const api = async (
     console.log(`👌 fetch ${url} in ${(DEV_perf_end - DEV_perf_start).toFixed(2)} ms`, data)
 
     if (status === true || status === undefined) {
-      return { data, raw, message: msg, error: null }
+      return { data, raw, message: msg, status, error: null }
     } else {
       const fetchWithNoResponse = new Error(msg)
       // @ts-ignore
@@ -112,6 +112,6 @@ export const api = async (
 
     console.log(`❌ Request Error ${url}`, error)
 
-    return { data: null, message: null, raw: null, error }
+    return { status: false, data: null, message: null, raw: null, error }
   }
 }

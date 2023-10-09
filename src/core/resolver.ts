@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, PreviewData } from 'next'
 
-import { getWhois } from '@/core/api'
+import { getProfile, getWhois } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { IHomePageDto } from '@/core/interface/Homepage'
 import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
@@ -92,6 +92,12 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
               customPages: data.pages || [],
             }
             break
+          // case 'profile':
+          //   PRELOADED_STATE.sessionState = {
+          //     ...PRELOADED_STATE.sessionState,
+          //     user: data,
+          //   }
+          //   break
           case 'popular':
             popularData = data
             break

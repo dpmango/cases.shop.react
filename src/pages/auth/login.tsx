@@ -13,6 +13,7 @@ import { authLogin, getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
+import { getProfileThunk } from '@/core/store/session.store'
 
 export interface IForm {
   password: string
@@ -49,6 +50,7 @@ export default function Page() {
   const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const initialValues = { password: '' }
 
@@ -79,11 +81,22 @@ export default function Page() {
       })
 
       if (error) {
-        setFieldError('password', error.message)
+        if (error.message === 'request-confirm') {
+          setCookie('authSignupStep', 2)
+          router.push('/auth/signup')
+        } else {
+          setFieldError('password', error.message)
+        }
       }
 
       if (data) {
-        console.log({ data })
+        setCookie('access_token', data.access_token)
+        setCookie('refresh_token', data.refresh_token)
+
+        const { payload } = await dispatch(getProfileThunk())
+        if (!payload) throw new Error()
+
+        router.push('/')
       }
 
       setSubmitting(false)

@@ -13,6 +13,7 @@ export interface IError {
 }
 
 export interface IApiResponse<T> {
+  status: boolean
   data: T | null
   error: IError | null
   raw: T
@@ -37,4 +38,9 @@ export interface IPromiseFactory {
     redirectTo?: string
     fatal?: boolean
   }
+}
+
+export interface IBooleanResponse {
+  status: boolean
+  msg?: string
 }
