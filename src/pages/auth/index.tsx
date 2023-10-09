@@ -1,4 +1,5 @@
 import cns from 'classnames'
+import { setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -65,6 +66,8 @@ export default function Page() {
   const handleSubmit = useCallback((values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
     setTimeout(() => {
       setSubmitting(false)
+      setCookie('loginEmail', values.email)
+      setCookie('authSignupStep', 1)
       router.push('/auth/login')
     }, 400)
   }, [])

@@ -1,4 +1,5 @@
 import type { GetServerSideProps } from 'next'
+import Link from 'next/link'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { SuccessIcon } from '@/components/Ui'
@@ -87,9 +88,9 @@ export default function Page() {
                     </div>
                   </div>
                 </div>
-                <a className="block-form__btn btn-def btn-def_full btn-def_min" href="#">
+                <Link className="block-form__btn btn-def btn-def_full btn-def_min" href="/">
                   <span>На главную</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

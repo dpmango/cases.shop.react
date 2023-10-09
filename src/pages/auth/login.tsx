@@ -1,4 +1,5 @@
 import cns from 'classnames'
+import { getCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
@@ -8,7 +9,7 @@ import { useCallback } from 'react'
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon } from '@/components/Ui'
-import { getMainPage, initializeApp } from '@/core/api'
+import { authLogin, getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -55,18 +56,40 @@ export default function Page() {
     const errors = {} as { [key: string]: string }
     if (!values.password) {
       errors.password = 'Введите пароль'
-    } else if (values.password.length < 6) {
-      errors.password = 'Пароль должен содержать минимум 6 символов'
+    } else if (values.password.length < 5) {
+      errors.password = `Ваш пароль должен содержать минимум 5 символов. Сейчас вы используете только ${values.password.length}.`
     }
     return errors
   }, [])
 
-  const handleSubmit = useCallback((values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
-    setTimeout(() => {
+  const handleSubmit = useCallback(
+    async (values: IForm, { setSubmitting, setFieldError }: FormikHelpers<IForm>) => {
+      const cookieEmail = getCookie('loginEmail')
+
+      if (!cookieEmail) {
+        router.push('/auth')
+        setSubmitting(false)
+        return
+      }
+
+      const { data, error } = await authLogin({
+        shopId,
+        email: cookieEmail,
+        password: values.password,
+      })
+
+      if (error) {
+        setFieldError('password', error.message)
+      }
+
+      if (data) {
+        console.log({ data })
+      }
+
       setSubmitting(false)
-      router.push('/auth/signup')
-    }, 400)
-  }, [])
+    },
+    [],
+  )
 
   return (
     <LayoutGeneral>
@@ -110,12 +133,7 @@ export default function Page() {
                         />
                       </div>
                       {errors.password && touched.password && (
-                        <AuthErrorMessage
-                          title="Неверный пароль"
-                          message={
-                            'Попробуйте еще раз или воспользуйтесь функцией восстановления пароля.'
-                          }
-                        >
+                        <AuthErrorMessage title="Ошибка" message={errors.password}>
                           <Link href="/auth/recover">
                             <button className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black">
                               <span>Восстановить пароль</span>

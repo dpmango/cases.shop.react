@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 
-import { getOrders, getProfile, initializeApp } from '@/core/api/session.api'
+import { getProfile, initializeApp } from '@/core/api/session.api'
 import { IInitDataDto, IProfileDto, ISettingsDto } from '@/core/interface/Initialization'
 import { IOrderDto } from '@/core/interface/Order'
 
@@ -57,15 +57,6 @@ export const getProfileThunk = createAsyncThunk('session/getProfileThunk', async
 
   return data
 })
-
-// export const getOrdersThunk = createAsyncThunk(
-//   'session/getOrdersThunk',
-//   async ({ shopId }: { shopId: string }) => {
-//     const { data } = await getOrders({ shopId })
-
-//     return data
-//   },
-// )
 
 const updateByDataType = (state: any, action: PayloadAction<{ key: string; data: any }>) => {
   if (Array.isArray(action.payload.data)) {
@@ -144,35 +135,9 @@ export const sessionState = createSlice({
         }
       },
     )
-    // builder.addCase(
-    //   getProfileThunk.fulfilled,
-    //   (state, action: PayloadAction<IProfileDto | null>) => {
-    //     if (action.payload) {
-    //       state.user = { ...action.payload }
-    //     }
-    //   },
-    // )
-    // builder.addCase(
-    //   getOrdersThunk.fulfilled,
-    //   (state, action: PayloadAction<IOrderDto[] | null>) => {
-    //     if (action.payload) {
-    //       state.lastPurchases = [...action.payload]
-    //     }
-    //   },
-    // )
   },
 })
 
 export const { resetState, updateAnyState } = sessionState.actions
 
 export default sessionState.reducer
-
-// TODO - mapping
-// Object.keys(action.payload).forEach((key) => {
-//   // @ts-ignore
-//   const dataValue = action.payload[key]
-//   updateByDataType(state, {
-//     payload: { key, data: dataValue },
-//     type: '',
-//   })
-// })

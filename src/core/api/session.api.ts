@@ -41,20 +41,6 @@ export const initializeApp = async ({ shopId }: ISettingsPayload) => {
   return { data: raw, error }
 }
 
-// Orders
-export interface IOrdersPayload extends IReqId {}
-
-export const getOrders = async ({ shopId }: IOrdersPayload) => {
-  const { error, raw }: IApiResponse<{ orders: IOrderDto[] }> = await api(
-    `${process.env.BACKEND_OLD_URL}orders`,
-    {
-      params: { shopId },
-    },
-  )
-
-  return { data: raw?.orders, error }
-}
-
 // Auth (авторизация от ТГ)
 export interface IAuthPayload extends IReqId {
   user: ITelegramAuthDto
@@ -66,6 +52,115 @@ export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
     body: {
       shop_id: shopId,
       user,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Логин
+export interface IAuthLogin extends IReqId {
+  email: string
+  password: string
+}
+
+export const authLogin = async ({ shopId, email, password }: IAuthLogin) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/login`, {
+    method: 'POST',
+    body: {
+      shopId,
+      email,
+      password,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Регистрация
+export interface IAuthSignup extends IReqId {
+  email: string
+  password: string
+}
+
+export const authSignup = async ({ shopId, email, password }: IAuthSignup) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/signup`, {
+    method: 'POST',
+    body: {
+      shopId,
+      email,
+      password,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Запросить email
+export interface IAuthRequestConfirm extends IReqId {
+  email: string
+}
+
+export const authRequestConfirm = async ({ shopId, email }: IAuthRequestConfirm) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/request-confirm`, {
+    method: 'POST',
+    body: {
+      shopId,
+      email,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Подтвердить email
+export interface IAuthConfirmEmail extends IReqId {
+  token: string
+  email: string
+}
+
+export const authConfirmEmail = async ({ shopId, token, email }: IAuthConfirmEmail) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/confirm-email`, {
+    method: 'POST',
+    body: {
+      shopId,
+      token,
+      email,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+export interface IAuthRecover extends IReqId {
+  email: string
+}
+
+export const authRecover = async ({ shopId, email }: IAuthRecover) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/recover`, {
+    method: 'POST',
+    body: {
+      shopId,
+      email,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Подтверждение восстановления
+export interface IAuthResetConfirm extends IReqId {
+  token: string
+  email: string
+}
+
+export const authResetConfirm = async ({ shopId, token, email }: IAuthResetConfirm) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/reset-confirm-email`, {
+    method: 'POST',
+    body: {
+      shopId,
+      token,
+      email,
     },
   })
 
