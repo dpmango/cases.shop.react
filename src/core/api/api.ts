@@ -55,6 +55,7 @@ export const api = async (
     }
 
     const DEV_perf_start = performance.now()
+
     const { data, msg, status, errorCode, ...raw } = await ofetch(requestUrl, requestOptions)
     const DEV_perf_end = performance.now()
 
