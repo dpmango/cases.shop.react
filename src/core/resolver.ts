@@ -20,9 +20,8 @@ export const DomainResolver = async (context: GetServerSidePropsContext<any, Pre
   // const cookieStore = cookies()
 
   // const accessToken = cookieStore.get('access_token')
-
-  console.log({ headers: context.req.rawHeaders })
-  let parsedSiteHost = context.req.rawHeaders[1]
+  const hostIndex = context.req.rawHeaders.findIndex((x) => x === 'Host') + 1
+  let parsedSiteHost = context.req.rawHeaders[hostIndex]
   if (parsedSiteHost?.includes('localhost')) {
     parsedSiteHost = 'nobody.su'
   }
