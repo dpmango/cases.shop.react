@@ -9,7 +9,7 @@ import { useCallback } from 'react'
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon } from '@/components/Ui'
-import { authLogin, getMainPage, initializeApp } from '@/core/api'
+import { authLogin, authRequestConfirm, getMainPage, initializeApp } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -83,6 +83,7 @@ export default function Page() {
       if (error) {
         if (error.message === 'request-confirm') {
           setCookie('authSignupStep', 2)
+          authRequestConfirm({ shopId, email: cookieEmail })
           router.push('/auth/signup')
         } else {
           setFieldError('password', error.message)
@@ -145,13 +146,17 @@ export default function Page() {
                           value={values.password}
                         />
                       </div>
-                      {errors.password && touched.password && (
+                      {errors.password && (
                         <AuthErrorMessage title="Ошибка" message={errors.password}>
-                          <Link href="/auth/recover">
-                            <button className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black">
-                              <span>Восстановить пароль</span>
-                            </button>
-                          </Link>
+                          <>
+                            {errors.password === 'invalid-password' && (
+                              <Link href="/auth/recover">
+                                <button className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black">
+                                  <span>Восстановить пароль</span>
+                                </button>
+                              </Link>
+                            )}
+                          </>
                         </AuthErrorMessage>
                       )}
 

@@ -200,13 +200,7 @@ export default function Page() {
                           />
                         </div>
                         {errors.password && touched.password && (
-                          <AuthErrorMessage title="Ошибка" message={errors.password}>
-                            <Link href="/auth/recover">
-                              {/* <button className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black">
-                              <span>Восстановить пароль</span>
-                            </button> */}
-                            </Link>
-                          </AuthErrorMessage>
+                          <AuthErrorMessage title="Ошибка" message={errors.password} />
                         )}
                         <div className="form-el__textbottom text-cat text-cat_small">
                           Минимум 5 символов

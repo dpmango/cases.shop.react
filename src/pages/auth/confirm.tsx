@@ -52,7 +52,7 @@ export default function Page() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = useCallback(async (payload: IAuthConfirmEmail) => {
+  const handleConfirm = useCallback(async (payload: IAuthConfirmEmail) => {
     const { data, error } = await authConfirmEmail(payload)
 
     if (error) setError(error.message)
@@ -77,7 +77,7 @@ export default function Page() {
     const email = params.get('email')
 
     if (token && email) {
-      handleSubmit({
+      handleConfirm({
         shopId,
         token,
         email,

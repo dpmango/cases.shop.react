@@ -61,6 +61,8 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
 
         const { payload } = await dispatch(getProfileThunk())
         if (!payload) throw new Error()
+
+        router.push('/')
       }
     } catch (err) {
       toast.error('Что то пошло не так. Обратитесь к администратору')

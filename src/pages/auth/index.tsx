@@ -1,5 +1,5 @@
 import cns from 'classnames'
-import { setCookie } from 'cookies-next'
+import { deleteCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -72,6 +72,8 @@ export default function Page() {
 
       setCookie('loginEmail', values.email)
       setCookie('authSignupStep', 1)
+      setCookie('authRecoverStep', 1)
+      deleteCookie('resetPassword')
       setSubmitting(false)
 
       if (error) {

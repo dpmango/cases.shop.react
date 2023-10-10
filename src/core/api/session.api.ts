@@ -149,12 +149,13 @@ export const authConfirmEmail = async ({ shopId, token, email }: IAuthConfirmEma
   return { data: raw, error }
 }
 
+// Восстановить пароль
 export interface IAuthRecover extends IReqId {
   email: string
 }
 
 export const authRecover = async ({ shopId, email }: IAuthRecover) => {
-  const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/recover`, {
+  const { error, raw }: IApiResponse<IBooleanResponse> = await api(`auth/recover`, {
     method: 'POST',
     body: {
       shopId,
@@ -169,15 +170,17 @@ export const authRecover = async ({ shopId, email }: IAuthRecover) => {
 export interface IAuthResetConfirm extends IReqId {
   token: string
   email: string
+  password: string
 }
 
-export const authResetConfirm = async ({ shopId, token, email }: IAuthResetConfirm) => {
+export const authResetConfirm = async ({ shopId, token, email, password }: IAuthResetConfirm) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/reset-confirm-email`, {
     method: 'POST',
     body: {
       shopId,
       token,
       email: email.toLowerCase(),
+      password,
     },
   })
 
@@ -189,6 +192,7 @@ export const userAuthRefresh = async () => {
   const refreshToken = getCookie('refresh_token')
 
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/refresh`, {
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
