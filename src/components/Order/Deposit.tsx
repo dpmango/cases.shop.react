@@ -1,23 +1,16 @@
 import cns from 'classnames'
+import Link from 'next/link'
 import { useCallback, useMemo, useState } from 'react'
 
+import { getPayment } from '@/core/api'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { closeModals } from '@/core/store/ui.store'
 import { formatPrice } from '@/core/utils'
 
-import {
-  Close2Icon,
-  Close3Icon,
-  MinusIcon,
-  PayAnypayIcon,
-  PayLavaIcon,
-  PayPaypalIcon,
-  PlusIcon,
-  UiModal,
-} from '../Ui'
+import { Close2Icon, Close3Icon, MinusIcon, PlusIcon, UiModal } from '../Ui'
 
 export const DepositModal: React.FC<{}> = ({}) => {
-  const { paymentsMethods } = useAppSelector((state) => state.sessionState)
+  const { paymentsMethods, id: shopId } = useAppSelector((state) => state.sessionState)
 
   const [sum, setSum] = useState(1000)
   const [selectedPayment, setSelectedPayment] = useState(paymentsMethods[0]?.id)
@@ -61,8 +54,12 @@ export const DepositModal: React.FC<{}> = ({}) => {
     setSum(v)
   }, [sum, stepOnPrice, minMax])
 
-  const handleSubmit = useCallback(() => {
-    window.open('https://google.com')
+  const handleSubmit = useCallback(async () => {
+    const { data } = await getPayment({
+      shopId,
+      sum,
+      paymentId: selectedPayment,
+    })
 
     dispatch(closeModals())
   }, [])
@@ -144,7 +141,10 @@ export const DepositModal: React.FC<{}> = ({}) => {
                       >
                         <div className="payment-choose-el__text text-cat">
                           Выбирая данную платёжную систему, вы соглашаетесь с её политикой{' '}
-                          <a href="#">обработки персональных данных</a>.
+                          <Link href={`/page/${pay.customPageId}`}>
+                            обработки персональных данных
+                          </Link>
+                          .
                         </div>
                       </div>
                     </div>

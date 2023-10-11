@@ -13,9 +13,9 @@ export const getPayment = async ({ shopId, sum, paymentId }: IPaymentPayload) =>
   const { data, error, raw }: IApiResponse<IPaymentDto> = await api(`deposit`, {
     method: 'POST',
     body: {
-      shopId,
+      shopId: shopId,
       sum,
-      paymentId,
+      paymentId: paymentId,
     },
   })
 

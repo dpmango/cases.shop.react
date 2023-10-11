@@ -22,6 +22,7 @@ export interface IPaymentMethod {
   icon: string
   min: number
   max: number
+  customPageId: string
 }
 
 export interface IReviewShort {
