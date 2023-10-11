@@ -72,8 +72,6 @@ export default function Page() {
 
       setCookie('loginEmail', values.email)
       setCookie('authSignupStep', 1)
-      setCookie('authRecoverStep', 1)
-      deleteCookie('resetPassword')
       setSubmitting(false)
 
       if (error) {

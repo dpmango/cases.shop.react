@@ -194,7 +194,7 @@ export const userAuthRefresh = async () => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/refresh`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${refreshToken}`,
+      Authorization: `${refreshToken}`,
     },
   })
 

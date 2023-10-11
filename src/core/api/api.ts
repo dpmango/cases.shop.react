@@ -89,13 +89,12 @@ export const api = async (
       }
     }
 
-    if (err?.status === 5) {
+    if (err?.status === 401) {
       const { data } = await userAuthRefresh()
 
       if (data) {
         setCookie('access_token', data.access_token)
         setCookie('refresh_token', data.refresh_token)
-        console.log('refetch', url, { method, body, params, headers })
         return await api(url, { method, body, params, headers })
       } else {
         deleteCookie('access_token')
