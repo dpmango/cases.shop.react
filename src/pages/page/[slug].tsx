@@ -28,7 +28,7 @@ export const getServerSideProps = (async (context) => {
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE, pageData } = await Resolver(shopId, promisesToBeFetched)
+  const { PRELOADED_STATE, pageData } = await Resolver(shopId, promisesToBeFetched, context)
 
   return {
     props: {

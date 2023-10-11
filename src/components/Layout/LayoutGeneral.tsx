@@ -13,13 +13,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const func = async () => {
-      const accessToken = getCookie('access_token')
-      if (accessToken) await dispatch(getProfileThunk())
-      refreshWatcher()
-    }
+    // const func = async () => {
+    //   const accessToken = getCookie('access_token')
+    //   if (accessToken) await dispatch(getProfileThunk())
+    //   refreshWatcher()
+    // }
 
-    func()
+    refreshWatcher()
   }, [])
 
   return (

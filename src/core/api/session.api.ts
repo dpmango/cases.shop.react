@@ -202,8 +202,18 @@ export const userAuthRefresh = async () => {
 }
 
 // Profile
-export const getProfile = async () => {
-  const { error, raw }: IApiResponse<IProfileDto> = await api(`user`, {})
+export const getProfile = async (token?: string) => {
+  let params = {}
+
+  if (token) {
+    params = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  }
+
+  const { error, raw }: IApiResponse<IProfileDto> = await api(`user`, params)
 
   return { data: raw, error }
 }

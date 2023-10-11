@@ -18,8 +18,6 @@ export interface IResolver {
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
   // const cookieStore = cookies()
-
-  // const accessToken = cookieStore.get('access_token')
   const hostIndex = context.req.rawHeaders.findIndex((x) => x === 'Host') + 1
   let parsedSiteHost = context.req.rawHeaders[hostIndex]
   if (parsedSiteHost?.includes('localhost')) {
@@ -35,7 +33,11 @@ export const DomainResolver = async (context: GetServerSidePropsContext<any, Pre
   return { shopId, parsedSiteHost }
 }
 
-export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFactory[]) => {
+export const Resolver = async (
+  shopId: string,
+  promisesToBeFetched: IPromiseFactory[],
+  context: GetServerSidePropsContext<any, PreviewData>,
+) => {
   let productData
   let popularData: IPopularProduct[] = []
   let homepageData: IHomePageDto | null = null
@@ -51,6 +53,16 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
       ...initialProductState,
     },
   }
+
+  const accessToken = context.req.cookies['access_token']
+
+  promisesToBeFetched = [
+    ...promisesToBeFetched,
+    {
+      name: 'profile',
+      resolver: getProfile(accessToken),
+    },
+  ]
 
   // Выполнение запросов в SSR контексте
   if (promisesToBeFetched.length) {
@@ -92,12 +104,12 @@ export const Resolver = async (shopId: string, promisesToBeFetched: IPromiseFact
               customPages: data.pages || [],
             }
             break
-          // case 'profile':
-          //   PRELOADED_STATE.sessionState = {
-          //     ...PRELOADED_STATE.sessionState,
-          //     user: data,
-          //   }
-          //   break
+          case 'profile':
+            PRELOADED_STATE.sessionState = {
+              ...PRELOADED_STATE.sessionState,
+              user: data,
+            }
+            break
           case 'popular':
             popularData = data
             break

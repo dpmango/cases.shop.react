@@ -33,7 +33,11 @@ export const getServerSideProps = (async (context) => {
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE, popularData, homepageData } = await Resolver(shopId, promisesToBeFetched)
+  const { PRELOADED_STATE, popularData, homepageData } = await Resolver(
+    shopId,
+    promisesToBeFetched,
+    context,
+  )
 
   return {
     props: {
