@@ -7,11 +7,8 @@ import { fetchAuth, userAuthRefresh } from '@/core/api/session.api'
 import { ITelegramAuthDto } from '@/core/interface/Initialization'
 import { useAppDispatch } from '@/core/store'
 import { getProfileThunk } from '@/core/store/session.store'
-export interface IUseTelegramAuth {
-  shopId: string
-}
 
-export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
+export const useTelegramAuth = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
 
@@ -46,7 +43,7 @@ export const useTelegramAuth = ({ shopId }: IUseTelegramAuth) => {
   }, [])
 
   const onAuthSuccess = async (req: ITelegramAuthDto) => {
-    const { data } = await fetchAuth({ shopId, user: req })
+    const { data } = await fetchAuth({ user: req })
 
     try {
       if (data) {

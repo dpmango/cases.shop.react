@@ -2,6 +2,7 @@ import cns from 'classnames'
 import { getCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -9,7 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon } from '@/components/Ui'
-import { authLogin, authRecover, authRequestConfirm, getMainPage, initializeApp } from '@/core/api'
+import { authLogin, authRecover, authRequestConfirm, getMainPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -22,24 +23,17 @@ export interface IForm {
 }
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -49,7 +43,7 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<IResolver>
 
 export default function Page() {
-  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -79,7 +73,6 @@ export default function Page() {
     }
 
     const { data, error } = await authRecover({
-      shopId,
       email: cookieEmail,
     })
 
@@ -100,7 +93,6 @@ export default function Page() {
       }
 
       const { data, error } = await authLogin({
-        shopId,
         email: cookieEmail,
         password: values.password,
       })
@@ -108,7 +100,7 @@ export default function Page() {
       if (error) {
         if (error.message === 'request-confirm') {
           setCookie('authSignupStep', 2)
-          authRequestConfirm({ shopId, email: cookieEmail })
+          authRequestConfirm({ email: cookieEmail })
           router.push('/auth/signup')
         } else if (error.message === 'invalid-password') {
           setFieldError('password', 'Неправильный пароль')
@@ -156,6 +148,10 @@ export default function Page() {
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Войти</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-auth">
         <div className="container-def">

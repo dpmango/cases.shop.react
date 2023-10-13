@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next'
 
-import type { IApiResponse, IBooleanResponse, IReqId } from '@/core/interface/Api'
+import type { IApiResponse, IBooleanResponse } from '@/core/interface/Api'
 import type {
   IAuthDto,
   IInitDataDto,
@@ -25,32 +25,15 @@ export const getWhois = async ({ site }: IWhoisPayload) => {
   return { data: raw, error }
 }
 
-// initialize
-export interface ISettingsPayload extends IReqId {
-  site: string
-}
-
-export const initializeApp = async ({ shopId }: ISettingsPayload) => {
-  const { data, error, raw }: IApiResponse<IInitDataDto> = await api(
-    `${process.env.BACKEND_OLD_URL}settings`,
-    {
-      params: { shopId },
-    },
-  )
-
-  return { data: raw, error }
-}
-
 // Auth (авторизация от ТГ)
-export interface IAuthPayload extends IReqId {
+export interface IAuthPayload {
   user: ITelegramAuthDto
 }
 
-export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
+export const fetchAuth = async ({ user }: IAuthPayload) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth`, {
     method: 'POST',
     body: {
-      shop_id: shopId,
       user,
     },
   })
@@ -59,15 +42,14 @@ export const fetchAuth = async ({ shopId, user }: IAuthPayload) => {
 }
 
 // Проверка юзера (роутинг куда направлять)
-export interface IAuthCheckUser extends IReqId {
+export interface IAuthCheckUser {
   email: string
 }
 
-export const authCheckUser = async ({ shopId, email }: IAuthCheckUser) => {
+export const authCheckUser = async ({ email }: IAuthCheckUser) => {
   const { error, status }: IApiResponse<IBooleanResponse> = await api(`auth/check-user`, {
     method: 'POST',
     body: {
-      shopId,
       email: email.toLowerCase(),
     },
   })
@@ -76,16 +58,15 @@ export const authCheckUser = async ({ shopId, email }: IAuthCheckUser) => {
 }
 
 // Логин
-export interface IAuthLogin extends IReqId {
+export interface IAuthLogin {
   email: string
   password: string
 }
 
-export const authLogin = async ({ shopId, email, password }: IAuthLogin) => {
+export const authLogin = async ({ email, password }: IAuthLogin) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/login`, {
     method: 'POST',
     body: {
-      shopId,
       email: email.toLowerCase(),
       password,
     },
@@ -95,16 +76,15 @@ export const authLogin = async ({ shopId, email, password }: IAuthLogin) => {
 }
 
 // Регистрация
-export interface IAuthSignup extends IReqId {
+export interface IAuthSignup {
   email: string
   password: string
 }
 
-export const authSignup = async ({ shopId, email, password }: IAuthSignup) => {
+export const authSignup = async ({ email, password }: IAuthSignup) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/signup`, {
     method: 'POST',
     body: {
-      shopId,
       email: email.toLowerCase(),
       password,
     },
@@ -114,15 +94,14 @@ export const authSignup = async ({ shopId, email, password }: IAuthSignup) => {
 }
 
 // Запросить email
-export interface IAuthRequestConfirm extends IReqId {
+export interface IAuthRequestConfirm {
   email: string
 }
 
-export const authRequestConfirm = async ({ shopId, email }: IAuthRequestConfirm) => {
+export const authRequestConfirm = async ({ email }: IAuthRequestConfirm) => {
   const { error, raw }: IApiResponse<IBooleanResponse> = await api(`auth/request-confirm`, {
     method: 'POST',
     body: {
-      shopId,
       email: email.toLowerCase(),
     },
   })
@@ -131,16 +110,15 @@ export const authRequestConfirm = async ({ shopId, email }: IAuthRequestConfirm)
 }
 
 // Подтвердить email
-export interface IAuthConfirmEmail extends IReqId {
+export interface IAuthConfirmEmail {
   token: string
   email: string
 }
 
-export const authConfirmEmail = async ({ shopId, token, email }: IAuthConfirmEmail) => {
+export const authConfirmEmail = async ({ token, email }: IAuthConfirmEmail) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/confirm-email`, {
     method: 'POST',
     body: {
-      shopId,
       token,
       email: email.toLowerCase(),
     },
@@ -150,15 +128,14 @@ export const authConfirmEmail = async ({ shopId, token, email }: IAuthConfirmEma
 }
 
 // Восстановить пароль
-export interface IAuthRecover extends IReqId {
+export interface IAuthRecover {
   email: string
 }
 
-export const authRecover = async ({ shopId, email }: IAuthRecover) => {
+export const authRecover = async ({ email }: IAuthRecover) => {
   const { error, raw }: IApiResponse<IBooleanResponse> = await api(`auth/recover`, {
     method: 'POST',
     body: {
-      shopId,
       email: email.toLowerCase(),
     },
   })
@@ -167,17 +144,16 @@ export const authRecover = async ({ shopId, email }: IAuthRecover) => {
 }
 
 // Подтверждение восстановления
-export interface IAuthResetConfirm extends IReqId {
+export interface IAuthResetConfirm {
   token: string
   email: string
   password: string
 }
 
-export const authResetConfirm = async ({ shopId, token, email, password }: IAuthResetConfirm) => {
+export const authResetConfirm = async ({ token, email, password }: IAuthResetConfirm) => {
   const { error, raw }: IApiResponse<IAuthDto> = await api(`auth/reset-confirm-email`, {
     method: 'POST',
     body: {
-      shopId,
       token,
       email: email.toLowerCase(),
       password,

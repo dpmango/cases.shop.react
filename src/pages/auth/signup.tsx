@@ -2,6 +2,7 @@ import cns from 'classnames'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -15,7 +16,6 @@ import {
   authRequestConfirm,
   authSignup,
   getMainPage,
-  initializeApp,
 } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -24,24 +24,17 @@ import { setModal } from '@/core/store/ui.store'
 import { secondsToStamp } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -55,7 +48,7 @@ export interface IForm {
 }
 
 export default function Page() {
-  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const [stage, setStage] = useState(1)
   const dispatch = useAppDispatch()
@@ -81,12 +74,12 @@ export default function Page() {
       return
     }
 
-    const { data, error } = await authRequestConfirm({ shopId, email: cookieEmail })
+    const { data, error } = await authRequestConfirm({ email: cookieEmail })
 
     if (data) {
       setRepeatTime(60)
     }
-  }, [shopId])
+  }, [])
 
   const handleSubmit = useCallback(
     async (values: IForm, { setSubmitting, setFieldError }: FormikHelpers<IForm>) => {
@@ -99,7 +92,6 @@ export default function Page() {
       }
 
       const { data, error } = await authSignup({
-        shopId,
         email: cookieEmail,
         password: values.password,
       })
@@ -117,7 +109,7 @@ export default function Page() {
 
       setSubmitting(false)
     },
-    [shopId],
+    [],
   )
 
   const resetEmail = useCallback(() => {
@@ -160,6 +152,10 @@ export default function Page() {
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Регистрация</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-auth">
         <div className="container-def">

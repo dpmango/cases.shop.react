@@ -16,7 +16,7 @@ export const initialProductState: IProductStore = {
 // export const getProductsThunk = createAsyncThunk(
 //   'prodcut/getProductsThunk',
 //   async ({ shopId }: { shopId: string }) => {
-//     const { data } = await getProducts({ shopId })
+//     const { data } = await getProducts
 
 //     return data
 //   },
@@ -24,8 +24,8 @@ export const initialProductState: IProductStore = {
 
 export const getReviewsThunk = createAsyncThunk(
   'product/getReviewsThunk',
-  async ({ shopId, limit, offset }: { shopId: string; limit?: number; offset?: number }) => {
-    const { data } = await getReviews({ shopId, offset, limit })
+  async ({ limit, offset }: { limit?: number; offset?: number }) => {
+    const { data } = await getReviews({ offset, limit })
 
     return {
       isMerge: offset,

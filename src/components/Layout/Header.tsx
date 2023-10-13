@@ -36,14 +36,9 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [balanceDropdown, setBalanceDropdown] = useState(false)
 
-  const {
-    id: shopId,
-    settings,
-    user,
-    auth_bot,
-    paymentsMethods,
-    customPages,
-  } = useAppSelector((state) => state.sessionState)
+  const { user, auth_bot, paymentsMethods, customPages } = useAppSelector(
+    (state) => state.sessionState,
+  )
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
   const { lockScroll, unlockScroll } = useScrollLock()

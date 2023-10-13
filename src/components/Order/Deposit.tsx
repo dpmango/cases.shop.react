@@ -10,7 +10,7 @@ import { formatPrice } from '@/core/utils'
 import { Close2Icon, Close3Icon, MinusIcon, PlusIcon, UiModal } from '../Ui'
 
 export const DepositModal: React.FC<{}> = ({}) => {
-  const { paymentsMethods, id: shopId } = useAppSelector((state) => state.sessionState)
+  const { paymentsMethods } = useAppSelector((state) => state.sessionState)
 
   const [sum, setSum] = useState(1000)
   const [selectedPayment, setSelectedPayment] = useState(paymentsMethods[0]?.id)
@@ -56,7 +56,6 @@ export const DepositModal: React.FC<{}> = ({}) => {
 
   const handleSubmit = useCallback(async () => {
     const { data } = await getPayment({
-      shopId,
       sum,
       paymentId: selectedPayment,
     })

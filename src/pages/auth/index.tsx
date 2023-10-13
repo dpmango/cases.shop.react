@@ -2,37 +2,31 @@ import cns from 'classnames'
 import { deleteCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { TLoginButton, TLoginButtonSize } from 'react-telegram-auth'
 
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
-import { authCheckUser, getMainPage, initializeApp } from '@/core/api'
+import { authCheckUser, getMainPage } from '@/core/api'
 import { useTelegramAuth } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -46,9 +40,9 @@ export interface IForm {
 }
 
 export default function Page() {
-  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
 
-  const { onAuthSuccess } = useTelegramAuth({ shopId })
+  const { onAuthSuccess } = useTelegramAuth()
   const router = useRouter()
 
   const initialValues = { email: '' }
@@ -66,7 +60,6 @@ export default function Page() {
   const handleSubmit = useCallback(
     async (values: IForm, { setSubmitting }: FormikHelpers<IForm>) => {
       const { status, error } = await authCheckUser({
-        shopId,
         email: values.email,
       })
 
@@ -85,6 +78,10 @@ export default function Page() {
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Авторизация</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-auth">
         <div className="container-def">

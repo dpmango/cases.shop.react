@@ -30,6 +30,7 @@ export const api = async (
       method,
       headers: {
         'Content-Type': 'application/json' as string,
+        'X-SHOP-ID': 'itSnobody_bot',
       },
       body,
       params,

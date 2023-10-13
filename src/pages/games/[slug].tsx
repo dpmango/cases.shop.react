@@ -7,35 +7,28 @@ import { useCallback, useMemo, useState } from 'react'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCardLarge, ProductCoinCard } from '@/components/Product'
 import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
-import { getCategory, getMainPage, initializeApp } from '@/core/api'
+import { getCategory, getMainPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { formatPrice } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
   const pageSlug = context.params?.slug as string
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
     {
       name: 'category',
-      resolver: getCategory({ shopId, id: pageSlug }),
+      resolver: getCategory({ id: pageSlug }),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE, categoryData } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE, categoryData } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {

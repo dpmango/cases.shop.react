@@ -1,6 +1,7 @@
 import cns from 'classnames'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
@@ -9,31 +10,24 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { SuccessIcon } from '@/components/Ui'
-import { authConfirmEmail, getMainPage, IAuthConfirmEmail, initializeApp } from '@/core/api'
+import { authConfirmEmail, getMainPage, IAuthConfirmEmail } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { getProfileThunk } from '@/core/store/session.store'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -43,7 +37,7 @@ export const getServerSideProps = (async (context) => {
 }) satisfies GetServerSideProps<IResolver>
 
 export default function Page() {
-  const { id: shopId, settings, user, auth_bot } = useAppSelector((state) => state.sessionState)
+  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -78,7 +72,6 @@ export default function Page() {
 
     if (token && email) {
       handleConfirm({
-        shopId,
         token,
         email,
       })
@@ -87,6 +80,10 @@ export default function Page() {
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Подтверждение</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-auth">
         <div className="container-def">

@@ -1,40 +1,33 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Head from 'next/head'
 
 import { HomeFaq, HomeNavigation, HomeProcess, HomeReviews } from '@/components/Home'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard, ReviewCard } from '@/components/Product'
-import { getMainPage, getPopularProducts, getReviews, initializeApp } from '@/core/api'
+import { getMainPage, getPopularProducts, getReviews } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
     {
       name: 'popular',
-      resolver: getPopularProducts({ shopId, limit: 8 + 1, offset: 0 }),
+      resolver: getPopularProducts({ limit: 8 + 1, offset: 0 }),
     },
     {
       name: 'reviews',
-      resolver: getReviews({ shopId, limit: 9, offset: 0 }),
+      resolver: getReviews({ limit: 9, offset: 0 }),
     },
   ] as IPromiseFactory[]
 
   const { PRELOADED_STATE, popularData, homepageData } = await Resolver(
-    shopId,
     promisesToBeFetched,
     context,
   )
@@ -55,6 +48,10 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Главная</title>
+      </Head>
+
       <img className="home-bg" src="/img/home-bg.jpg" alt="" />
       <img className="home-bg-2" src="/img/home-bg-2.jpg" alt="" />
 

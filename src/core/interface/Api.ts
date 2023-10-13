@@ -1,6 +1,3 @@
-export interface IReqId {
-  shopId: string
-}
 export interface IReqPagination {
   limit?: number
   offset?: number

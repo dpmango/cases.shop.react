@@ -1,32 +1,26 @@
 import cns from 'classnames'
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 import { useRef, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { Close2Icon, SettingsIcon, StarButtonIcon } from '@/components/Ui'
-import { getMainPage, initializeApp } from '@/core/api'
+import { getMainPage } from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -43,6 +37,10 @@ export default function Page() {
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Уведомления</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className={cns('sec-page sec-notify', settingsOpened && 'active')}>
         <div className="container-def">

@@ -1,31 +1,25 @@
 import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { OrderCard } from '@/components/Order'
 import { Close3Icon, OrderCardDecorSvg } from '@/components/Ui'
-import { getMainPage, initializeApp } from '@/core/api'
+import { getMainPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -37,6 +31,10 @@ export const getServerSideProps = (async (context) => {
 export default function Page() {
   return (
     <LayoutGeneral>
+      <Head>
+        <title>Заказы</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-page sec-orders">
         <div className="container-def">

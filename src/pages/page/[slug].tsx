@@ -1,34 +1,29 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 import { LayoutGeneral } from '@/components/Layout'
-import { getMainPage, getStaticPage, initializeApp } from '@/core/api'
+import { getMainPage, getStaticPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
-  const { shopId, parsedSiteHost } = await DomainResolver(context)
+  const { parsedSiteHost } = await DomainResolver(context)
   const pageSlug = context.params?.slug as string
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'init',
-      resolver: initializeApp({ shopId, site: parsedSiteHost }),
-      errorRouter: {
-        fatal: true,
-      },
-    },
-    {
       name: 'homepage',
-      resolver: getMainPage({ shopId }),
+      resolver: getMainPage(),
     },
     {
       name: 'page',
-      resolver: getStaticPage({ shopId, id: pageSlug }),
+      resolver: getStaticPage({ id: pageSlug }),
     },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE, pageData } = await Resolver(shopId, promisesToBeFetched, context)
+  const { PRELOADED_STATE, pageData } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
@@ -41,16 +36,24 @@ export const getServerSideProps = (async (context) => {
 export default function SlugPage({
   pageData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ pageData })
+  const router = useRouter()
 
   return (
     <LayoutGeneral>
+      <Head>
+        <title>{router.query.slug}</title>
+      </Head>
+
       <div className="padding-top"></div>
       <section className="sec-page sec-offer">
         <div className="container-def">
           <div className="sec-page__wrap">
-            <div className="sec-offer__title title-def title-def_page">Договор оферты</div>
-            <p className="sec-offer__text text-info text-info_big">
+            {/* <div className="sec-offer__title title-def title-def_page">Договор оферты</div> */}
+            <span
+              className="sec-offer__text text-info text-info_big"
+              dangerouslySetInnerHTML={{ __html: pageData }}
+            />
+            {/* <p className="sec-offer__text text-info text-info_big">
               Онлайн-сервис приема электронных платежей ruplay.shop, именуемое в дальнейшем Агент,
               настоящей публичной офертой предлагает заключить агентский договор об оказании услуг.
               Акцептовав настоящую Оферту, Вы, далее Принципал, заключаете договор на условиях,
@@ -59,8 +62,8 @@ export default function SlugPage({
             <p className="sec-offer__text text-info text-info_big">
               Далее, по тексту настоящей Оферты, Агент и Принципал именуются вместе Стороны,
               а по отдельности Сторона
-            </p>
-            <div className="sec-offer__content">
+            </p> */}
+            {/* <div className="sec-offer__content">
               <div className="sec-offer__block block-border">
                 <div className="sec-offer__count">1</div>
                 <div className="title-def title-def_sec sec-offer__block-title">
@@ -195,7 +198,7 @@ export default function SlugPage({
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

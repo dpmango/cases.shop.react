@@ -29,23 +29,6 @@ export interface IInitDataDto {
   }
 }
 
-export interface ISettingsDto {
-  logo: string
-  paymentLogo: string
-  background_image: string
-  background_site_color: string
-  background_main: string
-  footer_image: string
-  reviews_footer_image: string
-  faq_left_footer_image: string
-  faq_right_footer_image: string
-  product_footer_image: string
-  footer_color: string
-  header_color: string
-  itemClip: string
-  itemBGClip: string
-}
-
 export type ICustomPageMetaDto = string[]
 
 // auth

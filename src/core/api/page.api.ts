@@ -1,15 +1,14 @@
-import type { IApiResponse, IReqId } from '@/core/interface/Api'
+import { ofetch } from 'ofetch'
+
+import type { IApiResponse } from '@/core/interface/Api'
 
 import { IHomePageDto } from '../interface/Homepage'
 import { api } from './api'
 
 // homepage
-export interface IGetMainPagePayload extends IReqId {}
-
-export const getMainPage = async ({ shopId }: IGetMainPagePayload) => {
+export const getMainPage = async () => {
   const { error, raw }: IApiResponse<IHomePageDto> = await api(`main`, {
     params: {
-      shopId,
       showItemsInCategory: 'true',
     },
   })
@@ -18,14 +17,13 @@ export const getMainPage = async ({ shopId }: IGetMainPagePayload) => {
 }
 
 // static page (content page)
-export interface IGetStaticPagePayload extends IReqId {
+export interface IGetStaticPagePayload {
   id: string
 }
 
-export const getStaticPage = async ({ shopId, id }: IGetStaticPagePayload) => {
-  const data = await api(`${process.env.BACKEND_OLD_URL}custom_page`, {
+export const getStaticPage = async ({ id }: IGetStaticPagePayload) => {
+  const data = await ofetch(`${process.env.BACKEND_OLD_URL}custom_page`, {
     params: {
-      shopId,
       ID: id,
     },
   })

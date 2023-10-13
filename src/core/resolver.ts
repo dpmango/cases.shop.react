@@ -5,7 +5,7 @@ import { IPromiseFactory } from '@/core/interface/Api'
 import { IHomePageDto } from '@/core/interface/Homepage'
 import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { initialProductState } from '@/core/store/product.store'
-import { covertInitDto, initialSessionState } from '@/core/store/session.store'
+import { initialSessionState } from '@/core/store/session.store'
 
 export interface IResolver {
   PRELOADED_STATE: any
@@ -25,16 +25,15 @@ export const DomainResolver = async (context: GetServerSidePropsContext<any, Pre
   }
 
   const {
-    data: { id: shopId },
+    data: {},
   } = await getWhois({
     site: parsedSiteHost,
   })
 
-  return { shopId, parsedSiteHost }
+  return { parsedSiteHost }
 }
 
 export const Resolver = async (
-  shopId: string,
   promisesToBeFetched: IPromiseFactory[],
   context: GetServerSidePropsContext<any, PreviewData>,
 ) => {
@@ -47,7 +46,6 @@ export const Resolver = async (
   const PRELOADED_STATE = {
     sessionState: {
       ...initialSessionState,
-      id: shopId,
     },
     productState: {
       ...initialProductState,
@@ -90,12 +88,6 @@ export const Resolver = async (
         }
 
         switch (name) {
-          case 'init':
-            PRELOADED_STATE.sessionState = {
-              ...covertInitDto(initialSessionState, data),
-              id: shopId,
-            }
-            break
           case 'homepage':
             homepageData = data
             PRELOADED_STATE.sessionState = {
@@ -121,12 +113,6 @@ export const Resolver = async (
             break
           case 'page':
             pageData = data || null
-            break
-          case 'products':
-            PRELOADED_STATE.productState = {
-              ...PRELOADED_STATE.productState,
-              // items: data,
-            }
             break
           case 'reviews':
             PRELOADED_STATE.productState = {
