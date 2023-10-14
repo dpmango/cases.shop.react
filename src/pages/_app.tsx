@@ -1,5 +1,6 @@
 import '@/assets/styles/app.scss'
 
+import { setCookie } from 'cookies-next'
 import Head from 'next/head'
 import NextNProgress from 'nextjs-progressbar'
 import { useEffect } from 'react'
@@ -10,6 +11,7 @@ import { getStore } from '@/core/store'
 
 function APP({ Component, pageProps }: any) {
   const store = getStore(pageProps.PRELOADED_STATE || {})
+  setCookie('SHOP-ID', pageProps.shopId)
 
   return (
     <Provider store={store}>

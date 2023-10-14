@@ -13,7 +13,7 @@ import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { formatPrice } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
-  const { parsedSiteHost } = await DomainResolver(context)
+  const { shopId } = await DomainResolver(context)
   const pageSlug = context.params?.slug as string
 
   // Управление запросами страниц
@@ -34,6 +34,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       PRELOADED_STATE,
       categoryData,
+      shopId,
     },
   }
 }) satisfies GetServerSideProps<IResolver>

@@ -9,7 +9,7 @@ import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
-  const { parsedSiteHost } = await DomainResolver(context)
+  const { shopId } = await DomainResolver(context)
 
   // Управление запросами страниц
   const promisesToBeFetched = [
@@ -24,6 +24,7 @@ export const getServerSideProps = (async (context) => {
   return {
     props: {
       PRELOADED_STATE,
+      shopId,
     },
   }
 }) satisfies GetServerSideProps<IResolver>

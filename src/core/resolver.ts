@@ -1,3 +1,4 @@
+import { setCookie } from 'cookies-next'
 import { GetServerSidePropsContext, PreviewData } from 'next'
 
 import { getProfile, getWhois } from '@/core/api'
@@ -7,11 +8,12 @@ import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { initialProductState } from '@/core/store/product.store'
 import { initialSessionState } from '@/core/store/session.store'
 
+import { setShopID } from './api/api'
+
 export interface IResolver {
   PRELOADED_STATE: any
   popularData?: IPopularProduct[]
   homepageData?: IHomePageDto
-  productData?: any
   categoryData?: IProductCategory
   pageData?: any
 }
@@ -25,12 +27,13 @@ export const DomainResolver = async (context: GetServerSidePropsContext<any, Pre
   }
 
   const {
-    data: {},
+    data: { id },
   } = await getWhois({
     site: parsedSiteHost,
   })
 
-  return { parsedSiteHost }
+  setShopID(id)
+  return { shopId: id, parsedSiteHost }
 }
 
 export const Resolver = async (
@@ -105,9 +108,7 @@ export const Resolver = async (
           case 'popular':
             popularData = data
             break
-          case 'product':
-            productData = data || null
-            break
+
           case 'category':
             categoryData = data || null
             break
@@ -131,10 +132,6 @@ export const Resolver = async (
 
   if (popularData) {
     returnatble['popularData'] = popularData
-  }
-
-  if (productData) {
-    returnatble['productData'] = productData
   }
 
   if (categoryData) {

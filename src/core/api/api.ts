@@ -1,5 +1,5 @@
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
-import { FetchError, FetchOptions, ofetch } from 'ofetch'
+import { $Fetch, FetchError, FetchOptions, ofetch } from 'ofetch'
 
 import { userAuthRefresh } from '@/core/api/session.api'
 import type { IError } from '@/core/interface/Api'
@@ -19,18 +19,22 @@ interface IApiResult {
   message: string | null
 }
 
+let SHOPID = ''
+export const setShopID = (id: string) => (SHOPID = id)
+
 export const api = async (
   url: string,
   { method = 'GET', body, params, headers }: IRequestOptions,
 ): Promise<IApiResult> => {
   try {
     const accessToken = getCookie('access_token')
+    const shopIdCookie = getCookie('SHOP-ID')
 
     const requestOptions = {
       method,
       headers: {
         'Content-Type': 'application/json' as string,
-        'X-SHOP-ID': 'itSnobody_bot',
+        'X-SHOP-ID': shopIdCookie || SHOPID,
       },
       body,
       params,
@@ -91,18 +95,10 @@ export const api = async (
     }
 
     if (err?.status === 401) {
-      const { data } = await userAuthRefresh()
+      deleteCookie('access_token')
+      deleteCookie('refresh_token')
 
-      if (data) {
-        setCookie('access_token', data.access_token)
-        setCookie('refresh_token', data.refresh_token)
-        return await api(url, { method, body, params, headers })
-      } else {
-        deleteCookie('access_token')
-        deleteCookie('refresh_token')
-
-        window && window.location.reload()
-      }
+      window && window.location.reload()
     }
 
     const error: IError = {
