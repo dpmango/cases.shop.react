@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import { getStore } from '@/core/store'
 
 function APP({ Component, pageProps }: any) {
+  console.info({ pageProps })
   const store = getStore(pageProps.PRELOADED_STATE || {})
   setCookie('SHOP-ID', pageProps.shopId)
 

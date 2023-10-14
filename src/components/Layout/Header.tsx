@@ -3,7 +3,7 @@ import cns from 'classnames'
 import { getCookie, setCookie } from 'cookies-next'
 import throttle from 'lodash/throttle'
 import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
   BurgerIcon,
@@ -24,7 +24,7 @@ import {
   Wallet2Icon,
   WalletIcon,
 } from '@/components/Ui'
-import { useEventListener, useScrollLock } from '@/core/hooks'
+import { useClickOutside, useEventListener, useScrollLock } from '@/core/hooks'
 import { IProfileDto } from '@/core/interface/Initialization'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { resetState } from '@/core/store/session.store'
@@ -41,6 +41,10 @@ const Header = () => {
   )
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
+
+  const userDropdownRef = useRef<HTMLDivElement | null>(null)
+  useClickOutside(userDropdownRef, () => setBalanceDropdown(false))
+
   const { lockScroll, unlockScroll } = useScrollLock()
 
   const setDarkTheme = useCallback(() => {
@@ -168,7 +172,10 @@ const Header = () => {
                         </div>
                       </div>
                     </Link>
-                    <div className={cns('action-btn top-menu__btn', balanceDropdown && 'active')}>
+                    <div
+                      className={cns('action-btn top-menu__btn', balanceDropdown && 'active')}
+                      ref={userDropdownRef}
+                    >
                       <button
                         className="action-btn__content"
                         onClick={() => setBalanceDropdown(!balanceDropdown)}

@@ -1,19 +1,24 @@
 import cns from 'classnames'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
+import { watch } from 'fs'
 import Link from 'next/link'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
-import { getPayment } from '@/core/api'
+import { getPayment, getPaymentStatus } from '@/core/api'
 import { useAppDispatch, useAppSelector } from '@/core/store'
+import { getProfileThunk } from '@/core/store/session.store'
 import { closeModals } from '@/core/store/ui.store'
-import { formatPrice } from '@/core/utils'
+import { formatPrice, openExternalLink } from '@/core/utils'
 
 import { Close2Icon, Close3Icon, MinusIcon, PlusIcon, UiModal } from '../Ui'
 
 export const DepositModal: React.FC<{}> = ({}) => {
-  const { paymentsMethods } = useAppSelector((state) => state.sessionState)
+  const { paymentsMethods, user } = useAppSelector((state) => state.sessionState)
 
   const [sum, setSum] = useState(1000)
   const [selectedPayment, setSelectedPayment] = useState(paymentsMethods[0]?.id)
+  const [watchPayment, setWatchPayment] = useState<string | null>(null)
 
   const dispatch = useAppDispatch()
 
@@ -55,13 +60,48 @@ export const DepositModal: React.FC<{}> = ({}) => {
   }, [sum, stepOnPrice, minMax])
 
   const handleSubmit = useCallback(async () => {
-    const { data } = await getPayment({
+    const { data, error } = await getPayment({
       sum,
       paymentId: selectedPayment,
     })
 
-    dispatch(closeModals())
-  }, [])
+    if (error) {
+      toast.error(error.message || 'Ошибка, попробуйте снова')
+    }
+
+    if (data) {
+      setCookie('paymentWatch', data.id)
+      setWatchPayment(data.id)
+      openExternalLink(data.url)
+      dispatch(closeModals())
+    }
+  }, [sum, selectedPayment])
+
+  const timer: { current: NodeJS.Timeout | null } = useRef(null)
+
+  useEffect(() => {
+    const cookieWatch = getCookie('paymentWatch')
+    if (cookieWatch) setWatchPayment(cookieWatch)
+    if (!watchPayment) return
+
+    const requestIds = async () => {
+      if (!watchPayment) return
+
+      const { data, error } = await getPaymentStatus(watchPayment)
+      if (data.completed) {
+        await dispatch(getProfileThunk())
+        deleteCookie('paymentWatch')
+        setWatchPayment(null)
+      }
+    }
+
+    requestIds()
+    timer.current = setInterval(requestIds, 15 * 1000)
+
+    return () => {
+      clearInterval(timer.current as NodeJS.Timeout)
+    }
+  }, [watchPayment])
 
   return (
     <UiModal className="modal-def" name="balance">

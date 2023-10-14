@@ -1,5 +1,5 @@
 import type { IApiResponse } from '@/core/interface/Api'
-import type { IPaymentDto } from '@/core/interface/Payment'
+import type { IPaymentDto, IPaymentStatusDto } from '@/core/interface/Payment'
 
 import { api } from './api'
 
@@ -13,9 +13,18 @@ export const getPayment = async ({ sum, paymentId }: IPaymentPayload) => {
   const { data, error, raw }: IApiResponse<IPaymentDto> = await api(`deposit`, {
     method: 'POST',
     body: {
-      shop,
       sum,
       paymentId: paymentId,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+export const getPaymentStatus = async (id: string) => {
+  const { data, error, raw }: IApiResponse<IPaymentStatusDto> = await api(`check-deposit`, {
+    params: {
+      id: id,
     },
   })
 
