@@ -2,12 +2,13 @@ import cns from 'classnames'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCardLarge, ProductCoinCard } from '@/components/Product'
 import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
 import { getCategory, getMainPage } from '@/core/api'
+import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { formatPrice } from '@/core/utils'
@@ -50,6 +51,9 @@ export default function CategoryPage({
 
   const router = useRouter()
 
+  const notifyDropdownRef = useRef(null)
+  useClickOutside(notifyDropdownRef, () => setNotifyDropdown(false))
+
   const displayCategory = useMemo(() => {
     return categoryData?.categories.find((x) => x.id === activeTab)
   }, [categoryData?.categories, activeTab])
@@ -89,7 +93,10 @@ export default function CategoryPage({
               </div>
               <div className="sec-header-cat__top-title title-cat">Игры</div>
               <div className="sec-header-cat__top-right">
-                <div className={cns('action-btn', notifyDropdown && 'active')}>
+                <div
+                  className={cns('action-btn', notifyDropdown && 'active')}
+                  ref={notifyDropdownRef}
+                >
                   <button
                     className="action-btn__content"
                     onClick={() => setNotifyDropdown(!notifyDropdown)}
