@@ -4,9 +4,11 @@ import throttle from 'lodash/throttle'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { ChatCreateMessage, ChatMessages, ChatSidebar } from '@/components/Support'
+import { getMessagesByDialog } from '@/core/api'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import {
   getChatListService,
+  getChatMessagesService,
   getThemesService,
   markReadService,
   setActiveDialog,
@@ -90,9 +92,10 @@ export const SupportModal: React.FC<{}> = ({}) => {
           isVisible = true
         }
 
-        if (isVisible && id && !readMessageMiddleware.includes(id)) {
+        if (activeDialog?.id && isVisible && id && !readMessageMiddleware.includes(id)) {
           setReadMessagesMiddleware((prev) => [...prev, id])
-          dispatch(markReadService({ ticketId: activeDialog?.id, msgID: id }))
+          dispatch(markReadService({ ticketId: activeDialog.id, msgID: id }))
+          dispatch(getChatMessagesService(activeDialog.id))
         }
       })
     }, 300),

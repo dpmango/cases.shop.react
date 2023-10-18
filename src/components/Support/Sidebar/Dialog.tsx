@@ -35,6 +35,8 @@ export const ChatDialog: React.FC<IChatDialog> = ({
   // const size = useWindowSize()
   const dispatch = useAppDispatch()
 
+  const isLocked = status === 1
+
   const handleDialogClick = () => {
     dispatch(
       setActiveDialog({
@@ -68,7 +70,7 @@ export const ChatDialog: React.FC<IChatDialog> = ({
     <div
       className={cns(
         'chat__el chat-el',
-        status === 1 && '_lock',
+        isLocked && '_lock',
         selected && 'active',
         isPinned && '_pined',
       )}

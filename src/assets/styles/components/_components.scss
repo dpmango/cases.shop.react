@@ -1903,6 +1903,9 @@ img{
 	}
 	&__el{
 		margin-bottom: 10px;
+		&._lock{
+			opacity: 0.5;
+		}
 	}
 	&-el{
 		margin-right: 30px;
@@ -1996,6 +1999,7 @@ img{
 			margin-left: auto;
 			.chat__message{
 				border-radius: 15px 15px 0px 15px;
+				margin-left: auto;
 			}
 			.chat__date{
 				text-align: right;

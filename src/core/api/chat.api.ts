@@ -27,7 +27,6 @@ export const getMessagesByDialog = async (id: string) => {
     {
       params: {
         id,
-        attachmentsV2: 'true',
       },
     },
     true,
@@ -59,11 +58,11 @@ export const postMessage = async (id: string, text: string, file?: File | null) 
     text,
   } as any
 
-  // if (file?.type.includes('video')) {
-  //   bodyRequest.video = baseData
-  // } else {
-  //   bodyRequest.photo = baseData
-  // }
+  if (file?.type.includes('video')) {
+    bodyRequest.video = baseData
+  } else {
+    bodyRequest.photo = baseData
+  }
 
   const { raw, error } = (await api(
     `ticket/send`,

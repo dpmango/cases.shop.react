@@ -1,6 +1,5 @@
 import cns from 'classnames'
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
-import { PhotoView } from 'react-photo-view'
 import TextareaAutosize from 'react-textarea-autosize'
 // import ReactQuill from 'react-quill'
 import { toast } from 'react-toastify'
@@ -182,6 +181,8 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
     }
   }, [])
 
+  if (activeDialog?.status === 1) return null
+
   return (
     <div className="chat__acts chat-acts" ref={createMessageBox}>
       <div className={cns('dropindication', dropActive && '_active')} />
@@ -206,11 +207,9 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
           <div className="preview">
             {upload.error && <div className="preview__error">{upload.error}</div>}
             {upload.encodedImage && (
-              <PhotoView src={upload.encodedImage as any}>
-                <div className="preview__image">
-                  <img src={upload.encodedImage as any} alt={upload.name || ''} />
-                </div>
-              </PhotoView>
+              <div className="preview__image">
+                <img src={upload.encodedImage as any} alt={upload.name || ''} />
+              </div>
             )}
             <div className="preview__title">{upload.name}</div>
             <div className="preview__remove" onClick={() => setUpload(null)}>

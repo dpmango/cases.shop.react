@@ -13,8 +13,6 @@ export const ChatSidebar: React.FC = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null)
   const [sidebarOpened, setSidebarOpened] = useState(false)
 
-  console.log({ chatList })
-
   const handleSidebarToggle = useCallback(() => {
     sidebarRef.current?.classList.toggle('active')
     setSidebarOpened(!sidebarOpened)
