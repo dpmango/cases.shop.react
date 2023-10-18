@@ -25,7 +25,6 @@ import {
   WalletIcon,
 } from '@/components/Ui'
 import { useClickOutside, useEventListener, useScrollLock } from '@/core/hooks'
-import { IProfileDto } from '@/core/interface/Initialization'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { resetState } from '@/core/store/session.store'
 import { setMobileMenu, setModal } from '@/core/store/ui.store'
@@ -132,38 +131,37 @@ const Header = () => {
                 </nav>
               </div>
               <div className="top-menu__right">
-                <button
-                  className="action-btn action-btn_long top-menu__btn btn-modal"
-                  onClick={() => {
-                    dispatch(setModal({ name: 'support' }))
-                  }}
-                >
-                  <div className="action-btn__content">
-                    <div className="action-btn__text">Поддержка</div>
-                    <div className="action-btn__icon">
-                      <SupportIcon />
-                    </div>
-                  </div>
-                </button>
-                <Link className="action-btn action-btn_red top-menu__btn" href="/notifications">
-                  <div className="action-btn__count">2</div>
-                  <div className="action-btn__content">
-                    <div className="action-btn__icon">
-                      <NotificationIcon />
-                    </div>
-                  </div>
-                </Link>
-                <Link className="action-btn top-menu__btn" href="/my/favourites">
-                  <div className="action-btn__count">39</div>
-                  <div className="action-btn__content">
-                    <div className="action-btn__icon">
-                      <StarIcon />
-                    </div>
-                  </div>
-                </Link>
-
                 {user ? (
                   <>
+                    <button
+                      className="action-btn action-btn_long top-menu__btn btn-modal"
+                      onClick={() => {
+                        dispatch(setModal({ name: 'support' }))
+                      }}
+                    >
+                      <div className="action-btn__content">
+                        <div className="action-btn__text">Поддержка</div>
+                        <div className="action-btn__icon">
+                          <SupportIcon />
+                        </div>
+                      </div>
+                    </button>
+                    <Link className="action-btn action-btn_red top-menu__btn" href="/notifications">
+                      <div className="action-btn__count">2</div>
+                      <div className="action-btn__content">
+                        <div className="action-btn__icon">
+                          <NotificationIcon />
+                        </div>
+                      </div>
+                    </Link>
+                    <Link className="action-btn top-menu__btn" href="/my/favourites">
+                      <div className="action-btn__count">39</div>
+                      <div className="action-btn__content">
+                        <div className="action-btn__icon">
+                          <StarIcon />
+                        </div>
+                      </div>
+                    </Link>
                     <Link className="action-btn action-btn_red top-menu__btn" href="/my/orders">
                       <div className="action-btn__count">1</div>
                       <div className="action-btn__content">

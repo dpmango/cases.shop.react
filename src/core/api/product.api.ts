@@ -27,7 +27,6 @@ export const getCategory = async ({ id }: ICategoryPayload) => {
 }
 
 // get prodcuts
-
 export interface IPopularProductsPayload extends IReqPagination {}
 
 export const getPopularProducts = async ({ limit, offset }: IPopularProductsPayload) => {
@@ -39,8 +38,4 @@ export const getPopularProducts = async ({ limit, offset }: IPopularProductsPayl
   })
 
   return { data: raw?.list, error }
-}
-
-export interface IProductPayload {
-  id: string
 }

@@ -22,7 +22,7 @@ export interface IGetStaticPagePayload {
 }
 
 export const getStaticPage = async ({ id }: IGetStaticPagePayload) => {
-  const data = await ofetch(`${process.env.BACKEND_OLD_URL}custom_page`, {
+  const data = await ofetch(`https://shopcore.ru/store/api/custom_page`, {
     params: {
       ID: id,
     },

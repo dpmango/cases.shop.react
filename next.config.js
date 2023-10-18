@@ -11,7 +11,6 @@ module.exports = withBundleAnalyzer({
   reactStrictMode: false,
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
-    BACKEND_OLD_URL: process.env.BACKEND_OLD_URL,
     VITE_USE_BOT_IMAGE: false,
   },
 })

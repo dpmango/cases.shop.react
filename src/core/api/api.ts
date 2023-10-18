@@ -25,6 +25,7 @@ export const setShopID = (id: string) => (SHOPID = id)
 export const api = async (
   url: string,
   { method = 'GET', body, params, headers }: IRequestOptions,
+  useRaw = false,
 ): Promise<IApiResult> => {
   try {
     const accessToken = getCookie('access_token')
@@ -61,7 +62,29 @@ export const api = async (
 
     const DEV_perf_start = performance.now()
 
-    const { data, msg, status, errorCode, ...raw } = await ofetch(requestUrl, requestOptions)
+    let data = null
+    let msg = null
+    let status = null
+    let errorCode = null
+    let raw = null
+
+    if (useRaw) {
+      raw = await ofetch(requestUrl, requestOptions)
+      status = raw.status || true
+    } else {
+      const res = await ofetch(requestUrl, requestOptions)
+
+      data = res?.data
+      msg = res?.msg
+      status = res?.status
+      errorCode = res?.errorCode
+      raw = { ...res }
+      delete raw.data
+      delete raw.status
+      delete raw.msg
+      delete raw.errorCode
+    }
+
     const DEV_perf_end = performance.now()
 
     console.log(`👌 fetch ${url} in ${(DEV_perf_end - DEV_perf_start).toFixed(2)} ms`, data)

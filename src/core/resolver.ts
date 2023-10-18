@@ -80,7 +80,6 @@ export const Resolver = async (
         }
       }
 
-      // console.log(name, { result })
       if (result.status === 'rejected') errHandler()
       if (result.status === 'fulfilled' && result.value) {
         const { data, error } = result.value

@@ -103,7 +103,7 @@ export default function Page() {
           setCookie('authSignupStep', 2)
           authRequestConfirm({ email: cookieEmail })
           router.push('/auth/signup')
-        } else if (error.message === 'invalid-password') {
+        } else if (['invalid-password', 'bad-password'].includes(error.message)) {
           setFieldError('password', 'Неправильный пароль')
         } else {
           setFieldError('password', error.message)
@@ -177,12 +177,7 @@ export default function Page() {
                       isSubmitting,
                     }) => (
                       <form onSubmit={handleSubmit}>
-                        <div
-                          className={cns(
-                            'block-form__el form-el',
-                            errors.password && touched.password && 'error',
-                          )}
-                        >
+                        <div className={cns('block-form__el form-el', errors.password && 'error')}>
                           <div className="form-el__title">Пароль</div>
                           <input
                             className="form-el__inp inp-def"
@@ -198,7 +193,10 @@ export default function Page() {
                             <>
                               {errors.password === 'Неправильный пароль' && (
                                 <a href="#" onClick={handleRecover}>
-                                  <button className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black">
+                                  <button
+                                    type="button"
+                                    className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black"
+                                  >
                                     <span>Восстановить пароль</span>
                                   </button>
                                 </a>

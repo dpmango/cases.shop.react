@@ -1307,3 +1307,61 @@ export const BackIcon = () => (
     />
   </svg>
 )
+
+export const PlusIcon2 = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 0.799988V15.2" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M0.800781 8H15.2008" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+export const CaretSvg = () => (
+  <svg
+    className="block-select__arr"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="20" height="20" rx="10" fill="#191B22" fillOpacity="0.05" />
+    <path
+      d="M6 8L9.98617 12L13.9723 8"
+      stroke="#191B22"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+export const AttachSvg = () => (
+  <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M17 7.17064L9.16036 14.8404C7.30735 16.6532 4.24276 16.6532 2.38976 14.8404C0.536748 13.0275 0.536748 10.0294 2.38976 8.21651L8.80401 1.94128C9.58797 1.10459 10.7996 0.825688 11.9399 1.10459C13.0802 1.38349 13.9354 2.22018 14.2205 3.33578C14.5056 4.45138 14.1492 5.56697 13.3653 6.40367L6.951 12.6789C6.30958 13.3064 5.3118 13.2367 4.67038 12.6789C4.02895 12.0514 4.02895 11.0752 4.67038 10.4477L11.0846 4.17248"
+      stroke="white"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+export const SendSvg = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M1.7227 7.74945C1.28908 7.60491 1 7.17129 1 6.73767C1 6.23178 1.28908 5.87044 1.7227 5.7259L16.2489 1.02835C16.4658 0.956082 16.6826 1.02835 16.8271 1.17289C16.9716 1.31743 17.0439 1.53424 16.9716 1.75105L12.2741 16.2773C12.1296 16.7109 11.6959 17 11.2623 17C10.8287 17 10.3951 16.6386 10.2505 16.205L8.66061 9.48393L1.7227 7.74945Z"
+      stroke="white"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.7544 1.10071L8.51562 9.33948"
+      stroke="white"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
