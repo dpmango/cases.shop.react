@@ -27,7 +27,8 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
     maxWidth: number
     type: string
   }) => {
-    const ar = maxHeight / maxWidth
+    let ar = maxHeight / maxWidth
+    if (!isFinite(ar)) ar = 1
 
     const minmax = (limit = 300) => ({
       maxWidth: maxWidth > limit ? limit : maxWidth,
