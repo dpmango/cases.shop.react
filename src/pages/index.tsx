@@ -60,7 +60,7 @@ export default function Home({
       {homepageData?.categories && <HomeNavigation categories={homepageData.categories} />}
       {popularData && <HomePopular products={popularData} />}
 
-      <HomeReviews reviews={homepageData?.reviews} />
+      <HomeReviews />
       <HomeFaq faq={homepageData?.faq} />
     </LayoutGeneral>
   )

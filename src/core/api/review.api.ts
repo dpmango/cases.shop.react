@@ -1,5 +1,5 @@
 import type { IApiResponse } from '@/core/interface/Api'
-import type { IReviewDto } from '@/core/interface/Review'
+import type { IReviewShort } from '@/core/interface/Homepage'
 import { buildParams } from '@/core/utils'
 
 import { api } from './api'
@@ -9,8 +9,8 @@ export interface IReviewsPayload {
   offset?: number
 }
 
-export const getReviews = async ({ limit = 20, offset }: IReviewsPayload) => {
-  const { error, raw }: IApiResponse<{ list: IReviewDto[] }> = await api(`reviews`, {
+export const getReviews = async ({ limit = 8, offset }: IReviewsPayload) => {
+  const { error, raw }: IApiResponse<{ list: IReviewShort[] }> = await api(`reviews`, {
     params: buildParams({
       limit: limit ? limit.toString() : '',
       offset: offset ? offset.toString() : '',

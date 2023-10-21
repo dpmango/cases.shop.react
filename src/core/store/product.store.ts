@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IReviewDto } from '../interface/Review'
+import { IReviewShort } from '../interface/Homepage'
 import { getReviews } from './../api/review.api'
 export interface IProductStore {
   // items: IProductCategoryDto[] | null
-  reviews: IReviewDto[] | null
+  reviews: IReviewShort[] | null
 }
 
 export const initialProductState: IProductStore = {
@@ -28,7 +28,7 @@ export const getReviewsThunk = createAsyncThunk(
     const { data } = await getReviews({ offset, limit })
 
     return {
-      isMerge: offset,
+      isMerge: !!offset,
       data,
     }
   },
@@ -38,7 +38,7 @@ export const productState = createSlice({
   name: 'product',
   initialState: initialProductState,
   reducers: {
-    updateReviews(state, action: PayloadAction<IReviewDto[]>) {
+    updateReviews(state, action: PayloadAction<IReviewShort[]>) {
       state.reviews = [...action.payload]
     },
   },

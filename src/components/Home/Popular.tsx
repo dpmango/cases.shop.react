@@ -17,13 +17,11 @@ export const HomePopular: React.FC<{ products: IPopularProduct[] }> = ({ product
   const displayProducts = productsData.slice(0, pagination)
 
   const paginationRequest = async () => {
-    const nextPagination = pagination + 8
-
-    const { data, error } = await getPopularProducts({ limit: nextPagination, offset: pagination })
+    const { data, error } = await getPopularProducts({ limit: paginatePer, offset: pagination })
     if (data) {
       setProductsData((prev) => [...prev, ...data])
       setPaginationVisible(data.length === paginatePer)
-      setPagination(nextPagination)
+      setPagination(pagination + paginatePer)
     } else {
       toast.error('Ошибка, попробуйте снова')
     }

@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import { useMemo } from 'react'
 
 import { IReviewShort } from '@/core/interface/Homepage'
-import { IReviewDto } from '@/core/interface/Review'
 
 interface IReviewCard extends IReviewShort {}
 
