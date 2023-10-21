@@ -1,7 +1,7 @@
 import { setCookie } from 'cookies-next'
 import { GetServerSidePropsContext, PreviewData } from 'next'
 
-import { getProfile, getWhois } from '@/core/api'
+import { getMainPage, getProfile, getWhois } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { IHomePageDto } from '@/core/interface/Homepage'
 import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
@@ -59,6 +59,10 @@ export const Resolver = async (
 
   promisesToBeFetched = [
     ...promisesToBeFetched,
+    {
+      name: 'homepage',
+      resolver: getMainPage(),
+    },
     {
       name: 'profile',
       resolver: getProfile(accessToken),

@@ -19,12 +19,7 @@ export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
 
   // Управление запросами страниц
-  const promisesToBeFetched = [
-    {
-      name: 'homepage',
-      resolver: getMainPage(),
-    },
-  ] as IPromiseFactory[]
+  const promisesToBeFetched = [] as IPromiseFactory[]
 
   const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
 

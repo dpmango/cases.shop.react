@@ -14,10 +14,6 @@ export const getServerSideProps = (async (context) => {
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
-      name: 'homepage',
-      resolver: getMainPage(),
-    },
-    {
       name: 'popular',
       resolver: getPopularProducts({ limit: 8, offset: 0 }),
     },
