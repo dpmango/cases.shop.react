@@ -1,7 +1,7 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
-import { HomeFaq, HomeNavigation, HomeProcess, HomeReviews } from '@/components/Home'
+import { HomeFaq, HomeNavigation, HomePopular, HomeProcess, HomeReviews } from '@/components/Home'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard, ReviewCard } from '@/components/Product'
 import { getMainPage, getPopularProducts, getReviews } from '@/core/api'
@@ -19,7 +19,7 @@ export const getServerSideProps = (async (context) => {
     },
     {
       name: 'popular',
-      resolver: getPopularProducts({ limit: 8 + 1, offset: 0 }),
+      resolver: getPopularProducts({ limit: 8, offset: 0 }),
     },
     {
       name: 'reviews',
@@ -58,25 +58,7 @@ export default function Home({
 
       {homepageData?.tutorial && <HomeProcess tutorial={homepageData.tutorial} />}
       {homepageData?.categories && <HomeNavigation categories={homepageData.categories} />}
-
-      <section className="sec-def">
-        <div className="container-def">
-          <div className="sec-def__wrap">
-            <h2 className="title-def title-def_sec sec-def__title">Популярные товары</h2>
-            <div className="sec-def__content">
-              <div className="products products_limit">
-                {homepageData?.popularItems &&
-                  homepageData.popularItems.map((x, idx) => (
-                    <div className="products__el" key={idx}>
-                      <ProductCard {...x} />
-                    </div>
-                  ))}
-              </div>
-              <button className="sec-def__btn btn-show">Показать ещё</button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {popularData && <HomePopular products={popularData} />}
 
       <HomeReviews reviews={homepageData?.reviews} />
       <HomeFaq faq={homepageData?.faq} />
