@@ -80,7 +80,7 @@ export const postMessage = async (id: string, text: string, file?: File | null) 
 
 export interface ICreateTicket {
   name: string
-  theme?: IThemeDto
+  theme?: number
 }
 
 export const createTicket = async ({ name, theme }: ICreateTicket) => {

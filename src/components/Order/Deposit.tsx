@@ -1,5 +1,6 @@
 import cns from 'classnames'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
+import dayjs from 'dayjs'
 import { watch } from 'fs'
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -13,12 +14,17 @@ import { formatPrice, openExternalLink } from '@/core/utils'
 
 import { Close2Icon, Close3Icon, MinusIcon, PlusIcon, UiModal } from '../Ui'
 
+interface IWatchPayment {
+  id: string
+  date: Date
+}
+
 export const DepositModal: React.FC<{}> = ({}) => {
   const { paymentsMethods, user } = useAppSelector((state) => state.sessionState)
 
   const [sum, setSum] = useState(1000)
   const [selectedPayment, setSelectedPayment] = useState(paymentsMethods[0]?.id)
-  const [watchPayment, setWatchPayment] = useState<string | null>(null)
+  const [watchPayment, setWatchPayment] = useState<IWatchPayment | null>(null)
 
   const dispatch = useAppDispatch()
 
@@ -70,8 +76,12 @@ export const DepositModal: React.FC<{}> = ({}) => {
     }
 
     if (data) {
-      setCookie('paymentWatch', data.id)
-      setWatchPayment(data.id)
+      const cookieObject = {
+        id: data.id,
+        date: dayjs().toDate(),
+      }
+      setCookie('paymentWatch', cookieObject)
+      setWatchPayment(cookieObject)
       openExternalLink(data.url)
       dispatch(closeModals())
     }
@@ -81,13 +91,18 @@ export const DepositModal: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     const cookieWatch = getCookie('paymentWatch')
-    if (cookieWatch) setWatchPayment(cookieWatch)
-    if (!watchPayment) return
+    const cookieWatchJSON = cookieWatch ? JSON.parse(cookieWatch) : null
+    if (cookieWatchJSON && !watchPayment) setWatchPayment(cookieWatchJSON)
+    if (!watchPayment?.date) return
+
+    const dateDiff = dayjs().diff(dayjs(watchPayment.date), 'minutes')
+    if (dateDiff >= 60) return
 
     const requestIds = async () => {
-      if (!watchPayment) return
+      const dateDiff = dayjs().diff(dayjs(watchPayment.date), 'minutes')
+      if (dateDiff >= 60) return
 
-      const { data, error } = await getPaymentStatus(watchPayment)
+      const { data, error } = await getPaymentStatus(watchPayment.id)
       if (data.completed) {
         await dispatch(getProfileThunk())
         deleteCookie('paymentWatch')

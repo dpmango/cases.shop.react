@@ -9,6 +9,7 @@ import { IChatMessage, IThemeDto, ITicketDto } from '@/core/interface/Chat'
 
 export interface IChat {
   loading: boolean | null
+  createMode: boolean
   chatList: ITicketDto[]
   activeDialog: ITicketDto | null
   dialogMessages: IChatMessage[]
@@ -44,6 +45,7 @@ export const markReadService = createAsyncThunk(
 
 const initialState: IChat = {
   loading: null,
+  createMode: false,
   chatList: [],
   activeDialog: null,
   dialogMessages: [],
@@ -67,6 +69,13 @@ export const chatState = createSlice({
     },
     setActiveDialog(state, action: PayloadAction<ITicketDto | null>) {
       state.activeDialog = action.payload
+    },
+    setCreateMode(state, action: PayloadAction<boolean>) {
+      state.createMode = action.payload
+    },
+    resetDialog(state) {
+      state.activeDialog = null
+      state.dialogMessages = []
     },
     setPinToggle(state, action: PayloadAction<string>) {
       const newList = state.chatList.map((x) =>
@@ -114,6 +123,7 @@ export const chatState = createSlice({
   },
 })
 
-export const { setActiveDialog, setPinToggle, resetUser } = chatState.actions
+export const { setActiveDialog, setCreateMode, resetDialog, setPinToggle, resetUser } =
+  chatState.actions
 
 export default chatState.reducer

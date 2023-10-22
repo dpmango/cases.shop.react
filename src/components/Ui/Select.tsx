@@ -13,6 +13,7 @@ interface ISelectProps {
   options: ISelectOption[]
   disabled?: boolean
   placeholder?: any
+  position?: 'top' | 'bottom'
   onSelect?: (x: ISelectOption) => void
 }
 
@@ -29,6 +30,7 @@ export const Select: React.FC<ISelectProps> = ({
   options,
   disabled,
   placeholder,
+  position = 'bottom',
   onSelect,
 }) => {
   const [opened, setOpened] = useState<boolean>(false)
@@ -77,6 +79,7 @@ export const Select: React.FC<ISelectProps> = ({
       className={cns(
         'block-sidebar__select block-select',
         disabled && 'select--disabled',
+        `block-select--${position}`,
         className,
       )}
       ref={wrapperRef}

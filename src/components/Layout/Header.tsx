@@ -3,7 +3,9 @@ import cns from 'classnames'
 import { getCookie, setCookie } from 'cookies-next'
 import throttle from 'lodash/throttle'
 import Link from 'next/link'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
   BurgerIcon,
@@ -28,7 +30,7 @@ import { useClickOutside, useEventListener, useScrollLock } from '@/core/hooks'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { resetState } from '@/core/store/session.store'
 import { setMobileMenu, setModal } from '@/core/store/ui.store'
-import { formatPrice } from '@/core/utils'
+import { formatPrice, scrollToElement } from '@/core/utils'
 
 const Header = () => {
   const [theme, setTheme] = useState<string>(getCookie('theme') || 'dark')
@@ -40,6 +42,7 @@ const Header = () => {
   )
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const userDropdownRef = useRef<HTMLDivElement | null>(null)
   useClickOutside(userDropdownRef, () => setBalanceDropdown(false))
@@ -66,6 +69,16 @@ const Header = () => {
     dispatch(resetState())
   }, [])
 
+  const handleScrollTo = useCallback(
+    (id: string, e?: React.MouseEvent<HTMLElement>) => {
+      if (router.route === '/') {
+        e?.preventDefault()
+        scrollToElement(id)
+      }
+    },
+    [router],
+  )
+
   // scroll functions
   const updateSticky = useCallback(() => {
     const startStickyAt = 0
@@ -87,6 +100,15 @@ const Header = () => {
       unlockScroll()
     }
   }, [mobileMenuActive])
+
+  useEffect(() => {
+    if (router.route === '/') {
+      const routeHash = router.asPath.split('#')[1]
+      if (routeHash) {
+        handleScrollTo(routeHash)
+      }
+    }
+  }, [router.route])
 
   return (
     <>
@@ -113,17 +135,29 @@ const Header = () => {
                 <nav className="top-menu__links">
                   <ul className="links-def">
                     <li className="links-def__el">
-                      <Link className="links-def__link" href="/#games">
+                      <Link
+                        className="links-def__link"
+                        href="/#games"
+                        onClick={(e) => handleScrollTo('games', e)}
+                      >
                         Игры
                       </Link>
                     </li>
                     <li className="links-def__el">
-                      <Link className="links-def__link" href="/#reviews">
+                      <Link
+                        className="links-def__link"
+                        href="/#reviews"
+                        onClick={(e) => handleScrollTo('reviews', e)}
+                      >
                         Отзывы
                       </Link>
                     </li>
                     <li className="links-def__el">
-                      <Link className="links-def__link" href="/#faq">
+                      <Link
+                        className="links-def__link"
+                        href="/#faq"
+                        onClick={(e) => handleScrollTo('faq', e)}
+                      >
                         Ответы на вопросы
                       </Link>
                     </li>
@@ -284,12 +318,20 @@ const Header = () => {
               </Link>
             </li>
             <li className="links-profile__el">
-              <Link className="links-profile__link" href="/#reviews">
+              <Link
+                className="links-profile__link"
+                href="/#reviews"
+                onClick={(e) => handleScrollTo('reviews', e)}
+              >
                 Отзывы
               </Link>
             </li>
             <li className="links-profile__el">
-              <Link className="links-profile__link" href="/#faq">
+              <Link
+                className="links-profile__link"
+                href="/#faq"
+                onClick={(e) => handleScrollTo('faq', e)}
+              >
                 Ответы на вопросы
               </Link>
             </li>

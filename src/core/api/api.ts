@@ -70,7 +70,8 @@ export const api = async (
 
     if (useRaw) {
       raw = await ofetch(requestUrl, requestOptions)
-      status = raw.status || true
+      status = raw.status !== undefined ? raw.status : true
+      delete raw.status
     } else {
       const res = await ofetch(requestUrl, requestOptions)
 
@@ -92,7 +93,7 @@ export const api = async (
     if (status === true || status === undefined) {
       return { data, raw, message: msg, status, error: null }
     } else {
-      const fetchWithNoResponse = new Error(msg)
+      const fetchWithNoResponse = new Error(typeof msg === 'string' ? msg : '')
       // @ts-ignore
       fetchWithNoResponse.status = errorCode
       throw fetchWithNoResponse
@@ -102,10 +103,7 @@ export const api = async (
 
     if (!errMessage) {
       switch (err?.status) {
-        case 4:
-          errMessage = 'Ошибка сервера'
-          break
-        case 5:
+        case 401:
           errMessage = 'Ошибка авторизации'
           break
         case 500:

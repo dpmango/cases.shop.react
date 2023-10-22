@@ -12,6 +12,7 @@ import {
   getThemesService,
   markReadService,
   setActiveDialog,
+  setCreateMode,
 } from '@/core/store/chat.store'
 import { closeModals, setModal } from '@/core/store/ui.store'
 import { scrollWithSpeed } from '@/core/utils'
@@ -19,7 +20,10 @@ import { scrollWithSpeed } from '@/core/utils'
 import { Close2Icon, Close3Icon, UiModal } from '../Ui'
 
 export const SupportModal: React.FC<{}> = ({}) => {
-  const { activeDialog, dialogMessages } = useAppSelector((store) => store.chatStore)
+  const { activeDialog, createMode, chatList, dialogMessages } = useAppSelector(
+    (store) => store.chatStore,
+  )
+  const { modal } = useAppSelector((store) => store.uiState)
 
   const [readMessageMiddleware, setReadMessagesMiddleware] = useState<string[]>([])
 
@@ -30,6 +34,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
 
   const handlePrevClick = () => {
     dispatch(setActiveDialog(null))
+    dispatch(setCreateMode(false))
     // document.querySelector('.block-main-content__info')?.classList.add('hidden')
     // document.querySelector('.block-tabs-el_chat')?.classList.add('active')
   }
@@ -41,11 +46,15 @@ export const SupportModal: React.FC<{}> = ({}) => {
       dispatch(getThemesService())
     }
 
-    initialRequests()
+    if (chatList.length === 0 || modal === 'support') {
+      initialRequests()
+    }
 
     timer.current = setInterval(
       () => {
-        dispatch(getChatListService())
+        if (modal === 'support') {
+          dispatch(getChatListService())
+        }
       },
       1 * 30 * 1000,
     )
@@ -53,7 +62,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
     return () => {
       clearInterval(timer.current as NodeJS.Timeout)
     }
-  }, [])
+  }, [modal])
 
   const scrollToLastMessage = () => {
     if (messagesScrollerRef.current) {
@@ -62,16 +71,18 @@ export const SupportModal: React.FC<{}> = ({}) => {
   }
 
   const shouldShowDialog = useMemo(() => {
-    if (size.width! > 900) {
-      return activeDialog
-    } else {
-      return activeDialog
-      // && ui.mobileTab === 'chat'
-    }
-  }, [size.width, activeDialog])
+    return !!activeDialog || createMode
+    // if (size.width! > 900) {
+    //   return activeDialog
+    // } else {
+    //   return activeDialog
+    //   // && ui.mobileTab === 'chat'
+    // }
+  }, [size.width, activeDialog, createMode])
 
   const handleScroller = useCallback(
     throttle(() => {
+      if (createMode) return
       const unreadIds = dialogMessages.filter((x) => !x.isSeen).map((x) => x.id)
 
       const domMessages = Array.from(document.querySelectorAll('.chat__line')).filter((el) => {
@@ -99,7 +110,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
         }
       })
     }, 300),
-    [dialogMessages, activeDialog, readMessageMiddleware],
+    [dialogMessages, activeDialog, readMessageMiddleware, createMode],
   )
 
   useLayoutEffect(() => {
@@ -156,7 +167,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
                     </div>
                     <div className="chat__body-mob-title title-small">{activeDialog?.title}</div>
                   </div>
-                  {activeDialog && (
+                  {shouldShowDialog && (
                     <>
                       <div className="chat__body-content">
                         <div className="chat__body-wrap" ref={messagesScrollerRef}>

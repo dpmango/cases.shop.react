@@ -104,7 +104,6 @@ export const ChatMessages = () => {
     [lightboxSlides],
   )
 
-  console.log({ galleryIndex }, lightboxSlides)
   return (
     <>
       {messageRenderer.history.map((msg, idx) => (

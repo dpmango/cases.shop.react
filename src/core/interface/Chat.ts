@@ -7,7 +7,7 @@ export interface ITicketDto {
   unreadMessages: number
   lastMessage: string
   isPinned: boolean
-  theme: IThemeDto
+  theme?: IThemeDto
 }
 
 export interface IError {

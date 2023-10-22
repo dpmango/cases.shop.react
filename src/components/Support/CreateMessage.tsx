@@ -1,14 +1,17 @@
 import cns from 'classnames'
-import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 // import ReactQuill from 'react-quill'
 import { toast } from 'react-toastify'
 
 import { AttachSvg, CloseIcon, SendSvg } from '@/components/Ui/Icons'
-import { postMessage } from '@/core/api/chat.api'
+import { createTicket, ICreateTicket, postMessage } from '@/core/api/chat.api'
 import { useAppDispatch, useAppSelector } from '@/core/store'
-import { getChatListService, getChatMessagesService } from '@/core/store/chat.store'
+import { getChatListService, getChatMessagesService, setCreateMode } from '@/core/store/chat.store'
 import { blobToData, bytesToMegaBytes } from '@/core/utils'
+
+import { UiSelect } from '../Ui'
+import { ISelectOption } from '../Ui/Select'
 const FILE_MAX_IMAGE_MB = 5
 const FILE_MAX_VIDEO_MB = 50
 const FILE_ALLOWED_MIME = ['image', 'video']
@@ -27,8 +30,10 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
   const [value, setValue] = useState('')
   const [dropActive, setDropActive] = useState(false)
   const [upload, setUpload] = useState<IUpload | null>(null)
+  const [activeTheme, setActiveTheme] = useState<ISelectOption | null>(null)
 
-  const { activeDialog } = useAppSelector((store) => store.chatStore)
+  const { activeDialog, themes, createMode } = useAppSelector((store) => store.chatStore)
+  const { modal } = useAppSelector((store) => store.uiState)
 
   const createMessageBox = useRef<HTMLDivElement | null>(null)
   const dispatch = useAppDispatch()
@@ -36,7 +41,7 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
   const sendMessage = useCallback(async () => {
     let sendValue = value
 
-    if (activeDialog?.id && (value || upload)) {
+    if ((activeDialog?.id || createMode) && (value || upload)) {
       const removeLastLine = value ? value.split('<p><br></p>') : []
       if (removeLastLine.length >= 2) {
         sendValue = removeLastLine[0]
@@ -44,7 +49,7 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
 
       await handleMessageSend(sendValue)
     }
-  }, [activeDialog, value, upload])
+  }, [activeDialog, createMode, value, upload])
 
   const handleKeydown = useCallback(
     // @ts-ignore
@@ -102,20 +107,36 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
 
   const handleMessageSend = useCallback(
     async (sendValue: string) => {
-      if (activeDialog?.id) {
-        setValue('')
-        setUpload(null)
+      setValue('')
+      setUpload(null)
 
+      if (createMode) {
+        const newTicketObj = { name: sendValue } as ICreateTicket
+        if (activeTheme) {
+          newTicketObj.theme = activeTheme.value
+        }
+
+        const { data, error } = await createTicket(newTicketObj)
+        if (error) {
+          toast.error(error.message || 'Ошибка! У вас уже есть открытый диалог')
+        }
+
+        dispatch(setCreateMode(false))
+        onSuccessCallback && onSuccessCallback()
+        await dispatch(getChatListService())
+        return
+      }
+
+      if (activeDialog?.id) {
         const { data, error } = await postMessage(activeDialog?.id, sendValue, upload?.file)
-        // @ts-ignore
-        if (error && error.message) toast.error(error.message)
+        if (error) toast.error(error.message || 'Ошибка при отправке сообщения')
 
         await dispatch(getChatMessagesService(activeDialog?.id))
         onSuccessCallback && onSuccessCallback()
         await dispatch(getChatListService())
       }
     },
-    [value, activeDialog, upload],
+    [value, activeDialog, upload, createMode],
   )
 
   const onDropEnter = useCallback((e: DragEvent) => {
@@ -161,7 +182,8 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
     [handleFileSelect],
   )
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (createMode || modal !== 'support') return
     const targetListener = window
 
     targetListener.addEventListener('dragenter', onDropEnter, false)
@@ -179,7 +201,7 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
 
       document.removeEventListener('paste', handleFilePaste, false)
     }
-  }, [])
+  }, [createMode, modal])
 
   if (activeDialog?.status === 1) return null
 
@@ -187,18 +209,32 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
     <div className="chat__acts chat-acts" ref={createMessageBox}>
       <div className={cns('dropindication', dropActive && '_active')} />
 
-      <label className="chat-acts__file">
-        <input className="chat-acts__file-inp" type="file" onChange={handleFileSelect} />
-        <AttachSvg />
-      </label>
+      {!createMode && (
+        <label className="chat-acts__file">
+          <input className="chat-acts__file-inp" type="file" onChange={handleFileSelect} />
+          <AttachSvg />
+        </label>
+      )}
 
       <div className="block-window__input">
+        {createMode && (
+          <UiSelect
+            placeholder="Выберите тему"
+            position="top"
+            value={activeTheme?.value}
+            options={themes}
+            onSelect={(v) => setActiveTheme(v)}
+          />
+        )}
+
         <TextareaAutosize
           className="chat-acts__inp"
           value={value}
           onChange={(e: any) => setValue(e.target.value)}
           onKeyDown={handleKeydown}
-          placeholder="Напишите сообщение"
+          placeholder={
+            !createMode ? 'Напишите сообщение' : 'Напишите тему нового обращения в поддержку'
+          }
           maxRows={5}
           minRows={1}
         />

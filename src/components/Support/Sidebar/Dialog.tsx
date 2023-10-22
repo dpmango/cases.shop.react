@@ -10,13 +10,14 @@ import { OrderCardDecorSvg } from '@/components/Ui/Icons'
 dayjs.locale('ru')
 
 import { pinTicket } from '@/core/api'
-import type { ITicketDto } from '@/core/interface/Chat'
+import type { IThemeDto, ITicketDto } from '@/core/interface/Chat'
 import { useAppDispatch } from '@/core/store'
-import { setActiveDialog, setPinToggle } from '@/core/store/chat.store'
+import { setActiveDialog, setCreateMode, setPinToggle } from '@/core/store/chat.store'
 
-interface IChatDialog extends ITicketDto {
+interface IChatDialog extends Omit<ITicketDto, 'theme'> {
   selected?: boolean
   disabled?: boolean
+  theme?: IThemeDto
 }
 
 export const ChatDialog: React.FC<IChatDialog> = ({
@@ -25,6 +26,7 @@ export const ChatDialog: React.FC<IChatDialog> = ({
   modified,
   created,
   selected,
+  disabled,
   unreadMessages,
   lastMessage,
   theme,
@@ -38,6 +40,8 @@ export const ChatDialog: React.FC<IChatDialog> = ({
   const isLocked = status === 1
 
   const handleDialogClick = () => {
+    if (disabled) return
+    dispatch(setCreateMode(false))
     dispatch(
       setActiveDialog({
         id,
@@ -70,9 +74,10 @@ export const ChatDialog: React.FC<IChatDialog> = ({
     <div
       className={cns(
         'chat__el chat-el',
-        isLocked && '_lock',
         selected && 'active',
         isPinned && '_pined',
+        isLocked && 'chat-el_gray',
+        disabled && 'chat-el_gray',
       )}
       onClick={handleDialogClick}
     >
