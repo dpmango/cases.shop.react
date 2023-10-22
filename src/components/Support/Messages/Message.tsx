@@ -1,14 +1,12 @@
 import dayjs from 'dayjs'
 
-import { IChatMessage, ITicketDto } from '@/core/interface/Chat'
+import { IAttachment, IChatMessage, ITicketDto } from '@/core/interface/Chat'
 
-interface IChatMessageProps extends IChatMessage {}
-// import 'react-photo-view/dist/react-photo-view.css'
+interface IChatMessageProps extends IChatMessage {
+  openGallery: (a: IAttachment) => void
+}
 
 import cns from 'classnames'
-
-// import { PhotoView } from 'react-photo-view'
-// import { ClientOnly } from '@/components/Ui'
 
 export const ChatMessage: React.FC<IChatMessageProps> = ({
   id,
@@ -17,6 +15,7 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
   attachments,
   isOut,
   isSeen,
+  openGallery,
 }) => {
   const normalizeAttributes = ({
     maxWidth,
@@ -41,7 +40,6 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
 
   return (
     <div className={cns('chat__line', isOut && 'chat__line chat__line_2')} data-id={id}>
-      {/* <ClientOnly> */}
       {attachments.length > 0 &&
         attachments.map((att, idx) => (
           <div
@@ -51,6 +49,7 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
               maxHeight: att.height,
               type: att.type,
             })}
+            onClick={() => openGallery(att)}
             key={idx}
           >
             {att.type === 'photo' && (
@@ -63,7 +62,7 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
               >
                 <img
                   className="block-chat__img-img"
-                  src={`https://shopcore.ru/${att.src.replace('..', '')}`}
+                  src={`https://shopcore.ru${att.src.replace('..', '')}`}
                   alt=""
                 />
               </div>
@@ -78,13 +77,12 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({
                 }}
               >
                 <video className="block-chat__img-img _video" controls playsInline>
-                  <source src={`https://shopcore.ru/${att.src.replace('..', '')}`} />
+                  <source src={`https://shopcore.ru${att.src.replace('..', '')}`} />
                 </video>
               </div>
             )}
           </div>
         ))}
-      {/* </ClientOnly> */}
 
       {text && (
         <div
