@@ -8,4 +8,3 @@ ssh root@195.2.75.40 << EOF
   pm2 stop all
   pm2 start ecosystem.config.cjs
 EOF
-

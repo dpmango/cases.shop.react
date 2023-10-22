@@ -15,7 +15,7 @@ export const HomeReviews: React.FC<{}> = () => {
   const dispatch = useAppDispatch()
 
   const [pagination, setPagination] = useState(paginatePer)
-  const [paginationVisible, setPaginationVisible] = useState(reviews?.length >= paginatePer)
+  const [paginationVisible, setPaginationVisible] = useState(reviews?.length! >= paginatePer)
 
   if (!reviews) return
 
