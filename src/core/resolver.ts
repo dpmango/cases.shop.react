@@ -9,7 +9,7 @@ import { initialProductState } from '@/core/store/product.store'
 import { initialSessionState } from '@/core/store/session.store'
 
 import { setShopID } from './api/api'
-import { IOrderDto } from './interface/Order'
+import { IOrderDto, IUserOrderDto } from './interface/Order'
 
 export interface IResolver {
   PRELOADED_STATE: any

@@ -53,7 +53,6 @@ export const ChatSidebar: React.FC = () => {
   useEffect(() => {
     if (modalParams?.orderId) {
       handleTicketCreate(modalParams.orderId)
-      console.log('opened with modal params', modalParams.orderId)
     }
   }, [modalParams])
 
@@ -63,7 +62,7 @@ export const ChatSidebar: React.FC = () => {
         <div className="chat__title title-def title-def_sec">Диалоги с поддержкой</div>
         <div className="chat__title-mob title-def title-def_sec">Поддержка</div>
         <div className="chat__btn action-btn">
-          <div className="action-btn__content" onClick={handleTicketCreate}>
+          <div className="action-btn__content" onClick={() => handleTicketCreate()}>
             <div className="action-btn__icon">
               <PlusIcon2 />
             </div>

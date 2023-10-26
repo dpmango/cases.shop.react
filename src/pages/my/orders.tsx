@@ -46,7 +46,7 @@ export default function Page({
       }
 
       return acc
-    }, [])
+    }, [] as string[])
 
     return ['Все', ...allStatuses]
   }, [hasData, userOrdersData])
