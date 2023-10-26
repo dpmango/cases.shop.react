@@ -2,6 +2,7 @@ import cns from 'classnames'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 
+import { PayAnypayIcon, PayLavaIcon, PayPaypalIcon } from '@/components/Ui'
 import { useAppSelector } from '@/core/store'
 
 const Footer: React.FC = () => {
@@ -26,7 +27,13 @@ const Footer: React.FC = () => {
                 <div className="pay-info__title sec-footer__text">Принимаем к оплате</div>
                 {paymentsMethods.map((pay, idx) => (
                   <div className="pay-info__el pay-info-el" key={pay.id}>
-                    <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                    {pay.id === 'lavaru' && <PayLavaIcon />}
+                    {pay.id === 'paypalych' && <PayPaypalIcon />}
+                    {pay.id === 'anypay' && <PayAnypayIcon />}
+
+                    {!['lavaru', 'paypalych', 'anypay'].includes(pay.id) && (
+                      <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                    )}
                   </div>
                 ))}
               </div>

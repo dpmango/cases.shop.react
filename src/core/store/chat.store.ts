@@ -9,7 +9,7 @@ import { IChatMessage, IThemeDto, ITicketDto } from '@/core/interface/Chat'
 
 export interface IChat {
   loading: boolean | null
-  createMode: boolean
+  createMode: boolean | string
   chatList: ITicketDto[]
   activeDialog: ITicketDto | null
   dialogMessages: IChatMessage[]
@@ -70,7 +70,7 @@ export const chatState = createSlice({
     setActiveDialog(state, action: PayloadAction<ITicketDto | null>) {
       state.activeDialog = action.payload
     },
-    setCreateMode(state, action: PayloadAction<boolean>) {
+    setCreateMode(state, action: PayloadAction<boolean | string>) {
       state.createMode = action.payload
     },
     resetDialog(state) {

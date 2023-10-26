@@ -3,7 +3,7 @@ import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
 import type { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { buildParams } from '@/core/utils/api'
 
-import { ICreatedOrderDto, IOrderDto } from '../interface/Order'
+import { ICreatedOrderDto, IOrderDto, IUserOrderDto } from '../interface/Order'
 import { api, IRequestOptions } from './api'
 
 // get categories
@@ -52,10 +52,10 @@ export const createOrder = async ({
       id: 'platform',
       value: platform,
     },
-    {
-      id: 'test',
-      value: '',
-    },
+    // {
+    //   id: 'test',
+    //   value: '',
+    // },
   ]
 
   if (steamDeposit) {
@@ -92,7 +92,7 @@ export const getUserOrders = async ({ accessToken }: IGetUserOrdersPayload) => {
     }
   }
 
-  const { error, data, raw }: IApiResponse<IOrderDto> = await api(`user/orders`, params, true)
+  const { error, data, raw }: IApiResponse<IUserOrderDto[]> = await api(`user/orders`, params, true)
 
   return { data: raw, error }
 }

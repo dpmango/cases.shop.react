@@ -12,6 +12,8 @@ import { resetDialog, setCreateMode } from '@/core/store/chat.store'
 
 export const ChatSidebar: React.FC = () => {
   const { loading, chatList, createMode, activeDialog } = useAppSelector((store) => store.chatStore)
+  const { modalParams } = useAppSelector((store) => store.uiState)
+
   const sidebarRef = useRef<HTMLDivElement | null>(null)
   const [sidebarOpened, setSidebarOpened] = useState(false)
 
@@ -28,8 +30,8 @@ export const ChatSidebar: React.FC = () => {
 
   useClickOutside(sidebarRef, closeSidebar)
 
-  const handleTicketCreate = () => {
-    dispatch(setCreateMode(true))
+  const handleTicketCreate = (id?: string) => {
+    dispatch(setCreateMode(id || true))
     dispatch(resetDialog())
   }
 
@@ -47,6 +49,13 @@ export const ChatSidebar: React.FC = () => {
       unreadMessages: 0,
     }
   }, [createMode])
+
+  useEffect(() => {
+    if (modalParams?.orderId) {
+      handleTicketCreate(modalParams.orderId)
+      console.log('opened with modal params', modalParams.orderId)
+    }
+  }, [modalParams])
 
   return (
     <div className="chat__sidebar" ref={sidebarRef}>

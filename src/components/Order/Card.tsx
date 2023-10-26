@@ -1,25 +1,29 @@
 import cns from 'classnames'
+import dayjs from 'dayjs'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useScrollLock } from '@/core/hooks'
+import { IUserOrderDto } from '@/core/interface/Order'
+import { useAppDispatch } from '@/core/store'
+import { setModal } from '@/core/store/ui.store'
+import { formatPrice } from '@/core/utils'
 
 import { Close3Icon, DislikeIcon, LikeIcon, OrderCardDecorSvg } from '../Ui'
 
-interface IOrderCard {
-  status: 1 | 2 | 3 | 4 | 5
-  background: string
-  supportID?: string
-  supportUnread?: boolean
-}
+interface IOrderCard extends IUserOrderDto {}
 
 export const OrderCard: React.FC<IOrderCard> = ({
-  background,
+  id,
   status,
-  supportID,
-  supportUnread,
+  created,
+  category,
+  item,
+  ticket,
 }) => {
   const [isFixed, setIsFixed] = useState(false)
   const { lockScroll, unlockScroll } = useScrollLock()
+
+  const dispatch = useAppDispatch()
 
   const handleCardClick = useCallback(() => {
     setIsFixed(!isFixed)
@@ -34,8 +38,8 @@ export const OrderCard: React.FC<IOrderCard> = ({
   }, [isFixed])
 
   return (
-    <div className={cns('orders-el', isFixed && 'fixed')} onClick={handleCardClick}>
-      <img className="orders-el__bg" src={background} alt="" />
+    <div className={cns('orders-el', isFixed && 'fixed')} onClick={handleCardClick} data-id={id}>
+      <img className="orders-el__bg" src={item.icon} alt="" />
       <div className="orders-el__body">
         <div className="orders-el__mob" onClick={(e) => e.stopPropagation()}>
           <div className="orders-el__mob-prev close-btn" onClick={() => setIsFixed(false)}>
@@ -44,7 +48,24 @@ export const OrderCard: React.FC<IOrderCard> = ({
           <div className="orders-el__mob-title">Информция о заказе</div>
         </div>
 
-        {status === 1 && (
+        <div className="orders-el__info orders-el__info_gray">
+          <div className="orders-el__tag tag" style={{ backgroundColor: status.color }}>
+            {status.text}
+          </div>
+          <p className="text-info text-info_small">{status.description}</p>
+          {status.like && (
+            <div className="rating-btns orders-el__rating">
+              <div className="rating-btns__btn rating-btns__btn_green">
+                <LikeIcon />
+              </div>
+              <div className="rating-btns__btn rating-btns__btn_red">
+                <DislikeIcon />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* {status === 1 && (
           <div className="orders-el__info orders-el__info_gray">
             <div className="orders-el__tag tag tag_gray">В очереди</div>
             <p className="text-info text-info_small">
@@ -93,12 +114,10 @@ export const OrderCard: React.FC<IOrderCard> = ({
               поддержки.
             </p>
           </div>
-        )}
+        )} */}
 
-        {supportID ? (
-          <div
-            className={cns('orders-el__support support-card', supportUnread && 'support-card_red')}
-          >
+        {ticket ? (
+          <div className={cns('orders-el__support support-card', 0 && 'support-card_red')}>
             <div className="support-card__bg">
               <OrderCardDecorSvg />
               <div className="support-card__count">1</div>
@@ -117,7 +136,12 @@ export const OrderCard: React.FC<IOrderCard> = ({
             <div className="text-cat text-cat_small">
               Поддержка поможет в любой ситуации! Просто опишите нам свою проблему.
             </div>
-            <button className="info-card__btn btn-def btn-def_full btn-def_small btn-def_gray">
+            <button
+              className="info-card__btn btn-def btn-def_full btn-def_small btn-def_gray"
+              onClick={() => {
+                dispatch(setModal({ name: 'support', params: { orderId: id } }))
+              }}
+            >
               <span>Написать в поддержку</span>
             </button>
           </div>
@@ -125,14 +149,18 @@ export const OrderCard: React.FC<IOrderCard> = ({
 
         <div className="orders-el__content">
           <div className="orders-el__cat cat-info cat-info_big">
-            <img className="cat-info__icon" src="../img/cat/Heartstone.svg" alt="" />
+            {category.icon && <img className="cat-info__icon" src={category.icon} alt="" />}
             <div className="cat-info__body">
-              <div className="cat-info__title">Heartstone</div>
+              <div className="cat-info__title">{category.name}</div>
             </div>
           </div>
           <div className="orders-el__title title-def title-def_sec2">1 500 рунических камней</div>
-          <div className="orders-el__date">Заказ от 25 августа 2023 в 19:11:43</div>
-          <div className="orders-el__cost text-info text-info_small">1 424 ₽</div>
+          <div className="orders-el__date">
+            Заказ от {dayjs(created).format('DD MMMM YYYY в HH:mm')}
+          </div>
+          <div className="orders-el__cost text-info text-info_small">
+            {formatPrice(item.price.salePrice)}
+          </div>
         </div>
       </div>
     </div>

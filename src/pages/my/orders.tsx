@@ -1,5 +1,7 @@
+import cns from 'classnames'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
+import { useMemo, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { OrderCard } from '@/components/Order'
@@ -32,7 +34,30 @@ export const getServerSideProps = (async (context) => {
 export default function Page({
   userOrdersData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ userOrdersData })
+  const [activeStatus, setActiveStatus] = useState('Все')
+  const hasData = userOrdersData?.length
+
+  const listStatuses = useMemo(() => {
+    if (!hasData) return []
+
+    const allStatuses = userOrdersData?.reduce((acc, x) => {
+      if (!acc.includes(x.status.text)) {
+        acc.push(x.status.text)
+      }
+
+      return acc
+    }, [])
+
+    return ['Все', ...allStatuses]
+  }, [hasData, userOrdersData])
+
+  const displayList = useMemo(() => {
+    if (!hasData) return []
+    if (activeStatus === 'Все') return userOrdersData
+
+    return userOrdersData.filter((x) => x.status.text === activeStatus)
+  }, [activeStatus, userOrdersData, hasData])
+
   return (
     <LayoutGeneral>
       <Head>
@@ -45,56 +70,29 @@ export default function Page({
           <div className="sec-page__wrap">
             <div className="sec-page__title title-def title-def_page">Мои заказы</div>
             <div className="tags tags_scroll">
-              <button className="tags__el active">
-                <span>Все</span>
-              </button>
-              <button className="tags__el">
-                <span>В очереди</span>
-              </button>
-              <button className="tags__el">
-                <span>Выполняется</span>
-              </button>
-              <button className="tags__el">
-                <span>Решение вопроса</span>
-              </button>
-              <button className="tags__el">
-                <span>Выполнен</span>
-              </button>
-              <button className="tags__el">
-                <span>Отменён</span>
-              </button>
+              {listStatuses.length > 1 &&
+                listStatuses.map((status, idx) => (
+                  <button
+                    className={cns('tags__el', activeStatus === status && 'active')}
+                    onClick={() => setActiveStatus(status)}
+                    key={idx}
+                  >
+                    <span>{status}</span>
+                  </button>
+                ))}
             </div>
             <div className="sec-page__content3">
-              <div className="orders">
-                <div className="orders__el">
-                  <OrderCard background="../img/bg/4.jpg" status={1} />
+              {hasData && (
+                <div className="orders">
+                  {displayList.map((order, idx) => (
+                    <div className="orders__el" key={idx}>
+                      <OrderCard {...order} />
+                    </div>
+                  ))}
                 </div>
-                <div className="orders__el">
-                  <OrderCard background="../img/bg/5.jpg" status={2} supportID={'111'} />
-                </div>
+              )}
 
-                <div className="orders__el">
-                  <OrderCard
-                    background="../img/bg/2.jpg"
-                    status={3}
-                    supportID={'222'}
-                    supportUnread={true}
-                  />
-                </div>
-                <div className="orders__el">
-                  <OrderCard background="../img/bg/7.jpg" status={4} />
-                </div>
-                <div className="orders__el">
-                  <OrderCard
-                    background="../img/bg/2.jpg"
-                    status={5}
-                    supportID={'333'}
-                    supportUnread={true}
-                  />
-                </div>
-              </div>
-
-              <button className="sec-orders__btn btn-show">Показать ещё</button>
+              {/* <button className="sec-orders__btn btn-show">Показать ещё</button>
               <div className="sec-orders__bottom">
                 <div className="sec-orders__bottom-left">
                   <div className="nav-pages">
@@ -120,7 +118,9 @@ export default function Page({
                     Показаны записи с 1 до 25 из 136
                   </div>
                 </div>
-              </div>
+              </div> */}
+
+              {!hasData && <p className="text-info">У вас еще нет заказов</p>}
             </div>
           </div>
         </div>

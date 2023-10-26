@@ -19,6 +19,9 @@ import {
   MobNavSupportIcon,
   MobNavWalletIcon,
   NotificationIcon,
+  PayAnypayIcon,
+  PayLavaIcon,
+  PayPaypalIcon,
   StarIcon,
   SupportIcon,
   UiModal,
@@ -348,7 +351,13 @@ const Header = () => {
               <div className="pay-info__title">Принимаем к оплате</div>
               {paymentsMethods.map((pay, idx) => (
                 <div className="pay-info__el pay-info-el" key={pay.id}>
-                  <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                  {pay.id === 'lavaru' && <PayLavaIcon />}
+                  {pay.id === 'paypalych' && <PayPaypalIcon />}
+                  {pay.id === 'anypay' && <PayAnypayIcon />}
+
+                  {!['lavaru', 'paypalych', 'anypay'].includes(pay.id) && (
+                    <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                  )}
                 </div>
               ))}
             </div>
@@ -357,71 +366,76 @@ const Header = () => {
         </div>
       </div>
 
-      <UiModal className="modal-act profile-mob" name="profile-mob">
-        <div className="profile-mob__content">
-          <div className="profile-mob__title">Профиль</div>
-          <div className="balance-info profile-mob__balance">
-            <div className="balance-info__top">
-              <div className="action-btn__dropdown-title">Баланс</div>
-              <Wallet2Icon />
+      {user && (
+        <UiModal className="modal-act profile-mob" name="profile-mob">
+          <div className="profile-mob__content">
+            <div className="profile-mob__title">Профиль</div>
+            <div className="balance-info profile-mob__balance">
+              <div className="balance-info__top">
+                <div className="action-btn__dropdown-title">Баланс</div>
+                <Wallet2Icon />
+              </div>
+              <div className="balance-info__cost">{formatPrice(user.balance)}</div>
+              <button
+                className="balance-info__btn btn-def btn-def_full btn-modal"
+                onClick={() => {
+                  dispatch(setModal({ name: 'balance' }))
+                }}
+              >
+                <span>Пополнить</span>
+              </button>
             </div>
-            <div className="balance-info__cost">25 045,62 ₽</div>
-            <button
-              className="balance-info__btn btn-def btn-def_full btn-modal"
-              onClick={() => {
-                dispatch(setModal({ name: 'balance' }))
-              }}
-            >
-              <span>Пополнить</span>
-            </button>
-          </div>
-          <div className="profile-mob__notify notify-info">
-            <div className="notify-info__top">
-              <div className="notify-info__title">Уведомления</div>
-              <div className="notify-info__count count-def">9</div>
-            </div>
-            <div className="notify-info__content">
-              <div className="notify-info__el notify-info-el">
-                <img className="notify-info-el__img" src="/img/fall_bg.jpg" alt="" />
+            <div className="profile-mob__notify notify-info">
+              <div className="notify-info__top">
+                <div className="notify-info__title">Уведомления</div>
+                <div className="notify-info__count count-def">9</div>
+              </div>
+              <div className="notify-info__content">
+                <div className="notify-info__el notify-info-el">
+                  <img className="notify-info-el__img" src="/img/fall_bg.jpg" alt="" />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="profile-mob__theme">
-            <div className="action-btn__dropdown-title">Тема</div>
-            <div className="theme-btn">
-              <button
-                className={cns('theme-btn__btn theme-btn__btn_black', theme === 'dark' && 'active')}
-                onClick={setDarkTheme}
-              >
-                <DarkThemeIcon />
-                <span>Тёмная</span>
-              </button>
-              <button
-                className={cns(
-                  'theme-btn__btn theme-btn__btn_white',
-                  theme === 'light' && 'active',
-                )}
-                onClick={setLightTheme}
-              >
-                <LightThemeIcon />
-                <span>Светлая</span>
-              </button>
+            <div className="profile-mob__theme">
+              <div className="action-btn__dropdown-title">Тема</div>
+              <div className="theme-btn">
+                <button
+                  className={cns(
+                    'theme-btn__btn theme-btn__btn_black',
+                    theme === 'dark' && 'active',
+                  )}
+                  onClick={setDarkTheme}
+                >
+                  <DarkThemeIcon />
+                  <span>Тёмная</span>
+                </button>
+                <button
+                  className={cns(
+                    'theme-btn__btn theme-btn__btn_white',
+                    theme === 'light' && 'active',
+                  )}
+                  onClick={setLightTheme}
+                >
+                  <LightThemeIcon />
+                  <span>Светлая</span>
+                </button>
+              </div>
             </div>
+            <ul className="profile-mob__links links-profile">
+              <li className="links-profile__el">
+                <a className="links-profile__link" href="#">
+                  Сменить пароль
+                </a>
+              </li>
+              <li className="links-profile__el">
+                <a className="links-profile__link" href="#">
+                  Выйти
+                </a>
+              </li>
+            </ul>
           </div>
-          <ul className="profile-mob__links links-profile">
-            <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
-                Сменить пароль
-              </a>
-            </li>
-            <li className="links-profile__el">
-              <a className="links-profile__link" href="#">
-                Выйти
-              </a>
-            </li>
-          </ul>
-        </div>
-      </UiModal>
+        </UiModal>
+      )}
 
       <div className="mobile-navi">
         <div className="mobile-navi__content">
@@ -435,40 +449,44 @@ const Header = () => {
               <MobNavGamesIcon />
             </div>
           </button>
-          <button
-            className={cns('mobile-navi__el act-mob', modal === 'support' && 'active')}
-            onClick={() => {
-              dispatch(setModal({ name: 'support' }))
-            }}
-          >
-            <div className="act-mob__count">2</div>
-            <div className="act-mob__icon">
-              <MobNavSupportIcon />
-            </div>
-          </button>
-          <Link className="mobile-navi__el act-mob" href="/my/favourites">
-            <div className="act-mob__count act-mob__count_black">39</div>
-            <div className="act-mob__icon">
-              <MobNavStarIcon />
-            </div>
-          </Link>
-          <Link className="mobile-navi__el act-mob" href="/my/orders">
-            <div className="act-mob__count">1</div>
-            <div className="act-mob__icon">
-              <MobNavWalletIcon />
-            </div>
-          </Link>
-          <button
-            className={cns('mobile-navi__el act-mob', modal === 'profile-mob' && 'active')}
-            onClick={() => {
-              dispatch(setModal({ name: 'profile-mob' }))
-            }}
-          >
-            <div className="act-mob__count">9</div>
-            <div className="act-mob__icon">
-              <MobNavProfileIcon />
-            </div>
-          </button>
+          {user && (
+            <>
+              <button
+                className={cns('mobile-navi__el act-mob', modal === 'support' && 'active')}
+                onClick={() => {
+                  dispatch(setModal({ name: 'support' }))
+                }}
+              >
+                <div className="act-mob__count">2</div>
+                <div className="act-mob__icon">
+                  <MobNavSupportIcon />
+                </div>
+              </button>
+              <Link className="mobile-navi__el act-mob" href="/my/favourites">
+                <div className="act-mob__count act-mob__count_black">39</div>
+                <div className="act-mob__icon">
+                  <MobNavStarIcon />
+                </div>
+              </Link>
+              <Link className="mobile-navi__el act-mob" href="/my/orders">
+                <div className="act-mob__count">1</div>
+                <div className="act-mob__icon">
+                  <MobNavWalletIcon />
+                </div>
+              </Link>
+              <button
+                className={cns('mobile-navi__el act-mob', modal === 'profile-mob' && 'active')}
+                onClick={() => {
+                  dispatch(setModal({ name: 'profile-mob' }))
+                }}
+              >
+                <div className="act-mob__count">9</div>
+                <div className="act-mob__icon">
+                  <MobNavProfileIcon />
+                </div>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -11,7 +11,16 @@ import { getProfileThunk } from '@/core/store/session.store'
 import { closeModals } from '@/core/store/ui.store'
 import { formatPrice, openExternalLink } from '@/core/utils'
 
-import { Close2Icon, Close3Icon, MinusIcon, PlusIcon, UiModal } from '../Ui'
+import {
+  Close2Icon,
+  Close3Icon,
+  MinusIcon,
+  PayAnypayIcon,
+  PayLavaIcon,
+  PayPaypalIcon,
+  PlusIcon,
+  UiModal,
+} from '../Ui'
 
 interface IWatchPayment {
   id: string
@@ -118,7 +127,6 @@ export const DepositModal: React.FC<{}> = ({}) => {
     }
   }, [watchPayment])
 
-  console.log({ modalParams })
   useEffect(() => {
     if (modalParams?.sum) {
       let sumToSet = modalParams?.sum as number
@@ -197,8 +205,13 @@ export const DepositModal: React.FC<{}> = ({}) => {
                         onClick={() => setSelectedPayment(pay.id)}
                       >
                         <div className="payment-choose-el__title">{pay.name}</div>
-                        {/* <PayPaypalIcon /> */}
-                        <img src={pay.icon} alt={pay.name} />
+                        {pay.id === 'lavaru' && <PayLavaIcon />}
+                        {pay.id === 'paypalych' && <PayPaypalIcon />}
+                        {pay.id === 'anypay' && <PayAnypayIcon />}
+
+                        {!['lavaru', 'paypalych', 'anypay'].includes(pay.id) && (
+                          <img src={pay.icon} alt={pay.name} />
+                        )}
                       </div>
                       <div
                         className="payment-choose-el__dropdown"

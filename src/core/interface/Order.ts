@@ -67,3 +67,19 @@ export interface ITempBalance {
 //   }
 //   note?: string
 // }
+
+export interface IUserOrderDto {
+  id: string
+  status: IOrderStatus
+  created: number
+  category: IProductCategory
+  item: IProductItem
+  ticket: null
+}
+
+export interface IOrderStatus {
+  text: string
+  description: string
+  color: string
+  like: boolean
+}

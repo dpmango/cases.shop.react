@@ -18,7 +18,7 @@ export interface IResolver {
   categoryData?: IProductCategory
   pageData?: any
   orderData?: IOrderDto
-  userOrdersData?: any
+  userOrdersData?: IUserOrderDto[]
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -49,7 +49,7 @@ export const Resolver = async (
   let categoryData: IProductCategory | null = null
   let pageData: any | null = null
   let orderData: IOrderDto | null = null
-  let userOrdersData: any | null = null
+  let userOrdersData: IUserOrderDto[] | null = null
 
   const PRELOADED_STATE = {
     sessionState: {

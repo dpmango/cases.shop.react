@@ -115,6 +115,9 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
         if (activeTheme) {
           newTicketObj.theme = activeTheme.value
         }
+        if (typeof createMode === 'string') {
+          newTicketObj.orderId = createMode
+        }
 
         const { data, error } = await createTicket(newTicketObj)
         if (error) {

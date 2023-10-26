@@ -81,9 +81,10 @@ export const postMessage = async (id: string, text: string, file?: File | null) 
 export interface ICreateTicket {
   name: string
   theme?: number
+  orderId?: string
 }
 
-export const createTicket = async ({ name, theme }: ICreateTicket) => {
+export const createTicket = async ({ name, theme, orderId }: ICreateTicket) => {
   const { data, error, raw }: IApiResponse<any> = await api(
     `ticket/create`,
     {
@@ -91,6 +92,7 @@ export const createTicket = async ({ name, theme }: ICreateTicket) => {
       body: {
         name,
         theme,
+        orderId,
       },
     },
     true,
