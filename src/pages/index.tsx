@@ -4,7 +4,7 @@ import Head from 'next/head'
 import { HomeFaq, HomeNavigation, HomePopular, HomeProcess, HomeReviews } from '@/components/Home'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard, ReviewCard } from '@/components/Product'
-import { getMainPage, getPopularProducts, getReviews } from '@/core/api'
+import { getPopularProducts, getReviews } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 

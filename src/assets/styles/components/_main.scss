@@ -1,9 +1,9 @@
-html{
+html {
 	background: #191B22;
 	transition: background .3s;
 }
 
-body{
+body {
 	font-family: 'PT Root UI', 'Arial', sans-serif;
 	padding: 0;
 	margin: 0;
@@ -11,25 +11,27 @@ body{
 	line-height: 1.26;
 }
 
-a{
+a {
 	font-family: 'PT Root UI', Arial, sans-serif;
 	display: inline-flex;
 }
 
-input{
-	&, &::pleceholder{
+input {
+
+	&,
+	&::pleceholder {
 		font-family: 'PT Root UI', 'Arial', sans-serif;
 	}
 }
 
-.wrapper-def{
+.wrapper-def {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
 }
 
-.container-def{
+.container-def {
 	padding: 0 20px;
 	margin: 0 auto;
 	width: 100%;
@@ -38,7 +40,7 @@ input{
 	max-width: 1240px;
 }
 
-.home-bg{
+.home-bg {
 	position: absolute;
 	object-fit: cover;
 	top: 0;
@@ -50,7 +52,7 @@ input{
 	z-index: 1;
 }
 
-.home-bg-2{
+.home-bg-2 {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -62,138 +64,164 @@ input{
 	object-fit: cover;
 }
 
-.padding-top{
+.padding-top {
 	padding-top: 120px;
 }
 
-.top-menu{
+.top-menu {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 100;
 	width: 100%;
 	transition: background .3s;
-	&.bgPage{
+
+	&.bgPage {
 		background: #202229;
 	}
-	&.bg{
+
+	&.bg {
 		background: #202229;
 	}
-	&__wrap{
+
+	&__wrap {
 		padding: 40px 0;
 	}
-	&__content{
+
+	&__content {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-	&__left{
+
+	&__left {
 		display: flex;
 		align-items: center;
 	}
-	&__logo{
+
+	&__logo {
 		margin-right: 50px;
 	}
-	&__right{
+
+	&__right {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
 	}
-	&__burger{
+
+	&__burger {
 		display: none;
 	}
-	&__btn{
+
+	&__btn {
 		margin-right: 30px;
-		&:last-child{
+
+		&:last-child {
 			margin-right: 0 !important;
 		}
 	}
-	&.bg-modal{
+
+	&.bg-modal {
 		background: #202229;
 	}
 }
 
-.sec-header{
-	&__wrap{
+.sec-header {
+	&__wrap {
 		padding: 33px 0;
 		padding-bottom: 30px;
 	}
-	&__title{
+
+	&__title {
 		max-width: 900px;
 	}
-	&__content{
+
+	&__content {
 		margin-top: 46px;
 	}
 }
 
-.sec-def{
-	&__wrap{
+.sec-def {
+	&__wrap {
 		padding: 37px 0;
 	}
-	&__content{
+
+	&__content {
 		margin-top: 31px;
 	}
-	&__btn{
+
+	&__btn {
 		margin-top: 31px;
 	}
-	&_last{
-		.sec-def__wrap{
+
+	&_last {
+		.sec-def__wrap {
 			padding-bottom: 24px;
 		}
 	}
 }
 
-.sec-footer{
+.sec-footer {
 	margin-top: auto;
-	&.bg{
+
+	&.bg {
 		background-color: rgba(255, 255, 255, 0.03);
 	}
-	&__content{
+
+	&__content {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
-	&__left{
+
+	&__left {
 		display: flex;
 		align-items: center;
 	}
-	&__text{
+
+	&__text {
 		color: rgba(255, 255, 255, 0.80);
 		font-family: PT Root UI VF;
 		font-size: 14px;
 		font-weight: 500;
 		margin-right: 20px;
 	}
-	a{
+
+	a {
 		transition: .3s;
-		&:hover{
+
+		&:hover {
 			color: rgba(255, 255, 255, 1);
 		}
 	}
-	&__wrap{
+
+	&__wrap {
 		padding: 40px 0;
 	}
 }
 
-.sec-lk{
-	&__titlemob{
+.sec-lk {
+	&__titlemob {
 		display: none;
 		margin-bottom: 25px;
 	}
-	&__theme{
+
+	&__theme {
 		margin-top: 22px;
 		padding-bottom: 25px;
 		display: none;
-		.title-cat{
+
+		.title-cat {
 			margin-bottom: 13px;
 		}
 	}
 }
 
-.sec-header-cat{
+.sec-header-cat {
 	position: relative;
 	z-index: 50;
-	&::before{
+
+	&::before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -203,7 +231,8 @@ input{
 		height: 100%;
 		z-index: 2;
 	}
-	&__bg{
+
+	&__bg {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -212,104 +241,127 @@ input{
 		object-fit: cover;
 		z-index: 1;
 	}
-	&__wrap{
+
+	&__wrap {
 		padding: 37px 0;
 		padding-bottom: 0;
 	}
-	&__top{
+
+	&__top {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		&-title{
+
+		&-title {
 			display: none;
 		}
-		&-left{
+
+		&-left {
 			display: flex;
 			align-items: center;
 		}
 	}
-	&__prev{
+
+	&__prev {
 		margin-right: 40px;
 	}
-	&__content{
+
+	&__content {
 		margin-top: 48px;
 	}
-	&__mob{
+
+	&__mob {
 		display: none;
 	}
 }
 
-.sec-cat{
-	&__wrap{
+.sec-cat {
+	&__wrap {
 		padding: 40px 0;
 	}
-	&__content{
+
+	&__content {
 		margin-top: 30px;
 	}
 }
 
-.sec-page{
-	&__wrap{
+.sec-page {
+	&__wrap {
 		padding: 34px 0;
 		padding-bottom: 40px;
 	}
-	&__content{
+
+	&__content {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
 	}
-	&__body{
+
+	&__body {
 		flex: 1;
 		margin-right: 40px;
 	}
-	&__sidebar{
+
+	&__sidebar {
 		width: 360px;
 		flex: none
 	}
-	&__title{
+
+	&__title {
 		margin-bottom: 29px;
 	}
-	&__content2{
+
+	&__content2 {
 		margin-top: 14px;
 	}
-	&__content3{
+
+	&__content3 {
 		margin-top: 24px;
 	}
 }
 
-.sec-notify{
-	&__mob{
+.sec-notify {
+	&__mob {
 		display: none;
 	}
 }
 
-.sec-order{
-	&__content{
+.sec-order {
+	&__content {
 		display: flex;
 		align-items: flex-start;
 	}
-	&__sidebar{
+
+	&__sidebar {
 		position: sticky;
 		top: 140px;
 		width: 440px;
 		margin-right: 40px;
 		flex: none;
 	}
-	&__body{
+
+	&__body {
 		flex: 1;
 	}
-	&__block{
+
+	&__block {
 		margin-bottom: 20px;
 	}
-	&__btn{
+
+	&__btn {
 		margin-top: 12px;
+
+		&._nobalance {
+			filter: grayscale(1)
+		}
 	}
 }
 
-.sec-auth{
+.sec-auth {
 	background: url('../../img/auth.jpg') no-repeat top / cover;
 	flex: 1;
-	&::before{
+
+	&::before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -319,22 +371,25 @@ input{
 		background: linear-gradient(0deg, rgba(25, 27, 34, 0.80) 0%, rgba(25, 27, 34, 0.80) 100%);
 		z-index: 2;
 	}
-	&__content{
+
+	&__content {
 		max-width: 480px;
 		width: 100%;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	&__wrap{
+
+	&__wrap {
 		padding: 140px 0;
 	}
 }
 
-.sec-orders{
-	&__btn{
+.sec-orders {
+	&__btn {
 		margin-top: 20px;
 	}
-	&__bottom{
+
+	&__bottom {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -342,41 +397,51 @@ input{
 	}
 }
 
-.sec-offer{
-	&__title{
+.sec-offer {
+	&__title {
 		margin-bottom: 40px;
 	}
-	&__text{
+
+	&__text {
 		margin-bottom: 24px;
 	}
-	&__content{
+
+	&__content {
 		margin-top: 53px;
 	}
-	&__block{
+
+	&__block {
 		padding: 55px 59px;
 		margin-bottom: 40px;
-		&:last-child{
+
+		&:last-child {
 			margin-bottom: 0;
 		}
-		&-title{
+
+		&-title {
 			margin-bottom: 26px;
 		}
-		&-text{
+
+		&-text {
 			margin-bottom: 44px;
-			&:last-child{
+
+			&:last-child {
 				margin-bottom: 0;
 			}
 		}
-		&-bottom{
+
+		&-bottom {
 			border-top: 1px solid rgba(255, 255, 255, 0.10);
 			padding-top: 52px;
 			margin-top: 18px;
 		}
-		&-offer{
+
+		&-offer {
 			margin-top: 38px;
 		}
 	}
-	&__count{
+
+	&__count {
 		border-radius: 100%;
 		background: rgba(255, 255, 255, 0.05);
 		width: 60px;

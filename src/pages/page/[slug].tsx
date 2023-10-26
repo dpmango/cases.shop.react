@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import { LayoutGeneral } from '@/components/Layout'
-import { getMainPage, getStaticPage } from '@/core/api'
+import { getStaticPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 

@@ -1,6 +1,9 @@
-import type { GetServerSideProps } from 'next'
+import cns from 'classnames'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useMemo, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { LayoutGeneral } from '@/components/Layout'
 import {
@@ -9,112 +12,122 @@ import {
   OrderPlatformSelect,
   OrderProductScope,
 } from '@/components/Order'
-import { HintIcon, RadioCheckIcon, WarningIcon } from '@/components/Ui'
-import { getMainPage } from '@/core/api'
+import { IOrderFormField } from '@/components/Order/Form'
+import { OrderSteamDeposit } from '@/components/Order/SteamDeposit'
+import { createOrder, getOrderForm } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
-import { ITempOrder, ITempPlatform } from '@/core/interface/Temp'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+import { useAppDispatch, useAppSelector } from '@/core/store'
+import { setModal } from '@/core/store/ui.store'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
+  const orderId = context.query.id as string
+  const accessToken = context.req.cookies['access_token']
 
   // Управление запросами страниц
-  const promisesToBeFetched = [] as IPromiseFactory[]
+  const promisesToBeFetched = [
+    {
+      name: 'order',
+      resolver: getOrderForm({ item_id: orderId, accessToken }),
+    },
+  ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
+  const { PRELOADED_STATE, orderData } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
       PRELOADED_STATE,
       shopId,
+      orderData,
     },
   }
 }) satisfies GetServerSideProps<IResolver>
 
-const MOCK_ORDER = {
-  product: {
-    category: {
-      icon: '../img/cat/fortnite.svg',
-      name: 'Fortnite',
-    },
-    name: 'Название товара',
-    description: 'Описание',
-    icon: '../img/bg/3.jpg',
-    features: {
-      title: 'В наборе',
-      list: ['a', 'b', 'c'],
-    },
-    note: 'Примечание мелким текстом',
-    price: {
-      salePrice: 850,
-      price: 1000,
-    },
-  },
-  platforms: [
-    { id: '1vv11', name: 'Компьютер' },
-    { id: '2vv2', name: 'PlayStation' },
-    { id: '3ss2', name: 'Xbox' },
-    { id: '4dsdg2', name: 'Nintendo' },
-    { id: '5sdfs', name: 'Android' },
-  ],
-  instructions: {
-    title: 'Как это работает?',
-    text: [
-      'Мы используем способ активации через учетную запись Xbox (Microsoft). Достаточно привязать к вашей основной учётной записи Epic Games — учетную запись Xbox (Microsoft). При этом сама консоль вам НЕ ПОНАДОБИТСЯ.',
-      'Fortnite поддерживает кроссплатформенный прогресс, поэтому любая ваша покупка будет ДОСТУПНА на всех платформах, исключение это <span>Вбаксы на Nintendo Switch</span>',
-    ],
-    list: {
-      title: 'Важные правила при смене региона',
-      list: [
-        'Не производить никаких операций с кошельком Steam после смены региона в течении 3 дней (72 часов с момента выполнения заказа) Например: торговая площадка, пополнения счета, покупка игр.',
-      ],
-    },
-    warning: {
-      title: 'Что обязательно должно быть сделано перед покупкой',
-      list: [
-        {
-          text: 'К вашей учетной записи Epic Games должна быть привязана учётная запись Xbox (Microsoft). Консоль для этого не требуется.',
-          link: {
-            name: 'Инструкция от EpicGames',
-            href: 'https://google.com',
-          },
-        },
-        {
-          text: 'Ваш возраст в аккаунте Microsoft должен быть старше 18 лет. Для этого просто установите год рождения на 2000 г.',
-        },
-      ],
-    },
-  },
-  form: {
-    title: 'Логин и пароль от аккаунта Microsoft который привязан к вашей учётной записи с игрой',
-    description:
-      'Используя логин и пароль мы сможем войти в вашу учётную запись со страны где донат разрешён и произвести операцию покупки необходимого вам товара. Покупка будет осуществляться в официальном магазине Microsoft.',
-    fields: ['login', 'password'],
-  },
-  steamNote: true,
-  balanceDeposit: {
-    min: 1,
-    max: 10000,
-    commission: {
-      type: 'percent',
-      value: 2,
-    },
-    bankFees: {
-      type: 'percent',
-      value: 0.5,
-    },
-  },
-} as ITempOrder
+export default function Page({
+  orderData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null)
+  const [orderDataStore, setOrderDataStore] = useState(orderData)
+  const [formData, setFormData] = useState<IOrderFormField[]>([])
+  const [steamDeposit, setSteamDeposit] = useState<number>(0)
 
-export default function Page() {
-  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
-    MOCK_ORDER.platforms ? MOCK_ORDER.platforms[0]?.id || null : null,
-  )
+  const { user } = useAppSelector((store) => store.sessionState)
+
+  console.log({ orderDataStore })
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  const orderId = router.query.id as string
+
+  const hasSteamData = !!orderDataStore?.form?.fields.find((x) => x === 'steam_login')
+  const productPrice = orderDataStore?.item.price.salePrice
+
+  const balanceDiff = useMemo(() => {
+    if (!productPrice || !user?.balance) return null
+    return user?.balance - productPrice
+  }, [user?.balance, productPrice])
+
+  const notEnoughBalance = balanceDiff === null || balanceDiff < 0
+
+  const handlePlatformSelect = async (id: string) => {
+    setSelectedPlatform(id)
+
+    const { data, error } = await getOrderForm({ item_id: orderId, platform: id })
+
+    if (data) {
+      setOrderDataStore(data)
+    }
+    if (error) {
+      toast.error(error.message || 'Ошибка, обратитесь к администратору')
+    }
+  }
+
+  const handleCreateOrder = async () => {
+    if (!selectedPlatform) return
+
+    if (notEnoughBalance) {
+      dispatch(
+        setModal({
+          name: 'balance',
+          params: {
+            sum: Math.abs(balanceDiff || productPrice || 0),
+          },
+        }),
+      )
+      return
+    }
+
+    const { data, error } = await createOrder({
+      item_id: orderId,
+      platform: selectedPlatform,
+      fields: formData,
+      steamDeposit,
+    })
+
+    if (data) {
+      router.push('/my/orders')
+      toast.success(`Заказ ${data.order_id} оформлен`)
+    }
+    if (error) {
+      if (error.message === 'insufficient-balance') {
+        toast.error('Недостаточно баланса для совершения покупки')
+        dispatch(setModal({ name: 'balance' }))
+        return
+      }
+      toast.error(error.message || 'Ошибка, обратитесь к администратору')
+    }
+  }
+
+  if (!orderDataStore) {
+    router.push('/')
+    return
+  }
 
   return (
     <LayoutGeneral>
       <Head>
-        <title>Заказы</title>
+        <title>Заказ</title>
       </Head>
 
       <div className="padding-top"></div>
@@ -126,77 +139,64 @@ export default function Page() {
             </div>
             <div className="sec-order__content">
               <div className="sec-order__sidebar">
-                <OrderProductScope {...MOCK_ORDER.product} />
+                <OrderProductScope
+                  product={orderDataStore.item}
+                  category={orderDataStore.category}
+                />
               </div>
               <div className="sec-order__body">
                 <div className="sec-order__body-content">
-                  {MOCK_ORDER.platforms && (
+                  {orderDataStore.platforms && (
                     <OrderPlatformSelect
-                      platforms={MOCK_ORDER.platforms}
+                      platforms={orderDataStore.platforms}
                       currentPlatform={selectedPlatform}
-                      onPlatformSelect={(v) => setSelectedPlatform(v)}
+                      onPlatformSelect={handlePlatformSelect}
                     />
                   )}
 
-                  {MOCK_ORDER.instructions && <OrderInstruction {...MOCK_ORDER.instructions} />}
+                  {selectedPlatform && (
+                    <>
+                      {orderDataStore.instructions &&
+                        orderDataStore.instructions.map((i, idx) => (
+                          <OrderInstruction {...i} key={idx} />
+                        ))}
 
-                  <OrderForm {...MOCK_ORDER.form} />
+                      {orderDataStore.form && (
+                        <OrderForm {...orderDataStore.form} syncForm={(v) => setFormData(v)} />
+                      )}
 
-                  {MOCK_ORDER.steamNote && (
-                    <div className="sec-order__block block-border block-info">
-                      <div className="block-info__title title-def title-def_sec2">Steam Guard</div>
-                      <div className="text-cat">
-                        Когда наш оператор возьмет заказ в работу, он свяжется с вами через Телеграм
-                        чтобы вы сообщили код Steam Guard.
-                      </div>
-                    </div>
+                      {hasSteamData && (
+                        <div className="sec-order__block block-border block-info">
+                          <div className="block-info__title title-def title-def_sec2">
+                            Steam Guard
+                          </div>
+                          <div className="text-cat">
+                            Когда наш оператор возьмет заказ в работу, он свяжется с вами через
+                            Телеграм чтобы вы сообщили код Steam Guard.
+                          </div>
+                        </div>
+                      )}
+
+                      {hasSteamData && <OrderSteamDeposit syncForm={(v) => setSteamDeposit(v)} />}
+                    </>
                   )}
-
-                  <div className="sec-order__block block-border block-info">
-                    <div className="block-info__title title-def title-def_sec2">
-                      Сумма пополнения
-                    </div>
-                    <div className="balance-block">
-                      <div className="form-el">
-                        <div className="form-el__text">₽</div>
-                        <input className="form-el__inp inp-def" type="text" value="100" />
-                      </div>
-                      <div className="tags balance-block__tags">
-                        <button className="tags__el">100</button>
-                        <button className="tags__el">200</button>
-                        <button className="tags__el">500</button>
-                        <button className="tags__el">1 000</button>
-                        <button className="tags__el">2 500</button>
-                        <button className="tags__el">5 000</button>
-                      </div>
-                      <div className="descp-info balance-block__descrp">
-                        <div className="descp-info__el descp-info-el">
-                          <div className="descp-info-el__text">Получите на баланс Steam</div>
-                          <div className="descp-info-el__dec"></div>
-                          <div className="descp-info-el__val">~ 100,37 ₽</div>
-                        </div>
-                        <div className="descp-info__el descp-info-el">
-                          <div className="descp-info-el__text">Комиссия сервиса</div>
-                          <div className="descp-info-el__dec"></div>
-                          <div className="descp-info-el__val">6 ₽</div>
-                        </div>
-                        <div className="descp-info__el descp-info-el">
-                          <div className="descp-info-el__text">Банковские издержки</div>
-                          <div className="descp-info-el__dec"></div>
-                          <div className="descp-info-el__val">14,17 ₽</div>
-                        </div>
-                        <div className="descp-info__el descp-info-el">
-                          <div className="descp-info-el__text">Итого к оплате</div>
-                          <div className="descp-info-el__dec"></div>
-                          <div className="descp-info-el__cost">120,54 ₽</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <button className="btn-def btn-def_full btn-def_min sec-order__btn">
-                  <span>Оформить заказ</span>
-                </button>
+
+                {notEnoughBalance && (
+                  <p className="text-info">Недостаточно баланса для совершения покупки</p>
+                )}
+
+                {selectedPlatform && (
+                  <button
+                    className={cns(
+                      'btn-def btn-def_full btn-def_min sec-order__btn',
+                      notEnoughBalance && '_nobalance',
+                    )}
+                    onClick={handleCreateOrder}
+                  >
+                    <span>Оформить заказ</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -205,3 +205,70 @@ export default function Page() {
     </LayoutGeneral>
   )
 }
+
+// const MOCK_ORDER = {
+//   product: {
+//     category: {
+//       icon: '../img/cat/fortnite.svg',
+//       name: 'Fortnite',
+//     },
+//     name: 'Название товара',
+//     description: 'Описание',
+//     icon: '../img/bg/3.jpg',
+//     features: {
+//       title: 'В наборе',
+//       list: ['a', 'b', 'c'],
+//     },
+//     note: 'Примечание мелким текстом',
+//     price: {
+//       salePrice: 850,
+//       price: 1000,
+//     },
+//   },
+//   // instructions: {
+//   //   title: 'Как это работает?',
+//   //   text: [
+//   //     'Мы используем способ активации через учетную запись Xbox (Microsoft). Достаточно привязать к вашей основной учётной записи Epic Games — учетную запись Xbox (Microsoft). При этом сама консоль вам НЕ ПОНАДОБИТСЯ.',
+//   //     'Fortnite поддерживает кроссплатформенный прогресс, поэтому любая ваша покупка будет ДОСТУПНА на всех платформах, исключение это <span>Вбаксы на Nintendo Switch</span>',
+//   //   ],
+//   //   list: {
+//   //     title: 'Важные правила при смене региона',
+//   //     list: [
+//   //       'Не производить никаких операций с кошельком Steam после смены региона в течении 3 дней (72 часов с момента выполнения заказа) Например: торговая площадка, пополнения счета, покупка игр.',
+//   //     ],
+//   //   },
+//   //   warning: {
+//   //     title: 'Что обязательно должно быть сделано перед покупкой',
+//   //     list: [
+//   //       {
+//   //         text: 'К вашей учетной записи Epic Games должна быть привязана учётная запись Xbox (Microsoft). Консоль для этого не требуется.',
+//   //         link: {
+//   //           name: 'Инструкция от EpicGames',
+//   //           href: 'https://google.com',
+//   //         },
+//   //       },
+//   //       {
+//   //         text: 'Ваш возраст в аккаунте Microsoft должен быть старше 18 лет. Для этого просто установите год рождения на 2000 г.',
+//   //       },
+//   //     ],
+//   //   },
+//   // },
+//   // form: {
+//   //   title: 'Логин и пароль от аккаунта Microsoft который привязан к вашей учётной записи с игрой',
+//   //   description:
+//   //     'Используя логин и пароль мы сможем войти в вашу учётную запись со страны где донат разрешён и произвести операцию покупки необходимого вам товара. Покупка будет осуществляться в официальном магазине Microsoft.',
+//   //   fields: ['login', 'password'],
+//   // },
+//   balanceDeposit: {
+//     min: 1,
+//     max: 10000,
+//     commission: {
+//       type: 'percent',
+//       value: 2,
+//     },
+//     bankFees: {
+//       type: 'percent',
+//       value: 0.5,
+//     },
+//   },
+// } as IOrderDto

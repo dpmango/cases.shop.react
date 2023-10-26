@@ -1,20 +1,45 @@
 import cns from 'classnames'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ITempForm } from '@/core/interface/Temp'
+import { IOrderForm } from '@/core/interface/Order'
 import { formatPrice } from '@/core/utils'
 
 import { HintIcon, SecurePasswordIcon } from '../Ui'
 
-interface IOrderForm extends ITempForm {}
+type fieldsType = 'login' | 'password' | 'recoverCodes' | 'steam_login'
+export interface IOrderFormField {
+  id: fieldsType
+  value: string
+}
 
-export const OrderForm: React.FC<IOrderForm> = ({
+interface IOrderFormProps extends IOrderForm {
+  syncForm: (fields: IOrderFormField[]) => void
+}
+
+export const OrderForm: React.FC<IOrderFormProps> = ({
   title,
   description,
   passwordNote = true,
   fields,
+  syncForm,
 }) => {
   const [inputFields, setInputFields] = useState(fields.map((f) => ({ id: f, value: '' })))
+
+  const handleInputChange = (id: fieldsType, e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+
+    setInputFields((prev) =>
+      prev.map((f, idx) => {
+        if (f.id === id) {
+          return {
+            id,
+            value,
+          }
+        }
+        return f
+      }),
+    )
+  }
 
   const mainFields = useMemo(() => {
     return fields.filter((x) => x !== 'recoverCodes')
@@ -23,6 +48,10 @@ export const OrderForm: React.FC<IOrderForm> = ({
   const hasRecoverFields = useMemo(() => {
     return fields.some((x) => x === 'recoverCodes')
   }, [fields])
+
+  useEffect(() => {
+    syncForm(inputFields)
+  }, inputFields)
 
   return (
     <div className="sec-order__block block-border block-info">
@@ -61,6 +90,17 @@ export const OrderForm: React.FC<IOrderForm> = ({
           {mainFields.map((f, idx) => {
             return (
               <div className="wrap-form__el" key={idx}>
+                {f === 'steam_login' && (
+                  <div className="form-el">
+                    <div className="form-el__title">Логин Steam</div>
+                    <input
+                      className="form-el__inp inp-def"
+                      type="text"
+                      value={inputFields.find((x) => x.id === 'steam_login')?.value}
+                      onChange={(e) => handleInputChange('steam_login', e)}
+                    />
+                  </div>
+                )}
                 {f === 'login' && (
                   <div className="form-el">
                     <div className="form-el__title">Логин</div>
@@ -68,6 +108,7 @@ export const OrderForm: React.FC<IOrderForm> = ({
                       className="form-el__inp inp-def"
                       type="text"
                       value={inputFields.find((x) => x.id === 'login')?.value}
+                      onChange={(e) => handleInputChange('login', e)}
                     />
                   </div>
                 )}
@@ -78,6 +119,7 @@ export const OrderForm: React.FC<IOrderForm> = ({
                       className="form-el__inp inp-def"
                       type="password"
                       value={inputFields.find((x) => x.id === 'password')?.value}
+                      onChange={(e) => handleInputChange('password', e)}
                     />
                   </div>
                 )}
@@ -97,6 +139,7 @@ export const OrderForm: React.FC<IOrderForm> = ({
               className="form-el__inp inp-def"
               type="text"
               value={inputFields.find((x) => x.id === 'recoverCodes')?.value}
+              onChange={(e) => handleInputChange('recoverCodes', e)}
             />
           </div>
           <div className="hint">

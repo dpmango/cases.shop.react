@@ -9,6 +9,7 @@ import { initialProductState } from '@/core/store/product.store'
 import { initialSessionState } from '@/core/store/session.store'
 
 import { setShopID } from './api/api'
+import { IOrderDto } from './interface/Order'
 
 export interface IResolver {
   PRELOADED_STATE: any
@@ -16,6 +17,8 @@ export interface IResolver {
   homepageData?: IHomePageDto
   categoryData?: IProductCategory
   pageData?: any
+  orderData?: IOrderDto
+  userOrdersData?: any
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -45,6 +48,8 @@ export const Resolver = async (
   let homepageData: IHomePageDto | null = null
   let categoryData: IProductCategory | null = null
   let pageData: any | null = null
+  let orderData: IOrderDto | null = null
+  let userOrdersData: any | null = null
 
   const PRELOADED_STATE = {
     sessionState: {
@@ -100,6 +105,7 @@ export const Resolver = async (
               ...PRELOADED_STATE.sessionState,
               paymentsMethods: data.paymentMethods || [],
               customPages: data.pages || [],
+              auth_bot: data.telegram_bot?.id || '',
             }
             break
           case 'profile':
@@ -124,6 +130,11 @@ export const Resolver = async (
               reviews: data,
             }
             break
+          case 'order':
+            orderData = data || null
+            break
+          case 'orders':
+            userOrdersData = data || null
           default:
             break
         }
@@ -147,6 +158,14 @@ export const Resolver = async (
 
   if (pageData) {
     returnatble['pageData'] = pageData
+  }
+
+  if (orderData) {
+    returnatble['orderData'] = orderData
+  }
+
+  if (userOrdersData) {
+    returnatble['userOrdersData'] = userOrdersData
   }
 
   return returnatble

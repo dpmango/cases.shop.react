@@ -4,7 +4,7 @@ import { $Fetch, FetchError, FetchOptions, ofetch } from 'ofetch'
 import { userAuthRefresh } from '@/core/api/session.api'
 import type { IError } from '@/core/interface/Api'
 
-interface IRequestOptions {
+export interface IRequestOptions {
   method?: string
   body?: { [key: string]: any }
   headers?: { [key: string]: string }

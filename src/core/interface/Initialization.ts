@@ -1,5 +1,4 @@
 import { IPaymentMethod } from './Homepage'
-import { IOrderDto } from './Order'
 
 export interface IWhoisDto {
   id: string
@@ -7,8 +6,6 @@ export interface IWhoisDto {
 
 export interface IInitDataDto {
   // id: number
-  telegram_bot_link: string
-  telegram_bot_id: string
   paymentsMethods: IPaymentMethod[]
   settings: {
     logo: string

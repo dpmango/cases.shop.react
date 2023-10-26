@@ -8,7 +8,6 @@ import type {
   ITelegramAuthDto,
   IWhoisDto,
 } from '@/core/interface/Initialization'
-import type { IOrderDto } from '@/core/interface/Order'
 
 import { api } from './api'
 

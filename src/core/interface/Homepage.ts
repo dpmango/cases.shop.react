@@ -9,6 +9,10 @@ export interface IHomePageDto {
   faq: Array<string[]>
   pages: Array<string[]>
   paymentMethods: IPaymentMethod[]
+  telegram_bot: {
+    id: string
+    link: string
+  }
 }
 
 export interface ITutorial {

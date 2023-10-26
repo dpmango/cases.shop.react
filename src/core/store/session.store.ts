@@ -2,13 +2,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 
 import { getProfile } from '@/core/api/session.api'
-import { IInitDataDto, IProfileDto } from '@/core/interface/Initialization'
-import { IOrderDto } from '@/core/interface/Order'
+import { IProfileDto } from '@/core/interface/Initialization'
 
 import { IPaymentMethod } from '../interface/Homepage'
 
 export interface ISessionStore {
-  id: string
   auth_bot: string
   customPages: Array<string[]>
   paymentsMethods: IPaymentMethod[]
@@ -16,7 +14,6 @@ export interface ISessionStore {
 }
 
 export const initialSessionState: ISessionStore = {
-  id: '',
   auth_bot: '',
   customPages: [],
   paymentsMethods: [],

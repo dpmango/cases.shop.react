@@ -134,7 +134,8 @@ export default function Page() {
                 <div className="block-form__line">
                   <span>Или</span>
                 </div>
-                <button className="block-form__social btn-telegram">
+
+                <button className="block-form__social">
                   <TLoginButton
                     botName={auth_bot}
                     buttonSize={TLoginButtonSize.Large}
@@ -144,11 +145,6 @@ export default function Page() {
                     onAuthCallback={onAuthSuccess}
                     requestAccess={'write'}
                   />
-                  {/* 
-                  <div className="btn-telegram__icon">
-                    <TelegramIcon />
-                  </div>
-                  <span>Войти через Телеграм</span> */}
                 </button>
               </div>
             </div>

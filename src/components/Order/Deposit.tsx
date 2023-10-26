@@ -1,7 +1,6 @@
 import cns from 'classnames'
 import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import dayjs from 'dayjs'
-import { watch } from 'fs'
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -21,6 +20,7 @@ interface IWatchPayment {
 
 export const DepositModal: React.FC<{}> = ({}) => {
   const { paymentsMethods, user } = useAppSelector((state) => state.sessionState)
+  const { modalParams } = useAppSelector((state) => state.uiState)
 
   const [sum, setSum] = useState(1000)
   const [selectedPayment, setSelectedPayment] = useState(paymentsMethods[0]?.id)
@@ -117,6 +117,17 @@ export const DepositModal: React.FC<{}> = ({}) => {
       clearInterval(timer.current as NodeJS.Timeout)
     }
   }, [watchPayment])
+
+  console.log({ modalParams })
+  useEffect(() => {
+    if (modalParams?.sum) {
+      let sumToSet = modalParams?.sum as number
+      if (sumToSet < minMax[0]) sumToSet = minMax[0]
+      setSum(sumToSet)
+    } else {
+      // setSum(1000)
+    }
+  }, [modalParams])
 
   return (
     <UiModal className="modal-def" name="balance">

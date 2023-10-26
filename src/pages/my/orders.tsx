@@ -1,30 +1,38 @@
-import type { GetServerSideProps } from 'next'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { OrderCard } from '@/components/Order'
 import { Close3Icon, OrderCardDecorSvg } from '@/components/Ui'
-import { getMainPage } from '@/core/api'
+import { getMainPage, getUserOrders } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
 
-  // Управление запросами страниц
-  const promisesToBeFetched = [] as IPromiseFactory[]
+  const accessToken = context.req.cookies['access_token']
 
-  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
+  // Управление запросами страниц
+  const promisesToBeFetched = [
+    { name: 'orders', resolver: getUserOrders({ accessToken }) },
+  ] as IPromiseFactory[]
+
+  const { PRELOADED_STATE, userOrdersData } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
       PRELOADED_STATE,
       shopId,
+      userOrdersData,
     },
   }
 }) satisfies GetServerSideProps<IResolver>
 
-export default function Page() {
+export default function Page({
+  userOrdersData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log({ userOrdersData })
   return (
     <LayoutGeneral>
       <Head>

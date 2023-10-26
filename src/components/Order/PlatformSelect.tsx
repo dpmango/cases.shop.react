@@ -1,13 +1,13 @@
 import cns from 'classnames'
 import { useCallback, useEffect, useState } from 'react'
 
-import { ITempPlatform } from '@/core/interface/Temp'
+import { IOrderPlatform } from '@/core/interface/Order'
 import { formatPrice } from '@/core/utils'
 
 import { RadioCheckIcon } from '../Ui'
 
 interface IPlatformSelect {
-  platforms: ITempPlatform[]
+  platforms: IOrderPlatform[]
   currentPlatform: string | null
   onPlatformSelect: (p: string) => void
 }

@@ -5,12 +5,13 @@ export interface IPopularProduct {
 
 export interface IProductCategory {
   id: string
-  icon: null
+  icon: string | null
   name: string
   description: string
   items: IProductItem[]
   categories: IProductCategory[]
-  tags: { [key: string]: string | number }
+  tags: { [key: string]: string | number } | null
+  backgrounds?: any | null
 }
 
 export interface IProductItem {
@@ -19,6 +20,9 @@ export interface IProductItem {
   icon: string
   price: IProductPrice
   tags: { [key: string]: string | number }
+  description?: string
+  features?: any // todo
+  note?: string // todo
 }
 
 export interface IProductPrice {

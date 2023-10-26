@@ -2,6 +2,7 @@ import cns from 'classnames'
 import { useRouter } from 'next/router'
 
 import { IPopularProduct } from '@/core/interface/Product'
+import { useAppSelector } from '@/core/store'
 import { formatPrice } from '@/core/utils'
 
 import { CartIcon, Star16Icon } from '../Ui'
@@ -10,9 +11,16 @@ interface IProductCard extends IPopularProduct {}
 
 export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
   const isFavourited = false
+
+  const { user } = useAppSelector((store) => store.sessionState)
   const router = useRouter()
 
   const handleOrderClick = () => {
+    if (!user) {
+      router.push('/auth')
+      return
+    }
+
     router.push(`/order?id=${item.id}`)
   }
 
