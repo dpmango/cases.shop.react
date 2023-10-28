@@ -36,7 +36,7 @@ export const OrderProductScope: React.FC<IOrderProductScope> = ({ category, prod
               {product.features.title}
             </div>
             <ul className="ul-check">
-              {product.features.list.map((li, idx) => (
+              {product.features.list.map((li: string, idx: number) => (
                 <li key={idx}>{li}</li>
               ))}
             </ul>

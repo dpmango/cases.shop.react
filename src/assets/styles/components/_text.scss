@@ -1,91 +1,108 @@
-.links-def{
+.links-def {
   display: flex;
-  &__el{
+
+  &__el {
     margin-right: 40px;
-    &:last-child{
+
+    &:last-child {
       margin-right: 0 !important;
     }
   }
-  &__link{
+
+  &__link {
     font-family: PT Root UI VF;
     color: #fff;
     font-size: 16px;
     font-weight: 500;
     transition: .3s;
-    &:hover{
+
+    &:hover {
       opacity: .8;
     }
   }
 }
 
-.title-def{
+.title-def {
   color: #FFF;
   font-family: PT Root UI VF;
   font-weight: 700;
-  &_m{
+
+  &_m {
     margin-bottom: 30px;
   }
-  &_small{
+
+  &_small {
     font-size: 16px;
   }
-  &_main{
+
+  &_main {
     font-size: 48px;
   }
-  &_page{
+
+  &_page {
     font-size: 38px;
   }
-  &_sec{
+
+  &_sec {
     font-size: 28px;
   }
-  &_sec2{
+
+  &_sec2 {
     font-size: 24px;
   }
-  &_sec3{
+
+  &_sec3 {
     font-size: 20px;
   }
-  &_med{
+
+  &_med {
     font-size: 18px;
     line-height: 1.35;
   }
 }
 
-.text-info{
+.text-info {
   color: #FFF;
   font-family: PT Root UI VF;
   font-size: 16px;
   font-weight: 500;
-  &_big{
+
+  &_big {
     font-size: 18px;
     line-height: 1.4;
   }
-  &_small{
+
+  &_small {
     font-size: 14px;
     line-height: 1.4;
   }
 }
 
-.title-cat{
+.title-cat {
   color: #FFF;
   font-family: PT Root UI VF;
   font-size: 16px;
   font-weight: 500;
 }
 
-.text-cat{
+.text-cat {
   color: rgba(255, 255, 255, 0.80);
   font-family: PT Root UI VF;
   font-size: 14px;
   line-height: 1.4;
   font-weight: 500;
-  a, span{
+
+  a,
+  span {
     color: #1F75EA;
   }
-  &_small{
+
+  &_small {
     font-size: 12px;
   }
 }
 
-.btn-show{
+.btn-show {
   display: flex;
   width: 100%;
   align-items: center;
@@ -100,22 +117,25 @@
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.20);
   transition: .3s;
-  &:hover{
+
+  &:hover {
     background: rgba(255, 255, 255, 0.10);
   }
 }
 
-.pr-cost{
+.pr-cost {
   position: relative;
   display: flex;
   align-items: flex-start;
-  &__new{
+
+  &__new {
     color: #2AB969;
     font-family: PT Root UI VF;
     font-size: 20px;
     font-weight: 700;
   }
-  &__old{
+
+  &__old {
     color: rgba(255, 255, 255, 0.60);
     font-family: PT Root UI VF;
     font-size: 12px;
@@ -124,33 +144,37 @@
     margin-left: 10px;
     margin-top: 2px;
   }
-  &__val{
+
+  &__val {
     color: #FFF;
     font-family: PT Root UI VF;
     font-size: 20px;
     font-weight: 700;
   }
-  &_big{
-    .pr-cost__new{
+
+  &_big {
+    .pr-cost__new {
       font-size: 28px;
     }
-    .pr-cost__val{
+
+    .pr-cost__val {
       font-size: 28px;
     }
-    .pr-cost__old{
+
+    .pr-cost__old {
       font-size: 16px;
     }
   }
 }
 
-.text-date{
+.text-date {
   color: rgba(255, 255, 255, 0.80);
   font-family: PT Root UI VF;
   font-size: 14px;
   font-weight: 500;
 }
 
-.btn-def{
+.btn-def {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -164,57 +188,68 @@
   line-height: 1;
   padding: 9px 27px;
   transition: .3s;
-  svg{
+
+  svg {
     flex: none;
     margin-right: 11px;
   }
-  &:hover{
+
+  &:hover {
     background: #1F6BD2;
-	}
-  &_full{
+  }
+
+  &_full {
     width: 100%;
     border-radius: 32px;
   }
-  &_small{
+
+  &_small {
     font-size: 14px;
     border-radius: 32px;
     padding: 13px 20px;
   }
-  &_min{
+
+  &_min {
     height: 50px;
     border-radius: 15px;
   }
-  &_br{
+
+  &_br {
     border-radius: 10px;
   }
-  &_gray{
+
+  &_gray {
     background: rgba(255, 255, 255, 0.05);
-    &:hover{
+
+    &:hover {
       background: rgba(255, 255, 255, 0.1);
     }
   }
-  &_black{
+
+  &_black {
     background-color: #191B22;
-    &:hover{
+
+    &:hover {
       background-color: #111113;
     }
   }
 }
 
-.title-small{
+.title-small {
   color: #FFF;
   font-family: PT Root UI VF;
   font-size: 14px;
   font-weight: 500;
-  &_m{
+
+  &_m {
     margin-bottom: 15px;
   }
 }
 
-.links-profile{
+.links-profile {
   border-top: 1px solid rgba(255, 255, 255, 0.10);
-  &__el{}
-  &__link{
+
+  &__link {
     display: flex;
     color: #FFF;
     font-family: PT Root UI VF;
@@ -225,42 +260,49 @@
   }
 }
 
-.title-mob{
+.title-mob {
   color: #FFF;
   font-family: PT Root UI VF;
   font-size: 28px;
   font-weight: 700;
 }
 
-.wrap-btns{
+.wrap-btns {
   display: flex;
-  &__btn{
+
+  &__btn {
     width: 100%;
     margin-right: 10px;
-    &:last-child{
+
+    &:last-child {
       margin-right: 0 !important;
     }
   }
 }
 
-.links-cat{
+.links-cat {
   display: flex;
-  &__el{
+
+  &__el {
     margin-right: 40px;
-    &:last-child{
+
+    &:last-child {
       margin-right: 0 !important;
     }
-    &.active{
-      .links-cat__link{
+
+    &.active {
+      .links-cat__link {
         font-weight: 700;
         color: #FFF;
-        &::after{
+
+        &::after {
           width: 100%;
         }
       }
     }
   }
-  &__link{
+
+  &__link {
     color: rgba(#FFF, 0.8);
     font-family: PT Root UI VF;
     font-size: 18px;
@@ -270,16 +312,19 @@
     padding-bottom: 24px;
     transition: .3s;
     position: relative;
-    &:hover{
+
+    &:hover {
       color: #fff;
     }
-    &_bg{
+
+    &_bg {
       background: linear-gradient(90deg, #DF4037 0%, #DA4495 100%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    &::after{
+
+    &::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -292,7 +337,7 @@
   }
 }
 
-.tag{
+.tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -304,33 +349,40 @@
   border-radius: 32px;
   background: #C1352C;
   padding: 6px 15px;
-  &_gray{
+
+  &_gray {
     background: rgba(255, 255, 255, 0.10);
   }
-  &_yellow{
+
+  &_yellow {
     background-color: #9F7223;
   }
-  &_pink{
+
+  &_pink {
     background-color: #6E24A8;
   }
-  &_green{
+
+  &_green {
     background-color: #1F9C56;
   }
 }
 
-.ul-check{
+.ul-check {
   color: #fff;
   font-family: PT Root UI VF;
   font-size: 14px;
   font-weight: 500;
-  li{
+
+  li {
     position: relative;
     padding-left: 25px;
     margin-bottom: 13px;
-    &:last-child{
+
+    &:last-child {
       margin-bottom: 0 !important;
     }
-    &::before{
+
+    &::before {
       content: '';
       position: absolute;
       top: 0;
@@ -342,15 +394,14 @@
   }
 }
 
-.ul-warning{
-  &__el{
+.ul-warning {
+  &__el {
     padding-left: 35px;
     margin-bottom: 19px;
     position: relative;
-    &:last-child{
-      
-    }
-    &::before{
+
+
+    &::before {
       content: '';
       position: absolute;
       top: 0;
@@ -362,23 +413,25 @@
   }
 }
 
-.hint{
+.hint {
   display: flex;
   align-items: center;
-  &__icon{
+
+  &__icon {
     font-size: 0;
     flex: none;
     margin-right: 8px;
   }
-  &__text{
-    color:  #BA872B;
+
+  &__text {
+    color: #BA872B;
     font-family: PT Root UI VF;
     font-size: 14px;
     font-weight: 500;
   }
 }
 
-.btn-telegram{
+.btn-telegram {
   width: 100%;
   display: flex;
   align-items: center;
@@ -391,14 +444,15 @@
   height: 50px;
   border-radius: 15px;
   background: #1D93D2;
-  &__icon{
+
+  &__icon {
     flex: none;
     font-size: 0;
     margin-right: 15px;
   }
 }
 
-.countdown{
+.countdown {
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.03);
   height: 50px;
@@ -410,24 +464,27 @@
   font-family: PT Root UI VF;
   font-size: 16px;
   font-weight: 500;
-  &__time{
+
+  &__time {
     display: inline;
   }
 }
 
-.center{
+.center {
   text-align: center;
 }
 
-.offer-text{
+.offer-text {
   display: flex;
   align-items: flex-start;
   padding-left: 33px;
   margin-bottom: 25px;
-  &:last-child{
+
+  &:last-child {
     margin-bottom: 0;
   }
-  span{
+
+  span {
     margin-right: 20px;
   }
 }
