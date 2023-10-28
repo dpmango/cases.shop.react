@@ -12,7 +12,7 @@ import { HintIcon, InputWarningIcon, SecurePasswordIcon } from '../Ui'
 
 type fieldsType = 'login' | 'password' | 'recoverCodes' | 'steam-login' | 'steam-amount'
 export interface IOrderFormField {
-  id: fieldsType
+  id: string
   value: string
 }
 

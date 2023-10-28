@@ -1,5 +1,6 @@
 export { useClickOutside } from './useClickOutside'
 export { useDebounce } from './useDebounce'
 export { useEventListener } from './useEventListener'
+export { useProduct } from './useProduct'
 export { useScrollLock } from './useScrollLock'
 export { useTelegramAuth } from './useTelegramAuth'

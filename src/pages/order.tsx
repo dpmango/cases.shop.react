@@ -55,14 +55,16 @@ export default function Page({
 
   const { user } = useAppSelector((store) => store.sessionState)
 
-  console.log({ orderDataStore })
   const router = useRouter()
   const dispatch = useAppDispatch()
 
   const orderId = router.query.id as string
 
   const hasSteamData = !!orderDataStore?.form?.fields.find((x) => x === 'steam-login')
-  const productPrice = orderDataStore?.item.price.salePrice
+  const productPrice = useMemo(() => {
+    if (hasSteamData) return steamDeposit
+    return orderDataStore?.item.price.salePrice
+  }, [hasSteamData, orderDataStore?.item, steamDeposit])
 
   const balanceDiff = useMemo(() => {
     if (!productPrice || !user?.balance) return null
@@ -70,7 +72,7 @@ export default function Page({
   }, [user?.balance, productPrice])
 
   const notEnoughBalance = useMemo(() => {
-    if (process.env.ORDER_TEST_MODE) return false
+    if (process.env.ORDER_TEST_MODE === 'true') return false
 
     return balanceDiff === null || balanceDiff < 0
   }, [balanceDiff])
@@ -108,7 +110,7 @@ export default function Page({
   }
 
   const handleCreateOrder = async () => {
-    if (!selectedPlatform) return
+    if (btnDisabled) return
 
     if (notEnoughBalance) {
       dispatch(
@@ -124,7 +126,7 @@ export default function Page({
 
     const { data, error } = await createOrder({
       item_id: orderId,
-      platform: selectedPlatform,
+      platform: selectedPlatform || null,
       fields: formData,
       steamDeposit,
     })

@@ -1,6 +1,7 @@
 import cns from 'classnames'
 import { useRouter } from 'next/router'
 
+import { useProduct } from '@/core/hooks'
 import { IPopularProduct } from '@/core/interface/Product'
 import { useAppSelector } from '@/core/store'
 import { formatPrice } from '@/core/utils'
@@ -12,20 +13,10 @@ interface IProductCard extends IPopularProduct {}
 export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
   const isFavourited = false
 
-  const { user } = useAppSelector((store) => store.sessionState)
-  const router = useRouter()
-
-  const handleOrderClick = () => {
-    if (!user) {
-      router.push('/auth')
-      return
-    }
-
-    router.push(`/order?id=${item.id}`)
-  }
+  const { navigateToProduct } = useProduct()
 
   return (
-    <div className="products-el" onClick={handleOrderClick}>
+    <div className="products-el" onClick={() => navigateToProduct(item.id)}>
       <img className="products-el__img" src={item.icon} alt="" />
       <div className="products-el__content">
         <div className="products-el__cat cat-info">
@@ -44,7 +35,7 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
           </div>
           <div className="products-el__acts" onClick={(e) => e.stopPropagation()}>
             <button className="action-btn action-btn_bg action-btn_small products-el__acts-el">
-              <div className="action-btn__content" onClick={handleOrderClick}>
+              <div className="action-btn__content" onClick={() => navigateToProduct(item.id)}>
                 <div className="action-btn__icon">
                   <CartIcon />
                 </div>

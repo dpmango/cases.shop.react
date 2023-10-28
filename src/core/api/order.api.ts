@@ -34,7 +34,7 @@ export const getOrderForm = async ({ item_id, platform, accessToken }: IOrderFor
 
 export interface ICreateOrderPayload {
   item_id: string
-  platform: string
+  platform: string | null
   fields: IOrderFormField[]
   steamDeposit?: number
 }
@@ -42,18 +42,20 @@ export interface ICreateOrderPayload {
 // Создание заказа
 export const createOrder = async ({
   item_id,
-  platform,
+  platform = null,
   fields,
   steamDeposit,
 }: ICreateOrderPayload) => {
-  const orderFields = [
-    ...fields,
-    {
+  let orderFields = [...fields] as IOrderFormField[]
+
+  if (platform) {
+    orderFields.push({
       id: 'platform',
       value: platform,
-    },
-  ]
-  if (process.env.ORDER_TEST_MODE) {
+    })
+  }
+
+  if (process.env.ORDER_TEST_MODE === 'true') {
     orderFields.push({
       id: 'test',
       value: '',
@@ -61,10 +63,14 @@ export const createOrder = async ({
   }
 
   if (steamDeposit) {
-    orderFields.push({
-      id: 'steam-amount',
-      value: steamDeposit.toString(),
-    })
+    orderFields = orderFields.map((x) =>
+      x.id === 'steam-amount'
+        ? {
+            id: 'steam-amount',
+            value: `${steamDeposit}`,
+          }
+        : x,
+    )
   }
 
   const { error, data, raw }: IApiResponse<ICreatedOrderDto> = await api(`order`, {
