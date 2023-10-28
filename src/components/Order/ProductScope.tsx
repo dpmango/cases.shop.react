@@ -8,7 +8,7 @@ import { Close3Icon, DislikeIcon, LikeIcon, OrderCardDecorSvg } from '../Ui'
 
 interface IOrderProductScope {
   product: IProductItem
-  category: IProductCategory
+  category: IProductCategory | null
 }
 
 export const OrderProductScope: React.FC<IOrderProductScope> = ({ category, product }) => {
@@ -17,12 +17,14 @@ export const OrderProductScope: React.FC<IOrderProductScope> = ({ category, prod
       <img className="products-2-el__img" src={product.icon} alt="" />
       <div className="products-2-el__content">
         <div className="products-2-el__top">
-          <div className="products-2-el__cat cat-info">
-            {category.icon && <img className="cat-info__icon" src={category.icon} alt="" />}
-            <div className="cat-info__body">
-              <div className="cat-info__title">{category.name}</div>
+          {category && (
+            <div className="products-2-el__cat cat-info">
+              {category.icon && <img className="cat-info__icon" src={category.icon} alt="" />}
+              <div className="cat-info__body">
+                <div className="cat-info__title">{category.name}</div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="products-2-el__title title-def title-def_sec2">{product.name}</div>
         {product.description && (

@@ -1,18 +1,24 @@
 import cns from 'classnames'
+import debounce from 'lodash/debounce'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { checkSteamLogin } from '@/core/api'
+import { useDebounce } from '@/core/hooks'
 import { IOrderForm } from '@/core/interface/Order'
 import { formatPrice } from '@/core/utils'
 
-import { HintIcon, SecurePasswordIcon } from '../Ui'
+import { AuthErrorMessage } from '../Auth'
+import { HintIcon, InputWarningIcon, SecurePasswordIcon } from '../Ui'
 
-type fieldsType = 'login' | 'password' | 'recoverCodes' | 'steam_login'
+type fieldsType = 'login' | 'password' | 'recoverCodes' | 'steam-login' | 'steam-amount'
 export interface IOrderFormField {
   id: fieldsType
   value: string
 }
 
 interface IOrderFormProps extends IOrderForm {
+  steamLoginValid: boolean | null
+  setSteamLoginValid: React.Dispatch<React.SetStateAction<boolean | null>>
   syncForm: (fields: IOrderFormField[]) => void
 }
 
@@ -22,8 +28,12 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
   passwordNote = true,
   fields,
   syncForm,
+  steamLoginValid,
+  setSteamLoginValid,
 }) => {
   const [inputFields, setInputFields] = useState(fields.map((f) => ({ id: f, value: '' })))
+  const [steamLogin, setSteamLogin] = useState('')
+  const steamLoginDebounced = useDebounce(steamLogin)
 
   const handleInputChange = (id: fieldsType, e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -51,7 +61,22 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
 
   useEffect(() => {
     syncForm(inputFields)
+
+    const steamLogin = inputFields.find((x) => x.id === 'steam-login')?.value
+    if (steamLogin) {
+      setSteamLogin(steamLogin)
+    }
   }, inputFields)
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      setSteamLoginValid(null)
+      const { data, error } = await checkSteamLogin({ login: steamLoginDebounced })
+      setSteamLoginValid(!!data)
+    }
+
+    steamLoginDebounced && checkLogin()
+  }, [steamLoginDebounced])
 
   return (
     <div className="sec-order__block block-border block-info">
@@ -90,27 +115,43 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
           {mainFields.map((f, idx) => {
             return (
               <div className="wrap-form__el" key={idx}>
-                {f === 'steam_login' && (
-                  <div className="form-el">
-                    <div className="form-el__title">Логин Steam</div>
-                    <input
-                      className="form-el__inp inp-def"
-                      type="text"
-                      value={inputFields.find((x) => x.id === 'steam_login')?.value}
-                      onChange={(e) => handleInputChange('steam_login', e)}
-                    />
-                  </div>
+                {f === 'steam-login' && (
+                  <>
+                    <div className="form-el">
+                      <div className="form-el__title">Логин Steam</div>
+                      <input
+                        className="form-el__inp inp-def"
+                        type="text"
+                        value={inputFields.find((x) => x.id === 'steam-login')?.value}
+                        onChange={(e) => handleInputChange('steam-login', e)}
+                      />
+                    </div>
+
+                    {steamLoginValid === false && (
+                      <AuthErrorMessage message="Неверный логин Steam" />
+                    )}
+
+                    {steamLoginValid === true && (
+                      <AuthErrorMessage
+                        success={true}
+                        title="Логин найден"
+                        message="Выберите сумму пополнения"
+                      />
+                    )}
+                  </>
                 )}
                 {f === 'login' && (
-                  <div className="form-el">
-                    <div className="form-el__title">Логин</div>
-                    <input
-                      className="form-el__inp inp-def"
-                      type="text"
-                      value={inputFields.find((x) => x.id === 'login')?.value}
-                      onChange={(e) => handleInputChange('login', e)}
-                    />
-                  </div>
+                  <>
+                    <div className="form-el">
+                      <div className="form-el__title">Логин</div>
+                      <input
+                        className="form-el__inp inp-def"
+                        type="text"
+                        value={inputFields.find((x) => x.id === 'login')?.value}
+                        onChange={(e) => handleInputChange('login', e)}
+                      />
+                    </div>
+                  </>
                 )}
                 {f === 'password' && (
                   <div className="form-el">

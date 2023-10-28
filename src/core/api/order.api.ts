@@ -3,7 +3,7 @@ import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
 import type { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { buildParams } from '@/core/utils/api'
 
-import { ICreatedOrderDto, IOrderDto, IUserOrderDto } from '../interface/Order'
+import { ICreatedOrderDto, IOrderDto, ISteamRatesDto, IUserOrderDto } from '../interface/Order'
 import { api, IRequestOptions } from './api'
 
 // get categories
@@ -52,15 +52,17 @@ export const createOrder = async ({
       id: 'platform',
       value: platform,
     },
-    // {
-    //   id: 'test',
-    //   value: '',
-    // },
   ]
+  if (process.env.ORDER_TEST_MODE) {
+    orderFields.push({
+      id: 'test',
+      value: '',
+    })
+  }
 
   if (steamDeposit) {
     orderFields.push({
-      id: 'steam_rub',
+      id: 'steam-amount',
       value: steamDeposit.toString(),
     })
   }
@@ -72,6 +74,31 @@ export const createOrder = async ({
       fields: orderFields,
     },
   })
+
+  return { data: raw, error }
+}
+
+// Проверка steam логина
+export interface ICheckSteamLoginPayload {
+  login: string
+}
+
+export const checkSteamLogin = async ({ login }: ICheckSteamLoginPayload) => {
+  const { error, data, raw }: IApiResponse<any> = await api(`steam-check-login`, {
+    method: 'POST',
+    body: {
+      login,
+    },
+  })
+
+  return { data: raw, error }
+}
+
+// Коммисии steam
+export interface IGetSteamRatesPayload {}
+
+export const getSteamRates = async () => {
+  const { error, data, raw }: IApiResponse<ISteamRatesDto> = await api(`steam-comissions`, {})
 
   return { data: raw, error }
 }

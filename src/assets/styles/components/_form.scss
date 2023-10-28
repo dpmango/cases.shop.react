@@ -1,4 +1,4 @@
-.inp-def{
+.inp-def {
   display: block;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.20);
@@ -11,10 +11,12 @@
   font-size: 16px;
   font-weight: 500;
   transition: .3s;
-  &:hover{
+
+  &:hover {
     border-color: rgba(255, 255, 255, 0.40);
   }
-  &:focus{
+
+  &:focus {
     border-radius: 10px;
     border-color: #1F75EA;
     background: #191B22;
@@ -22,9 +24,10 @@
   }
 }
 
-.form-el{
+.form-el {
   position: relative;
-  &__text{
+
+  &__text {
     position: absolute;
     display: flex;
     align-items: center;
@@ -41,67 +44,84 @@
     font-weight: 500;
     width: 50px;
   }
-  &__title{
+
+  &__title {
     color: #FFF;
     font-family: PT Root UI VF;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 14px;
-    span{
+
+    span {
       opacity: 0.8;
     }
   }
-  &_m{
+
+  &_m {
     margin-bottom: 16px;
   }
-  &__inp{
+
+  &__inp {
     position: relative;
     z-index: 10;
   }
-  &__message{
+
+  &__message {
     position: relative;
     z-index: 1;
   }
-  &__textbottom{
+
+  &__textbottom {
     margin-top: 10px;
   }
-  &.error{
-    .form-el__inp{
+
+  &.error {
+    .form-el__inp {
       border: 1px solid #C1352C;
       background: rgba(255, 255, 255, 0.05);
-      &:focus{
+
+      &:focus {
         box-shadow: 0px 0px 0px 5px rgba(193, 53, 44, 0.25);
       }
     }
   }
 }
 
-.wrap-form{
+.wrap-form {
   display: flex;
-  &__el{
+
+  &__el {
     width: 100%;
     margin-right: 30px;
-    &:last-child{
+
+    &:last-child {
       margin-right: 0 !important;
     }
   }
 }
 
-.message-form{
+.message-form {
   border-radius: 10px;
   padding: 30px 30px;
   padding-top: 70px;
   margin-top: -50px;
-  &_error{
+
+  &_error {
     background: rgba(193, 53, 44, 0.20);
   }
-  &__top{
+
+  &_success {
+    background: rgba(#1F9C56, 0.20);
+  }
+
+  &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
   }
-  &__btn{
+
+  &__btn {
     margin-top: 20px;
   }
 }

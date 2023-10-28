@@ -11,5 +11,6 @@ module.exports = withBundleAnalyzer({
   reactStrictMode: false,
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
+    ORDER_TEST_MODE: process.env.ORDER_TEST_MODE,
   },
 })

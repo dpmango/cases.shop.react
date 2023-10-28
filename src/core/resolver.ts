@@ -26,7 +26,7 @@ export const DomainResolver = async (context: GetServerSidePropsContext<any, Pre
   const hostIndex = context.req.rawHeaders.findIndex((x) => x === 'Host') + 1
   let parsedSiteHost = context.req.rawHeaders[hostIndex]
   if (parsedSiteHost?.includes('localhost')) {
-    parsedSiteHost = 'nobody.su'
+    parsedSiteHost = 'ruplay.shop'
   }
 
   const {

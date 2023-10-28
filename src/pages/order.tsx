@@ -51,6 +51,7 @@ export default function Page({
   const [orderDataStore, setOrderDataStore] = useState(orderData)
   const [formData, setFormData] = useState<IOrderFormField[]>([])
   const [steamDeposit, setSteamDeposit] = useState<number>(0)
+  const [steamLoginValid, setSteamLoginValid] = useState<boolean | null>(null)
 
   const { user } = useAppSelector((store) => store.sessionState)
 
@@ -60,7 +61,7 @@ export default function Page({
 
   const orderId = router.query.id as string
 
-  const hasSteamData = !!orderDataStore?.form?.fields.find((x) => x === 'steam_login')
+  const hasSteamData = !!orderDataStore?.form?.fields.find((x) => x === 'steam-login')
   const productPrice = orderDataStore?.item.price.salePrice
 
   const balanceDiff = useMemo(() => {
@@ -68,7 +69,30 @@ export default function Page({
     return user?.balance - productPrice
   }, [user?.balance, productPrice])
 
-  const notEnoughBalance = balanceDiff === null || balanceDiff < 0
+  const notEnoughBalance = useMemo(() => {
+    if (process.env.ORDER_TEST_MODE) return false
+
+    return balanceDiff === null || balanceDiff < 0
+  }, [balanceDiff])
+
+  const showSecondStep = useMemo(() => {
+    if (!orderDataStore?.platforms) return true
+    return !!selectedPlatform
+  }, [orderDataStore?.platforms, selectedPlatform])
+
+  const showSteamForm = useMemo(() => {
+    if (!showSecondStep) return false
+
+    return steamLoginValid
+  }, [showSecondStep, steamLoginValid])
+
+  const btnDisabled = useMemo(() => {
+    if (hasSteamData) {
+      return !showSteamForm || notEnoughBalance
+    }
+
+    return notEnoughBalance
+  }, [hasSteamData, showSteamForm, notEnoughBalance])
 
   const handlePlatformSelect = async (id: string) => {
     setSelectedPlatform(id)
@@ -154,7 +178,7 @@ export default function Page({
                     />
                   )}
 
-                  {selectedPlatform && (
+                  {showSecondStep && (
                     <>
                       {orderDataStore.instructions &&
                         orderDataStore.instructions.map((i, idx) => (
@@ -162,10 +186,15 @@ export default function Page({
                         ))}
 
                       {orderDataStore.form && (
-                        <OrderForm {...orderDataStore.form} syncForm={(v) => setFormData(v)} />
+                        <OrderForm
+                          {...orderDataStore.form}
+                          steamLoginValid={steamLoginValid}
+                          setSteamLoginValid={setSteamLoginValid}
+                          syncForm={(v) => setFormData(v)}
+                        />
                       )}
 
-                      {hasSteamData && (
+                      {showSteamForm && (
                         <div className="sec-order__block block-border block-info">
                           <div className="block-info__title title-def title-def_sec2">
                             Steam Guard
@@ -177,7 +206,7 @@ export default function Page({
                         </div>
                       )}
 
-                      {hasSteamData && <OrderSteamDeposit syncForm={(v) => setSteamDeposit(v)} />}
+                      {showSteamForm && <OrderSteamDeposit syncForm={(v) => setSteamDeposit(v)} />}
                     </>
                   )}
                 </div>
@@ -186,11 +215,11 @@ export default function Page({
                   <p className="text-info">Недостаточно баланса для совершения покупки</p>
                 )}
 
-                {selectedPlatform && (
+                {showSecondStep && (
                   <button
                     className={cns(
                       'btn-def btn-def_full btn-def_min sec-order__btn',
-                      notEnoughBalance && '_nobalance',
+                      btnDisabled && '_nobalance',
                     )}
                     onClick={handleCreateOrder}
                   >
@@ -205,70 +234,3 @@ export default function Page({
     </LayoutGeneral>
   )
 }
-
-// const MOCK_ORDER = {
-//   product: {
-//     category: {
-//       icon: '../img/cat/fortnite.svg',
-//       name: 'Fortnite',
-//     },
-//     name: 'Название товара',
-//     description: 'Описание',
-//     icon: '../img/bg/3.jpg',
-//     features: {
-//       title: 'В наборе',
-//       list: ['a', 'b', 'c'],
-//     },
-//     note: 'Примечание мелким текстом',
-//     price: {
-//       salePrice: 850,
-//       price: 1000,
-//     },
-//   },
-//   // instructions: {
-//   //   title: 'Как это работает?',
-//   //   text: [
-//   //     'Мы используем способ активации через учетную запись Xbox (Microsoft). Достаточно привязать к вашей основной учётной записи Epic Games — учетную запись Xbox (Microsoft). При этом сама консоль вам НЕ ПОНАДОБИТСЯ.',
-//   //     'Fortnite поддерживает кроссплатформенный прогресс, поэтому любая ваша покупка будет ДОСТУПНА на всех платформах, исключение это <span>Вбаксы на Nintendo Switch</span>',
-//   //   ],
-//   //   list: {
-//   //     title: 'Важные правила при смене региона',
-//   //     list: [
-//   //       'Не производить никаких операций с кошельком Steam после смены региона в течении 3 дней (72 часов с момента выполнения заказа) Например: торговая площадка, пополнения счета, покупка игр.',
-//   //     ],
-//   //   },
-//   //   warning: {
-//   //     title: 'Что обязательно должно быть сделано перед покупкой',
-//   //     list: [
-//   //       {
-//   //         text: 'К вашей учетной записи Epic Games должна быть привязана учётная запись Xbox (Microsoft). Консоль для этого не требуется.',
-//   //         link: {
-//   //           name: 'Инструкция от EpicGames',
-//   //           href: 'https://google.com',
-//   //         },
-//   //       },
-//   //       {
-//   //         text: 'Ваш возраст в аккаунте Microsoft должен быть старше 18 лет. Для этого просто установите год рождения на 2000 г.',
-//   //       },
-//   //     ],
-//   //   },
-//   // },
-//   // form: {
-//   //   title: 'Логин и пароль от аккаунта Microsoft который привязан к вашей учётной записи с игрой',
-//   //   description:
-//   //     'Используя логин и пароль мы сможем войти в вашу учётную запись со страны где донат разрешён и произвести операцию покупки необходимого вам товара. Покупка будет осуществляться в официальном магазине Microsoft.',
-//   //   fields: ['login', 'password'],
-//   // },
-//   balanceDeposit: {
-//     min: 1,
-//     max: 10000,
-//     commission: {
-//       type: 'percent',
-//       value: 2,
-//     },
-//     bankFees: {
-//       type: 'percent',
-//       value: 0.5,
-//     },
-//   },
-// } as IOrderDto

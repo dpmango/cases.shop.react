@@ -8,10 +8,9 @@ export interface ICreatedOrderDto {
 export interface IOrderDto {
   item: IProductItem
   category: IProductCategory
-  platforms?: IOrderPlatform[]
+  platforms?: IOrderPlatform[] | null
   instructions?: IOrderInstruction[]
   form?: IOrderForm
-  balanceDeposit?: ITempBalance
 }
 
 export interface IOrderPlatform {
@@ -36,20 +35,7 @@ export interface IOrderForm {
   title: string
   description?: string
   passwordNote?: boolean
-  fields: Array<'login' | 'password' | 'recoverCodes' | 'steam_login'>
-}
-
-export interface ITempBalance {
-  min: number
-  max: number
-  commission: {
-    type: 'percent' | 'fixed'
-    value: number
-  }
-  bankFees?: {
-    type: 'percent' | 'fixed'
-    value: number
-  }
+  fields: Array<'login' | 'password' | 'recoverCodes' | 'steam-login' | 'steam-amount'>
 }
 
 // export interface ITempProduct {
@@ -68,11 +54,22 @@ export interface ITempBalance {
 //   note?: string
 // }
 
+// commissions
+export interface ISteamRatesDto {
+  bank: number
+  comissions: IComission[]
+}
+
+export interface IComission {
+  amount: number
+  service: number
+}
+
 export interface IUserOrderDto {
   id: string
   status: IOrderStatus
   created: number
-  category: IProductCategory
+  category: IProductCategory | null
   item: IProductItem
   ticket: null
 }
