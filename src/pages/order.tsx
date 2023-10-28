@@ -19,6 +19,7 @@ import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { setModal } from '@/core/store/ui.store'
+import { formatPrice } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
@@ -109,18 +110,22 @@ export default function Page({
     }
   }
 
+  const openBalanceModal = () => {
+    dispatch(
+      setModal({
+        name: 'balance',
+        params: {
+          sum: Math.abs(balanceDiff || productPrice || 0),
+        },
+      }),
+    )
+  }
+
   const handleCreateOrder = async () => {
     if (btnDisabled) return
 
     if (notEnoughBalance) {
-      dispatch(
-        setModal({
-          name: 'balance',
-          params: {
-            sum: Math.abs(balanceDiff || productPrice || 0),
-          },
-        }),
-      )
+      openBalanceModal()
       return
     }
 
@@ -214,7 +219,17 @@ export default function Page({
                 </div>
 
                 {notEnoughBalance && (
-                  <p className="text-info">Недостаточно баланса для совершения покупки</p>
+                  <>
+                    <p className="text-info">Недостаточно баланса для совершения покупки</p>
+                    <button
+                      className={cns('btn-def btn-def_full btn-def_min sec-order__btn')}
+                      onClick={() => openBalanceModal()}
+                    >
+                      <span>
+                        Пополнить баланс на {formatPrice(balanceDiff || productPrice || 0)}
+                      </span>
+                    </button>
+                  </>
                 )}
 
                 {showSecondStep && (

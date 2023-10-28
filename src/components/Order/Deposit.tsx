@@ -62,6 +62,25 @@ export const DepositModal: React.FC<{}> = ({}) => {
     // }
   }, [sum])
 
+  const handleSumInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = parseInt(e.target.value)
+
+    if (!isFinite(value)) {
+      // @ts-expect-error
+      value = e.target.value
+    }
+
+    setSum(value)
+  }
+
+  const isBtnDisabled = useMemo(() => {
+    if (!isFinite(sum) || sum < minMax[0]) {
+      return true
+    }
+
+    return false
+  }, [sum])
+
   const handleMinusClick = useCallback(() => {
     let v = sum - stepOnPrice
     if (v <= minMax[0]) v = minMax[0]
@@ -172,7 +191,7 @@ export const DepositModal: React.FC<{}> = ({}) => {
                       min={minMax[0]}
                       max={minMax[1]}
                       value={sum}
-                      onChange={(e) => setSum(parseInt(e.target.value))}
+                      onChange={handleSumInputChange}
                     />
                   </div>
                   <button className="balance-add__btn" onClick={handlePlusClick}>
@@ -229,7 +248,13 @@ export const DepositModal: React.FC<{}> = ({}) => {
                   </div>
                 ))}
               </div>
-              <button className="btn-def btn-def_full modal-content__btn" onClick={handleSubmit}>
+              <button
+                className={cns(
+                  'btn-def btn-def_full modal-content__btn',
+                  isBtnDisabled && 'btn-def_gray',
+                )}
+                onClick={handleSubmit}
+              >
                 <span>Оплатить</span>
               </button>
             </div>
