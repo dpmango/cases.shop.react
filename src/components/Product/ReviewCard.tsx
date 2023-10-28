@@ -14,7 +14,7 @@ export const ReviewCard: React.FC<IReviewCard> = ({ date, ava, nick, text }) => 
     <div className="rewiews__el">
       <div className="rewiews-el content-bg">
         <div className="rewiews-el__top">
-          <img className="rewiews-el__img" src={ava} alt="" />
+          <img className="rewiews-el__img" loading="lazy" src={ava} alt="" />
           <div className="rewiews-el__top-body">
             <div className="rewiews-el__name title-cat">{nick}</div>
             <div className="rewiews-el__date text-date">{reviewDate}</div>

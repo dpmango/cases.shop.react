@@ -14,7 +14,7 @@ export const GamesModal: React.FC<{}> = ({}) => {
           <div className="cat__el">
             <div className="cat-el content-bg">
               <div className="cat-el__content">
-                <img className="cat-el__icon" src="/img/cat/fortnite.svg" alt="" />
+                <img className="cat-el__icon" loading="lazy" src="/img/cat/fortnite.svg" alt="" />
                 <div className="cat-el__body">
                   <div className="cat-el__title title-cat">Fortnite</div>
                   <div className="cat-el__text text-cat">В-баксы, подписки, наборы</div>

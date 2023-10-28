@@ -80,7 +80,7 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
 
   return (
     <div className="sec-cat__top product-el-big">
-      {/* <img className="product-el-big__img" src="../img/bg/1.jpg" alt="" /> */}
+      {/* <img className="product-el-big__img" loading="lazy" src="../img/bg/1.jpg" alt="" /> */}
       <div className="product-el-big__content">
         <div className="product-el-big__title title-def title-def_sec">
           Валюта: {coinsCategory.name}

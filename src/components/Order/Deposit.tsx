@@ -229,7 +229,7 @@ export const DepositModal: React.FC<{}> = ({}) => {
                         {pay.id === 'anypay' && <PayAnypayIcon />}
 
                         {!['lavaru', 'paypalych', 'anypay'].includes(pay.id) && (
-                          <img src={pay.icon} alt={pay.name} />
+                          <img loading="lazy" src={pay.icon} alt={pay.name} />
                         )}
                       </div>
                       <div

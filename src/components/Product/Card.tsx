@@ -17,10 +17,10 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
 
   return (
     <div className="products-el" onClick={() => navigateToProduct(item.id)}>
-      <img className="products-el__img" src={item.icon} alt="" />
+      <img className="products-el__img" loading="lazy" src={item.icon} alt="" />
       <div className="products-el__content">
         <div className="products-el__cat cat-info">
-          <img className="cat-info__icon" src="/img/cat/heartstone.svg" alt="" />
+          <img className="cat-info__icon" loading="lazy" src="/img/cat/heartstone.svg" alt="" />
           <div className="cat-info__body">
             <div className="cat-info__title">{category.name}</div>
           </div>

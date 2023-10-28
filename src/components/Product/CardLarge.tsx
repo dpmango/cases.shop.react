@@ -15,7 +15,7 @@ export const ProductCardLarge: React.FC<IProductCard> = ({ id, icon, price, name
 
   return (
     <div className="products-2-el" onClick={() => navigateToProduct(id)}>
-      <img className="products-2-el__img" src={icon} alt="" />
+      <img className="products-2-el__img" loading="lazy" src={icon} alt="" />
       <div className="products-2-el__content">
         <div className="products-2-el__title title-def title-def_sec2">{name}</div>
         <div className="products-2-el__text text-cat">{id}</div>

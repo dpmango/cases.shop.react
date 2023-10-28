@@ -32,7 +32,12 @@ const Footer: React.FC = () => {
                     {pay.id === 'anypay' && <PayAnypayIcon />}
 
                     {!['lavaru', 'paypalych', 'anypay'].includes(pay.id) && (
-                      <img className="pay-info-el__img" src={pay.icon} alt={pay.name} />
+                      <img
+                        className="pay-info-el__img"
+                        loading="lazy"
+                        src={pay.icon}
+                        alt={pay.name}
+                      />
                     )}
                   </div>
                 ))}

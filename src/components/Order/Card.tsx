@@ -39,7 +39,7 @@ export const OrderCard: React.FC<IOrderCard> = ({
 
   return (
     <div className={cns('orders-el', isFixed && 'fixed')} onClick={handleCardClick} data-id={id}>
-      <img className="orders-el__bg" src={item.icon} alt="" />
+      <img className="orders-el__bg" loading="lazy" src={item.icon} alt="" />
       <div className="orders-el__body">
         <div className="orders-el__mob" onClick={(e) => e.stopPropagation()}>
           <div className="orders-el__mob-prev close-btn" onClick={() => setIsFixed(false)}>
@@ -148,12 +148,17 @@ export const OrderCard: React.FC<IOrderCard> = ({
         )}
 
         <div className="orders-el__content">
-          <div className="orders-el__cat cat-info cat-info_big">
-            {category.icon && <img className="cat-info__icon" src={category.icon} alt="" />}
-            <div className="cat-info__body">
-              <div className="cat-info__title">{category.name}</div>
+          {category && (
+            <div className="orders-el__cat cat-info cat-info_big">
+              {category.icon && (
+                <img className="cat-info__icon" loading="lazy" src={category.icon} alt="" />
+              )}
+              <div className="cat-info__body">
+                <div className="cat-info__title">{category.name}</div>
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="orders-el__title title-def title-def_sec2">1 500 рунических камней</div>
           <div className="orders-el__date">
             Заказ от {dayjs(created).format('DD MMMM YYYY в HH:mm')}
