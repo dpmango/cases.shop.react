@@ -60,6 +60,12 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
     [allTags],
   )
 
+  const descriptionWithLink = useMemo(() => {
+    if (!coinsCategory?.description) return ''
+
+    return coinsCategory?.description.replaceAll(/\[(.*?)\]\((.*?)\)/gi, '<a href="$2">$1</a>')
+  }, [coinsCategory?.description])
+
   useEffect(() => {
     let firstVal = 0
 
@@ -80,12 +86,15 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
 
   return (
     <div className="sec-cat__top product-el-big">
-      {/* <img className="product-el-big__img" loading="lazy" src="../img/bg/1.jpg" alt="" /> */}
+      <img className="product-el-big__img" loading="lazy" src="../img/bg/1.jpg" alt="" />
       <div className="product-el-big__content">
         <div className="product-el-big__title title-def title-def_sec">
           Валюта: {coinsCategory.name}
         </div>
-        <div className="product-el-big__text text-info">{coinsCategory.description}</div>
+        <div
+          className="product-el-big__text text-info"
+          dangerouslySetInnerHTML={{ __html: descriptionWithLink }}
+        />
         <div className="product-el-big__tags">
           <div className="title-small title-small_m">Количество В-баксов</div>
           <div className="tags tags_2">

@@ -94,6 +94,8 @@ export const DepositModal: React.FC<{}> = ({}) => {
   }, [sum, stepOnPrice, minMax])
 
   const handleSubmit = useCallback(async () => {
+    if (isBtnDisabled) return
+
     const { data, error } = await getPayment({
       sum,
       paymentId: selectedPayment,
@@ -113,7 +115,7 @@ export const DepositModal: React.FC<{}> = ({}) => {
       openExternalLink(data.url)
       dispatch(closeModals())
     }
-  }, [sum, selectedPayment])
+  }, [sum, selectedPayment, isBtnDisabled])
 
   const timer: { current: NodeJS.Timeout | null } = useRef(null)
 

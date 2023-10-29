@@ -66,6 +66,16 @@
   font-family: PT Root UI VF;
   font-size: 16px;
   font-weight: 500;
+  white-space: pre-line;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 
   &_big {
     font-size: 18px;

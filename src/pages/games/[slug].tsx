@@ -40,6 +40,8 @@ export default function CategoryPage({
   PRELOADED_STATE,
   categoryData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const coinCategoryID = 'FVBucks'
+
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
   const [notifyDropdown, setNotifyDropdown] = useState(false)
 
@@ -56,7 +58,8 @@ export default function CategoryPage({
     router.replace('/auth')
   }, [])
 
-  const coinProduct = categoryData?.categories.find((x) => x.id === 'FVBucks')
+  const coinProduct = categoryData?.categories.find((x) => x.id === coinCategoryID)
+  const showCoinProduct = activeTab === coinCategoryID && coinProduct
 
   return (
     <LayoutGeneral>
@@ -161,7 +164,7 @@ export default function CategoryPage({
       <section className="sec-cat">
         <div className="container-def">
           <div className="sec-cat__wrap">
-            <ProductCoinCard coinsCategory={coinProduct} />
+            {showCoinProduct && <ProductCoinCard coinsCategory={coinProduct} />}
 
             <div className="sec-cat__content">
               <div className="products-2">

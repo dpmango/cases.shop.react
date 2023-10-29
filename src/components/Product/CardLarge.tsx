@@ -8,9 +8,13 @@ import { Star16Icon, StarButtonIcon } from '../Ui'
 
 interface IProductCard extends IProductItem {}
 
-export const ProductCardLarge: React.FC<IProductCard> = ({ id, icon, price, name }) => {
-  const isFavourited = false
-
+export const ProductCardLarge: React.FC<IProductCard> = ({
+  id,
+  icon,
+  price,
+  name,
+  description,
+}) => {
   const { navigateToProduct } = useProduct()
 
   return (
@@ -18,7 +22,7 @@ export const ProductCardLarge: React.FC<IProductCard> = ({ id, icon, price, name
       <img className="products-2-el__img" loading="lazy" src={icon} alt="" />
       <div className="products-2-el__content">
         <div className="products-2-el__title title-def title-def_sec2">{name}</div>
-        <div className="products-2-el__text text-cat">{id}</div>
+        <div className="products-2-el__text text-cat">{description}</div>
         <div className="products-2-el__bottom">
           <div className="products-2-el__cost pr-cost pr-cost_big">
             <div className="pr-cost__val">{formatPrice(price.price)}</div>
