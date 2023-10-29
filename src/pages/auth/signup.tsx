@@ -3,26 +3,16 @@ import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 import { Formik, FormikHelpers } from 'formik'
 import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { AuthErrorMessage, AuthResendCountdown } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
-import { InputWarningIcon, SuccessIcon } from '@/components/Ui'
-import {
-  authConfirmEmail,
-  authLogin,
-  authRequestConfirm,
-  authSignup,
-  getMainPage,
-} from '@/core/api'
+import { authRequestConfirm, authSignup } from '@/core/api'
 import { useAuthHelpers } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
-import { setModal } from '@/core/store/ui.store'
-import { secondsToStamp } from '@/core/utils'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)

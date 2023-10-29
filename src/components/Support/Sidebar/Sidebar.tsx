@@ -38,13 +38,18 @@ export const ChatSidebar: React.FC = () => {
   const createModeData = useMemo(() => {
     if (!createMode) return null
 
+    let title = 'Новое обращение в поддержку'
+    if (modalParams?.orderId) {
+      title = `Вопрос по заказу ${modalParams?.orderId}`
+    }
+
     return {
       id: '000',
       isPinned: false,
       created: dayjs().toDate(),
       modified: dayjs().toDate(),
       status: 0,
-      title: 'Новое обращение в поддержку',
+      title: title,
       lastMessage: '',
       unreadMessages: 0,
     }

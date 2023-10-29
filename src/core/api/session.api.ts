@@ -192,3 +192,21 @@ export const getProfile = async (token?: string) => {
 
   return { data: raw, error }
 }
+
+// Сменить пароль
+export interface IAuthChangePassword {
+  oldPassword: string
+  newPassword: string
+}
+
+export const authChangePassword = async ({ newPassword, oldPassword }: IAuthChangePassword) => {
+  const { error, raw }: IApiResponse<IAuthDto> = await api(`user/change-password`, {
+    method: 'POST',
+    body: {
+      oldPassword,
+      newPassword,
+    },
+  })
+
+  return { data: raw, error }
+}

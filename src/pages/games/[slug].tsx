@@ -40,8 +40,6 @@ export default function CategoryPage({
   PRELOADED_STATE,
   categoryData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log({ PRELOADED_STATE }, { categoryData })
-
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
   const [notifyDropdown, setNotifyDropdown] = useState(false)
 

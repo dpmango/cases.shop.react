@@ -13,6 +13,7 @@ function APP({ Component, pageProps }: any) {
   const store = getStore(pageProps.PRELOADED_STATE || {})
   setCookie('SHOP-ID', pageProps.shopId)
 
+  console.log({ pageProps })
   return (
     <Provider store={store}>
       <Head>

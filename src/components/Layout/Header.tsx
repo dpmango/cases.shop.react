@@ -187,7 +187,7 @@ const Header = () => {
                       </div>
                     </button>
                     <Link className="action-btn action-btn_red top-menu__btn" href="/notifications">
-                      <div className="action-btn__count">2</div>
+                      {/* <div className="action-btn__count">2</div> */}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <NotificationIcon />
@@ -195,7 +195,7 @@ const Header = () => {
                       </div>
                     </Link>
                     <Link className="action-btn top-menu__btn" href="/my/favourites">
-                      <div className="action-btn__count">39</div>
+                      {/* <div className="action-btn__count">39</div> */}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <StarIcon />
@@ -203,7 +203,7 @@ const Header = () => {
                       </div>
                     </Link>
                     <Link className="action-btn action-btn_red top-menu__btn" href="/my/orders">
-                      <div className="action-btn__count">1</div>
+                      {/* <div className="action-btn__count">1</div> */}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <WalletIcon />
@@ -268,7 +268,12 @@ const Header = () => {
                             </div>
                           </div>
                           <div className="action-btn__dropdown-links">
-                            <a className="action-btn__dropdown-link">Сменить пароль</a>
+                            <Link
+                              href="/auth/change-password"
+                              className="action-btn__dropdown-link"
+                            >
+                              Сменить пароль
+                            </Link>
                             <a className="action-btn__dropdown-link" onClick={handleLogout}>
                               Выйти
                             </a>
@@ -420,7 +425,9 @@ const Header = () => {
             </div>
             <ul className="profile-mob__links links-profile">
               <li className="links-profile__el">
-                <a className="links-profile__link">Сменить пароль</a>
+                <Link href="/auth/change-password" className="links-profile__link">
+                  Сменить пароль
+                </Link>
               </li>
               <li className="links-profile__el">
                 <a className="links-profile__link" onClick={handleLogout}>

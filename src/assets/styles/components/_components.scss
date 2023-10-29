@@ -1772,6 +1772,16 @@ img {
   &__info {
     margin-bottom: 10px;
   }
+
+  &__el {
+    &._second {
+      margin-top: 24px;
+    }
+
+    // &+& {
+    //   margin-top: 24px;
+    // }
+  }
 }
 
 .form-info {
