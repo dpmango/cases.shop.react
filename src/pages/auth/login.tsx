@@ -7,10 +7,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AuthErrorMessage } from '@/components/Auth'
+import { AuthErrorMessage, AuthResendCountdown } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon } from '@/components/Ui'
 import { authLogin, authRecover, authRequestConfirm, getMainPage } from '@/core/api'
+import { useAuthHelpers } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -36,19 +37,16 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Page() {
-  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
-
   const router = useRouter()
-  const dispatch = useAppDispatch()
 
   const initialValues = { password: '' }
 
-  const timer: { current: NodeJS.Timeout | null } = useRef(null)
-  const [repeatTime, setRepeatTime] = useState(60)
   const [stage, setStage] = useState(1)
+
+  const { checkLoginCookie, onAuthSuccess } = useAuthHelpers()
 
   const handleValidate = useCallback((values: IForm) => {
     const errors = {} as { [key: string]: string }
@@ -61,12 +59,8 @@ export default function Page() {
   }, [])
 
   const handleRecover = useCallback(async () => {
-    const cookieEmail = getCookie('loginEmail')
-
-    if (!cookieEmail) {
-      router.push('/auth')
-      return
-    }
+    const cookieEmail = checkLoginCookie()
+    if (!cookieEmail) return
 
     const { data, error } = await authRecover({
       email: cookieEmail,
@@ -74,16 +68,14 @@ export default function Page() {
 
     if (data) {
       setStage(2)
-      setRepeatTime(60)
     }
   }, [])
 
   const handleSubmit = useCallback(
     async (values: IForm, { setSubmitting, setFieldError }: FormikHelpers<IForm>) => {
-      const cookieEmail = getCookie('loginEmail')
+      const cookieEmail = checkLoginCookie()
 
       if (!cookieEmail) {
-        router.push('/auth')
         setSubmitting(false)
         return
       }
@@ -105,15 +97,7 @@ export default function Page() {
         }
       }
 
-      if (data) {
-        setCookie('access_token', data.access_token)
-        setCookie('refresh_token', data.refresh_token)
-
-        const { payload } = await dispatch(getProfileThunk())
-        if (!payload) throw new Error()
-
-        router.push('/')
-      }
+      if (data) await onAuthSuccess(data)
 
       setSubmitting(false)
     },
@@ -121,26 +105,8 @@ export default function Page() {
   )
 
   useEffect(() => {
-    if (stage !== 2) {
-      setRepeatTime(60)
-      return
-    }
-
-    const updateTime = () => {
-      setRepeatTime((prev) => {
-        let next = prev - 1
-        if (next <= 0) next = 0
-        return next
-      })
-    }
-
-    updateTime()
-    timer.current = setInterval(updateTime, 1000)
-
-    return () => {
-      clearInterval(timer.current as NodeJS.Timeout)
-    }
-  }, [stage])
+    checkLoginCookie()
+  }, [])
 
   return (
     <LayoutGeneral>
@@ -161,6 +127,7 @@ export default function Page() {
                     initialValues={initialValues}
                     validate={handleValidate}
                     onSubmit={handleSubmit}
+                    validateOnBlur={false}
                   >
                     {({
                       values,
@@ -187,14 +154,13 @@ export default function Page() {
                           <AuthErrorMessage title="Ошибка" message={errors.password}>
                             <>
                               {errors.password === 'Неправильный пароль' && (
-                                <a href="#" onClick={handleRecover}>
-                                  <button
-                                    type="button"
-                                    className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black"
-                                  >
-                                    <span>Восстановить пароль</span>
-                                  </button>
-                                </a>
+                                <button
+                                  type="reset"
+                                  onClick={handleRecover}
+                                  className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black"
+                                >
+                                  <span>Восстановить пароль</span>
+                                </button>
                               )}
                             </>
                           </AuthErrorMessage>
@@ -215,42 +181,12 @@ export default function Page() {
 
               {/* confrm */}
               {stage === 2 && (
-                <div className="block-form">
-                  <div className="block-form__title title-def title-def_sec">Подтверждение</div>
-                  <div className="block-form__text text-cat">
-                    На вашу электронную почту отправлено письмо со ссылкой для восстановления
-                    пароля. Перейдите по ней чтобы продолжить процесс восстановления.
-                  </div>
-                  <div className="title-def title-def_m title-def_small">
-                    Письмо так и не пришло?
-                  </div>
-                  {repeatTime > 0 ? (
-                    <div className="countdown mb-2">
-                      <span>
-                        Отправить ещё раз через{' '}
-                        <span className="countdown__time">{secondsToStamp(repeatTime)}</span>
-                      </span>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn-def btn-def_full btn-def_min mb-2"
-                      onClick={handleRecover}
-                    >
-                      <span>Отправить новое письмо</span>
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn-def btn-def_full btn-def_min"
-                    onClick={() => {
-                      dispatch(setModal({ name: 'support' }))
-                    }}
-                  >
-                    <span>Написать в поддержку</span>
-                  </button>
-                </div>
+                <AuthResendCountdown
+                  message={
+                    'На вашу электронную почту отправлено письмо со ссылкой для восстановления пароля. Перейдите по ней чтобы продолжить процесс восстановления.'
+                  }
+                  onResendClick={handleRecover}
+                />
               )}
             </div>
           </div>

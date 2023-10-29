@@ -29,7 +29,7 @@ export const getServerSideProps = (async (context) => {
       userOrdersData,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Page({
   userOrdersData,
@@ -96,19 +96,19 @@ export default function Page({
               <div className="sec-orders__bottom">
                 <div className="sec-orders__bottom-left">
                   <div className="nav-pages">
-                    <a className="nav-pages__el active" href="#">
+                    <a className="nav-pages__el active" >
                       1
                     </a>
-                    <a className="nav-pages__el" href="#">
+                    <a className="nav-pages__el" >
                       2
                     </a>
-                    <a className="nav-pages__el" href="#">
+                    <a className="nav-pages__el" >
                       3
                     </a>
-                    <a className="nav-pages__el" href="#">
+                    <a className="nav-pages__el" >
                       4
                     </a>
-                    <a className="nav-pages__el" href="#">
+                    <a className="nav-pages__el" >
                       5
                     </a>
                   </div>

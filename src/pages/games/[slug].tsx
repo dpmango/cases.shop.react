@@ -34,7 +34,7 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function CategoryPage({
   PRELOADED_STATE,
@@ -55,7 +55,7 @@ export default function CategoryPage({
   }, [categoryData?.categories, activeTab])
 
   const enableNotifications = useCallback(() => {
-    router.push('/auth')
+    router.replace('/auth')
   }, [])
 
   const coinProduct = categoryData?.categories.find((x) => x.id === 'FVBucks')
@@ -148,7 +148,7 @@ export default function CategoryPage({
               <ul className="sec-header-cat__links links-cat">
                 {categoryData?.categories.map((x) => (
                   <li className={cns('links-cat__el', activeTab === x.id && 'active')} key={x.id}>
-                    <a className="links-cat__link" href="#" onClick={() => setActiveTab(x.id)}>
+                    <a className="links-cat__link" onClick={() => setActiveTab(x.id)}>
                       {/* links-cat__link_bg */}
                       {x.name}
                     </a>

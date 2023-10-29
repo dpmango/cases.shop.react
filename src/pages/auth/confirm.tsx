@@ -11,6 +11,7 @@ import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { SuccessIcon } from '@/components/Ui'
 import { authConfirmEmail, IAuthConfirmEmail } from '@/core/api'
+import { useAuthHelpers } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -30,31 +31,30 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Page() {
-  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
-
-  const dispatch = useAppDispatch()
-  const router = useRouter()
   const params = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
+  const { onAuthSuccess } = useAuthHelpers()
+
   const handleConfirm = useCallback(async (payload: IAuthConfirmEmail) => {
     const { data, error } = await authConfirmEmail(payload)
 
-    if (error) setError(error.message)
+    if (error) {
+      if (error.message === 'invalid-token') {
+        setError('Ссылка подтверждения email устарела. Попробуйте снова')
+      } else {
+        setError(error.message)
+      }
+    }
     if (data) {
       deleteCookie('authSignupStep')
       deleteCookie('loginEmail')
-
-      setCookie('access_token', data.access_token)
-      setCookie('refresh_token', data.refresh_token)
-
-      const { payload } = await dispatch(getProfileThunk())
-      if (!payload) throw new Error()
+      onAuthSuccess(data, false)
 
       setSuccess(true)
     }

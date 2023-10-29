@@ -1,10 +1,11 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
+import { useEffect } from 'react'
 
 import { HomeFaq, HomeNavigation, HomePopular, HomeProcess, HomeReviews } from '@/components/Home'
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard, ReviewCard } from '@/components/Product'
-import { getPopularProducts, getReviews } from '@/core/api'
+import { getPopularProducts, getReviews, getWhois } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
@@ -36,7 +37,7 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Home({
   PRELOADED_STATE,

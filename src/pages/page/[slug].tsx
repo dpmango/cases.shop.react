@@ -28,7 +28,7 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function SlugPage({
   pageData,

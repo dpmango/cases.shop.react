@@ -147,6 +147,7 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
                       <input
                         className="form-el__inp inp-def"
                         type="text"
+                        autoComplete="false"
                         value={inputFields.find((x) => x.id === 'login')?.value}
                         onChange={(e) => handleInputChange('login', e)}
                       />

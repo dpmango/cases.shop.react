@@ -29,7 +29,7 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export interface IForm {
   email: string
@@ -91,6 +91,7 @@ export default function Page() {
                   initialValues={initialValues}
                   validate={handleValidate}
                   onSubmit={handleSubmit}
+                  validateOnBlur={false}
                 >
                   {({
                     values,

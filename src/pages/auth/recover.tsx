@@ -12,6 +12,7 @@ import { AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon, SuccessIcon } from '@/components/Ui'
 import { authRecover, authResetConfirm, IAuthResetConfirm } from '@/core/api'
+import { useAuthHelpers } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -37,17 +38,16 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Page() {
-  const { user, auth_bot } = useAppSelector((state) => state.sessionState)
-
   const [stage, setStage] = useState(1)
-  const dispatch = useAppDispatch()
   const router = useRouter()
   const params = useSearchParams()
 
   const initialValues = { password: '' }
+
+  const { onAuthSuccess } = useAuthHelpers()
 
   const handleValidate = useCallback((values: IForm) => {
     const errors = {} as { [key: string]: string }
@@ -65,7 +65,7 @@ export default function Page() {
       const paramEmail = params.get('email')
 
       if (!paramToken || !paramEmail) {
-        router.push('/auth')
+        router.replace('/auth')
         setSubmitting(false)
         return
       }
@@ -77,17 +77,18 @@ export default function Page() {
       })
 
       if (error) {
-        setFieldError('password', error.message)
+        if (['invalid-password', 'bad-password'].includes(error.message)) {
+          setFieldError('password', 'Неправильный пароль')
+        } else if (['invalid-token'].includes(error.message)) {
+          setFieldError('password', 'Ссылка восстановления пароля устарела')
+        } else {
+          setFieldError('password', error.message)
+        }
       }
 
       if (data) {
         setStage(2)
-
-        setCookie('access_token', data.access_token)
-        setCookie('refresh_token', data.refresh_token)
-
-        const { payload } = await dispatch(getProfileThunk())
-        if (!payload) throw new Error()
+        onAuthSuccess(data, false)
       }
 
       setSubmitting(false)
@@ -100,7 +101,7 @@ export default function Page() {
     const paramEmail = params.get('email')
 
     if (!paramToken || !paramEmail) {
-      router.push('/auth')
+      router.replace('/auth')
     }
   }, [])
 
@@ -124,6 +125,7 @@ export default function Page() {
                     initialValues={initialValues}
                     validate={handleValidate}
                     onSubmit={handleSubmit}
+                    validateOnBlur={false}
                   >
                     {({
                       values,
@@ -135,12 +137,7 @@ export default function Page() {
                       isSubmitting,
                     }) => (
                       <form onSubmit={handleSubmit}>
-                        <div
-                          className={cns(
-                            'block-form__el form-el',
-                            errors.password && touched.password && 'error',
-                          )}
-                        >
+                        <div className={cns('block-form__el form-el', errors.password && 'error')}>
                           <div className="form-el__title">Придумайте новый пароль</div>
                           <input
                             className="form-el__inp inp-def"
@@ -151,8 +148,21 @@ export default function Page() {
                             value={values.password}
                           />
                         </div>
-                        {errors.password && touched.password && (
-                          <AuthErrorMessage title="Ошибка" message={errors.password} />
+                        {errors.password && (
+                          <AuthErrorMessage title="Ошибка" message={errors.password}>
+                            <>
+                              {errors.password === 'Ссылка восстановления пароля устарела' && (
+                                <Link href="/auth">
+                                  <button
+                                    type="reset"
+                                    className="message-form__btn btn-def btn-def_small btn-def_full btn-def_black"
+                                  >
+                                    <span>Войти заново</span>
+                                  </button>
+                                </Link>
+                              )}
+                            </>
+                          </AuthErrorMessage>
                         )}
                         <div className="form-el__textbottom text-cat text-cat_small">
                           Минимум 5 символов

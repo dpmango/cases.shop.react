@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AuthErrorMessage } from '@/components/Auth'
+import { AuthErrorMessage, AuthResendCountdown } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { InputWarningIcon, SuccessIcon } from '@/components/Ui'
 import {
@@ -17,6 +17,7 @@ import {
   authSignup,
   getMainPage,
 } from '@/core/api'
+import { useAuthHelpers } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 import { useAppDispatch, useAppSelector } from '@/core/store'
@@ -37,7 +38,7 @@ export const getServerSideProps = (async (context) => {
       shopId,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export interface IForm {
   password: string
@@ -47,10 +48,11 @@ export default function Page() {
   const { user, auth_bot } = useAppSelector((state) => state.sessionState)
 
   const [stage, setStage] = useState(1)
-  const dispatch = useAppDispatch()
   const router = useRouter()
 
   const initialValues = { password: '' }
+
+  const { checkLoginCookie, onAuthSuccess } = useAuthHelpers()
 
   const handleValidate = useCallback((values: IForm) => {
     const errors = {} as { [key: string]: string }
@@ -63,26 +65,17 @@ export default function Page() {
   }, [])
 
   const resendEmail = useCallback(async () => {
-    const cookieEmail = getCookie('loginEmail')
-
-    if (!cookieEmail) {
-      router.push('/auth')
-      return
-    }
+    const cookieEmail = checkLoginCookie()
+    if (!cookieEmail) return
 
     const { data, error } = await authRequestConfirm({ email: cookieEmail })
-
-    if (data) {
-      setRepeatTime(60)
-    }
   }, [])
 
   const handleSubmit = useCallback(
     async (values: IForm, { setSubmitting, setFieldError }: FormikHelpers<IForm>) => {
-      const cookieEmail = getCookie('loginEmail')
+      const cookieEmail = checkLoginCookie()
 
       if (!cookieEmail) {
-        router.push('/auth')
         setSubmitting(false)
         return
       }
@@ -111,7 +104,7 @@ export default function Page() {
   const resetEmail = useCallback(() => {
     deleteCookie('authSignupStep')
     deleteCookie('loginEmail')
-    router.push('/auth')
+    router.replace('/auth')
   }, [])
 
   useEffect(() => {
@@ -121,30 +114,9 @@ export default function Page() {
     }
   }, [])
 
-  const timer: { current: NodeJS.Timeout | null } = useRef(null)
-  const [repeatTime, setRepeatTime] = useState(60)
-
   useEffect(() => {
-    if (stage !== 2) {
-      setRepeatTime(60)
-      return
-    }
-
-    const updateTime = () => {
-      setRepeatTime((prev) => {
-        let next = prev - 1
-        if (next <= 0) next = 0
-        return next
-      })
-    }
-
-    updateTime()
-    timer.current = setInterval(updateTime, 1000)
-
-    return () => {
-      clearInterval(timer.current as NodeJS.Timeout)
-    }
-  }, [stage])
+    checkLoginCookie()
+  }, [])
 
   return (
     <LayoutGeneral>
@@ -164,6 +136,7 @@ export default function Page() {
                     initialValues={initialValues}
                     validate={handleValidate}
                     onSubmit={handleSubmit}
+                    validateOnBlur={false}
                   >
                     {({
                       values,
@@ -175,12 +148,7 @@ export default function Page() {
                       isSubmitting,
                     }) => (
                       <form onSubmit={handleSubmit}>
-                        <div
-                          className={cns(
-                            'block-form__el form-el',
-                            errors.password && touched.password && 'error',
-                          )}
-                        >
+                        <div className={cns('block-form__el form-el', errors.password && 'error')}>
                           <div className="form-el__title">Придумайте пароль</div>
                           <input
                             className="form-el__inp inp-def"
@@ -191,7 +159,7 @@ export default function Page() {
                             value={values.password}
                           />
                         </div>
-                        {errors.password && touched.password && (
+                        {errors.password && (
                           <AuthErrorMessage title="Ошибка" message={errors.password} />
                         )}
                         <div className="form-el__textbottom text-cat text-cat_small">
@@ -213,49 +181,14 @@ export default function Page() {
 
               {/* confrm */}
               {stage === 2 && (
-                <div className="block-form">
-                  <div className="block-form__title title-def title-def_sec">Подтверждение</div>
-                  <div className="block-form__text text-cat">
-                    На вашу электронную почту отправлено письмо со ссылкой для подтверждения
-                    регистрации. Перейдите по ней чтобы завершить процесс регистрации.
-                  </div>
-                  <div className="title-def title-def_m title-def_small">
-                    Письмо так и не пришло?
-                  </div>
-                  {repeatTime > 0 ? (
-                    <div className="countdown mb-2">
-                      <span>
-                        Отправить ещё раз через{' '}
-                        <span className="countdown__time">{secondsToStamp(repeatTime)}</span>
-                      </span>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className="btn-def btn-def_full btn-def_min mb-2"
-                      onClick={resendEmail}
-                    >
-                      <span>Отправить новое письмо</span>
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn-def btn-def_full btn-def_min mb-2"
-                    onClick={() => {
-                      dispatch(setModal({ name: 'support' }))
-                    }}
-                  >
-                    <span>Написать в поддержку</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-def btn-def_full btn-def_min"
-                    onClick={resetEmail}
-                  >
-                    <span>Указать другую почту</span>
-                  </button>
-                </div>
+                <AuthResendCountdown
+                  title="Подтверждение"
+                  message={
+                    'На вашу электронную почту отправлено письмо со ссылкой для подтверждения регистрации. Перейдите по ней чтобы завершить процесс регистрации.'
+                  }
+                  onResendClick={resendEmail}
+                  onResetClick={resetEmail}
+                />
               )}
             </div>
           </div>

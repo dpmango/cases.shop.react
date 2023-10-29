@@ -1,8 +1,13 @@
 import cns from 'classnames'
+import Link from 'next/link'
+
+import { useAppSelector } from '@/core/store'
 
 import { UiModal } from '../Ui'
 
 export const GamesModal: React.FC<{}> = ({}) => {
+  const { categories } = useAppSelector((store) => store.productState)
+
   return (
     <UiModal className="modal-mob" name="games">
       <div className="modal-mob__content">
@@ -11,17 +16,22 @@ export const GamesModal: React.FC<{}> = ({}) => {
           <br />и подписки
         </div>
         <div className="cat">
-          <div className="cat__el">
-            <div className="cat-el content-bg">
-              <div className="cat-el__content">
-                <img className="cat-el__icon" loading="lazy" src="/img/cat/fortnite.svg" alt="" />
-                <div className="cat-el__body">
-                  <div className="cat-el__title title-cat">Fortnite</div>
-                  <div className="cat-el__text text-cat">В-баксы, подписки, наборы</div>
+          {categories?.map((cat, idx) => (
+            <div className="cat__el" key={idx}>
+              <Link className="cat-el content-bg" href={`/games/${cat.id}`}>
+                <div className="cat-el__content">
+                  {cat.icon && <img className="cat-el__icon" src={cat.icon} alt="" />}
+
+                  <div className="cat-el__body">
+                    <div className="cat-el__title title-cat">{cat.name}</div>
+                    <div className="cat-el__text text-cat">
+                      {cat.categories.map((y) => y.name).join(', ')}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </UiModal>

@@ -43,7 +43,7 @@ export const getServerSideProps = (async (context) => {
       orderData,
     },
   }
-}) satisfies GetServerSideProps<IResolver>
+}) satisfies GetServerSideProps<Partial<IResolver>>
 
 export default function Page({
   orderData,

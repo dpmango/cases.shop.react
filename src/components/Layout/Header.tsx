@@ -32,7 +32,7 @@ import {
 import { useClickOutside, useEventListener, useScrollLock } from '@/core/hooks'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { resetState } from '@/core/store/session.store'
-import { setMobileMenu, setModal } from '@/core/store/ui.store'
+import { closeModals, setMobileMenu, setModal } from '@/core/store/ui.store'
 import { formatPrice, scrollToElement } from '@/core/utils'
 
 const Header = () => {
@@ -40,9 +40,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [balanceDropdown, setBalanceDropdown] = useState(false)
 
-  const { user, auth_bot, paymentsMethods, customPages } = useAppSelector(
-    (state) => state.sessionState,
-  )
+  const { user, paymentsMethods, customPages } = useAppSelector((state) => state.sessionState)
   const { modal, mobileMenuActive } = useAppSelector((state) => state.uiState)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -78,9 +76,14 @@ const Header = () => {
         e?.preventDefault()
         scrollToElement(id)
       }
+      if (modal) {
+        dispatch(closeModals())
+      }
     },
-    [router],
+    [router, modal],
   )
+
+  const isAuthRoute = router.pathname.includes('/auth')
 
   // scroll functions
   const updateSticky = useCallback(() => {
@@ -265,14 +268,8 @@ const Header = () => {
                             </div>
                           </div>
                           <div className="action-btn__dropdown-links">
-                            <a className="action-btn__dropdown-link" href="#">
-                              Сменить пароль
-                            </a>
-                            <a
-                              className="action-btn__dropdown-link"
-                              href="#"
-                              onClick={handleLogout}
-                            >
+                            <a className="action-btn__dropdown-link">Сменить пароль</a>
+                            <a className="action-btn__dropdown-link" onClick={handleLogout}>
                               Выйти
                             </a>
                           </div>
@@ -388,7 +385,7 @@ const Header = () => {
             <div className="profile-mob__notify notify-info">
               <div className="notify-info__top">
                 <div className="notify-info__title">Уведомления</div>
-                <div className="notify-info__count count-def">9</div>
+                {/* <div className="notify-info__count count-def">9</div> */}
               </div>
               <div className="notify-info__content">
                 <div className="notify-info__el notify-info-el">
@@ -423,12 +420,10 @@ const Header = () => {
             </div>
             <ul className="profile-mob__links links-profile">
               <li className="links-profile__el">
-                <a className="links-profile__link" href="#">
-                  Сменить пароль
-                </a>
+                <a className="links-profile__link">Сменить пароль</a>
               </li>
               <li className="links-profile__el">
-                <a className="links-profile__link" href="#">
+                <a className="links-profile__link" onClick={handleLogout}>
                   Выйти
                 </a>
               </li>
@@ -457,19 +452,19 @@ const Header = () => {
                   dispatch(setModal({ name: 'support' }))
                 }}
               >
-                <div className="act-mob__count">2</div>
+                {/* <div className="act-mob__count">2</div> */}
                 <div className="act-mob__icon">
                   <MobNavSupportIcon />
                 </div>
               </button>
               <Link className="mobile-navi__el act-mob" href="/my/favourites">
-                <div className="act-mob__count act-mob__count_black">39</div>
+                {/* <div className="act-mob__count act-mob__count_black">39</div> */}
                 <div className="act-mob__icon">
                   <MobNavStarIcon />
                 </div>
               </Link>
               <Link className="mobile-navi__el act-mob" href="/my/orders">
-                <div className="act-mob__count">1</div>
+                {/* <div className="act-mob__count">1</div> */}
                 <div className="act-mob__icon">
                   <MobNavWalletIcon />
                 </div>
@@ -480,12 +475,21 @@ const Header = () => {
                   dispatch(setModal({ name: 'profile-mob' }))
                 }}
               >
-                <div className="act-mob__count">9</div>
+                {/* <div className="act-mob__count">9</div> */}
                 <div className="act-mob__icon">
                   <MobNavProfileIcon />
                 </div>
               </button>
             </>
+          )}
+          {!user && (
+            <Link href="/auth">
+              <button className={cns('mobile-navi__el act-mob', isAuthRoute && 'active')}>
+                <div className="act-mob__icon">
+                  <MobNavProfileIcon />
+                </div>
+              </button>
+            </Link>
           )}
         </div>
       </div>

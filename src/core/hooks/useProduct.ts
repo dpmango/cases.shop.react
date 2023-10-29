@@ -11,7 +11,7 @@ export const useProduct = () => {
 
   const navigateToProduct = (id: string) => {
     if (!user) {
-      router.push('/auth')
+      router.replace('/auth')
       return
     }
 
