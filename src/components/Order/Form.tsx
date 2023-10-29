@@ -122,6 +122,7 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
                       <input
                         className="form-el__inp inp-def"
                         type="text"
+                        autoComplete="off"
                         value={inputFields.find((x) => x.id === 'steam-login')?.value}
                         onChange={(e) => handleInputChange('steam-login', e)}
                       />
@@ -147,7 +148,7 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
                       <input
                         className="form-el__inp inp-def"
                         type="text"
-                        autoComplete="false"
+                        autoComplete="off"
                         value={inputFields.find((x) => x.id === 'login')?.value}
                         onChange={(e) => handleInputChange('login', e)}
                       />
@@ -160,6 +161,7 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
                     <input
                       className="form-el__inp inp-def"
                       type="password"
+                      autoComplete="off"
                       value={inputFields.find((x) => x.id === 'password')?.value}
                       onChange={(e) => handleInputChange('password', e)}
                     />
@@ -180,6 +182,7 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
             <input
               className="form-el__inp inp-def"
               type="text"
+              autoComplete="off"
               value={inputFields.find((x) => x.id === 'recoverCodes')?.value}
               onChange={(e) => handleInputChange('recoverCodes', e)}
             />

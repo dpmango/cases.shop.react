@@ -36,6 +36,15 @@ export const getServerSideProps = (async (context) => {
 
   const { PRELOADED_STATE, orderData } = await Resolver(promisesToBeFetched, context)
 
+  if (!orderData) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       PRELOADED_STATE,
@@ -68,8 +77,8 @@ export default function Page({
   }, [hasSteamData, orderDataStore?.item, steamDeposit])
 
   const balanceDiff = useMemo(() => {
-    if (!productPrice || !user?.balance) return null
-    return user?.balance - productPrice
+    if (!productPrice) return null
+    return (user?.balance || 0) - productPrice
   }, [user?.balance, productPrice])
 
   const notEnoughBalance = useMemo(() => {
@@ -150,7 +159,7 @@ export default function Page({
     }
   }
 
-  if (!orderDataStore) {
+  if (!orderDataStore && window !== undefined) {
     router.push('/')
     return
   }
@@ -218,16 +227,15 @@ export default function Page({
                   )}
                 </div>
 
-                {notEnoughBalance && (
+                {notEnoughBalance && balanceDiff && (
                   <>
                     <p className="text-info">Недостаточно баланса для совершения покупки</p>
+
                     <button
                       className={cns('btn-def btn-def_full btn-def_min sec-order__btn')}
                       onClick={() => openBalanceModal()}
                     >
-                      <span>
-                        Пополнить баланс на {formatPrice(balanceDiff || productPrice || 0)}
-                      </span>
+                      <span>Пополнить баланс на {formatPrice(Math.abs(balanceDiff || 0))}</span>
                     </button>
                   </>
                 )}
