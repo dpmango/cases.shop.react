@@ -11,7 +11,7 @@ export interface IChat {
   loading: boolean | null
   createMode: boolean | string
   chatList: ITicketDto[]
-  activeDialog: ITicketDto | null
+  activeDialog: string | null
   dialogMessages: IChatMessage[]
   themes: ISelectOption[]
 }
@@ -67,7 +67,7 @@ export const chatState = createSlice({
       state.loading = false
       state.chatList = []
     },
-    setActiveDialog(state, action: PayloadAction<ITicketDto | null>) {
+    setActiveDialog(state, action: PayloadAction<string | null>) {
       state.activeDialog = action.payload
     },
     setCreateMode(state, action: PayloadAction<boolean | string>) {

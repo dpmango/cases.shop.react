@@ -32,6 +32,10 @@ export const SupportModal: React.FC<{}> = ({}) => {
 
   const messagesScrollerRef = useRef<HTMLDivElement | null>(null)
 
+  const activeDialogObj = useMemo(() => {
+    return chatList.find((x) => x.id === activeDialog)
+  }, [activeDialog, chatList])
+
   const handlePrevClick = () => {
     dispatch(setActiveDialog(null))
     dispatch(setCreateMode(false))
@@ -103,10 +107,10 @@ export const SupportModal: React.FC<{}> = ({}) => {
           isVisible = true
         }
 
-        if (activeDialog?.id && isVisible && id && !readMessageMiddleware.includes(id)) {
+        if (activeDialog && isVisible && id && !readMessageMiddleware.includes(id)) {
           setReadMessagesMiddleware((prev) => [...prev, id])
-          dispatch(markReadService({ ticketId: activeDialog.id, msgID: id }))
-          dispatch(getChatMessagesService(activeDialog.id))
+          dispatch(markReadService({ ticketId: activeDialog, msgID: id }))
+          dispatch(getChatMessagesService(activeDialog))
         }
       })
     }, 300),
@@ -114,7 +118,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
   )
 
   useLayoutEffect(() => {
-    if (activeDialog?.id && messagesScrollerRef?.current && shouldShowDialog) {
+    if (activeDialog && messagesScrollerRef?.current && shouldShowDialog) {
       scrollToLastMessage()
       handleScroller()
       setTimeout(scrollToLastMessage, 300)
@@ -126,7 +130,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
     if (dialogMessages.length === mLength.current) return
     mLength.current = dialogMessages.length
 
-    if (activeDialog?.id && messagesScrollerRef?.current && shouldShowDialog) {
+    if (activeDialog && messagesScrollerRef?.current && shouldShowDialog) {
       scrollToLastMessage()
       handleScroller()
     }
@@ -165,7 +169,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
                     <div className="close-btn chat__prev" onClick={handlePrevClick}>
                       <Close3Icon />
                     </div>
-                    <div className="chat__body-mob-title title-small">{activeDialog?.title}</div>
+                    <div className="chat__body-mob-title title-small">{activeDialogObj?.title}</div>
                   </div>
                   {shouldShowDialog && (
                     <>

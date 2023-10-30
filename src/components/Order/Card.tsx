@@ -123,7 +123,12 @@ export const OrderCard: React.FC<IOrderCard> = ({
               <div className="support-card__count">1</div>
             </div>
             <div className="support-card__title title-small">Служба поддержки</div>
-            <div className="support-card__title2 title-def title-def_med">
+            <div
+              className="support-card__title2 title-def title-def_med"
+              onClick={() => {
+                dispatch(setModal({ name: 'support', params: { ticketId: ticket.id } }))
+              }}
+            >
               Вы оставили обращение
             </div>
             <div className="text-cat text-cat_small support-card__text">

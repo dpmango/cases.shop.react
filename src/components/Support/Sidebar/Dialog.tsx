@@ -42,20 +42,7 @@ export const ChatDialog: React.FC<IChatDialog> = ({
   const handleDialogClick = () => {
     if (disabled) return
     dispatch(setCreateMode(false))
-    dispatch(
-      setActiveDialog({
-        id,
-        title,
-        lastMessage,
-        modified,
-        created,
-        unreadMessages,
-        theme,
-        status,
-        isPinned,
-        ...props,
-      }),
-    )
+    dispatch(setActiveDialog(id))
   }
 
   // const handlePin = async (e: any) => {

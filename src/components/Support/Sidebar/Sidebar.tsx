@@ -8,7 +8,7 @@ import { PlusIcon2 } from '@/components/Ui/Icons'
 import { createTicket } from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
 import { useAppDispatch, useAppSelector } from '@/core/store'
-import { resetDialog, setCreateMode } from '@/core/store/chat.store'
+import { resetDialog, setActiveDialog, setCreateMode } from '@/core/store/chat.store'
 
 export const ChatSidebar: React.FC = () => {
   const { loading, chatList, createMode, activeDialog } = useAppSelector((store) => store.chatStore)
@@ -58,6 +58,10 @@ export const ChatSidebar: React.FC = () => {
   useEffect(() => {
     if (modalParams?.orderId) {
       handleTicketCreate(modalParams.orderId)
+    }
+    if (modalParams?.ticketId) {
+      dispatch(setCreateMode(false))
+      dispatch(setActiveDialog(modalParams.ticketId))
     }
   }, [modalParams])
 

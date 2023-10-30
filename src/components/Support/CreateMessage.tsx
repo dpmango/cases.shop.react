@@ -1,5 +1,5 @@
 import cns from 'classnames'
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 // import ReactQuill from 'react-quill'
 import { toast } from 'react-toastify'
@@ -32,16 +32,20 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
   const [upload, setUpload] = useState<IUpload | null>(null)
   const [activeTheme, setActiveTheme] = useState<ISelectOption | null>(null)
 
-  const { activeDialog, themes, createMode } = useAppSelector((store) => store.chatStore)
+  const { activeDialog, chatList, themes, createMode } = useAppSelector((store) => store.chatStore)
   const { modal } = useAppSelector((store) => store.uiState)
 
   const createMessageBox = useRef<HTMLDivElement | null>(null)
   const dispatch = useAppDispatch()
 
+  const activeDialogObj = useMemo(() => {
+    return chatList.find((x) => x.id === activeDialog)
+  }, [activeDialog, chatList])
+
   const sendMessage = useCallback(async () => {
     let sendValue = value
 
-    if ((activeDialog?.id || createMode) && (value || upload)) {
+    if ((activeDialog || createMode) && (value || upload)) {
       const removeLastLine = value ? value.split('<p><br></p>') : []
       if (removeLastLine.length >= 2) {
         sendValue = removeLastLine[0]
@@ -130,11 +134,11 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
         return
       }
 
-      if (activeDialog?.id) {
-        const { data, error } = await postMessage(activeDialog?.id, sendValue, upload?.file)
+      if (activeDialog) {
+        const { data, error } = await postMessage(activeDialog, sendValue, upload?.file)
         if (error) toast.error(error.message || 'Ошибка при отправке сообщения')
 
-        await dispatch(getChatMessagesService(activeDialog?.id))
+        await dispatch(getChatMessagesService(activeDialog))
         onSuccessCallback && onSuccessCallback()
         await dispatch(getChatListService())
       }
@@ -206,7 +210,7 @@ export const ChatCreateMessage: React.FC<IChatCreateMessage> = ({ onSuccessCallb
     }
   }, [createMode, modal])
 
-  if (activeDialog?.status === 1) return null
+  if (activeDialogObj?.status === 1) return null
 
   return (
     <div className="chat__acts chat-acts" ref={createMessageBox}>

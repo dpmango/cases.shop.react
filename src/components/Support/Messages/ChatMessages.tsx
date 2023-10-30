@@ -20,8 +20,8 @@ export const ChatMessages = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      if (!activeDialog?.id) return
-      dispatch(getChatMessagesService(activeDialog?.id))
+      if (!activeDialog) return
+      dispatch(getChatMessagesService(activeDialog))
     }
 
     fetchData()

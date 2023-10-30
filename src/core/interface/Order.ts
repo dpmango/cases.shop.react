@@ -71,7 +71,7 @@ export interface IUserOrderDto {
   created: number
   category: IProductCategory | null
   item: IProductItem
-  ticket: null
+  ticket: IOrderTicket | null
 }
 
 export interface IOrderStatus {
@@ -79,4 +79,10 @@ export interface IOrderStatus {
   description: string
   color: string
   like: boolean
+}
+
+export interface IOrderTicket {
+  id: string
+  last_message: string
+  name: string
 }
