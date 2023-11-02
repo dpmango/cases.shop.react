@@ -82,7 +82,7 @@ export const ChatSidebar: React.FC = () => {
         <ChatDialog {...createModeData} selected={true} disabled={true} />
       )}
       {chatList.map((x, idx) => (
-        <ChatDialog key={idx} {...x} selected={x.id === activeDialog?.id} />
+        <ChatDialog key={idx} {...x} selected={x.id === activeDialog} />
       ))}
 
       <UiLoader active={!!loading} theme="page" />
