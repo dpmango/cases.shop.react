@@ -4,8 +4,6 @@ export interface IHomePageDto {
   title: string
   tutorial: ITutorial
   categories: IProductCategory[]
-  popularItems: IPopularProduct[]
-  reviews: IReviewShort[]
   faq: Array<string[]>
   pages: Array<string[]>
   paymentMethods: IPaymentMethod[]
@@ -29,7 +27,7 @@ export interface IPaymentMethod {
   customPageId: string
 }
 
-export interface IReviewShort {
+export interface IReviewDto {
   nick: string
   ava: string
   date: number

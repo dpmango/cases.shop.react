@@ -52,16 +52,16 @@ export default function Page() {
     const errors = {} as { [key: string]: string }
     if (!values.oldPassword) {
       errors.oldPassword = 'Введите пароль'
-    } else if (values.oldPassword.length < 5) {
-      errors.oldPassword = `Ваш пароль должен содержать минимум 5 символов. Сейчас вы используете только ${values.oldPassword.length}.`
+    } else if (values.oldPassword.trim().length < 10) {
+      errors.oldPassword = `Ваш пароль должен содержать минимум 10 символов. Сейчас вы используете только ${values.oldPassword.length}.`
     } else if (!values.newPassword) {
       errors.newPassword = 'Введите пароль'
-    } else if (values.newPassword.length < 5) {
-      errors.newPassword = `Ваш пароль должен содержать минимум 5 символов. Сейчас вы используете только ${values.newPassword.length}.`
+    } else if (values.newPassword.trim().length < 10) {
+      errors.newPassword = `Ваш пароль должен содержать минимум 10 символов. Сейчас вы используете только ${values.newPassword.length}.`
     } else if (!values.newPasswordConfirm) {
       errors.newPasswordConfirm = 'Введите пароль'
-    } else if (values.newPasswordConfirm.length < 5) {
-      errors.newPasswordConfirm = `Ваш пароль должен содержать минимум 5 символов. Сейчас вы используете только ${values.newPasswordConfirm.length}.`
+    } else if (values.newPasswordConfirm.trim().length < 10) {
+      errors.newPasswordConfirm = `Ваш пароль должен содержать минимум 10 символов. Сейчас вы используете только ${values.newPasswordConfirm.length}.`
     } else if (values.newPassword !== values.newPasswordConfirm) {
       errors.newPasswordConfirm = 'Пароли не совпадают'
     }

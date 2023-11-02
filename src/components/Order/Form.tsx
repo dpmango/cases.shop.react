@@ -70,6 +70,10 @@ export const OrderForm: React.FC<IOrderFormProps> = ({
 
   useEffect(() => {
     const checkLogin = async () => {
+      if (!/^[0-9a-zA-Z._@]{2,99}$/i.test(steamLoginDebounced)) {
+        setSteamLoginValid(false)
+        return
+      }
       setSteamLoginValid(null)
       const { data, error } = await checkSteamLogin({ login: steamLoginDebounced })
       setSteamLoginValid(!!data)

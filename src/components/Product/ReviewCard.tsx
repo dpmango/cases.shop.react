@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 
-import { IReviewShort } from '@/core/interface/Homepage'
+import { IReviewDto } from '@/core/interface/Homepage'
 
-interface IReviewCard extends IReviewShort {}
+interface IReviewCard extends IReviewDto {}
 
 export const ReviewCard: React.FC<IReviewCard> = ({ date, ava, nick, text }) => {
   const reviewDate = useMemo(() => {

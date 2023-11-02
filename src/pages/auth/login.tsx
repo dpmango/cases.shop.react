@@ -52,8 +52,8 @@ export default function Page() {
     const errors = {} as { [key: string]: string }
     if (!values.password) {
       errors.password = 'Введите пароль'
-    } else if (values.password.length < 5) {
-      errors.password = `Ваш пароль должен содержать минимум 5 символов. Сейчас вы используете только ${values.password.length}.`
+    } else if (values.password.length < 10) {
+      errors.password = `Ваш пароль должен содержать минимум 10 символов. Сейчас вы используете только ${values.password.length}.`
     }
     return errors
   }, [])

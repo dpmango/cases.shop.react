@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IReviewShort } from '../interface/Homepage'
+import { IReviewDto } from '../interface/Homepage'
 import { IProductCategory } from '../interface/Product'
 import { getReviews } from './../api/review.api'
 export interface IProductStore {
   categories: IProductCategory[] | null
-  reviews: IReviewShort[] | null
+  reviews: IReviewDto[] | null
 }
 
 export const initialProductState: IProductStore = {
@@ -29,7 +29,7 @@ export const productState = createSlice({
   name: 'product',
   initialState: initialProductState,
   reducers: {
-    updateReviews(state, action: PayloadAction<IReviewShort[]>) {
+    updateReviews(state, action: PayloadAction<IReviewDto[]>) {
       state.reviews = [...action.payload]
     },
   },

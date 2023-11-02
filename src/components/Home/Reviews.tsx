@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 
 import { ProductCard, ReviewCard } from '@/components/Product'
 import { FaqToggleIcon } from '@/components/Ui'
-import { IReviewShort } from '@/core/interface/Homepage'
+import { IReviewDto } from '@/core/interface/Homepage'
 import { IProductCategory } from '@/core/interface/Product'
 import { useAppDispatch, useAppSelector } from '@/core/store'
 import { getReviewsThunk } from '@/core/store/product.store'
@@ -24,7 +24,7 @@ export const HomeReviews: React.FC<{}> = () => {
   const paginationRequest = async () => {
     const result = await dispatch(getReviewsThunk({ limit: paginatePer, offset: pagination }))
     // @ts-expect-error
-    const data = result.payload?.data as IReviewShort[]
+    const data = result.payload?.data as IReviewDto[]
 
     if (data && data.length) {
       setPaginationVisible(data.length === paginatePer)

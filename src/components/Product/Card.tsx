@@ -19,12 +19,17 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
     <div className="products-el" onClick={() => navigateToProduct(item.id)}>
       <img className="products-el__img" loading="lazy" src={item.icon} alt="" />
       <div className="products-el__content">
-        <div className="products-el__cat cat-info">
-          <img className="cat-info__icon" loading="lazy" src="/img/cat/heartstone.svg" alt="" />
-          <div className="cat-info__body">
-            <div className="cat-info__title">{category.name}</div>
+        {category && (
+          <div className="products-el__cat cat-info">
+            {category.icon && (
+              <img className="cat-info__icon" loading="lazy" src={category.icon} alt="" />
+            )}
+            <div className="cat-info__body">
+              <div className="cat-info__title">{category.name}</div>
+            </div>
           </div>
-        </div>
+        )}
+
         <div className="products-el__title title-def title-def_med">{item.name}</div>
         <div className="products-el__bottom">
           <div className="products-el__cost pr-cost">
