@@ -14,8 +14,6 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
   const [selectedValue, setSelectedValue] = useState<number | null>(null)
   const [deliveryType, setDeliveryType] = useState<string | null>(null)
 
-  const { navigateToProduct, handleFavourite } = useProduct({})
-
   const allTags = useMemo(() => {
     if (!coinsCategory) return []
 
@@ -45,6 +43,10 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
       (x) => x.tags['amount'] === selectedValue && x.tags['type'] === deliveryType,
     )
   }, [coinsCategory, selectedValue, deliveryType])
+
+  const { navigateToProduct, handleFavourite } = useProduct({
+    favourite: currentProduct?.favourite,
+  })
 
   const handleSelectValue = useCallback(
     (v: number) => {
@@ -148,9 +150,7 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
               </button>
               <button
                 className="action-btn products-el__acts-el"
-                onClick={() =>
-                  handleFavourite({ favourite: currentProduct.favourite, id: currentProduct.id })
-                }
+                onClick={() => handleFavourite({ id: currentProduct.id })}
               >
                 <div className="action-btn__content">
                   <div className="action-btn__icon">

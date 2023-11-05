@@ -103,7 +103,7 @@ export default function CategoryPage({
                 </div>
               </div>
               <div className="sec-header-cat__top-title title-cat">Игры</div>
-              <CategoryNotification id={categoryData.id} />
+              <CategoryNotification id={categoryData.id} favourite={categoryData.favourite} />
             </div>
             <div className="sec-header-cat__mob">
               <div className="cat-name">

@@ -16,7 +16,7 @@ export const useProduct = ({ favourite }: { favourite?: boolean }) => {
 
   const router = useRouter()
 
-  const navigateToProduct = (id: string, category: string) => {
+  const navigateToProduct = (id: string, category?: string) => {
     const link = `/${category || 'p'}/${id}`
 
     if (!user) {
