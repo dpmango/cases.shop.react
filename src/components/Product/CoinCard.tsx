@@ -142,9 +142,9 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
             <div className="product-el-big__acts">
               <button
                 className="btn-def btn-def_br btn-def_small products-el__acts-el"
-                onClick={() => navigateToProduct(currentProduct.id)}
+                onClick={() => navigateToProduct(currentProduct.id, coinsCategory.id)}
               >
-                <span>В корзину</span>
+                <span>Купить</span>
               </button>
               <button
                 className="action-btn products-el__acts-el"

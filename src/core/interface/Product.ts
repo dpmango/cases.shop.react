@@ -12,6 +12,7 @@ export interface IProductCategory {
   categories: IProductCategory[]
   tags: { [key: string]: string | number } | null
   backgrounds?: any | null
+  favourite: boolean
 }
 
 export interface IProductItem {

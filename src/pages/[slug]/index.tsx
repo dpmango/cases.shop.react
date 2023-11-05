@@ -1,11 +1,12 @@
 import cns from 'classnames'
+import { deleteCookie } from 'cookies-next'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
-import { ProductCardLarge, ProductCoinCard } from '@/components/Product'
+import { CategoryNotification, ProductCardLarge, ProductCoinCard } from '@/components/Product'
 import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
 import { getCategory, getMainPage } from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
@@ -17,6 +18,12 @@ export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
   const pageSlug = context.params?.slug as string
 
+  if (pageSlug === 'favicon.ico') {
+    return {
+      props: {},
+    }
+  }
+
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
@@ -26,6 +33,15 @@ export const getServerSideProps = (async (context) => {
   ] as IPromiseFactory[]
 
   const { PRELOADED_STATE, categoryData } = await Resolver(promisesToBeFetched, context)
+
+  if (!categoryData) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
@@ -43,29 +59,27 @@ export default function CategoryPage({
   const coinCategoryID = 'FVBucks'
 
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
-  const [notifyDropdown, setNotifyDropdown] = useState(false)
 
   const router = useRouter()
-
-  const notifyDropdownRef = useRef(null)
-  useClickOutside(notifyDropdownRef, () => setNotifyDropdown(false))
 
   const displayCategory = useMemo(() => {
     return categoryData?.categories.find((x) => x.id === activeTab)
   }, [categoryData?.categories, activeTab])
 
-  const enableNotifications = useCallback(() => {
-    router.replace('/auth')
-  }, [])
-
   const coinProduct = categoryData?.categories.find((x) => x.id === coinCategoryID)
   const showCoinProduct = activeTab === coinCategoryID && coinProduct
+
+  useEffect(() => {
+    deleteCookie('lastRoute')
+  }, [])
+
+  if (!categoryData) return
 
   return (
     <LayoutGeneral>
       <div className="padding-top"></div>
       <section className="sec-header-cat">
-        <img className="sec-header-cat__bg" src={categoryData?.icon || ''} alt="" />
+        <img className="sec-header-cat__bg" src={categoryData.icon || ''} alt="" />
         <div className="container-def">
           <div className="sec-header-cat__wrap">
             <div className="sec-header-cat__top">
@@ -76,69 +90,25 @@ export default function CategoryPage({
                   </div>
                 </Link>
                 <div className="cat-name">
-                  {categoryData?.icon && (
+                  {categoryData.icon && (
                     <img
                       className="cat-name__img"
-                      src={categoryData?.icon}
+                      src={categoryData.icon}
                       alt={categoryData.name}
                     />
                   )}
                   <div className="cat-name__body">
-                    <div className="cat-name__title">{categoryData?.name}</div>
+                    <div className="cat-name__title">{categoryData.name}</div>
                   </div>
                 </div>
               </div>
               <div className="sec-header-cat__top-title title-cat">Игры</div>
-              <div className="sec-header-cat__top-right">
-                <div
-                  className={cns('action-btn', notifyDropdown && 'active')}
-                  ref={notifyDropdownRef}
-                >
-                  <button
-                    className="action-btn__content"
-                    onClick={() => setNotifyDropdown(!notifyDropdown)}
-                  >
-                    <div className="action-btn__icon">
-                      <NotificationIcon />
-                    </div>
-                  </button>
-                  <div
-                    className="action-btn__dropdown action-btn__dropdown_2"
-                    style={{ display: notifyDropdown ? 'block' : 'none' }}
-                  >
-                    <div className="action-btn__dropdown-content">
-                      <div className="action-btn__dropdown-block">
-                        <div className="action-btn__dropdown-title">
-                          Уведомления о новых товарах
-                        </div>
-                        <div className="text-cat text-cat_small">
-                          Мы будем присылать вам уведомление как только появятся новые товары
-                          в категории Fortnite.
-                        </div>
-                        <div className="wrap-btns action-btn__btns">
-                          <button
-                            className="wrap-btns__btn btn-def btn-def_small btn-def_gray action-btn__dropdown-close"
-                            onClick={() => setNotifyDropdown(false)}
-                          >
-                            Отмена
-                          </button>
-                          <button
-                            className="wrap-btns__btn btn-def btn-def_small"
-                            onClick={enableNotifications}
-                          >
-                            Включить
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <CategoryNotification id={categoryData.id} />
             </div>
             <div className="sec-header-cat__mob">
               <div className="cat-name">
-                {categoryData?.icon && (
-                  <img className="cat-name__img" src={categoryData?.icon} alt={categoryData.name} />
+                {categoryData.icon && (
+                  <img className="cat-name__img" src={categoryData.icon} alt={categoryData.name} />
                 )}
                 <div className="cat-name__body">
                   <div className="cat-name__title">Fortnite</div>
@@ -147,7 +117,7 @@ export default function CategoryPage({
             </div>
             <div className="sec-header-cat__content">
               <ul className="sec-header-cat__links links-cat">
-                {categoryData?.categories.map((x) => (
+                {categoryData.categories.map((x) => (
                   <li className={cns('links-cat__el', activeTab === x.id && 'active')} key={x.id}>
                     <a className="links-cat__link" onClick={() => setActiveTab(x.id)}>
                       {/* links-cat__link_bg */}
@@ -170,7 +140,7 @@ export default function CategoryPage({
               <div className="products-2">
                 {displayCategory?.items.map((product, idx) => (
                   <div className="products-2__el" key={idx}>
-                    <ProductCardLarge {...product} />
+                    <ProductCardLarge {...product} category={displayCategory} />
                   </div>
                 ))}
               </div>

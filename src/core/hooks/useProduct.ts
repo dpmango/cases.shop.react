@@ -16,14 +16,16 @@ export const useProduct = ({ favourite }: { favourite?: boolean }) => {
 
   const router = useRouter()
 
-  const navigateToProduct = (id: string) => {
+  const navigateToProduct = (id: string, category: string) => {
+    const link = `/${category || 'p'}/${id}`
+
     if (!user) {
-      setCookie('lastRoute', `/order?id=${id}`)
+      setCookie('lastRoute', link)
       router.replace('/auth')
       return
     }
 
-    router.push(`/order?id=${id}`)
+    router.push(link)
   }
 
   const handleFavourite = async ({ id }: { id: string }) => {

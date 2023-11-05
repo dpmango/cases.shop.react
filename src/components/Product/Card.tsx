@@ -16,7 +16,7 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
   })
 
   return (
-    <div className="products-el" onClick={() => navigateToProduct(item.id)}>
+    <div className="products-el" onClick={() => navigateToProduct(item.id, category?.id)}>
       <img className="products-el__img" loading="lazy" src={item.icon} alt="" />
       <div className="products-el__content">
         {category && (
@@ -40,7 +40,10 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
           </div>
           <div className="products-el__acts" onClick={(e) => e.stopPropagation()}>
             <button className="action-btn action-btn_bg action-btn_small products-el__acts-el">
-              <div className="action-btn__content" onClick={() => navigateToProduct(item.id)}>
+              <div
+                className="action-btn__content"
+                onClick={() => navigateToProduct(item.id, category?.id)}
+              >
                 <div className="action-btn__icon">
                   <CartIcon />
                 </div>

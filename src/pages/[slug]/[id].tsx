@@ -3,7 +3,7 @@ import { deleteCookie } from 'cookies-next'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { LayoutGeneral } from '@/components/Layout'
@@ -65,8 +65,6 @@ export default function Page({
   const [steamLoginValid, setSteamLoginValid] = useState<boolean | null>(null)
 
   const { user } = useAppSelector((store) => store.sessionState)
-
-  deleteCookie('lastRoute')
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -149,7 +147,7 @@ export default function Page({
     })
 
     if (data) {
-      router.push('/my/orders')
+      router.push('/orders')
       toast.success(`Заказ ${data.order_id} оформлен`)
     }
     if (error) {
@@ -161,6 +159,10 @@ export default function Page({
       toast.error(error.message || 'Ошибка, обратитесь к администратору')
     }
   }
+
+  useEffect(() => {
+    deleteCookie('lastRoute')
+  }, [])
 
   if (!orderDataStore && window !== undefined) {
     router.push('/')

@@ -194,7 +194,7 @@ const Header = () => {
                         </div>
                       </div>
                     </Link>
-                    <Link className="action-btn top-menu__btn" href="/my/favourites">
+                    <Link className="action-btn top-menu__btn" href="/favourites">
                       {/* <div className="action-btn__count">39</div> */}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
@@ -202,7 +202,7 @@ const Header = () => {
                         </div>
                       </div>
                     </Link>
-                    <Link className="action-btn action-btn_red top-menu__btn" href="/my/orders">
+                    <Link className="action-btn action-btn_red top-menu__btn" href="/orders">
                       {/* <div className="action-btn__count">1</div> */}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
@@ -464,13 +464,13 @@ const Header = () => {
                   <MobNavSupportIcon />
                 </div>
               </button>
-              <Link className="mobile-navi__el act-mob" href="/my/favourites">
+              <Link className="mobile-navi__el act-mob" href="/favourites">
                 {/* <div className="act-mob__count act-mob__count_black">39</div> */}
                 <div className="act-mob__icon">
                   <MobNavStarIcon />
                 </div>
               </Link>
-              <Link className="mobile-navi__el act-mob" href="/my/orders">
+              <Link className="mobile-navi__el act-mob" href="/orders">
                 {/* <div className="act-mob__count">1</div> */}
                 <div className="act-mob__icon">
                   <MobNavWalletIcon />

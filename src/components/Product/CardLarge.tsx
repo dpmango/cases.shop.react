@@ -1,12 +1,14 @@
 import cns from 'classnames'
 
 import { useProduct } from '@/core/hooks'
-import { IProductItem } from '@/core/interface/Product'
+import { IProductCategory, IProductItem } from '@/core/interface/Product'
 import { formatPrice } from '@/core/utils'
 
 import { Star16Icon, StarButtonIcon } from '../Ui'
 
-interface IProductCard extends IProductItem {}
+interface IProductCard extends IProductItem {
+  category: IProductCategory
+}
 
 export const ProductCardLarge: React.FC<IProductCard> = ({
   id,
@@ -15,11 +17,12 @@ export const ProductCardLarge: React.FC<IProductCard> = ({
   name,
   description,
   favourite,
+  category,
 }) => {
   const { isFavourted, navigateToProduct, handleFavourite } = useProduct({ favourite })
 
   return (
-    <div className="products-2-el" onClick={() => navigateToProduct(id)}>
+    <div className="products-2-el" onClick={() => navigateToProduct(id, category.id)}>
       <img className="products-2-el__img" loading="lazy" src={icon} alt="" />
       <div className="products-2-el__content">
         <div className="products-2-el__title title-def title-def_sec2">{name}</div>
@@ -31,9 +34,9 @@ export const ProductCardLarge: React.FC<IProductCard> = ({
           <div className="products-2-el__acts" onClick={(e) => e.stopPropagation()}>
             <button
               className="btn-def btn-def_br btn-def_small products-el__acts-el"
-              onClick={() => navigateToProduct(id)}
+              onClick={() => navigateToProduct(id, category.id)}
             >
-              <span>В корзину</span>
+              <span>Купить</span>
             </button>
             <button
               className={cns('action-btn products-el__acts-el', isFavourted && 'action-btn_red')}

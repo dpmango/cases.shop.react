@@ -18,7 +18,7 @@ export const GamesModal: React.FC<{}> = ({}) => {
         <div className="cat">
           {categories?.map((cat, idx) => (
             <div className="cat__el" key={idx}>
-              <Link className="cat-el content-bg" href={`/games/${cat.id}`}>
+              <Link className="cat-el content-bg" href={`/${cat.id}`}>
                 <div className="cat-el__content">
                   {cat.icon && <img className="cat-el__icon" src={cat.icon} alt="" />}
 
