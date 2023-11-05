@@ -30,7 +30,15 @@ export const useAuthHelpers = () => {
     const { payload } = await dispatch(getProfileThunk())
     if (!payload) throw new Error()
 
-    if (navigate) router.replace('/')
+    if (navigate) {
+      const lastRouteBeforeAuth = getCookie('lastRoute')
+      if (lastRouteBeforeAuth) {
+        router.replace(lastRouteBeforeAuth)
+        deleteCookie('lastRoute')
+      } else {
+        router.replace('/')
+      }
+    }
   }
 
   return {

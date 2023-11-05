@@ -1,4 +1,5 @@
 import cns from 'classnames'
+import { deleteCookie } from 'cookies-next'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -64,6 +65,8 @@ export default function Page({
   const [steamLoginValid, setSteamLoginValid] = useState<boolean | null>(null)
 
   const { user } = useAppSelector((store) => store.sessionState)
+
+  deleteCookie('lastRoute')
 
   const router = useRouter()
   const dispatch = useAppDispatch()

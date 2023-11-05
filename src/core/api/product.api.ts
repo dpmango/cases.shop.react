@@ -1,5 +1,5 @@
 import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
-import type { IPopularProduct, IProductCategory } from '@/core/interface/Product'
+import type { IProductCategory, IProductDto } from '@/core/interface/Product'
 import { buildParams } from '@/core/utils/api'
 
 import { api } from './api'
@@ -30,7 +30,7 @@ export const getCategory = async ({ id }: ICategoryPayload) => {
 export interface IPopularProductsPayload extends IReqPagination {}
 
 export const getPopularProducts = async ({ limit, offset }: IPopularProductsPayload) => {
-  const { error, raw }: IApiResponse<{ list: IPopularProduct[] }> = await api(`popular_items`, {
+  const { error, raw }: IApiResponse<{ list: IProductDto[] }> = await api(`popular_items`, {
     params: buildParams({
       limit: limit ? limit.toString() : '',
       offset: offset ? offset.toString() : '',

@@ -4,22 +4,24 @@ import { GetServerSidePropsContext, PreviewData } from 'next'
 import { getMainPage, getProfile, getWhois } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { IHomePageDto } from '@/core/interface/Homepage'
-import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
+import { IProductCategory, IProductDto } from '@/core/interface/Product'
 import { initialProductState } from '@/core/store/product.store'
 import { initialSessionState } from '@/core/store/session.store'
 
 import { setShopID } from './api/api'
 import { IWhoisDto } from './interface/Initialization'
 import { IOrderDto, IUserOrderDto } from './interface/Order'
+import { useAppSelector } from './store'
 
 export interface IResolver {
   PRELOADED_STATE: any
-  popularData: IPopularProduct[] | null
+  popularData: IProductDto[] | null
   homepageData: IHomePageDto | null
   categoryData: IProductCategory | null
   pageData: any | null
   orderData: IOrderDto | null
   userOrdersData: IUserOrderDto[] | null
+  userFavourites: IProductDto[] | null
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -100,6 +102,7 @@ export const Resolver = async (
     pageData: null,
     orderData: null,
     userOrdersData: null,
+    userFavourites: null,
   } as IResolver
 
   // Выполнение запросов в SSR контексте
@@ -167,6 +170,10 @@ export const Resolver = async (
             break
           case 'orders':
             returnable.userOrdersData = data || null
+            break
+          case 'favourites':
+            returnable.userFavourites = data || null
+            break
           default:
             break
         }

@@ -2,18 +2,18 @@ import cns from 'classnames'
 import { useRouter } from 'next/router'
 
 import { useProduct } from '@/core/hooks'
-import { IPopularProduct } from '@/core/interface/Product'
+import { IProductDto } from '@/core/interface/Product'
 import { useAppSelector } from '@/core/store'
 import { formatPrice } from '@/core/utils'
 
 import { CartIcon, Star16Icon } from '../Ui'
 
-interface IProductCard extends IPopularProduct {}
+interface IProductCard extends IProductDto {}
 
 export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
-  const isFavourited = false
-
-  const { navigateToProduct } = useProduct()
+  const { isFavourted, navigateToProduct, handleFavourite } = useProduct({
+    favourite: item.favourite,
+  })
 
   return (
     <div className="products-el" onClick={() => navigateToProduct(item.id)}>
@@ -49,8 +49,9 @@ export const ProductCard: React.FC<IProductCard> = ({ category, item }) => {
             <button
               className={cns(
                 'action-btn action-btn_small products-el__acts-el',
-                isFavourited && 'action-btn_red',
+                isFavourted && 'action-btn_red',
               )}
+              onClick={() => handleFavourite({ id: item.id })}
             >
               <div className="action-btn__content">
                 <div className="action-btn__icon">

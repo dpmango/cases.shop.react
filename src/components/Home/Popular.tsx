@@ -3,11 +3,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { getPopularProducts } from '@/core/api'
-import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
+import { IProductDto } from '@/core/interface/Product'
 
 import { ProductCard } from '../Product'
 
-export const HomePopular: React.FC<{ products: IPopularProduct[] }> = ({ products }) => {
+export const HomePopular: React.FC<{ products: IProductDto[] }> = ({ products }) => {
   const paginatePer = 8
 
   const [pagination, setPagination] = useState(paginatePer)

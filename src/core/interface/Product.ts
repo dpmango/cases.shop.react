@@ -1,5 +1,5 @@
-export interface IPopularProduct {
-  category: IProductCategory
+export interface IProductDto {
+  category?: IProductCategory
   item: IProductItem
 }
 
@@ -19,6 +19,7 @@ export interface IProductItem {
   name: string
   icon: string
   price: IProductPrice
+  favourite: boolean
   tags: { [key: string]: string | number }
   description?: string
   features?: any // todo

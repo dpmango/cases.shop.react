@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { BackIcon, NotificationIcon, StarButtonIcon } from '@/components/Ui'
 import { useProduct } from '@/core/hooks'
-import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
+import { IProductCategory } from '@/core/interface/Product'
 import { formatPrice } from '@/core/utils'
 
 interface IProductCard {
@@ -14,7 +14,7 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
   const [selectedValue, setSelectedValue] = useState<number | null>(null)
   const [deliveryType, setDeliveryType] = useState<string | null>(null)
 
-  const { navigateToProduct } = useProduct()
+  const { navigateToProduct, handleFavourite } = useProduct({})
 
   const allTags = useMemo(() => {
     if (!coinsCategory) return []
@@ -146,7 +146,12 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
               >
                 <span>В корзину</span>
               </button>
-              <button className="action-btn products-el__acts-el">
+              <button
+                className="action-btn products-el__acts-el"
+                onClick={() =>
+                  handleFavourite({ favourite: currentProduct.favourite, id: currentProduct.id })
+                }
+              >
                 <div className="action-btn__content">
                   <div className="action-btn__icon">
                     <StarButtonIcon />

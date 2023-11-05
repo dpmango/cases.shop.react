@@ -1,4 +1,5 @@
 export * from './chat.api'
+export * from './favourites.api'
 export * from './order.api'
 export * from './page.api'
 export * from './payment.api'

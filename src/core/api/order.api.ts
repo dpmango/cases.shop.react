@@ -1,6 +1,5 @@
 import { IOrderFormField } from '@/components/Order/Form'
 import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
-import type { IPopularProduct, IProductCategory } from '@/core/interface/Product'
 import { buildParams } from '@/core/utils/api'
 
 import { ICreatedOrderDto, IOrderDto, ISteamRatesDto, IUserOrderDto } from '../interface/Order'

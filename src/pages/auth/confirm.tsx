@@ -7,7 +7,7 @@ import { useParams, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AuthErrorMessage } from '@/components/Auth'
+import { AuthBackButton, AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { SuccessIcon } from '@/components/Ui'
 import { authConfirmEmail, IAuthConfirmEmail } from '@/core/api'
@@ -104,11 +104,7 @@ export default function Page() {
 
                 {error && <AuthErrorMessage title="Ошибка" message={error} />}
 
-                {!loading && (
-                  <Link className="block-form__btn btn-def btn-def_full btn-def_min" href="/">
-                    <span>На главную</span>
-                  </Link>
-                )}
+                {!loading && <AuthBackButton />}
               </div>
             </div>
           </div>

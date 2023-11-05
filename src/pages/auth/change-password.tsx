@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AuthErrorMessage } from '@/components/Auth'
+import { AuthBackButton, AuthErrorMessage } from '@/components/Auth'
 import { LayoutGeneral } from '@/components/Layout'
 import { SuccessIcon } from '@/components/Ui'
 import { authChangePassword } from '@/core/api'
@@ -213,9 +213,7 @@ export default function Page() {
                     </div>
                   </div>
 
-                  <Link className="block-form__btn btn-def btn-def_full btn-def_min" href="/">
-                    <span>На главную</span>
-                  </Link>
+                  <AuthBackButton />
                 </div>
               )}
             </div>

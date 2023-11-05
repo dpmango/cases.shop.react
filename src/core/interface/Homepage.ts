@@ -1,4 +1,4 @@
-import { IPopularProduct, IProductCategory } from '@/core/interface/Product'
+import { IProductCategory } from '@/core/interface/Product'
 
 export interface IHomePageDto {
   title: string

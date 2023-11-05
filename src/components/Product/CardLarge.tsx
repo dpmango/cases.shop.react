@@ -1,7 +1,7 @@
 import cns from 'classnames'
 
 import { useProduct } from '@/core/hooks'
-import { IPopularProduct, IProductItem } from '@/core/interface/Product'
+import { IProductItem } from '@/core/interface/Product'
 import { formatPrice } from '@/core/utils'
 
 import { Star16Icon, StarButtonIcon } from '../Ui'
@@ -14,8 +14,9 @@ export const ProductCardLarge: React.FC<IProductCard> = ({
   price,
   name,
   description,
+  favourite,
 }) => {
-  const { navigateToProduct } = useProduct()
+  const { isFavourted, navigateToProduct, handleFavourite } = useProduct({ favourite })
 
   return (
     <div className="products-2-el" onClick={() => navigateToProduct(id)}>
@@ -34,7 +35,10 @@ export const ProductCardLarge: React.FC<IProductCard> = ({
             >
               <span>В корзину</span>
             </button>
-            <button className="action-btn action-btn_red products-el__acts-el">
+            <button
+              className={cns('action-btn products-el__acts-el', isFavourted && 'action-btn_red')}
+              onClick={() => handleFavourite({ id: id })}
+            >
               <div className="action-btn__content">
                 <div className="action-btn__icon">
                   <StarButtonIcon />
