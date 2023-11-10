@@ -114,7 +114,6 @@ export interface IGetUserOrdersPayload {
 }
 
 export const getUserOrders = async ({ accessToken }: IGetUserOrdersPayload) => {
-
   const { error, data, raw }: IApiResponse<IUserOrderDto[]> = await api(
     `user/orders`,
     addTokenToRequest({}, accessToken),
