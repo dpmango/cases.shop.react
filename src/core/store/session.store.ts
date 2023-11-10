@@ -48,6 +48,20 @@ export const sessionState = createSlice({
       deleteCookie('access_token')
       deleteCookie('refresh_token')
     },
+    changeUserFavouritesCount(
+      state,
+      action: PayloadAction<{ prop: 'category' | 'items'; type: 'add' | 'remove' }>,
+    ) {
+      if (!state.user) return
+
+      const curValue = state.user.favourites[action.payload.prop]
+
+      if (action.payload.type === 'add') {
+        state.user.favourites[action.payload.prop] = curValue + 1
+      } else if (action.payload.type === 'remove') {
+        state.user.favourites[action.payload.prop] = curValue - 1
+      }
+    },
     updateAnyState: updateByDataType,
   },
   extraReducers: (builder) => {
@@ -62,6 +76,6 @@ export const sessionState = createSlice({
   },
 })
 
-export const { resetState, updateAnyState } = sessionState.actions
+export const { resetState, changeUserFavouritesCount, updateAnyState } = sessionState.actions
 
 export default sessionState.reducer

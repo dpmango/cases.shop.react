@@ -23,12 +23,13 @@ export const getServerSideProps = (async (context) => {
       props: {},
     }
   }
+  const accessToken = context.req.cookies['access_token']
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
       name: 'category',
-      resolver: getCategory({ id: pageSlug }),
+      resolver: getCategory({ id: pageSlug, token: accessToken }),
     },
   ] as IPromiseFactory[]
 

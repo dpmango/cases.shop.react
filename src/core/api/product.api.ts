@@ -1,6 +1,6 @@
 import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
 import type { IProductCategory, IProductDto } from '@/core/interface/Product'
-import { buildParams } from '@/core/utils/api'
+import { addTokenToRequest, buildParams } from '@/core/utils/api'
 
 import { api } from './api'
 
@@ -17,25 +17,46 @@ export const getCategories = async ({}: ICategoriesPayload) => {
 // get categories
 export interface ICategoryPayload {
   id: string
+  token?: string
 }
-export const getCategory = async ({ id }: ICategoryPayload) => {
-  const { error, raw }: IApiResponse<{ category: IProductCategory }> = await api(`category`, {
-    params: { id, showItemsInCategory: 'true' },
-  })
+export const getCategory = async ({ id, token }: ICategoryPayload) => {
+  const { error, raw }: IApiResponse<{ category: IProductCategory }> = await api(
+    `category`,
+    addTokenToRequest(
+      {
+        params: { id, showItemsInCategory: 'true' },
+      },
+      token,
+    ),
+  )
 
   return { data: raw?.category, error }
 }
 
 // get prodcuts
-export interface IPopularProductsPayload extends IReqPagination {}
+export interface IPopularProductsPayload extends IReqPagination {
+  token?: string
+}
 
-export const getPopularProducts = async ({ limit, offset }: IPopularProductsPayload) => {
-  const { error, raw }: IApiResponse<{ list: IProductDto[] }> = await api(`popular_items`, {
-    params: buildParams({
-      limit: limit ? limit.toString() : '',
-      offset: offset ? offset.toString() : '',
-    }),
-  })
+export const getPopularProducts = async ({
+  limit = 8,
+  offset = 0,
+  token,
+}: IPopularProductsPayload) => {
+  const req = addTokenToRequest(
+    {
+      params: {
+        limit: limit.toString(),
+        offset: offset.toString(),
+      },
+    },
+    token,
+  )
 
-  return { data: raw?.list, error }
+  const { error, raw }: IApiResponse<{ list: IProductDto[]; total: number }> = await api(
+    `popular_items`,
+    req,
+  )
+
+  return { data: raw, error }
 }

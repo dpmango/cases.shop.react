@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/core/store'
 
 import { toggleFavourite } from '../api'
 import { IProductItem } from '../interface/Product'
+import { changeUserFavouritesCount } from '../store/session.store'
 
 export const useProduct = ({ favourite }: { favourite?: boolean }) => {
   const [isFavourted, setIsFavourted] = useState(favourite || false)
@@ -35,14 +36,20 @@ export const useProduct = ({ favourite }: { favourite?: boolean }) => {
     setFavouritePending(true)
     setIsFavourted(action === 'add')
 
+    dispatch(changeUserFavouritesCount({ type: action, prop: 'items' }))
+
     const { data, error } = await toggleFavourite({
       action,
       type: 'item',
       id: id,
     })
 
+    // reverse action
     if (error) {
       setIsFavourted(action !== 'add')
+      dispatch(
+        changeUserFavouritesCount({ type: action === 'add' ? 'remove' : 'add', prop: 'items' }),
+      )
     }
 
     setFavouritePending(false)

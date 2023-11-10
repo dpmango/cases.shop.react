@@ -186,24 +186,43 @@ const Header = () => {
                         </div>
                       </div>
                     </button>
-                    <Link className="action-btn action-btn_red top-menu__btn" href="/notifications">
-                      {/* <div className="action-btn__count">2</div> */}
+                    <Link
+                      className={cns(
+                        'action-btn top-menu__btn',
+                        user.notifications > 0 && 'action-btn_red',
+                      )}
+                      href="/notifications"
+                    >
+                      {user.notifications > 0 && (
+                        <div className="action-btn__count">{user.notifications}</div>
+                      )}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <NotificationIcon />
                         </div>
                       </div>
                     </Link>
-                    <Link className="action-btn top-menu__btn" href="/favourites">
-                      {/* <div className="action-btn__count">39</div> */}
+                    <Link
+                      className={cns(
+                        'action-btn top-menu__btn',
+                        user.favourites.items > 0 && 'action-btn_red',
+                      )}
+                      href="/favourites"
+                    >
+                      {user.favourites.items > 0 && (
+                        <div className="action-btn__count">{user.favourites.items}</div>
+                      )}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <StarIcon />
                         </div>
                       </div>
                     </Link>
-                    <Link className="action-btn action-btn_red top-menu__btn" href="/orders">
-                      {/* <div className="action-btn__count">1</div> */}
+                    <Link
+                      className={cns('action-btn top-menu__btn', user.orders && 'action-btn_red')}
+                      href="/orders"
+                    >
+                      {user.orders > 0 && <div className="action-btn__count">{user.orders}</div>}
                       <div className="action-btn__content">
                         <div className="action-btn__icon">
                           <WalletIcon />

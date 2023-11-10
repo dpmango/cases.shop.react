@@ -11,12 +11,13 @@ import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
+  const accessToken = context.req.cookies['access_token']
 
   // Управление запросами страниц
   const promisesToBeFetched = [
     {
       name: 'popular',
-      resolver: getPopularProducts({ limit: 8, offset: 0 }),
+      resolver: getPopularProducts({ limit: 8, offset: 0, token: accessToken }),
     },
     {
       name: 'reviews',
@@ -55,7 +56,7 @@ export default function Home({
 
       {homepageData?.tutorial && <HomeProcess tutorial={homepageData.tutorial} />}
       {homepageData?.categories && <HomeNavigation categories={homepageData.categories} />}
-      {popularData && <HomePopular products={popularData} />}
+      {popularData && <HomePopular products={popularData.list} total={popularData.total} />}
 
       <HomeReviews />
       <HomeFaq faq={homepageData?.faq} />

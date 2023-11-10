@@ -53,4 +53,10 @@ export interface IProfileDto {
   balance: number
   id: string
   email: string
+  notifications: number
+  orders: number
+  favourites: {
+    category: number
+    items: number
+  }
 }

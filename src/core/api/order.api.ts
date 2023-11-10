@@ -1,6 +1,6 @@
 import { IOrderFormField } from '@/components/Order/Form'
 import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
-import { buildParams } from '@/core/utils/api'
+import { addTokenToRequest, buildParams } from '@/core/utils/api'
 
 import { ICreatedOrderDto, IOrderDto, ISteamRatesDto, IUserOrderDto } from '../interface/Order'
 import { api, IRequestOptions } from './api'
@@ -114,17 +114,12 @@ export interface IGetUserOrdersPayload {
 }
 
 export const getUserOrders = async ({ accessToken }: IGetUserOrdersPayload) => {
-  let params = {}
 
-  if (accessToken) {
-    params = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  }
-
-  const { error, data, raw }: IApiResponse<IUserOrderDto[]> = await api(`user/orders`, params, true)
+  const { error, data, raw }: IApiResponse<IUserOrderDto[]> = await api(
+    `user/orders`,
+    addTokenToRequest({}, accessToken),
+    true,
+  )
 
   return { data: raw, error }
 }

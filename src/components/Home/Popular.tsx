@@ -7,20 +7,23 @@ import { IProductDto } from '@/core/interface/Product'
 
 import { ProductCard } from '../Product'
 
-export const HomePopular: React.FC<{ products: IProductDto[] }> = ({ products }) => {
+export const HomePopular: React.FC<{ products: IProductDto[]; total: number }> = ({
+  products,
+  total,
+}) => {
   const paginatePer = 8
 
   const [pagination, setPagination] = useState(paginatePer)
   const [productsData, setProductsData] = useState(products)
-  const [paginationVisible, setPaginationVisible] = useState(products.length >= paginatePer)
+  const [paginationVisible, setPaginationVisible] = useState(total > products.length)
 
   const displayProducts = productsData.slice(0, pagination)
 
   const paginationRequest = async () => {
     const { data, error } = await getPopularProducts({ limit: paginatePer, offset: pagination })
-    if (data) {
-      setProductsData((prev) => [...prev, ...data])
-      setPaginationVisible(data.length === paginatePer)
+    if (data && data.list) {
+      setProductsData((prev) => [...prev, ...data.list])
+      setPaginationVisible(total > pagination + paginatePer)
       setPagination(pagination + paginatePer)
     } else {
       toast.error('Ошибка, попробуйте снова')

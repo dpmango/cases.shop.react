@@ -15,7 +15,7 @@ import { useAppSelector } from './store'
 
 export interface IResolver {
   PRELOADED_STATE: any
-  popularData: IProductDto[] | null
+  popularData: { list: IProductDto[]; total: number } | null
   homepageData: IHomePageDto | null
   categoryData: IProductCategory | null
   pageData: any | null

@@ -9,11 +9,11 @@ export interface IReviewsPayload {
   offset?: number
 }
 
-export const getReviews = async ({ limit = 8, offset }: IReviewsPayload) => {
+export const getReviews = async ({ limit = 8, offset = 0 }: IReviewsPayload) => {
   const { error, raw }: IApiResponse<{ list: IReviewDto[] }> = await api(`reviews`, {
     params: buildParams({
-      limit: limit ? limit.toString() : '',
-      offset: offset ? offset.toString() : '',
+      limit: limit.toString(),
+      offset: offset.toString(),
     }),
   })
 

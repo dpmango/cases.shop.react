@@ -53,7 +53,10 @@ export const CategoryNotification: React.FC<ICategoryNotification> = ({ id, favo
 
   return (
     <div className="sec-header-cat__top-right">
-      <div className={cns('action-btn', notifyDropdown && 'active')} ref={notifyDropdownRef}>
+      <div
+        className={cns('action-btn', notifyDropdown && 'active', isFavourted && 'action-btn_red')}
+        ref={notifyDropdownRef}
+      >
         <button className="action-btn__content" onClick={() => setNotifyDropdown(!notifyDropdown)}>
           <div className="action-btn__icon">
             <NotificationIcon />

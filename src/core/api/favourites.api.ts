@@ -1,17 +1,10 @@
 import type { IApiResponse } from '@/core/interface/Api'
 
+import { addTokenToRequest } from '../utils'
 import { api } from './api'
 
 export const getFavourites = async (token?: string) => {
-  let params = {}
-
-  if (token) {
-    params = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  }
+  let params = addTokenToRequest({}, token)
 
   const { error, raw }: IApiResponse<{ items: any[] }> = await api(`favourites`, params)
 

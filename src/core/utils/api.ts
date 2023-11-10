@@ -14,3 +14,18 @@ export const buildParams = (reqObj: { [key: string]: any }): { [key: string]: st
 
   return params
 }
+
+export const addTokenToRequest = (request = {}, token?: string) => {
+  let req = request
+
+  if (token) {
+    req = {
+      ...req,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  }
+
+  return req
+}

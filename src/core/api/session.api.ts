@@ -9,6 +9,7 @@ import type {
   IWhoisDto,
 } from '@/core/interface/Initialization'
 
+import { addTokenToRequest } from '../utils'
 import { api } from './api'
 
 // domain resolve
@@ -178,17 +179,7 @@ export const userAuthRefresh = async () => {
 
 // Profile
 export const getProfile = async (token?: string) => {
-  let params = {}
-
-  if (token) {
-    params = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  }
-
-  const { error, raw }: IApiResponse<IProfileDto> = await api(`user`, params)
+  const { error, raw }: IApiResponse<IProfileDto> = await api(`user`, addTokenToRequest({}, token))
 
   return { data: raw, error }
 }
