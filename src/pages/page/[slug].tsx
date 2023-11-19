@@ -15,7 +15,7 @@ export const getServerSideProps = (async (context) => {
   const promisesToBeFetched = [
     {
       name: 'page',
-      resolver: getStaticPage({ id: pageSlug }),
+      resolver: getStaticPage({ id: pageSlug, shopId: shopId }),
     },
   ] as IPromiseFactory[]
 

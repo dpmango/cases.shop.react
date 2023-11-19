@@ -79,8 +79,11 @@ const Header = () => {
       if (modal) {
         dispatch(closeModals())
       }
+      if (mobileMenuActive) {
+        dispatch(setMobileMenu(false))
+      }
     },
-    [router, modal],
+    [router, modal, mobileMenuActive],
   )
 
   const isAuthRoute = router.pathname.includes('/auth')
@@ -406,17 +409,17 @@ const Header = () => {
                 <span>Пополнить</span>
               </button>
             </div>
-            <div className="profile-mob__notify notify-info">
+            {/* <div className="profile-mob__notify notify-info">
               <div className="notify-info__top">
                 <div className="notify-info__title">Уведомления</div>
-                {/* <div className="notify-info__count count-def">9</div> */}
+                <div className="notify-info__count count-def">9</div>
               </div>
               <div className="notify-info__content">
                 <div className="notify-info__el notify-info-el">
                   <img className="notify-info-el__img" src="/img/fall_bg.jpg" alt="" />
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="profile-mob__theme">
               <div className="action-btn__dropdown-title">Тема</div>
               <div className="theme-btn">

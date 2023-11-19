@@ -80,7 +80,10 @@ export default function CategoryPage({
     <LayoutGeneral>
       <div className="padding-top"></div>
       <section className="sec-header-cat">
-        <img className="sec-header-cat__bg" src={categoryData.icon || ''} alt="" />
+        {categoryData.backgrounds && (
+          <img className="sec-header-cat__bg" src={categoryData.backgrounds} alt="" />
+        )}
+
         <div className="container-def">
           <div className="sec-header-cat__wrap">
             <div className="sec-header-cat__top">

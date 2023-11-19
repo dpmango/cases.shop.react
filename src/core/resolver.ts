@@ -22,6 +22,7 @@ export interface IResolver {
   orderData: IOrderDto | null
   userOrdersData: IUserOrderDto[] | null
   userFavourites: IProductDto[] | null
+  favouriteCategories: IProductCategory[] | null
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -103,6 +104,7 @@ export const Resolver = async (
     orderData: null,
     userOrdersData: null,
     userFavourites: null,
+    favouriteCategories: null,
   } as IResolver
 
   // Выполнение запросов в SSR контексте
@@ -173,6 +175,9 @@ export const Resolver = async (
             break
           case 'favourites':
             returnable.userFavourites = data || null
+            break
+          case 'favouriteCategories':
+            returnable.favouriteCategories = data || null
             break
           default:
             break

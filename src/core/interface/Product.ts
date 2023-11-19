@@ -25,6 +25,7 @@ export interface IProductItem {
   description?: string
   features?: any // todo
   note?: string // todo
+  background?: string | null
 }
 
 export interface IProductPrice {

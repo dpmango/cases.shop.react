@@ -19,12 +19,14 @@ export const getMainPage = async () => {
 // static page (content page)
 export interface IGetStaticPagePayload {
   id: string
+  shopId: string
 }
 
-export const getStaticPage = async ({ id }: IGetStaticPagePayload) => {
+export const getStaticPage = async ({ id, shopId }: IGetStaticPagePayload) => {
   const data = await ofetch(`https://shopcore.ru/store/api/custom_page`, {
     params: {
       ID: id,
+      shopId,
     },
   })
 

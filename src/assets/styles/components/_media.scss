@@ -527,13 +527,13 @@
     font-size: 16px;
     line-height: 1.23;
   }
-  .rewiews_limit{
-    .rewiews__el{
-      &:nth-child(n+6){
-        display: none;
-      }
-    }
-  }
+  // .rewiews_limit{
+  //   .rewiews__el{
+  //     &:nth-child(n+6){
+  //       display: none;
+  //     }
+  //   }
+  // }
   .sec-reviews__btn{
     margin-top: 15px;
   }

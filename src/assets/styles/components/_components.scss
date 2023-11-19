@@ -264,6 +264,10 @@ img {
       img {
         max-width: 54px;
         max-height: 54px;
+        @media screen and (max-width: 600px) {
+          max-width: 40px;
+          max-height: 40px;
+        }
       }
     }
   }

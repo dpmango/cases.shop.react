@@ -1,35 +1,41 @@
 import cns from 'classnames'
-import type { GetServerSideProps } from 'next'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import { useRef, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { Close2Icon, SettingsIcon, StarButtonIcon } from '@/components/Ui'
-import { getMainPage } from '@/core/api'
+import { getFavouritesCategories, getMainPage } from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
+  const accessToken = context.req.cookies['access_token']
 
-  // Управление запросами страниц
-  const promisesToBeFetched = [] as IPromiseFactory[]
+  const promisesToBeFetched = [
+    { name: 'favouriteCategories', resolver: getFavouritesCategories(accessToken) },
+  ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE } = await Resolver(promisesToBeFetched, context)
+  const { PRELOADED_STATE, favouriteCategories } = await Resolver(promisesToBeFetched, context)
 
   return {
     props: {
       PRELOADED_STATE,
+      favouriteCategories,
       shopId,
     },
   }
 }) satisfies GetServerSideProps<Partial<IResolver>>
 
-export default function Page() {
+export default function Page({
+  favouriteCategories,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [settingsOpened, setSettingsOpened] = useState(true)
 
   const sidebarRef = useRef<HTMLDivElement | null>(null)
-  useClickOutside(sidebarRef, () => setSettingsOpened(false))
+  // useClickOutside(sidebarRef, () => setSettingsOpened(false))
 
   return (
     <LayoutGeneral>
@@ -55,7 +61,7 @@ export default function Page() {
             <div className="sec-page__content">
               <div className="sec-page__body">
                 <div className="products-2-el products-2-el_2 products-2-el_m">
-                  <img className="products-2-el__img" src="../img/bg/4.jpg" alt="" />
+                  {/* <img className="products-2-el__img" src="../img/bg/4.jpg" alt="" /> */}
                   <div className="products-2-el__content">
                     <div className="products-2-el__top">
                       <div className="products-2-el__tag tag">Новинка</div>
@@ -105,45 +111,15 @@ export default function Page() {
                 <div className="sidebar-subscriptions__title title-def title-def_sec3">
                   Ваши подписки
                 </div>
-                <div className="sidebar-subscriptions__el subscriptions-el">
-                  <img className="subscriptions-el__img" src="../img/cat/fortnite.svg" alt="" />
-                  <div className="subscriptions-el__title">Fortnite</div>
-                  <div className="close-btn close-btn_small subscriptions-el__close">
-                    <Close2Icon />
+                {favouriteCategories?.map((cat, idx) => (
+                  <div className="sidebar-subscriptions__el subscriptions-el" key={idx}>
+                    {cat.icon && <img className="subscriptions-el__img" src={cat.icon} alt="" />}
+                    <div className="subscriptions-el__title">{cat.name}</div>
+                    <div className="close-btn close-btn_small subscriptions-el__close">
+                      <Close2Icon />
+                    </div>
                   </div>
-                </div>
-                <div className="sidebar-subscriptions__el subscriptions-el">
-                  <img className="subscriptions-el__img" src="../img/cat/overwatch.svg" alt="" />
-                  <div className="subscriptions-el__title">Overwatch 2</div>
-                  <div className="close-btn close-btn_small subscriptions-el__close">
-                    <Close2Icon />
-                  </div>
-                </div>
-                <div className="sidebar-subscriptions__el subscriptions-el">
-                  <img
-                    className="subscriptions-el__img"
-                    src="../img/cat/genshinimpact.svg"
-                    alt=""
-                  />
-                  <div className="subscriptions-el__title">Genshin Impact</div>
-                  <div className="close-btn close-btn_small subscriptions-el__close">
-                    <Close2Icon />
-                  </div>
-                </div>
-                <div className="sidebar-subscriptions__el subscriptions-el">
-                  <img className="subscriptions-el__img" src="../img/cat/mine.png" alt="" />
-                  <div className="subscriptions-el__title">Minecraft</div>
-                  <div className="close-btn close-btn_small subscriptions-el__close">
-                    <Close2Icon />
-                  </div>
-                </div>
-                <div className="sidebar-subscriptions__el subscriptions-el">
-                  <img className="subscriptions-el__img" src="../img/cat/steam.svg" alt="" />
-                  <div className="subscriptions-el__title">Steam</div>
-                  <div className="close-btn close-btn_small subscriptions-el__close">
-                    <Close2Icon />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
