@@ -107,7 +107,7 @@ export const OrderCard: React.FC<IOrderCard> = ({
           {category && (
             <div className="orders-el__cat cat-info cat-info_big">
               {category.backgrounds && (
-                <img className="cat-info__icon" loading="lazy" src={category.icon} alt="" />
+                <img className="cat-info__icon" loading="lazy" src={category.backgrounds} alt="" />
               )}
               <div className="cat-info__body">
                 <div className="cat-info__title">{category.name}</div>

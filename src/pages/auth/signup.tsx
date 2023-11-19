@@ -127,6 +127,7 @@ export default function Page() {
                     validate={handleValidate}
                     onSubmit={handleSubmit}
                     validateOnBlur={false}
+                    validateOnChange={false}
                   >
                     {({
                       values,
