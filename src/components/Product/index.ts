@@ -1,5 +1,6 @@
 export { ProductCard } from './Card'
 export { ProductCardLarge } from './CardLarge'
+export { ProductCardNotification } from './CardNotification'
 export { ProductCoinCard } from './CoinCard'
 export { CategoryNotification } from './Notification'
 export { ReviewCard } from './ReviewCard'

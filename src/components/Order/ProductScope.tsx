@@ -11,6 +11,7 @@ interface IOrderProductScope {
   category: IProductCategory | null
 }
 
+// карточка в заказе
 export const OrderProductScope: React.FC<IOrderProductScope> = ({ category, product }) => {
   return (
     <div className="products-2-el products-2-el_3">

@@ -38,22 +38,6 @@ export interface IOrderForm {
   fields: Array<'login' | 'password' | 'recoverCodes' | 'steam-login' | 'steam-amount'>
 }
 
-// export interface ITempProduct {
-//   category: {
-//     icon: string
-//     name: string
-//   }
-//   name: string
-//   price: IProductPrice
-//   icon: string
-//   description?: string
-//   features?: {
-//     title: string
-//     list: string[]
-//   }
-//   note?: string
-// }
-
 // commissions
 export interface ISteamRatesDto {
   bank: number

@@ -10,8 +10,8 @@ import { initialSessionState } from '@/core/store/session.store'
 
 import { setShopID } from './api/api'
 import { IWhoisDto } from './interface/Initialization'
+import { INotificationDto } from './interface/Notification'
 import { IOrderDto, IUserOrderDto } from './interface/Order'
-import { useAppSelector } from './store'
 
 export interface IResolver {
   PRELOADED_STATE: any
@@ -23,6 +23,7 @@ export interface IResolver {
   userOrdersData: IUserOrderDto[] | null
   userFavourites: IProductDto[] | null
   favouriteCategories: IProductCategory[] | null
+  notifications: INotificationDto[] | null
 }
 
 export const DomainResolver = async (context: GetServerSidePropsContext<any, PreviewData>) => {
@@ -105,6 +106,7 @@ export const Resolver = async (
     userOrdersData: null,
     userFavourites: null,
     favouriteCategories: null,
+    notifications: null,
   } as IResolver
 
   // Выполнение запросов в SSR контексте
@@ -178,6 +180,9 @@ export const Resolver = async (
             break
           case 'favouriteCategories':
             returnable.favouriteCategories = data || null
+            break
+          case 'notifications':
+            returnable.notifications = data || null
             break
           default:
             break

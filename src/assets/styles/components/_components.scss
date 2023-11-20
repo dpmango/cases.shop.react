@@ -2021,13 +2021,13 @@ img {
     transition: .3s;
 
     &_green {
-      &:hover {
+      &:hover, &._active {
         background-color: #1F9C56;
       }
     }
 
     &_red {
-      &:hover {
+      &:hover, &._active {
         background-color: #C1352C;
       }
     }

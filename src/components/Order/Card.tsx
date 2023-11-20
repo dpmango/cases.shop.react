@@ -1,7 +1,9 @@
 import cns from 'classnames'
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
+import { rateOrder } from '@/core/api'
 import { useScrollLock } from '@/core/hooks'
 import { IUserOrderDto } from '@/core/interface/Order'
 import { useAppDispatch } from '@/core/store'
@@ -22,12 +24,31 @@ export const OrderCard: React.FC<IOrderCard> = ({
 }) => {
   const [isFixed, setIsFixed] = useState(false)
   const { lockScroll, unlockScroll } = useScrollLock()
+  const [rateStatus, setRateStatus] = useState<'like' | 'dislike' | null>(null)
+  const [isPendingRate, setIsPendingRate] = useState(false)
 
   const dispatch = useAppDispatch()
 
-  const handleCardClick = useCallback(() => {
+  // оценка заказа
+  const handleRate = async (status: 'like' | 'dislike') => {
+    if (!ticket?.id || isPendingRate) return
+
+    setIsPendingRate(true)
+    const { data, error } = await rateOrder({ action: status, ticketId: ticket?.id })
+
+    if (data) {
+      setRateStatus(status)
+    } else {
+      toast.error('Ошибка, попробуйте снова')
+    }
+
+    setIsPendingRate(false)
+  }
+
+  // верстка
+  const handleCardClick = () => {
     setIsFixed(!isFixed)
-  }, [isFixed])
+  }
 
   useEffect(() => {
     if (isFixed) {
@@ -57,12 +78,28 @@ export const OrderCard: React.FC<IOrderCard> = ({
           <p className="text-info text-info_small">{status.description}</p>
           {status.like && (
             <div className="rating-btns orders-el__rating">
-              <div className="rating-btns__btn rating-btns__btn_green">
-                <LikeIcon />
-              </div>
-              <div className="rating-btns__btn rating-btns__btn_red">
-                <DislikeIcon />
-              </div>
+              {!rateStatus && (
+                <>
+                  <div
+                    className={cns(
+                      'rating-btns__btn rating-btns__btn_green',
+                      rateStatus === 'like' && '_active',
+                    )}
+                    onClick={() => handleRate('like')}
+                  >
+                    <LikeIcon />
+                  </div>
+                  <div
+                    className={cns(
+                      'rating-btns__btn rating-btns__btn_red',
+                      rateStatus === 'dislike' && '_active',
+                    )}
+                    onClick={() => handleRate('dislike')}
+                  >
+                    <DislikeIcon />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

@@ -122,3 +122,21 @@ export const getUserOrders = async ({ accessToken }: IGetUserOrdersPayload) => {
 
   return { data: raw, error }
 }
+
+// оценить заказ
+interface IRateOrder {
+  ticketId: string
+  action: 'like' | 'dislike'
+}
+
+export const rateOrder = async ({ action, ticketId }: IRateOrder) => {
+  const { error, data, raw }: IApiResponse<boolean> = await api(`ticket/stars`, {
+    method: 'GET',
+    params: {
+      ticketId,
+      stars: action === 'like' ? '5' : '1',
+    },
+  })
+
+  return { data: raw, error }
+}

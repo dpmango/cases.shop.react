@@ -1,5 +1,6 @@
 import type { IApiResponse } from '@/core/interface/Api'
 
+import { INotificationDto } from '../interface/Notification'
 import { addTokenToRequest } from '../utils'
 import { api } from './api'
 
@@ -39,15 +40,15 @@ export const toggleFavourite = async ({ action, type, id }: IFavouritePayload) =
 }
 
 // Уведомления
-
 export const getNotifications = async (token?: string) => {
   let params = addTokenToRequest({}, token)
 
-  const { error, raw }: IApiResponse<{ items: any[] }> = await api(`notifications`, params)
+  const { error, raw }: IApiResponse<INotificationDto[]> = await api(`notifications`, params, true)
 
-  return { data: raw?.items, error }
+  return { data: raw, error }
 }
 
+// прочитать уведомления
 interface IMarkNotificationsSeen {
   ids: string[]
 }

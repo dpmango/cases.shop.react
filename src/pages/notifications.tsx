@@ -1,11 +1,19 @@
 import cns from 'classnames'
+import debounce from 'lodash/debounce'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
-import { useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 import { LayoutGeneral } from '@/components/Layout'
+import { ProductCardNotification } from '@/components/Product'
 import { Close2Icon, SettingsIcon, StarButtonIcon } from '@/components/Ui'
-import { getFavouritesCategories, getMainPage } from '@/core/api'
+import {
+  getFavouritesCategories,
+  getNotifications,
+  markNotificationSeen,
+  toggleFavourite,
+} from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -15,14 +23,19 @@ export const getServerSideProps = (async (context) => {
   const accessToken = context.req.cookies['access_token']
 
   const promisesToBeFetched = [
+    { name: 'notifications', resolver: getNotifications(accessToken) },
     { name: 'favouriteCategories', resolver: getFavouritesCategories(accessToken) },
   ] as IPromiseFactory[]
 
-  const { PRELOADED_STATE, favouriteCategories } = await Resolver(promisesToBeFetched, context)
+  const { PRELOADED_STATE, notifications, favouriteCategories } = await Resolver(
+    promisesToBeFetched,
+    context,
+  )
 
   return {
     props: {
       PRELOADED_STATE,
+      notifications,
       favouriteCategories,
       shopId,
     },
@@ -31,11 +44,75 @@ export const getServerSideProps = (async (context) => {
 
 export default function Page({
   favouriteCategories,
+  notifications,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [settingsOpened, setSettingsOpened] = useState(true)
-
+  const [userRemovedCategories, setUserRemovedCategories] = useState<string[]>([])
   const sidebarRef = useRef<HTMLDivElement | null>(null)
   // useClickOutside(sidebarRef, () => setSettingsOpened(false))
+
+  const displayCategories = useMemo(() => {
+    if (!favouriteCategories) return []
+
+    if (userRemovedCategories.length) {
+      return favouriteCategories.filter((x) => !userRemovedCategories.includes(x.id))
+    }
+    return favouriteCategories
+  }, [favouriteCategories, userRemovedCategories])
+
+  const handleRemoveFav = async (id: string) => {
+    const { data, error } = await toggleFavourite({
+      action: 'remove',
+      type: 'category',
+      id,
+    })
+
+    if (data) {
+      setUserRemovedCategories((prev) => [...prev, id])
+    } else if (error) {
+      toast.error('Ошибка, попробуйте снова')
+    }
+  }
+
+  // просмотренные
+  const markSeenItems = debounce(async () => {
+    const unseenNotificationsIds = notifications?.filter((x) => !x.seen).map((x) => x.id)
+
+    const domNotifications = document.querySelectorAll('.products-2-el')
+
+    const markReadIds = [] as string[]
+    const HEADER_HEIGHT = document.querySelector('header')?.clientHeight || 90
+    Array.from(domNotifications).forEach((element, idx) => {
+      const id = element.getAttribute('data-notification-id') || ''
+      if (!unseenNotificationsIds?.includes(id)) return
+
+      // in viewport
+      const elBbox = element.getBoundingClientRect()
+
+      const topVisible = elBbox.top + elBbox.height / 2 <= window.innerHeight - HEADER_HEIGHT
+      const bottomVisible = elBbox.bottom >= HEADER_HEIGHT
+
+      const isInViewportOrPast = topVisible && bottomVisible
+
+      if (isInViewportOrPast) {
+        markReadIds.push(id)
+      }
+    })
+
+    if (markReadIds.length) {
+      await markNotificationSeen({ ids: markReadIds })
+    }
+  }, 300)
+
+  useEffect(() => {
+    markSeenItems()
+
+    window.addEventListener('scroll', markSeenItems, false)
+
+    return () => {
+      window.removeEventListener('scroll', markSeenItems, false)
+    }
+  }, [])
 
   return (
     <LayoutGeneral>
@@ -60,45 +137,9 @@ export default function Page({
             </div>
             <div className="sec-page__content">
               <div className="sec-page__body">
-                <div className="products-2-el products-2-el_2 products-2-el_m">
-                  {/* <img className="products-2-el__img" src="../img/bg/4.jpg" alt="" /> */}
-                  <div className="products-2-el__content">
-                    <div className="products-2-el__top">
-                      <div className="products-2-el__tag tag">Новинка</div>
-                      <div className="products-2-el__cat cat-info cat-info_big">
-                        <img className="cat-info__icon" src="../img/cat/Heartstone.svg" alt="" />
-                        <div className="cat-info__body">
-                          <div className="cat-info__title">Heartstone</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="products-2-el__title title-def title-def_sec2">
-                      1 500 рунических камней
-                    </div>
-                    <div className="products-2-el__text text-cat">
-                      Рунические камни — виртуальная валюта Hearthstone. Нужна для покупки
-                      комплектов, пакетов, декоративных предметов, сезонных пропусков для режима
-                      «Поля сражений» и практически любых других товаров для Hearthstone.
-                    </div>
-                    <div className="products-2-el__bottom">
-                      <div className="products-2-el__cost pr-cost pr-cost_big">
-                        <div className="pr-cost__val">1 424 ₽</div>
-                      </div>
-                      <div className="products-2-el__acts">
-                        <button className="btn-def btn-def_br btn-def_small products-el__acts-el">
-                          <span>Купить</span>
-                        </button>
-                        <button className="action-btn products-el__acts-el">
-                          <div className="action-btn__content">
-                            <div className="action-btn__icon">
-                              <StarButtonIcon />
-                            </div>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {notifications?.map((notification, idx) => (
+                  <ProductCardNotification key={idx} {...notification} />
+                ))}
               </div>
               <div
                 className={cns(
@@ -111,15 +152,26 @@ export default function Page({
                 <div className="sidebar-subscriptions__title title-def title-def_sec3">
                   Ваши подписки
                 </div>
-                {favouriteCategories?.map((cat, idx) => (
+                {displayCategories.map((cat, idx) => (
                   <div className="sidebar-subscriptions__el subscriptions-el" key={idx}>
                     {cat.icon && <img className="subscriptions-el__img" src={cat.icon} alt="" />}
                     <div className="subscriptions-el__title">{cat.name}</div>
-                    <div className="close-btn close-btn_small subscriptions-el__close">
+                    <div
+                      className="close-btn close-btn_small subscriptions-el__close"
+                      onClick={() => handleRemoveFav(cat.id)}
+                    >
                       <Close2Icon />
                     </div>
                   </div>
                 ))}
+
+                {displayCategories.length === 0 && (
+                  <div className="">
+                    <p className="text-info">
+                      У вас нет активных подписок. Включить уведомления можно на странице категорий
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
