@@ -73,7 +73,7 @@ export const AuthResendCountdown: React.FC<IAuthResendCountdown> = ({
         </button>
       )}
 
-      <button
+      {/* <button
         type="button"
         className="btn-def btn-def_full btn-def_min mb-2"
         onClick={() => {
@@ -81,7 +81,7 @@ export const AuthResendCountdown: React.FC<IAuthResendCountdown> = ({
         }}
       >
         <span>Написать в поддержку</span>
-      </button>
+      </button> */}
       {onResetClick && (
         <button type="button" className="btn-def btn-def_full btn-def_min" onClick={onResetClick}>
           <span>Указать другую почту</span>

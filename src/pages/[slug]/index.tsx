@@ -57,11 +57,11 @@ export default function CategoryPage({
   PRELOADED_STATE,
   categoryData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const coinCategoryID = 'FVBucks'
+  const coinCategoryID = categoryData?.categories.find(
+    (cat) => cat.tags?.type === 'select-type-amount',
+  )?.id
 
   const [activeTab, setActiveTab] = useState(categoryData?.categories[0].id)
-
-  const router = useRouter()
 
   const displayCategory = useMemo(() => {
     return categoryData?.categories.find((x) => x.id === activeTab)

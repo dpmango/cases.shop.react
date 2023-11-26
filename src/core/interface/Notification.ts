@@ -7,5 +7,5 @@ export interface INotificationDto {
   banner: string
 
   item: IProductItem
-  category: IProductCategory
+  category?: IProductCategory
 }

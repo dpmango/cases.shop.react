@@ -17,7 +17,18 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
   const allTags = useMemo(() => {
     if (!coinsCategory) return []
 
-    return coinsCategory.items.map((x) => x.tags)
+    return coinsCategory.items.map((x) => {
+      const haveSale = x.price.price !== x.price.salePrice
+
+      return {
+        haveSale,
+        ...x.tags,
+      } as {
+        haveSale: boolean
+        amount: number
+        type: string
+      }
+    })
   }, [coinsCategory])
 
   const valuesAvailable = useMemo(() => {
@@ -28,12 +39,20 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
   const deliveryAvailable = useMemo(() => {
     if (!selectedValue) return []
 
-    const values = allTags
-      .filter((x) => x['amount'] === selectedValue)
-      .map((x) => x['type'])
+    const filteredByAmount = allTags.filter((x) => x['amount'] === selectedValue)
+    const haveSaleInGroup = filteredByAmount.some((x) => x.haveSale)
+
+    const values = filteredByAmount
+      .map((x) => ({
+        value: x.type,
+        sale: x.haveSale,
+      }))
       .filter((x) => x)
 
-    return [...new Set(values)] as string[]
+    return [...new Set(values)] as {
+      value: string
+      sale: boolean
+    }[]
   }, [allTags, selectedValue])
 
   const currentProduct = useMemo(() => {
@@ -61,6 +80,19 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
     },
     [allTags],
   )
+
+  const mapTypeKey = (x: string) => {
+    switch (x) {
+      case 'microsoft_epic_account':
+        return 'Аккаунт Microsoft связанный с Epic Games'
+      case 'epic_key':
+        return 'Ключ Epic Games'
+      case 'nintendo_key':
+        return 'Ключ Nintendo'
+      default:
+        return 'Ключ'
+    }
+  }
 
   const descriptionWithLink = useMemo(() => {
     if (!coinsCategory?.description) return ''
@@ -123,14 +155,14 @@ export const ProductCoinCard: React.FC<IProductCard> = ({ coinsCategory }) => {
           <div className="title-small title-small_m">Способ получения</div>
           <div className="choose">
             {deliveryAvailable.map((x, idx) => (
-              <div className="choose__el" key={x}>
+              <div className="choose__el" key={x.value}>
                 <div
-                  className={cns('choose-el', deliveryType === x && 'active')}
-                  onClick={() => setDeliveryType(x)}
+                  className={cns('choose-el', deliveryType === x.value && 'active')}
+                  onClick={() => setDeliveryType(x.value)}
                 >
                   <div className="choose-el__top">
-                    <div className="choose-el__title title-small">{x}</div>
-                    <div className="choose-el__icon">%</div>
+                    <div className="choose-el__title title-small">{mapTypeKey(x.value)}</div>
+                    {x.sale && <div className="choose-el__icon">%</div>}
                   </div>
                   <div className="choose-el__text text-cat text-cat_small">
                     Мы купим товар зайдя в ваш аккаунт

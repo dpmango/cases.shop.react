@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { ProductCard } from '@/components/Product'
+import { EmptyState, Star16Icon } from '@/components/Ui'
 import { getFavourites, getMainPage } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -86,6 +87,13 @@ export default function Page({
                     <ProductCard item={product.item} category={product.category} />
                   </div>
                 ))}
+
+                {!displayList.length && (
+                  <EmptyState>
+                    У вас еще нет избранных товаров <br /> Добавить товар в избранное можно с
+                    помощью кнопки <Star16Icon />
+                  </EmptyState>
+                )}
               </div>
             </div>
           </div>

@@ -16,13 +16,15 @@ export const ProductCardNotification: React.FC<IProductCard> = ({
   item,
   category,
 }) => {
-  const { isFavourted, navigateToProduct, handleFavourite } = useProduct({ favourite: item })
+  const { isFavourted, navigateToProduct, handleFavourite } = useProduct({
+    favourite: item.favourite,
+  })
 
   return (
     <div
       data-notification-id={id}
       className="products-2-el products-2-el_2 products-2-el_m"
-      onClick={() => navigateToProduct(item.id, category.id)}
+      onClick={() => navigateToProduct(item.id, category?.id)}
     >
       <img className="products-2-el__img" loading="lazy" src={item.icon} alt="" />
 
@@ -42,13 +44,16 @@ export const ProductCardNotification: React.FC<IProductCard> = ({
         <div className="products-2-el__text text-cat">{item.description}</div>
         <div className="products-2-el__bottom">
           <div className="products-2-el__cost pr-cost pr-cost_big">
-            <div className="pr-cost__val">{formatPrice(item.price.price)}</div>
+            <div className="pr-cost__val">{formatPrice(item.price.salePrice)}</div>
+            {item.price.price !== item.price.salePrice && (
+              <div className="pr-cost__old">{formatPrice(item.price.price)}</div>
+            )}
           </div>
 
           <div className="products-2-el__acts" onClick={(e) => e.stopPropagation()}>
             <button
               className="btn-def btn-def_br btn-def_small products-el__acts-el"
-              onClick={() => navigateToProduct(id, category.id)}
+              onClick={() => navigateToProduct(id, category?.id)}
             >
               <span>Купить</span>
             </button>

@@ -62,6 +62,11 @@ export const sessionState = createSlice({
         state.user.favourites[action.payload.prop] = curValue - 1
       }
     },
+    removeUserNotifications(state, action: PayloadAction<number>) {
+      if (!state.user) return
+
+      state.user.notifications = state.user.notifications - action.payload
+    },
     updateAnyState: updateByDataType,
   },
   extraReducers: (builder) => {
@@ -76,6 +81,7 @@ export const sessionState = createSlice({
   },
 })
 
-export const { resetState, changeUserFavouritesCount, updateAnyState } = sessionState.actions
+export const { resetState, changeUserFavouritesCount, removeUserNotifications, updateAnyState } =
+  sessionState.actions
 
 export default sessionState.reducer

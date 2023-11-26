@@ -29,7 +29,10 @@ export const ProductCardLarge: React.FC<IProductCard> = ({
         <div className="products-2-el__text text-cat">{description}</div>
         <div className="products-2-el__bottom">
           <div className="products-2-el__cost pr-cost pr-cost_big">
-            <div className="pr-cost__val">{formatPrice(price.price)}</div>
+            <div className="pr-cost__val">{formatPrice(price.salePrice)}</div>
+            {price.price !== price.salePrice && (
+              <div className="pr-cost__old">{formatPrice(price.price)}</div>
+            )}
           </div>
           <div className="products-2-el__acts" onClick={(e) => e.stopPropagation()}>
             <button

@@ -12,6 +12,7 @@ interface IModal {
 
 export const Modal: React.FC<IModal> = ({ className, name, children }) => {
   const { modal } = useAppSelector((store) => store.uiState)
+  const { activeDialog, createMode } = useAppSelector((store) => store.chatStore)
   const { lockScroll, unlockScroll } = useScrollLock()
 
   const isModalActive = useMemo(() => {
@@ -29,7 +30,11 @@ export const Modal: React.FC<IModal> = ({ className, name, children }) => {
   }, [isModalActive])
 
   return (
-    <div className={className} id={name} style={{ display: isModalActive ? 'block' : 'none' }}>
+    <div
+      className={cns(className, (activeDialog || createMode) && 'open')}
+      id={`modal-${name}`}
+      style={{ display: isModalActive ? 'block' : 'none' }}
+    >
       {children}
     </div>
   )

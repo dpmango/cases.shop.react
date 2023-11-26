@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { ChatDialog } from '@/components/Support'
-import { UiLoader } from '@/components/Ui'
+import { EmptyState, UiLoader } from '@/components/Ui'
 import { PlusIcon2 } from '@/components/Ui/Icons'
 import { createTicket } from '@/core/api'
 import { useClickOutside } from '@/core/hooks'
@@ -84,6 +84,14 @@ export const ChatSidebar: React.FC = () => {
       {chatList.map((x, idx) => (
         <ChatDialog key={idx} {...x} selected={x.id === activeDialog} />
       ))}
+
+      {!chatList.length && !createMode && (
+        <>
+          <EmptyState>
+            Сейчас здесь пусто. Вы можете задать вопрос используя кнопку <PlusIcon2 /> вверху
+          </EmptyState>
+        </>
+      )}
 
       <UiLoader active={!!loading} theme="page" />
     </div>

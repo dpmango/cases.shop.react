@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 
 import { LayoutGeneral } from '@/components/Layout'
 import { OrderCard } from '@/components/Order'
-import { Close3Icon, OrderCardDecorSvg } from '@/components/Ui'
+import { Close3Icon, EmptyState, OrderCardDecorSvg } from '@/components/Ui'
 import { getMainPage, getUserOrders } from '@/core/api'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
@@ -120,7 +120,7 @@ export default function Page({
                 </div>
               </div> */}
 
-              {!hasData && <p className="text-info">У вас еще нет заказов</p>}
+              {!hasData && <EmptyState>У вас еще нет заказов</EmptyState>}
             </div>
           </div>
         </div>

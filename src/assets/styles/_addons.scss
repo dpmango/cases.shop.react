@@ -221,6 +221,19 @@
   }
 }
 
+@media screen and (max-width: 600px) {
+  .block-window__input {
+    flex-direction: column;
+    .block-select {
+      max-width: 100%;
+      margin-right: 0;
+    }
+    .chat-acts__inp{
+      width: 100%;
+    }
+  }
+}
+
 html.dark {
   .block-window__input {
     .ql-snow .ql-picker {
@@ -244,12 +257,12 @@ html.dark {
 }
 
 @media only screen and (max-width: 900px) {
-  .block-window__input {
-    textarea {
-      display: block;
-      min-width: 1px;
-    }
-  }
+  // .block-window__input {
+  //   textarea {
+  //     display: block;
+  //     min-width: 1px;
+  //   }
+  // }
 }
 
 // chat images block
@@ -422,4 +435,28 @@ html.dark {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+
+.empty{
+  display: flex;
+  background: rgba(31, 117, 234, 0.2);
+  border-radius: 20px;
+  padding: 26px 30px;
+  padding-bottom: 30px;
+  max-width: 420px;
+  &__icon{
+  }
+  &__title{}
+  p {
+
+    svg{
+      align-items: center;
+      transform: translateY(2px);
+    }
+  }
+}
+
+.chat__body._visible{
+  display: flex;
 }

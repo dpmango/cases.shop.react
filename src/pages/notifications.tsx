@@ -17,6 +17,8 @@ import {
 import { useClickOutside } from '@/core/hooks'
 import { IPromiseFactory } from '@/core/interface/Api'
 import { DomainResolver, IResolver, Resolver } from '@/core/resolver'
+import { useAppDispatch } from '@/core/store'
+import { removeUserNotifications } from '@/core/store/session.store'
 
 export const getServerSideProps = (async (context) => {
   const { shopId } = await DomainResolver(context)
@@ -46,10 +48,13 @@ export default function Page({
   favouriteCategories,
   notifications,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [settingsOpened, setSettingsOpened] = useState(true)
+  const [settingsOpened, setSettingsOpened] = useState(false)
   const [userRemovedCategories, setUserRemovedCategories] = useState<string[]>([])
   const sidebarRef = useRef<HTMLDivElement | null>(null)
-  // useClickOutside(sidebarRef, () => setSettingsOpened(false))
+  useClickOutside(sidebarRef, () => setSettingsOpened(false))
+  const [markReadDone, setMarkReadDone] = useState<string[]>([])
+
+  const dispatch = useAppDispatch()
 
   const displayCategories = useMemo(() => {
     if (!favouriteCategories) return []
@@ -80,7 +85,7 @@ export default function Page({
 
     const domNotifications = document.querySelectorAll('.products-2-el')
 
-    const markReadIds = [] as string[]
+    let markReadIds = [] as string[]
     const HEADER_HEIGHT = document.querySelector('header')?.clientHeight || 90
     Array.from(domNotifications).forEach((element, idx) => {
       const id = element.getAttribute('data-notification-id') || ''
@@ -100,7 +105,14 @@ export default function Page({
     })
 
     if (markReadIds.length) {
-      await markNotificationSeen({ ids: markReadIds })
+      markReadIds = markReadIds.filter((id) => !markReadDone.includes(id))
+
+      const { data, error } = await markNotificationSeen({ ids: markReadIds })
+
+      if (!error) {
+        setMarkReadDone((prev) => [...prev, ...markReadIds])
+        dispatch(removeUserNotifications(markReadIds.length))
+      }
     }
   }, 300)
 
@@ -127,7 +139,10 @@ export default function Page({
             <div className="sec-page__top">
               <div className="sec-page__title title-def title-def_page">Уведомления</div>
               <button
-                className="action-btn btn-notify sec-notify__mob"
+                className={cns(
+                  'action-btn btn-notify sec-notify__mob',
+                  settingsOpened && 'action-btn_red',
+                )}
                 onClick={() => setSettingsOpened(!settingsOpened)}
               >
                 <div className="action-btn__content">
@@ -146,7 +161,7 @@ export default function Page({
                   'sec-page__sidebar sidebar-subscriptions',
                   settingsOpened && 'active',
                 )}
-                style={{ display: settingsOpened ? 'block' : 'none' }}
+                style={{ display: settingsOpened ? 'block' : '' }}
                 ref={sidebarRef}
               >
                 <div className="sidebar-subscriptions__title title-def title-def_sec3">

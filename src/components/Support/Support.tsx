@@ -17,7 +17,7 @@ import {
 import { closeModals, setModal } from '@/core/store/ui.store'
 import { scrollWithSpeed } from '@/core/utils'
 
-import { Close2Icon, Close3Icon, UiModal } from '../Ui'
+import { Close2Icon, Close3Icon, EmptyState, UiModal } from '../Ui'
 
 export const SupportModal: React.FC<{}> = ({}) => {
   const { activeDialog, createMode, chatList, dialogMessages } = useAppSelector(
@@ -164,7 +164,7 @@ export const SupportModal: React.FC<{}> = ({}) => {
               <div className="chat__content">
                 <ChatSidebar />
 
-                <div className="chat__body">
+                <div className={cns('chat__body', (activeDialog || createMode) && '_visible')}>
                   <div className="chat__body-mob">
                     <div className="close-btn chat__prev" onClick={handlePrevClick}>
                       <Close3Icon />

@@ -68,6 +68,7 @@ const Header = () => {
 
   const handleLogout = useCallback(() => {
     dispatch(resetState())
+    router.push('/')
   }, [])
 
   const handleScrollTo = useCallback(
@@ -122,7 +123,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={cns('top-menu', scrolled && 'bg')}
+        className={cns('top-menu', (scrolled || modal) && 'bg')}
         style={
           {
             // background: settings.header_color,
@@ -487,13 +488,15 @@ const Header = () => {
                 </div>
               </button>
               <Link className="mobile-navi__el act-mob" href="/favourites">
-                {/* <div className="act-mob__count act-mob__count_black">39</div> */}
+                {user.favourites.items > 0 && (
+                  <div className="act-mob__count">{user.favourites.items}</div>
+                )}
                 <div className="act-mob__icon">
                   <MobNavStarIcon />
                 </div>
               </Link>
               <Link className="mobile-navi__el act-mob" href="/orders">
-                {/* <div className="act-mob__count">1</div> */}
+                {user.orders > 0 && <div className="act-mob__count">{user.orders}</div>}
                 <div className="act-mob__icon">
                   <MobNavWalletIcon />
                 </div>

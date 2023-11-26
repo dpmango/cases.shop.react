@@ -1,4 +1,5 @@
 export { ClientOnly } from './ClientOnly'
+export { EmptyState } from './EmptyState'
 export * from './Icons'
 export { Loader as UiLoader } from './Loader'
 export { Modal as UiModal } from './Modal'
