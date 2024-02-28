@@ -2,7 +2,7 @@ ssh root@195.2.75.40 << EOF
   cd /home/root
   git checkout 2.1
   git stash
-  git pull
+  git pull git@github_cases_shop_react:dpmango/cases.shop.react.git
   npm i
   npm run build
   pm2 stop all
