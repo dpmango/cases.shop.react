@@ -14,5 +14,6 @@ module.exports = withBundleAnalyzer({
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
     ORDER_TEST_MODE: process.env.ORDER_TEST_MODE,
+    BASE_PATH: process.env.BASE_PATH,
   },
 })

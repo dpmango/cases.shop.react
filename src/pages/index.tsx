@@ -51,8 +51,8 @@ export default function Home({
         <title>Главная</title>
       </Head>
 
-      <img className="home-bg" src="/img/home-bg.jpg" alt="" />
-      <img className="home-bg-2" src="/img/home-bg-2.jpg" alt="" />
+      <img className="home-bg" src={`${process.env.BACKEND_URL}/img/home-bg.jpg`} alt="" />
+      <img className="home-bg-2" src={`${process.env.BACKEND_URL}/img/home-bg-2.jpg`} alt="" />
 
       {homepageData?.tutorial && <HomeProcess tutorial={homepageData.tutorial} />}
       {homepageData?.categories && <HomeNavigation categories={homepageData.categories} />}

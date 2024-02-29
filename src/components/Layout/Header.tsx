@@ -135,10 +135,14 @@ const Header = () => {
             <div className="top-menu__content">
               <div className="top-menu__left">
                 <Link className="logo-def top-menu__logo" href="/">
-                  <img className="logo-def__img" src="/img/logo.svg" alt="" />
+                  <img
+                    className="logo-def__img"
+                    src={`${process.env.BACKEND_URL}/img/logo.svg`}
+                    alt=""
+                  />
                   <img
                     className="logo-def__img logo-def__img-black"
-                    src="/img/logo_black.svg"
+                    src={`${process.env.BACKEND_URL}/img/logo_black.svg`}
                     alt=""
                   />
                 </Link>
