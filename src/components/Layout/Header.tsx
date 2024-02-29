@@ -137,12 +137,12 @@ const Header = () => {
                 <Link className="logo-def top-menu__logo" href="/">
                   <img
                     className="logo-def__img"
-                    src={`${process.env.BACKEND_URL}/img/logo.svg`}
+                    src={`${process.env.BASE_PATH}/img/logo.svg`}
                     alt=""
                   />
                   <img
                     className="logo-def__img logo-def__img-black"
-                    src={`${process.env.BACKEND_URL}/img/logo_black.svg`}
+                    src={`${process.env.BASE_PATH}/img/logo_black.svg`}
                     alt=""
                   />
                 </Link>
