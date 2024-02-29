@@ -9,6 +9,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: false,
+  basePath: process.env.BASE_PATH,
+  assetPrefix: `${process.env.BASE_PATH}/`,
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
     ORDER_TEST_MODE: process.env.ORDER_TEST_MODE,
