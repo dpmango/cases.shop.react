@@ -1,5 +1,11 @@
 export interface IPaymentDto {
   id: string
   url: string
-  message?: string
+}
+
+export interface IPaymentStatusDto {
+  id: string
+  url: string
+  completed: boolean
+  comment: string
 }

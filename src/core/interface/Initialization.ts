@@ -1,4 +1,4 @@
-import { IOrderDto } from './Order'
+import { IPaymentMethod } from './Homepage'
 
 export interface IWhoisDto {
   id: string
@@ -6,10 +6,7 @@ export interface IWhoisDto {
 
 export interface IInitDataDto {
   // id: number
-  telegram_bot_link: string
-  telegram_bot_id: string
-  // footer: IFooterDto[]
-  paymentsType: IPaymentType[]
+  paymentsMethods: IPaymentMethod[]
   settings: {
     logo: string
     mainBG: string
@@ -23,41 +20,13 @@ export interface IInitDataDto {
     reviewBG: string
     productBG: string
     agreementHtml: string
-    faqList: IFAQDto[]
-    faqInfo: IFAQDto[]
-    specialOffers: ISpecialOffersDto[]
     customPages: ICustomPageMetaDto[]
     itemClip: string
     itemBGClip: string
   }
 }
 
-export interface ISettingsDto {
-  logo: string
-  paymentLogo: string
-  background_image: string
-  background_site_color: string
-  background_main: string
-  footer_image: string
-  reviews_footer_image: string
-  faq_left_footer_image: string
-  faq_right_footer_image: string
-  product_footer_image: string
-  footer_color: string
-  header_color: string
-  itemClip: string
-  itemBGClip: string
-}
-
-export type ISpecialOffersDto = string[]
-export type IFAQDto = string[]
 export type ICustomPageMetaDto = string[]
-export type IPaymentType = [string, string, string, number, number]
-// export interface IFooterDto {
-//   id: number
-//   name: string
-//   link: string
-// }
 
 // auth
 export interface ITelegramAuthDto {
@@ -82,10 +51,12 @@ export interface IAuthDto {
 // Profile
 export interface IProfileDto {
   balance: number
-  bonusBalance: number
-  id: number
-  is_admin: 1 | 0
-  orders: IOrderDto[]
-  status: boolean
-  userName: string | null
+  id: string
+  email: string
+  notifications: number
+  orders: number
+  favourites: {
+    category: number
+    items: number
+  }
 }

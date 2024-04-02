@@ -1,0 +1,5 @@
+export { HomeFaq } from './Faq'
+export { HomeNavigation } from './Navigation'
+export { HomePopular } from './Popular'
+export { HomeProcess } from './Process'
+export { HomeReviews } from './Reviews'

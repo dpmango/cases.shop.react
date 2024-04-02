@@ -1,36 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Cookies from 'js-cookie'
 
-import { IProductCategoryDto } from '../interface/Product'
-import { IReviewDto } from '../interface/Review'
-
+import { IReviewDto } from '../interface/Homepage'
+import { IProductCategory } from '../interface/Product'
+import { getReviews } from './../api/review.api'
 export interface IProductStore {
-  items: IProductCategoryDto[] | null
+  categories: IProductCategory[] | null
   reviews: IReviewDto[] | null
 }
 
 export const initialProductState: IProductStore = {
-  items: null,
+  categories: null,
   reviews: null,
 }
 
-// thunks
-export const getProductsThunk = createAsyncThunk(
-  'prodcut/getProductsThunk',
-  async ({ shopId }: { shopId: string }) => {
-    const { data } = await getProducts({ shopId })
-
-    return data
-  },
-)
-
 export const getReviewsThunk = createAsyncThunk(
   'product/getReviewsThunk',
-  async ({ shopId, limit, offset }: { shopId: string; limit?: number; offset?: number }) => {
-    const { data } = await getReviews({ shopId, offset, limit })
+  async ({ limit, offset }: { limit?: number; offset?: number }) => {
+    const { data } = await getReviews({ offset, limit })
 
     return {
-      isMerge: offset,
+      isMerge: !!offset,
       data,
     }
   },
@@ -45,15 +34,6 @@ export const productState = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Catalog* like with Product Dto's
-    builder.addCase(
-      getProductsThunk.fulfilled,
-      (state, action: PayloadAction<IProductCategoryDto[] | null>) => {
-        if (action.payload) {
-          state.items = [...action.payload]
-        }
-      },
-    )
     // reviews
     builder.addCase(getReviewsThunk.fulfilled, (state, action: PayloadAction<any>) => {
       if (action.payload.data) {

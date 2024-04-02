@@ -1,16 +1,32 @@
 import { ofetch } from 'ofetch'
 
-// get reviews
-export interface IReviewsPayload {
-  shopId: string
-  id: string
+import type { IApiResponse } from '@/core/interface/Api'
+
+import { IHomePageDto } from '../interface/Homepage'
+import { api } from './api'
+
+// homepage
+export const getMainPage = async () => {
+  const { error, raw }: IApiResponse<IHomePageDto> = await api(`main`, {
+    params: {
+      showItemsInCategory: 'true',
+    },
+  })
+
+  return { data: raw, error }
 }
 
-export const getStaticPage = async ({ shopId, id }: IReviewsPayload) => {
-  const data = await ofetch(`${import.meta.env.VITE_BACKEND_URL}custom_page`, {
+// static page (content page)
+export interface IGetStaticPagePayload {
+  id: string
+  shopId: string
+}
+
+export const getStaticPage = async ({ id, shopId }: IGetStaticPagePayload) => {
+  const data = await ofetch(`https://shopcore.ru/store/api/custom_page`, {
     params: {
-      shopId,
       ID: id,
+      shopId,
     },
   })
 

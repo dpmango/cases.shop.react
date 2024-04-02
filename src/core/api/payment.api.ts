@@ -1,34 +1,30 @@
 import type { IApiResponse } from '@/core/interface/Api'
-import type { IPaymentDto } from '@/core/interface/Payment'
+import type { IPaymentDto, IPaymentStatusDto } from '@/core/interface/Payment'
 
-// save product to bot
-export interface ISaveProductPayload {
-  id: string
+import { api } from './api'
+
+// get payment
+export interface IPaymentPayload {
+  sum: number
+  paymentId: string
 }
 
-export const saveProductToBot = async ({ id }: ISaveProductPayload) => {
-  const { data, error, raw }: IApiResponse<IPaymentDto> = await api('showiteminbot', {
+export const getPayment = async ({ sum, paymentId }: IPaymentPayload) => {
+  const { data, error, raw }: IApiResponse<IPaymentDto> = await api(`deposit`, {
     method: 'POST',
     body: {
-      item_id: id,
+      sum,
+      paymentId: paymentId,
     },
   })
 
   return { data: raw, error }
 }
 
-// get payment
-export interface IPaymentPayload {
-  amount: number
-  type: string
-}
-
-export const getPayment = async ({ amount, type }: IPaymentPayload) => {
-  const { data, error, raw }: IApiResponse<IPaymentDto> = await api('payment/create', {
-    method: 'POST',
-    body: {
-      amount: amount <= 100 ? 100 : amount,
-      type,
+export const getPaymentStatus = async (id: string) => {
+  const { data, error, raw }: IApiResponse<IPaymentStatusDto> = await api(`check-deposit`, {
+    params: {
+      id: id,
     },
   })
 

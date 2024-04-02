@@ -1,21 +1,21 @@
 import type { IApiResponse } from '@/core/interface/Api'
-import type { IReviewDto } from '@/core/interface/Review'
+import type { IReviewDto } from '@/core/interface/Homepage'
+import { buildParams } from '@/core/utils'
 
+import { api } from './api'
 // get reviews
 export interface IReviewsPayload {
-  shopId: string
   limit?: number
   offset?: number
 }
 
-export const getReviews = async ({ shopId, limit = 30, offset }: IReviewsPayload) => {
-  const { error, raw }: IApiResponse<{ reviews: IReviewDto[] }> = await api(`reviews`, {
-    params: {
-      shopId,
-      limit: limit ? limit.toString() : '',
-      offset: offset ? offset.toString() : '',
-    },
+export const getReviews = async ({ limit = 8, offset = 0 }: IReviewsPayload) => {
+  const { error, raw }: IApiResponse<{ list: IReviewDto[] }> = await api(`reviews`, {
+    params: buildParams({
+      limit: limit.toString(),
+      offset: offset.toString(),
+    }),
   })
 
-  return { data: raw?.reviews, error }
+  return { data: raw?.list, error }
 }

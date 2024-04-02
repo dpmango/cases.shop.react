@@ -1,6 +1,6 @@
-import { Fragment, lazy, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const ClientOnly = ({ children }: { children: ReactSlot }) => {
+export const ClientOnly = ({ children }: { children: ReactSlot }) => {
   const [isMounted, setMount] = useState(false)
 
   useEffect(() => {
@@ -9,5 +9,3 @@ const ClientOnly = ({ children }: { children: ReactSlot }) => {
 
   return <>{isMounted ? children : null}</>
 }
-
-export default ClientOnly

@@ -1,28 +1,62 @@
-import type { IApiResponse } from '@/core/interface/Api'
-import type { IProductCategoryDto, IProductFullDto } from '@/core/interface/Product'
+import type { IApiResponse, IReqPagination } from '@/core/interface/Api'
+import type { IProductCategory, IProductDto } from '@/core/interface/Product'
+import { addTokenToRequest, buildParams } from '@/core/utils/api'
 
-// get prodcuts
-export interface IProductsPayload {
-  shopId: string
-}
+import { api } from './api'
 
-export const getProducts = async ({ shopId }: IProductsPayload) => {
-  const { error, raw }: IApiResponse<{ items: IProductCategoryDto[] }> = await api(`items/v2`, {
-    params: { shopId, imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE },
+// get categories
+export interface ICategoriesPayload {}
+export const getCategories = async ({}: ICategoriesPayload) => {
+  const { error, raw }: IApiResponse<{ items: IProductCategory[] }> = await api(`categories`, {
+    params: { showItemsInCategory: 'true' },
   })
 
   return { data: raw?.items, error }
 }
 
-export interface IProductPayload {
-  shopId: string
+// get categories
+export interface ICategoryPayload {
   id: string
+  token?: string
+}
+export const getCategory = async ({ id, token }: ICategoryPayload) => {
+  const { error, raw }: IApiResponse<{ category: IProductCategory }> = await api(
+    `category`,
+    addTokenToRequest(
+      {
+        params: { id, showItemsInCategory: 'true' },
+      },
+      token,
+    ),
+  )
+
+  return { data: raw?.category, error }
 }
 
-export const getProduct = async ({ shopId, id }: IProductPayload) => {
-  const { error, raw }: IApiResponse<{ item: IProductFullDto }> = await api(`item`, {
-    params: { shopId, id, imagefrombot: import.meta.env.VITE_USE_BOT_IMAGE },
-  })
+// get prodcuts
+export interface IPopularProductsPayload extends IReqPagination {
+  token?: string
+}
 
-  return { data: raw?.item, error }
+export const getPopularProducts = async ({
+  limit = 8,
+  offset = 0,
+  token,
+}: IPopularProductsPayload) => {
+  const req = addTokenToRequest(
+    {
+      params: {
+        limit: limit.toString(),
+        offset: offset.toString(),
+      },
+    },
+    token,
+  )
+
+  const { error, raw }: IApiResponse<{ list: IProductDto[]; total: number }> = await api(
+    `popular_items`,
+    req,
+  )
+
+  return { data: raw, error }
 }

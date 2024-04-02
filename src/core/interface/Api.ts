@@ -1,3 +1,8 @@
+export interface IReqPagination {
+  limit?: number
+  offset?: number
+}
+
 export interface IError {
   code: number
   message: string
@@ -5,6 +10,7 @@ export interface IError {
 }
 
 export interface IApiResponse<T> {
+  status: boolean
   data: T | null
   error: IError | null
   raw: T
@@ -21,3 +27,17 @@ interface PromiseRejectedResult {
 }
 
 export type PromiseSettledResult<T> = PromiseFulfilledResult<T> | PromiseRejectedResult
+
+export interface IPromiseFactory {
+  name: string
+  resolver: Promise<{ data: any; error: IError | null }>
+  errorRouter?: {
+    redirectTo?: string
+    fatal?: boolean
+  }
+}
+
+export interface IBooleanResponse {
+  status: boolean
+  msg?: string
+}
